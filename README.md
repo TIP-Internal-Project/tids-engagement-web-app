@@ -57,4 +57,3 @@ This will search and try to fix the problems.
 ### `npm run format`
 
 This will call prettier to fix the code style.
-
