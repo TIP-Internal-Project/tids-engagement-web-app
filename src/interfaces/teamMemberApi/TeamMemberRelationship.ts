@@ -1,4 +1,4 @@
-import Relationship from './Relationship';
+import Relationship from './Relationship'
 
 export default interface TeamMemberRelationship {
     name: string,

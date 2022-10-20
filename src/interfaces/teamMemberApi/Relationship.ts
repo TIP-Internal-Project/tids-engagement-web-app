@@ -1,4 +1,4 @@
-import Characteristic from './Characteristic';
+import Characteristic from './Characteristic'
 
 export default interface Relationship {
     name: string,
