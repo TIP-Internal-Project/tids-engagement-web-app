@@ -1,6 +1,5 @@
 import { parse } from 'query-string'
 import { useLocation, Navigate } from 'react-router-dom'
-
 import { useAppDispatch } from './redux/hooks'
 import { loaderOn } from './redux/pageStatusSlice'
 import { extractSessionDetails } from './helpers/session'
@@ -22,6 +21,3 @@ export default function Auth() {
 
 	return <Navigate to={redirectPath} />
 }
-
-
-				

@@ -25,5 +25,3 @@ export default pageStatusSlice.reducer
 
 export const { loaderOn, loaderOff } = pageStatusSlice.actions
 export const getPageStatus = (state: RootState) => state.pageStatus.isLoaded
-
-
