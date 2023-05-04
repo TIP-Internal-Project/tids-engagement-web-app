@@ -1,7 +1,15 @@
 import React from 'react'
+import '../../App.css'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 
-const Overview = () => {
-	return <div>Overview</div>
+
+export default function OverviewPage() {
+	const userSession = useAppSelector((state) => state.userSession)
+
+
+
+	return <div>Overview
+		<div>Welcome! {userSession.givenName} </div>
+	</div>
+	
 }
-
-export default Overview
