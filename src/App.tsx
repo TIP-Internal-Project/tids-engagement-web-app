@@ -4,8 +4,7 @@ import { useAppSelector } from './redux/hooks'
 import { getUserSession } from './redux/userSessionSlice'
 import Auth from './Auth'
 import Login from './Login'
-import Events from './pages/Events'
-import Overview from './pages/Overview'
+import Events from './pages/Events/index'
 
 function App() {
 	const userSession = useAppSelector(getUserSession)
@@ -16,7 +15,6 @@ function App() {
 			<Routes>
 				<Route path='/dashboard' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
 					<Route path="events" element={<Events />} />
-					<Route path="overview" element={<Overview />} />
 				</Route>
 				<Route path='/login' element={<Login />} />
 				<Route path='/auth' element={<Auth />}  />
