@@ -1,42 +1,5 @@
 import styled from 'styled-components'
 
-export const DashboardTmView1 = styled.div`
-	background-color: rgba(247, 248, 252, 1);
-	display: flex;
-	position: relative;
-	isolation: isolate;
-	flexDirection: row;
-	width: 100%;
-	height: 1097px;
-	justifyContent: flex-start;
-	alignItems: flex-start;
-	padding: 0px;
-	boxSizing: border-box;
-	overflow: hidden;
-`
-
-export const Rectangle = styled.div`
-	background-color: rgba(255, 255, 255, 1);
-	width: 245px;
-	height: 1041px;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-`
-
-export const Content = styled.div`
-	display: flex;
-	position: absolute;
-	isolation: isolate;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
-	padding: 24px;
-	box-sizing: border-box;
-	left: 245px;
-	top: 0px;
-`
-
 export const Components = styled.div`
 	display: flex;
 	position: relative;
