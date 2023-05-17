@@ -133,13 +133,13 @@ export default function OverviewPage() {
 
 						<StyledTaskDiv>
 							<TitleDiv>Pending Tasks</TitleDiv>
-							<IconDiv><img src={require('./../../assets/images/burgerSmall.png')} /></IconDiv>
+							<IconDiv><img src={require('./../../assets/images/PendingTasks.png')} /></IconDiv>
 							<ValueDiv>10</ValueDiv>
 						</StyledTaskDiv>
 
 						<StyledCOPDiv>
 							<TitleDiv>POC</TitleDiv>
-							<IconDiv><img src={require('./../../assets/images/Calendar.png')} /></IconDiv>
+							<IconDiv><img src={require('./../../assets/images/COP.png')} /></IconDiv>
 							<ValueDiv>10</ValueDiv>
 						</StyledCOPDiv>
 
