@@ -5,10 +5,7 @@ import { StyledStarDiv,StyledEventDiv,StyledTaskDiv,StyledCOPDiv, TitleDiv, Icon
 
 export const Subheader = () => {
 
-	const header2 = {
-		height: 'auto',
-		// border:'1px solid red'
-	}
+	
 	
 	return (
 		
