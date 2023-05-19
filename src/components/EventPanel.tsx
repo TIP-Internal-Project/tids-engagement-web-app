@@ -26,7 +26,7 @@ export const EventPanel = () => {
 					</Category>
 					<Headings>
 						<Title>
-											test
+							{'Save the date: Be part of the TELUS Days of Giving event on October 1, 2023'}
 						</Title>
 					</Headings>
 					<DateAndTime>
