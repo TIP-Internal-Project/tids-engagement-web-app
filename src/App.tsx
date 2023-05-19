@@ -42,7 +42,7 @@ function App() {
 					path="*"
 					element={
 						<main style={{ padding: '10px' }}>
-							<p>Requested page does not exist! Try &apos;/dashboard&apos;</p>
+							<p>Requested page does not exist</p>
 						</main>
 					}
 				/>

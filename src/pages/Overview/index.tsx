@@ -40,7 +40,6 @@ export default function OverviewPage() {
 
 	
 
-
 	const header2 = {
 		height: 'auto',
 		// border:'1px solid red'
@@ -96,27 +95,15 @@ export default function OverviewPage() {
 						<Subheader/>
 
 					</Col>
-				
 				</Row>
 				
 				<Row>
-					<Col style={eventComponent}>
-						
+					<Col style={eventComponent}>					
 						<EventPanel/>
-
-
-
 					</Col>
 					<Col style={taskComponent}>
-						
-
-
-
 					</Col>
 				</Row>
-
-
-
 
 				<Row>
 					<Col style={footerComponent}></Col>
