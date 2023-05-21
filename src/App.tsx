@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { getUserSession } from './redux/userSessionSlice'
 import Auth from './Auth'
 import Login from './Login'
-import Events from './pages/Events'
+import Events from './pages/Events/index'
 import Overview from './pages/Overview'
 import { fetchEvents } from './redux/eventSlice'
 import { useCallback, useEffect } from 'react'
@@ -31,13 +31,12 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
-
-					<Route path="events" element={<Events />} /> 
+				<Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}> 
 					<Route path="overview" element={<Overview />} />
 				</Route>
 				<Route path='/login' element={<Login />} />
 				<Route path='/auth' element={<Auth />}  />
+				<Route path="events" element={<Events />} />
 				<Route
 					path="*"
 					element={

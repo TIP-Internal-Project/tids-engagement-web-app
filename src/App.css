@@ -195,6 +195,26 @@ body {
 }
 
 .circle > p {
+  text-align: center;
+  padding-top: 3%;
+  font-weight: 700;
+}
 
-  
+.event-header-left > p {
+  margin-top: 30px;
+  margin-left: 20px;
+  position: absolute;
+  width: 125px;
+  height: 36px;
+  font-family: 'helvetica';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 36px;
+  color: #000000;
+}
+
+.view-all-events{
+  text-decoration: none;
+  color: #2B8000;
 }

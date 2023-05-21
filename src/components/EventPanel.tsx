@@ -4,8 +4,7 @@ import { Components, Events, EventsHeading1, Events1, ViewAll, ViewAll1, Arrow, 
 	Rectangle1, EventCategory, Headings, Title, DateAndTime, Date, DateIcon, DateTime, Time, TimeIcon, 
 	Divider, Border, Line, Category1, Rectangle2, DateAndTime1, Category2, Rectangle3, DateAndTime2,
 	Category3, Rectangle4, DateAndTime3 } from '../components/Div/Div.styles.js'
-
-
+import { Link } from 'react-router-dom'
 
 
 
@@ -17,7 +16,7 @@ export const EventPanel = () => {
 			<Events>
 				<EventsHeading1>
 					<Events1>{'Events'}</Events1>
-					<ViewAll><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
+					<ViewAll><ViewAll1><Link to='/events' className='view-all-events'>{'View all'}</Link></ViewAll1><Arrow><img src={require('../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
 				</EventsHeading1>
 				<RowDiv>
 					<Category>
