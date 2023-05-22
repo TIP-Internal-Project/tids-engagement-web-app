@@ -32,8 +32,8 @@ const Events = () => {
 			</div>
 			<div className='back-to-top-button'>
 				<p>Back to Top</p>
-				<img src={require('../../assets/images/black circle.png')} className='back-to-top-circle'/>
-				<img src={require('../../assets/images/black-up-arrow.png')} className='back-to-top-arrow'/>
+				<img src={require('../../assets/images/oval.png')} className='back-to-top-circle'/>
+				<img src={require('../../assets/images/up-arrow.png')} className='back-to-top-arrow'/>
 			</div>
 			<div className='div1'>
 				<Row>
