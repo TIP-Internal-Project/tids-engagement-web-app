@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
+    "@telus-uds/components-web": "^2.0.0",
+    "@telus-uds/ds-allium": "^1.43.1",
+    "@telus-uds/palette-allium": "^2.18.0",
+    "@telus-uds/theme-allium": "^3.29.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

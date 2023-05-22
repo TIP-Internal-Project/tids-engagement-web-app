@@ -5,12 +5,11 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 
-const header = {
-	height: '81px',
-	// border:'1px solid red'
+const headerRightP = {
+	marginTop: '4px',
+	marginBottom: '1rem',
+	// border: '1px solid red'
 }
-
-
 
 export const HeaderRight = () => {
 
@@ -25,11 +24,11 @@ export const HeaderRight = () => {
 		<div className='headerRight'>
 
 								
-			<div> <img className="notification" src ={require('../assets/images/notification.png')} /> </div> 
+			<div  > <img className="notification" src ={require('../assets/images/notification.png')} /> </div> 
 			<div>  |  </div>
-			<div> <p>{userSession.givenName} {userSession.familyName} </p></div>
-			<div> 
-				<div className='circle'><p>{firstLetter}{familyNameFirstLetter}</p></div>
+			<div > <p>{userSession.givenName} {userSession.familyName} </p></div>
+			<div  > 
+				<div className='circle'><p style={headerRightP}>{firstLetter}{familyNameFirstLetter}</p></div>
                 
 			</div>
 							
