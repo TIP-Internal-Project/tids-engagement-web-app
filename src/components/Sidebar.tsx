@@ -14,7 +14,11 @@ export const Sidebar = () => {
 					
 				<ul>
 					<li><img src ={require('../assets/images/home logo.png')} /><a href="url">Overview</a></li>
+<<<<<<< HEAD
 					<li><img src ={require('../assets/images/events.png')} /> <a href="url"><Link to='/events'>Events</Link></a></li>
+=======
+					<li><img src ={require('../assets/images/events.png')} /> <a href="url">Events</a></li>
+>>>>>>> be48d94bac1747a24952cce765a3392391964b44
 					<li><img src ={require('../assets/images/tasks.png')} /> <a href="url">Tasks</a></li>
 				</ul> 
 
