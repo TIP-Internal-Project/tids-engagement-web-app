@@ -196,3 +196,10 @@ button:active {
     left: 10.16%;
     height: 16px;
 }
+
+
+.EventModalLink {
+color: black;
+text-decoration: none;
+
+}
