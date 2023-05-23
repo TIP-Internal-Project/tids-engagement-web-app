@@ -149,7 +149,6 @@ export const Category = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 20px;
-	width: 106px;
 	margin: 0px;
 `
 

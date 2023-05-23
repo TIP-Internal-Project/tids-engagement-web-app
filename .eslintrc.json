@@ -22,14 +22,15 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
     "indent": ["error", "tab"],
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": 0,
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
     "no-duplicate-imports": "error",
     "spaced-comment": "error",
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
-    "react/jsx-uses-vars": "error"
+    "react/jsx-uses-vars": "error",
+	"react/prop-types": "off"
   },
   "settings": {
     "import/resolver": {
