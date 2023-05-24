@@ -77,7 +77,7 @@ export const Events = styled.div`
 	box-sizing: border-box;
 	left: 0px;
 	top: 0px;
-	width: 660px;
+	width: 570px;
 `
 
 export const EventsHeading1 = styled.div`
