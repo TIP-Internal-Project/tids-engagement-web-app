@@ -7,6 +7,11 @@ export const Sidebar = () => {
 
 	
 
+
+
+
+	
+
 	return (
 		
 		
@@ -18,6 +23,7 @@ export const Sidebar = () => {
 					
 				<ul>
 					<li><img src ={require('../assets/images/home logo.png')} /><a href="url"><Link to='/overview'>Overview</Link></a></li>
+					<li><img src ={require('../assets/images/home logo.png')} /><a href="url"><Link to='/overview'>Overview</Link></a></li>
 					<li><img src ={require('../assets/images/events.png')} /> <a href="url"><Link to='/events'>Events</Link></a></li>
 					<li><img src ={require('../assets/images/tasks.png')} /> <a href="url">Tasks</a></li>
 				</ul> 
@@ -26,6 +32,7 @@ export const Sidebar = () => {
 
 				<ul>
 					<li><img src ={require('../assets/images/tids shoppee.png')} /> <a href="https://sites.google.com/telusinternational.com/ti-ds-shoppe/home">Tids Shoppee</a></li>
+					<li><img src ={require('../assets/images/intranet.png')} />  <a href="https://sites.google.com/telusinternational.com/tids-ph/home">Intranet</a> </li>
 					<li><img src ={require('../assets/images/intranet.png')} />  <a href="https://sites.google.com/telusinternational.com/tids-ph/home">Intranet</a> </li>
 					<li><img src ={require('../assets/images/skills matrix.png')} /> <a href="url">Skills Matrix</a> </li>
 					

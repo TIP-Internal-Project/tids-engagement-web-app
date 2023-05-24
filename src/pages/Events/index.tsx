@@ -1,5 +1,6 @@
 
 
+
 import { HeaderRight } from '../../components/HeaderRight'
 import { Sidebar } from '../../components/Sidebar'
 import Row from 'react-bootstrap/Row'
@@ -7,6 +8,9 @@ import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import { EventsDetails, NavOptions, EventsTitles, EventsDates, ViewDetails, RegisterActionButton, EventTime, HappyHereCategory, TIDSCategory, COPCategory, TeamEventCategory } from './styles'
 import './styles.css'
+import React, { useState } from 'react'
+import EventModal from '../../components/EventModal'
+import Button from 'react-bootstrap/Button'
 import React, { useState } from 'react'
 import EventModal from '../../components/EventModal'
 import Button from 'react-bootstrap/Button'
@@ -39,8 +43,22 @@ const Events = () => {
 
 
 
+	const [modalShow, setModalShow] = useState(false)
+  
+	const handleOpenModal = () => {
+	  setModalShow(true)
+	}
+  
+	const handleCloseModal = () => {
+	  setModalShow(false)
+	}
+
+
+
+
 	return (
 		<div>
+			
 			
 			<Sidebar />
 			<div>
@@ -59,6 +77,9 @@ const Events = () => {
 					</Col>
 					<Col style={header}> 
 						<HeaderRight />
+						
+						
+
 						
 						
 
@@ -83,6 +104,12 @@ const Events = () => {
 							</tr>
 							<tr>
 								<td>
+									<EventsTitles>
+										<img src={require('../../assets/images/caution.png')} alt='' className='caution-icon' />
+										<a href="#" className='EventModalLink' onClick={handleOpenModal}>
+              Save the date: Be part of the TELUS Days of Giving
+										</a>
+									</EventsTitles><ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 									<EventsTitles>
 										<img src={require('../../assets/images/caution.png')} alt='' className='caution-icon' />
 										<a href="#" className='EventModalLink' onClick={handleOpenModal}>
@@ -161,6 +188,7 @@ const Events = () => {
 					</EventsDetails>
 				</div>
 			</div>
+			<EventModal show={modalShow} onHide={handleCloseModal} />
 			<EventModal show={modalShow} onHide={handleCloseModal} />
 		</div>
 	)

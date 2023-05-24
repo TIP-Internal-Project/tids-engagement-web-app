@@ -125,6 +125,8 @@ body {
 .sidebarContent > ul > li > img {
   width: 19px;
   height: 23px;
+  width: 19px;
+  height: 23px;
   margin-bottom: 7px;
   margin-right: 10px;
 
@@ -141,6 +143,7 @@ body {
   font-style: normal;
   font-weight: 300;
   font-weight: 300;
+  font-weight: 300;
   font-size: 28px;
   line-height: 36px;
   color: #000000;
@@ -155,6 +158,13 @@ body {
   word-spacing: 5px;
   color: #000000;
   display: inline-block;
+}
+
+.headerRightP {
+
+  margin-top: 4px;
+  margin-bottom: 1rem;
+
 }
 
 .headerRightP {
