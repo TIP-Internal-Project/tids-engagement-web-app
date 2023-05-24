@@ -29,7 +29,7 @@ export const Subheader = () => {
 			</StyledTaskDiv>
 
 			<StyledCOPDiv>
-				<TitleDiv>POC</TitleDiv>
+				<TitleDiv>COP</TitleDiv>
 				<IconDiv><img src={require('../assets/images/COP.png')} /></IconDiv>
 				<ValueDiv>10</ValueDiv>
 			</StyledCOPDiv>
