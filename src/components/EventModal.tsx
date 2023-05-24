@@ -44,7 +44,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 				
 			</Modal.Header>
 				
-			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px' }} />
+			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
 
 			<Modal.Body className='ModalBody'>
 				
@@ -60,10 +60,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 					<div className='ModalBodyRightSubDiv'>
 						<Button style={ModalButton} >REGISTER</Button>{' '}
 						<Button style={ModalButton}>SURVEY</Button>{' '}
-						<img src ={require('../assets/images/GoogleMeetLogo.png')} />
-						<img src ={require('../assets/images/GoogleCalendarLogo.png')} />
-						<img className='bookmarklogo' src ={require('../assets/images/BookmarkLogo.png')} />
-						<img className='bookmarklogo' src ={require('../assets/images/PolygonLogo.png')} />
+						<a href="https://meet.google.com/"><img src ={require('../assets/images/GmeetLogo.png')} /></a>
+						<a href="https://calendar.google.com/"><img src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
+						<a href="https://calendar.google.com/"><img className='bookmarklogo' src ={require('../assets/images/BookmarkLogo.png')} /></a>
+						<a href="https://calendar.google.com/"><img className='bookmarklogo' src ={require('../assets/images/PolygonLogo.png')} /></a>
 					</div>
 
 				</div>
