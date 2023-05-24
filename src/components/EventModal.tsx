@@ -53,9 +53,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 				<div className='ModalBodyRight'>
 
 					<div className='ModalBodyRightSubDiv1'>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat commodo ipsum, in sodales velit molestie ac. Sed semper risus nec metus iaculis consequat. </p>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat commodo ipsum, in sodales velit molestie ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-						
+						<p>Join us for the TELUS Days of Giving, a special event dedicated to giving back to our community and making a positive impact. This is an opportunity for TELUS employees, partners, and volunteers to come together and contribute their time and skills to various charitable initiatives. </p>
+						<p>To participate in the TELUS Days of Giving, please register in advance using the provided registration link or contact the event organizers for more information. </p>
 					</div>
 
 					<div className='ModalBodyRightSubDiv'>

@@ -1,5 +1,110 @@
 import styled from 'styled-components'
 
+export const Dashboard = styled.div`
+	background-color: rgba(247, 248, 252, 1);
+	display: flex;
+	position: relative;
+	isolation: isolate;
+	flex-direction: row;
+	width: 100%;
+	height: 1097px;
+	justify-content: flex-start;
+	align-items: flex-start;
+	padding: 0px;
+	box-sizing: border-box;
+	overflow: hidden;
+`
+
+export const SidebarDiv = styled.div`
+	background-color: rgba(255, 255, 255, 1);
+	width: 245px;
+	height: 1041px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+`
+
+export const Content = styled.div`
+	display: flex;
+	position: absolute;
+	isolation: isolate;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	padding: 24px;
+	box-sizing: border-box;
+	left: 245px;
+	top: 0px;
+`
+
+export const Header = styled.div`
+	display: flex;
+	position: relative;
+	isolation: isolate;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	padding: 0px;
+	box-sizing: border-box;
+	height: 44px;
+	width: 1147px;
+	margin: 0px;
+`
+
+export const Overview = styled.div`
+	text-align: left;
+	white-space: pre-wrap;
+	font-synthesis: none;
+	color: rgba(42; 44; 46; 1);
+	font-style: normal;
+	font-family: Mulish;
+	font-weight: 500;
+	font-size: 28px;
+	letter-spacing: 0px;
+	text-decoration: none;
+	line-height: 36px;
+	text-transform: none;
+	position: absolute;
+	left: 0px;
+	top: 4px;
+`
+
+export const BellIcon = styled.div`
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	left: 903px;
+	top: 10px;
+`
+
+export const LineSeparator = styled.div`
+	background-color: rgba(216; 216; 216; 1);
+	width: 1px;
+	height: 32px;
+	position: absolute;
+	left: 951px;
+	top: 6px;
+`
+
+
+export const Name = styled.div`
+	text-align: left;
+	white-space: pre-wrap;
+	font-synthesis: none;
+	color: rgba(42; 44; 46; 1);
+	font-style: normal;
+	fon-fFamily: Mulish;
+	font-weight: 400;
+	font-size: 16px;
+	letter-spacing: 0px;
+	text-decoration: none;
+	line-height: 24px;
+	text-transform: none;
+	position: absolute;
+	left: 976px;
+	top: 10px;
+`
+
 export const Components = styled.div`
 	display: flex;
 	position: relative;
