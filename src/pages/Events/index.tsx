@@ -91,7 +91,7 @@ const Events = () => {
 									</EventsTitles><ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
@@ -103,7 +103,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TIDSCategory>TIDS</TIDSCategory></td>
@@ -115,7 +115,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
@@ -127,7 +127,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TeamEventCategory>TEAM EVENT</TeamEventCategory></td>
@@ -139,7 +139,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TIDSCategory>TIDS</TIDSCategory></td>
@@ -151,7 +151,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><COPCategory>COP</COPCategory></td>

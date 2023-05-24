@@ -96,7 +96,7 @@ export const HappyHereCategory = styled.div`
     text-align: center;
     background-color: #4B286D;
     color: #FFFFFF;
-    width: 65%;
+    width: 115px;
     border: #4B286D .5px solid;
     border-radius: 8px;
     position: relative;
@@ -109,7 +109,7 @@ export const TIDSCategory = styled.div`
     text-align: center;
     background-color: #2A66FF;
     color: #FFFFFF;
-    width: 65%;
+    width: 115px;
     border: #2A66FF .5px solid;
     border-radius: 8px;
     position: relative;
@@ -123,7 +123,7 @@ export const TeamEventCategory = styled.div`
     text-align: center;
     background-color: #66CC00;
     color: #FFFFFF;
-    width: 65%;
+    width: 115px;
     border: #66CC00 .5px solid;
     border-radius: 5px;
     position: relative;
@@ -136,7 +136,7 @@ export const COPCategory = styled.div`
     text-align: center;
     background-color: #FF0AE6;
     color: #FFFFFF;
-    width: 65%;
+    width: 115px;
     border: #FF0AE6 .5px solid;
     border-radius: 5px;
     position: relative;
