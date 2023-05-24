@@ -31,7 +31,7 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}> 
+				<Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
 					<Route path="overview" element={<Overview />} />
 				</Route>
 				<Route path='/login' element={<Login />} />

@@ -1,4 +1,6 @@
 
+
+
 import { HeaderRight } from '../../components/HeaderRight'
 import { Sidebar } from '../../components/Sidebar'
 import Row from 'react-bootstrap/Row'
@@ -25,6 +27,9 @@ const header = {
 
 
 const Events = () => {
+
+
+
 	const [modalShow, setModalShow] = useState(false)
   
 	const handleOpenModal = () => {
@@ -41,11 +46,12 @@ const Events = () => {
 	return (
 		<div>
 			
+			
 			<Sidebar />
-			<div>
+			{/* <div>
 				<img src={require('../../assets/images/white circle.png')} className='circle-for-back-option'/>
 				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
-			</div>
+			</div> */}
 			<div className='back-to-top-button'>
 				<p>Back to Top</p>
 				<img src={require('../../assets/images/oval.png')} className='back-to-top-circle'/>
@@ -58,6 +64,9 @@ const Events = () => {
 					</Col>
 					<Col style={header}> 
 						<HeaderRight />
+						
+						
+
 						
 						
 
@@ -82,15 +91,16 @@ const Events = () => {
 							</tr>
 							<tr>
 								<td>
+									
 									<EventsTitles>
-										<img src={require('../../assets/images/caution.png')} alt='' className='caution-icon' />
+										<img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>
 										<a href="#" className='EventModalLink' onClick={handleOpenModal}>
-              Save the date: Be part of the TELUS Days of Giving
+              								Save the date: Be part of the TELUS Days of Giving
 										</a>
 									</EventsTitles><ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
@@ -102,7 +112,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TIDSCategory>TIDS</TIDSCategory></td>
@@ -114,7 +124,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
@@ -126,7 +136,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TeamEventCategory>TEAM EVENT</TeamEventCategory></td>
@@ -138,7 +148,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TIDSCategory>TIDS</TIDSCategory></td>
@@ -150,7 +160,7 @@ const Events = () => {
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
 								<td>
-									<EventsDates>August 25 2022</EventsDates>
+									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><COPCategory>COP</COPCategory></td>
@@ -160,6 +170,7 @@ const Events = () => {
 					</EventsDetails>
 				</div>
 			</div>
+			<EventModal show={modalShow} onHide={handleCloseModal} />
 			<EventModal show={modalShow} onHide={handleCloseModal} />
 		</div>
 	)
