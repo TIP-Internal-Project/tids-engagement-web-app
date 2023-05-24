@@ -17,17 +17,18 @@
 
 .refresh {
     position: absolute;
-    left: 84%;
+    left: 80%;
+
 }
 
 .sort {
     position: absolute;
-    left: 91%;
+    left: 89%;
 }
 
 .filter {
     position: absolute;
-    left: 96%;
+    left: 95%;
 }
 
 .refresh-icon {
@@ -139,10 +140,11 @@ td {
 }
 
 .caution-icon {
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
     position: absolute;
-    left: 2.9%;
+    left: 2%;
 }
 .view-details {
     text-decoration: none;

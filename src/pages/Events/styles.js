@@ -61,7 +61,7 @@ export const EventTime = styled.div`
     letter-spacing: 0.1px;
     color: #C5C7CD;
     text-align: left;
-    padding-left: 17%;
+    padding-left: 13%;
 `
 
 export const RegisterActionButton = styled.button`
