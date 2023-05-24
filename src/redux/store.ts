@@ -1,17 +1,17 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-
-
 import pageStatusReducer from './pageStatusSlice'
 import userSessionReducer from './userSessionSlice'
 import  eventsReducer from './eventSlice'
+import overviewEventsReducer from './overviewEventsSlice'
 
 export const store = configureStore({
   	reducer: {
     	pageStatus: pageStatusReducer,
 		userSession: userSessionReducer,
 		events: eventsReducer,
+		overviewEvents: overviewEventsReducer,
   	},
 })
 

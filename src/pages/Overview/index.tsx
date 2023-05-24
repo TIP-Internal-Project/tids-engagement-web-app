@@ -10,10 +10,7 @@ import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Sidebar } from '../../components/Sidebar'
 import { StyledStarDiv,StyledEventDiv,StyledTaskDiv,StyledCOPDiv, TitleDiv, IconDiv, ValueDiv } from '../../components/Div/Div.styles'
-import { Components, Events, EventsHeading1, Events1, ViewAll, ViewAll1, Arrow, RowDiv, Category,
-	 Rectangle1, EventCategory, Headings, Title, DateAndTime, Date, DateIcon, DateTime, Time, TimeIcon, 
-	 Divider, Border, Line, Category1, Rectangle2, DateAndTime1, Category2, Rectangle3, DateAndTime2,
-	 Category3, Rectangle4, DateAndTime3 } from './style.js'
+import EventsPanel from '../../components/overviewComponents/events'
 import { HeaderRight } from '../../components/HeaderRight'
 import { HeaderLeft } from '../../components/HeaderLeft'
 import { EventPanel } from '../../components/EventPanel'
@@ -56,7 +53,7 @@ export default function OverviewPage() {
 	}
 	
 	const footerComponent = {
-		height: '69px',
+		height: '210px',
 		// border:'1px solid red'
 	}
 
@@ -97,13 +94,7 @@ export default function OverviewPage() {
 					</Col>
 				</Row>
 				
-				<Row>
-					<Col style={eventComponent}>					
-						<EventPanel/>
-					</Col>
-					<Col style={taskComponent}>
-					</Col>
-				</Row>
+				<EventsPanel></EventsPanel>
 
 				<Row>
 					<Col style={footerComponent}></Col>
