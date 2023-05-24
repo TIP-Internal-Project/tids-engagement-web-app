@@ -10,9 +10,7 @@ interface EventModalProps {
 const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
     
 	const modalStyle = {
-		borderBottom: '2px solid #e9ecef', // Add a new border style
-		width: '85%', // Set the width of the border
-		margin: '0 auto', // Center the border horizontally
+		borderBottom: 'none'
 	}
 
 
@@ -30,6 +28,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
                 Save the date: Be part of the TELUS Days of Giving
 				</Modal.Title>
 			</Modal.Header>
+
+			<hr style={{ width: '80%', margin: '1rem auto', height: '1px' }} />
+
 			<Modal.Body >
 				<h4>Centered Modal</h4>
 
@@ -38,7 +39,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
           dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
           consectetur ac, vestibulum at eros.
 				</p>
-				<hr style={{ width: '50%', margin: '1rem auto' }} />
+				
 			</Modal.Body>
 			
 		</Modal>
