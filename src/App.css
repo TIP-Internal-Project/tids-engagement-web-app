@@ -78,7 +78,7 @@ body {
   width: 85%;
   float: right;
   background-color: #f5f5f5;
-  overflow: hidden;
+  overflow: inherit;
 }
 
 .div1 #p {

@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col'
 const headerRightP = {
 	marginTop: '4px',
 	marginBottom: '1rem',
+	color: 'white',
 	// border: '1px solid red'
 }
 
@@ -23,7 +24,7 @@ export const HeaderRight = () => {
 				
 		<div className='headerRight'>
 
-								
+			<div  > <img className="search" src ={require('../assets/images/Search.png')} /> </div> 					
 			<div  > <img className="notification" src ={require('../assets/images/notification.png')} /> </div> 
 			<div>  |  </div>
 			<div > <p>{userSession.givenName} {userSession.familyName} </p></div>

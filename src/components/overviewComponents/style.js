@@ -19,8 +19,9 @@ export const Components = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 697px;
-	width: 1147px;
-	margin: 48px 0px 0px 0px;
+	width: -webkit-fill-available;
+	margin: 15px 0px 0px 0px;
+	margin-left: 10px;
 `
 
 export const Events = styled.div`
@@ -37,6 +38,7 @@ export const Events = styled.div`
 	box-sizing: border-box;
 	left: 0px;
 	top: 0px;
+	width: 48%;
 `
 
 export const EventsHeading1 = styled.div`
@@ -49,7 +51,7 @@ export const EventsHeading1 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 38px;
-	width: 477px;
+	width: -webkit-fill-available;
 	margin: 0px;
 `
 
@@ -80,9 +82,9 @@ export const ViewAll = styled.div`
 	position: absolute;
 	width: 90px;
 	height: 38px;
-	left: 387px;
 	top: 0px;
 	border-radius: 4px;
+	right: 1%;
 `
 
 export const ViewAll1 = styled.div`
@@ -137,6 +139,7 @@ export const RowDiv = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	margin: 24px 0px 0px 0px;
+	width: -webkit-fill-available;
 `
 
 export const Category = styled.div`
@@ -190,7 +193,7 @@ export const Headings = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 48px;
-	width: 477px;
+	width: -webkit-fill-available;
 	margin: 8px 0px 0px 0px;
 `
 
@@ -207,7 +210,7 @@ export const Title = styled.div`
 	text-decoration: none;
 	line-height: 24px;
 	text-transform: none;
-	width: 477px;
+	width: -webkit-fill-available;
 	position: absolute;
 	left: 0px;
 	top: 0px;
@@ -271,7 +274,7 @@ export const Time = styled.div`
 	box-sizing: border-box;
 	width: 200px;
 	height: 24px;
-	left: 144px;
+	left: 65%;
 	top: 0px;
 `
 
@@ -285,6 +288,7 @@ export const Divider = styled.div`
 	padding: 16px 0px 0px 0px;
 	box-sizing: border-box;
 	margin: 8px 0px 0px 0px;
+	width: -webkit-fill-available;
 `
 
 export const Border = styled.div`
@@ -297,13 +301,13 @@ export const Border = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 1px;
-	width: 477px;
+	width: -webkit-fill-available;
 	margin: 0px;
 `
 
 export const Line = styled.div`
 	background-color: rgba(216, 216, 216, 1);
-	width: 477px;
+	width: -webkit-fill-available;
 	height: 1px;
 	position: absolute;
 	left: 0px;
@@ -358,7 +362,7 @@ export const Category2 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 20px;
-	width: 111px;
+	width: -webkit-fill-available;
 	margin: 0px;
 `
 
@@ -382,7 +386,7 @@ export const DateAndTime2 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 24px;
-	width: 321px;
+	width: -webkit-fill-available;
 	margin: 8px 0px 0px 0px;
 `
 
@@ -420,7 +424,7 @@ export const DateAndTime3 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 24px;
-	width: 321px;
+	width: -webkit-fill-available;
 	margin: 8px 0px 0px 0px;
 `
 
@@ -463,6 +467,7 @@ export const Row3 = styled.div`
 	box-sizing: border-box;
 	left: 41px;
 	top: 102px;
+	width: 87%;
 `
 
 export const Header = styled.div`
@@ -475,7 +480,7 @@ export const Header = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 44px;
-	width: 1147px;
+	width: -webkit-fill-available;
 	margin: 0px;
 `
 
@@ -489,11 +494,11 @@ export const Task = styled.div`
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: flex-start;
-	padding: 0px;
+	padding: 40px;
 	box-sizing: border-box;
-	width: 554.1px;
+	width: 48%;
 	height: 697px;
-	left: 573px;
+	right: 2.5%;
 	top: 0px;
 `
 
@@ -550,7 +555,7 @@ export const Heading1 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 28px;
-	width: 477px;
+	width: -webkit-fill-available;
 	margin: 0px;
 `
 
@@ -565,7 +570,7 @@ export const Priority = styled.div`
 	box-sizing: border-box;
 	width: 84px;
 	height: 28px;
-	left: 393px;
+	right: 1%;
 	top: 0px;
 `
   
@@ -610,7 +615,7 @@ export const ShsAppImageryUpdates = styled.div`
 	text-decoration: none;
 	line-height: 24px;
 	text-transform: none;
-	width: 477px;
+	width: 80%;
 	position: absolute;
 	left: 0px;
 	top: 2px;
@@ -641,6 +646,7 @@ export const Rectangle17 = styled.div`
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	width: -webkit-fill-available;
 `
   
 export const Row1 = styled.div`
@@ -654,6 +660,7 @@ export const Row1 = styled.div`
 	box-sizing: border-box;
 	left: 41px;
 	top: 320px;
+	width: 87%;
 `
   
 export const Heading2 = styled.div`
@@ -666,7 +673,7 @@ export const Heading2 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 28px;
-	width: 477px;
+	width: -webkit-fill-available;
 	margin: 0px;
 `
   
@@ -681,7 +688,7 @@ export const Priority1 = styled.div`
 	box-sizing: border-box;
 	width: 84px;
 	height: 28px;
-	left: 393px;
+	right: 1%;
 	top: 0px;
 `
   
@@ -726,7 +733,7 @@ export const MyCareRefreshLaunchA = styled.div`
 	text-decoration: none;
 	line-height: 24px;
 	text-transform: none;
-	width: 477px;
+	width: 80%;
 	position: absolute;
 	left: 0px;
 	top: 2px;
@@ -788,6 +795,7 @@ export const Divider1 = styled.div`
 	padding: 16px 0px 0px 0px;
 	box-sizing: border-box;
 	margin: 8px 0px 0px 0px;
+	width: -webkit-fill-available;
 `
   
 export const Border1 = styled.div`
@@ -800,8 +808,8 @@ export const Border1 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 1px;
-	width: 477px;
 	margin: 0px;
+	width: -webkit-fill-available;
 `
   
 export const Rectangle171 = styled.div`
@@ -811,6 +819,7 @@ export const Rectangle171 = styled.div`
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	width: -webkit-fill-available;
 `
   
 export const Row2 = styled.div`
@@ -824,6 +833,7 @@ export const Row2 = styled.div`
 	box-sizing: border-box;
 	left: 41px;
 	top: 211px;
+	width: 87%;
 `
 
 export const Heading3 = styled.div`
@@ -836,7 +846,7 @@ export const Heading3 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 28px;
-	width: 478px;
+	width: -webkit-fill-available;
 	margin: 0px;
 `
   
@@ -851,7 +861,7 @@ export const Priority2 = styled.div`
 	box-sizing: border-box;
 	width: 84px;
 	height: 28px;
-	left: 394px;
+	right: 1%;
 	top: 0px;
 `
   
@@ -896,7 +906,7 @@ export const HealthQuebecClinicsP = styled.div`
 	text-decoration: none;
 	line-height: 24px;
 	text-transform: none;
-	width: 477px;
+	width: 80%;
 	position: absolute;
 	left: 0px;
 	top: 2px;
@@ -944,6 +954,7 @@ export const Divider2 = styled.div`
 	padding: 16px 0px 0px 0px;
 	box-sizing: border-box;
 	margin: 8px 0px 0px 0px;
+	width: -webkit-fill-available;
 `
   
 export const Border2 = styled.div`
@@ -956,17 +967,18 @@ export const Border2 = styled.div`
 	padding: 0px;
 	box-sizing: border-box;
 	height: 1px;
-	width: 477px;
 	margin: 0px;
+	width: -webkit-fill-available;
 `
   
 export const Rectangle172 = styled.div`
 	background-color: rgba(216, 216, 216, 1);
-	width: 477px;
+	width: -webkit-fill-available;
 	height: 1px;
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	width: -webkit-fill-available;
 `
   
 export const EventsHeading = styled.div`
@@ -978,7 +990,7 @@ export const EventsHeading = styled.div`
 	align-items: flex-start;
 	padding: 0px;
 	box-sizing: border-box;
-	width: 477px;
+	width: -webkit-fill-available;
 	height: 38px;
 	left: 41px;
 	top: 40px;

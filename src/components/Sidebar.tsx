@@ -17,7 +17,7 @@ export const Sidebar = () => {
 				<p>Dashboard</p>
 					
 				<ul>
-					<li><img src ={require('../assets/images/home logo.png')} /><a href="url"><Link to='/overview'>Overview</Link></a></li>
+					<li><img src ={require('../assets/images/home logo.png')}  style={{width:'23px'}}/><a href="url"><Link to='/overview'>Overview</Link></a></li>
 					<li><img src ={require('../assets/images/events.png')} /> <a href="url"><Link to='/events'>Events</Link></a></li>
 					<li><img src ={require('../assets/images/tasks.png')} /> <a href="url">Tasks</a></li>
 				</ul> 
@@ -32,7 +32,7 @@ export const Sidebar = () => {
 				</ul> 
 
 				<ul className='HNS'>
-					<li><img src ={require('../assets/images/bulbLogo.png')} /> <a href="url">Help and Support</a> </li>
+					<li><img src ={require('../assets/images/bulbLogo.png')}  style={{height:'25px'}}/> <a href="url">Help and Support</a> </li>
 				</ul>
 
 			</div>

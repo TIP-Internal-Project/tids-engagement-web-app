@@ -43,10 +43,10 @@ const Events = () => {
 		<div>
 			
 			<Sidebar />
-			<div>
+			{/* <div>
 				<img src={require('../../assets/images/white circle.png')} className='circle-for-back-option'/>
 				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
-			</div>
+			</div> */}
 			<div className='back-to-top-button'>
 				<p>Back to Top</p>
 				<img src={require('../../assets/images/oval.png')} className='back-to-top-circle'/>

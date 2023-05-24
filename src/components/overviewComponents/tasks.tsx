@@ -67,7 +67,7 @@ const TaskPanel = () => {
 		</Row3>
 		<EventsHeading>
 			<Task1>{'Task'}</Task1>
-			<ViewAll><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
+			<ViewAll style={{ right: '9%' }}><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
 		</EventsHeading>
 	</Task>
 }

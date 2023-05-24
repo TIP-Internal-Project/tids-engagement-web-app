@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { fetchEvents } from '../../redux/overviewEventsSlice'
 import TaskPanel from './tasks'
 import { Components, Events, EventsHeading1, Events1, ViewAll, ViewAll1, Arrow, RowDiv, Category, Rectangle1, EventCategory, Headings, 
-	 Title, DateAndTime, Date, DateIcon, DateTime, Time, TimeIcon, Divider, Border, Line } from '../../pages/Overview/style.js'
+	 Title, DateAndTime, Date, DateIcon, DateTime, Time, TimeIcon, Divider, Border, Line } from './style'
 
 const EventsPanel = () => {
 	const overviewEvents = useAppSelector((state) => state.overviewEvents)
@@ -44,7 +44,7 @@ const EventsPanel = () => {
 					<Time>
 						<TimeIcon><img src={require('../../assets/images/Time.png')} alt="" /></TimeIcon>
 						<DateTime>
-							{formattedTime}
+							{formattedTime + ' Manila Time'}
 						</DateTime>
 					</Time>
 				</DateAndTime>
@@ -58,8 +58,8 @@ const EventsPanel = () => {
 	})
 
 	return <Components>
-		<Events style={{width: '554.1px' }}>
-			<EventsHeading1>
+		<Events>
+			<EventsHeading1 style={{ width: '-webkit-fill-available' }}>
 				<Events1>{'Events'}</Events1>
 				<ViewAll><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
 			</EventsHeading1>
