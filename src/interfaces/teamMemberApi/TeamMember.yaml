@@ -1,0 +1,537 @@
+swagger: '2.0'
+info:
+  title: Team Member API
+  description: Swagger/Yaml for Team Member API
+  version: 1.0.0
+host: serverRoot
+basePath: /v2/api/engagement/
+schemes:
+  - https
+consumes:
+  - application/json;charset=utf-8
+produces:
+  - application/json;charset=utf-8
+tags:
+  - name: partyAccount
+paths:
+  /teamMember:
+    get:
+      operationId: listTeamMembers
+      summary: List of team members
+      description: This operation list or find PartyAccount entities
+      tags:
+        - teamMember
+      parameters:
+        - name: emailAddress
+          description: TI email address
+          required: false
+          in: query
+          type: string
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-Result-Count:
+              description: Actual number of items returned in the response body
+              type: integer
+            X-Total-Count:
+              description: Total number of items matching criteria
+              type: integer
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TeamMemberInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      operationId: addTember
+      summary: Adds list of team member information
+      description: This operation adds team members information and will be use for bulk upload
+      tags:
+        - teamMember
+      parameters:
+        - schema:
+            type: array
+            items:
+              $ref: '#/definitions/TeamMemberInfo'
+          required: true
+          in: body
+          name: request
+          description: Team member info
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/TeamMemberInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/teamMember/{workdayId}':
+    get:
+      operationId: retrieveTember
+      summary: Retrieves team member information
+      description: This operation retrieves team member information using workday id
+      tags:
+        - teamMember
+      parameters:
+        - name: workdayId
+          description: Identifier of the team member
+          required: true
+          type: string
+          in: path
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/TeamMemberInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      operationId: updateTember
+      summary: Update team member information
+      description: This operation updates team member information using workday id
+      tags:
+        - teamMember
+      parameters:
+        - name: workdayId
+          description: Identifier of the team member
+          required: true
+          type: string
+          in: path
+        - in: header
+          name: action
+          type: string
+          required: true
+          description: action required for update
+        - schema:
+            $ref: '#/definitions/TeamMemberInfo'
+          required: true
+          in: body
+          name: request
+          description: Team member info
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/TeamMemberInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      operationId: removeTember
+      summary: Remove team member information
+      description: This operation removes team member information using workday id
+      tags:
+        - teamMember
+      parameters:
+        - name: workdayId
+          description: Identifier of the team member
+          required: true
+          type: string
+          in: path
+        - schema:
+            $ref: '#/definitions/TeamMemberInfo'
+          required: true
+          in: body
+          name: request
+          description: Team member info
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/TeamMemberInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  TeamMemberInfo:
+    type: object
+    description: >-
+      complete information of the team member
+    required:
+      - name
+      - relatedParty
+    properties:
+      workdayId:
+        type: string
+        description: Refers to the workday ID of a team member
+      href:
+        type: string
+        format: uri
+        description: Hyperlink reference
+      lastName:
+        type: string
+        description: Last name
+      middleName:
+        type: string
+        description: Middle Name
+      firstName:
+        type: string
+        description: First Name
+      suffix:
+        type: string
+        description: suffix of name
+      pictureURL:
+        type: string
+        description: URL of the picture of the team member's profile
+      maritalStatus:
+        type: string
+        description: marital status
+      birthDate:
+        type: string
+        format: date-time
+        description: date of birth
+      gender:
+        type: string
+        description: gender
+      peopleSoftId:
+        type: string
+        description: peopleSoft Id
+      jobProfile:
+        type: string
+        description: job profile
+      businessTitle:
+        type: string
+        description: business title
+      jobCode:
+        type: string
+        description: job code
+      costCenterId:
+        type: string
+        description: cost center ID
+      division:
+        type: string
+        description: division
+      site:
+        type: string
+        description: site assignment
+      originalHireDate:
+        type: string
+        format: date-time
+        description: original hire date
+      hireDate:
+        type: string
+        format: date-time
+        description: hire date
+      conitinuousServiceDate:
+        type: string
+        format: date-time
+        description: continuous service date
+      billingStatus:
+        type: string
+        description: billing status
+      workShift:
+        type: string
+        description: work shift
+      benifitsServiceDate:
+        type: string
+        description: benefits service date
+      employeeType:
+        type: string
+        description: type of employee
+      starsEarned:
+        type: integer
+        description: number of stars earned for attending events
+      leaveHistory:        
+        type: array
+        items:
+          $ref: '#/definitions/LeaveHistory'
+      emailAddress:        
+        type: array
+        items:
+          $ref: '#/definitions/EmailAddress'
+      address:        
+        type: array
+        items:
+          $ref: '#/definitions/Address'
+      phoneNumber:        
+        type: array
+        items:
+          $ref: '#/definitions/PhoneNumber'
+      identification:        
+        type: array
+        items:
+          $ref: '#/definitions/Identification'
+      teamMemberRelationship:
+        type: array
+        items:
+          $ref: '#/definitions/TeamMemberRelationship'
+  LeaveHistory:
+    type: object
+    description: >-
+      Basic information
+    properties:
+      workdayId:
+        type: string
+        description: Refers to the workday ID of a team member
+      leaveTypeCd:
+        type: string
+        description: leave type code
+      firstDayOfLeave:
+        type: string
+        format: date-time
+        description: First Name
+      estimatedLastDayOfLeave:
+        type: string
+        format: date-time
+        description: estimated last day of leave
+  EmailAddress:
+    type: object
+    description: >-
+      Basic information
+    properties:
+      workdayId:
+        type: string
+        description: Refers to the workday ID of a team member
+      emailAddressTypeCd:
+        type: string
+        description: type of email address
+      emailAddressText:
+        type: string
+        description: actual email address
+  Address:
+    type: object
+    description: >-
+      Basic information
+    properties:
+      workdayId:
+        type: string
+        description: Refers to the workday ID of a team member
+      addressTypeCd:
+        type: string
+        description: Type of address
+      addressTxt:
+        type: string
+        description: Actual address
+  PhoneNumber:
+    type: object
+    description: >-
+      Basic information
+    properties:
+      workdayId:
+        type: string
+        description: Refers to the workday ID of a team member
+      phoneNumberCd:
+        type: string
+        description: Type of phone number
+      phoneNumberTxt:
+        type: string
+        description: actual phone number
+  Identification:
+    type: object
+    description: >-
+      Basic information
+    properties:
+      workdayId:
+        type: string
+        description: Refers to the workday ID of a team member
+      identificationTypeCd:
+        type: string
+        description: type of identification
+      identificationTxt:
+        type: string
+        description: actual ID number
+  TeamMemberRelationship:
+    type: object
+    properties:
+      name:
+        description: Name of the relationship
+        type: string
+      relationship:
+        type: array
+        items: 
+          $ref: '#/definitions/Relationship'
+  Relationship:
+    type: object
+    properties:
+      name:
+        description: Name of the relationship
+        type: string
+      id:
+        type: string
+      characteristic:
+        type: array
+        items:
+          $ref: '#/definitions/Characteristic'
+      relationship:
+        type: array
+        items:
+          $ref: '#/definitions/Relationship'
+  Characteristic:
+    type: object
+    properties:
+      name:
+        description: Name of the characteristic
+        type: string
+      value:
+        description: >-
+          Value of the characteristic
+        type: string
+  Error:
+    description: >-
+      Used when an API throws an Error, typically with a HTTP error
+      response-code (3xx, 4xx, 5xx)
+    type: object
+    required:
+      - code
+      - reason
+    properties:
+      code:
+        type: string
+        description: 'Application relevant detail, defined in the API or a common list.'
+      reason:
+        type: string
+        description: >-
+          Explanation of the reason for the error which can be shown to a client
+          user.
+      message:
+        type: string
+        description: >-
+          More details and corrective actions related to the error which can be
+          shown to a client user.
+      status:
+        type: string
+        description: HTTP Error code extension
+      referenceError:
+        type: string
+        format: uri
+        description: URI of documentation describing the error.
+      '@baseType':
+        type: string
+        description: 'When sub-classing, this defines the super-class.'
+      '@schemaLocation':
+        type: string
+        format: uri
+        description: >-
+          A URI to a JSON-Schema file that defines additional attributes and
+          relationships
+      '@type':
+        type: string
+        description: 'When sub-classing, this defines the sub-class entity name.'
