@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import Badge from 'react-bootstrap/Badge'
+
 
 
 interface EventModalProps {
@@ -37,10 +37,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 			
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter">
-                Save the date: Be part of the TELUS Days of Giving   <Badge bg="danger"> ongoing
-        
-      	</Badge>{' '}
+                Save the date: Be part of the TELUS Days of Giving 
+					<h5><span className='ModalBadge'>Event Ongoing</span></h5>
+
 				</Modal.Title>
+				
 			</Modal.Header>
 				
 			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px' }} />
