@@ -29,7 +29,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 
 	const h5Style = {
 		marginTop: '5px',
-  		paddingLeft: '6px'
+  		paddingLeft: '10px'
 	}
 
 
