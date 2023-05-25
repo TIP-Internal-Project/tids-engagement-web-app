@@ -28,7 +28,6 @@ const EventsPanel = () => {
 		return (
 			<RowDiv key={event.eventId}>
 				<Category>
-					<Rectangle1></Rectangle1>
 					<Rectangle1 style={{ display: event.category === 'TEAM EVENT' ? 'block' : 'none' }}></Rectangle1>
 					<Rectangle2 style={{ display: event.category === 'TIDS' ? 'block' : 'none' }}></Rectangle2>
 					<Rectangle3 style={{ display: event.category === '#HAPPYHERE' ? 'block' : 'none' }}></Rectangle3>
