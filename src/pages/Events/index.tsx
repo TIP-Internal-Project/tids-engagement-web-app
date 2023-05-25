@@ -28,8 +28,6 @@ const header = {
 
 const Events = () => {
 
-
-
 	const [modalShow, setModalShow] = useState(false)
   
 	const handleOpenModal = () => {
@@ -39,9 +37,6 @@ const Events = () => {
 	const handleCloseModal = () => {
 	  setModalShow(false)
 	}
-
-
-
 
 	return (
 		<div>
