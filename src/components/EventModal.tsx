@@ -27,6 +27,16 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 	}
 
 
+	const ModalTitleDiv = {
+		display: 'inline-flex'
+	}
+
+
+	const ModalStatus = {
+		marginTop: '6px',
+		paddingLeft: '11px'
+	}
+
 
 	return (
 		<Modal
@@ -38,9 +48,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 		>
 			
 			<Modal.Header closeButton style={modalStyle}>
-				<Modal.Title id="contained-modal-title-vcenter">
+				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>
 				Save the date: Be part of the TELUS Days of Giving 
-					<h5><span className='ModalBadge'>Event Ongoing</span></h5>
+					<h5 style={ModalStatus}><span className='ModalBadge'>Event Ongoing</span></h5>
 
 				</Modal.Title>
 				
