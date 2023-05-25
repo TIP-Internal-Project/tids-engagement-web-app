@@ -5,6 +5,10 @@ import { Task, Row3, Heading1, Date3, Divider, Border, Priority, Rectangle20,
 
 const TaskPanel = () => {
 	return <Task>
+		<EventsHeading>
+			<Task1>{'Tasks'}</Task1>
+			<ViewAll style={{ right: '9%' }}><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
+		</EventsHeading>
 		<Row1>
 			<Heading1>
 				<Priority>
@@ -65,10 +69,6 @@ const TaskPanel = () => {
 				</Border2>
 			</Divider2>
 		</Row3>
-		<EventsHeading>
-			<Task1>{'Task'}</Task1>
-			<ViewAll style={{ right: '9%' }}><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
-		</EventsHeading>
 	</Task>
 }
 

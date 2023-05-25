@@ -53,9 +53,8 @@ const Events = () => {
 				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
 			</div> */}
 			<div className='back-to-top-button'>
-				<p>Back to Top</p>
-				<img src={require('../../assets/images/oval.png')} className='back-to-top-circle'/>
-				<img src={require('../../assets/images/up-arrow.png')} className='back-to-top-arrow'/>
+				<p style={{fontFamily: 'Mulish'}}>Back to Top</p>
+				<img style={{width: '42.5px', height: '42.5px', marginLeft: '1.5%' }} src={require('../../assets/images/BackToTop.png')} className='back-to-top-circle'/>
 			</div>
 			<div className='div1'>
 				<Row>
