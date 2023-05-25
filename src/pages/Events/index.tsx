@@ -28,8 +28,6 @@ const header = {
 
 const Events = () => {
 
-
-
 	const [modalShow, setModalShow] = useState(false)
   
 	const handleOpenModal = () => {
@@ -39,9 +37,6 @@ const Events = () => {
 	const handleCloseModal = () => {
 	  setModalShow(false)
 	}
-
-
-
 
 	return (
 		<div>
@@ -53,9 +48,8 @@ const Events = () => {
 				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
 			</div> */}
 			<div className='back-to-top-button'>
-				<p>Back to Top</p>
-				<img src={require('../../assets/images/oval.png')} className='back-to-top-circle'/>
-				<img src={require('../../assets/images/up-arrow.png')} className='back-to-top-arrow'/>
+				<p style={{fontFamily: 'Mulish'}}>Back to Top</p>
+				<img style={{width: '42.5px', height: '42.5px', marginLeft: '1.5%' }} src={require('../../assets/images/BackToTop.png')} className='back-to-top-circle'/>
 			</div>
 			<div className='div1'>
 				<Row>
@@ -99,7 +93,7 @@ const Events = () => {
 										</a>
 									</EventsTitles><ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td>
+								<td style={{paddingLeft:'2%'}}>
 									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
@@ -111,7 +105,7 @@ const Events = () => {
 									<EventsTitles><img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>Open Web-Session | BigQuery GCP | 31st</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td>
+								<td style={{paddingLeft:'2%'}}>
 									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
@@ -123,7 +117,7 @@ const Events = () => {
 									<EventsTitles>HappyHere FlipTIP Intersite Competition</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td>
+								<td style={{paddingLeft:'2%'}}>
 									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
@@ -135,7 +129,7 @@ const Events = () => {
 									<EventsTitles><img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>DevOps CoP: Call for Video Content</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td>
+								<td style={{paddingLeft:'2%'}}>
 									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
@@ -147,7 +141,7 @@ const Events = () => {
 									<EventsTitles>Learning from the Experts: Evolution of Communication</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td>
+								<td style={{paddingLeft:'2%'}}>
 									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
@@ -159,7 +153,7 @@ const Events = () => {
 									<EventsTitles>Simple Wellness: Find the Beat</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td>
+								<td style={{paddingLeft:'2%'}}>
 									<EventsDates>August 25, 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>

@@ -10,6 +10,7 @@
   } */
 
 /* nav-list styles */
+
 .nav-options {
     position: relative;
     top: 3%;
@@ -177,9 +178,9 @@ button:active {
     
 }
 .back-to-top-button > p {
-    position: absolute;
-    top: 95%;
-    left: 5%;
+    position: fixed;
+	bottom: 0;
+	left: 5%;
     color: #000000;
     font-style: normal;
     font-weight: 400;
@@ -187,10 +188,9 @@ button:active {
     line-height: 20px;
 }
 .back-to-top-circle {
-    position: absolute;
-    top: 93.5%;
-    left: 9.5%;
-    height: 40px;
+    position: fixed;
+	bottom: 1%;
+	left: 9%;
 }
 .back-to-top-arrow {
     position: absolute;

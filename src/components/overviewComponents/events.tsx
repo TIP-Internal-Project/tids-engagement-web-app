@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { fetchEvents } from '../../redux/overviewEventsSlice'
 import TaskPanel from './tasks'
-import { Components, Events, EventsHeading1, Events1, ViewAll, ViewAll1, Arrow, RowDiv, Category, Rectangle1, EventCategory, Headings, 
+import { Components, Events, EventsHeading1, Events1, ViewAll, ViewAll1, Arrow, RowDiv, Category, Rectangle1, Rectangle2, Rectangle3, Rectangle4, EventCategory, Headings, 
 	 Title, DateAndTime, Date, DateIcon, DateTime, Time, TimeIcon, Divider, Border, Line } from './style'
 
 const EventsPanel = () => {
@@ -28,7 +28,10 @@ const EventsPanel = () => {
 		return (
 			<RowDiv key={event.eventId}>
 				<Category>
-					<Rectangle1></Rectangle1>
+					<Rectangle1 style={{ display: event.category === 'TEAM EVENT' ? 'block' : 'none' }}></Rectangle1>
+					<Rectangle2 style={{ display: event.category === 'TIDS' ? 'block' : 'none' }}></Rectangle2>
+					<Rectangle3 style={{ display: event.category === '#HAPPYHERE' ? 'block' : 'none' }}></Rectangle3>
+					<Rectangle4 style={{ display: event.category === 'COP' ? 'block' : 'none' }}></Rectangle4>
 					<EventCategory style={{ width: 'max-content' }}>{event.category}</EventCategory>
 				</Category>
 				<Headings>
