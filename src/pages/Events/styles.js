@@ -45,6 +45,7 @@ export const ViewDetails = styled.div`
 `
 
 export const EventsDates = styled.div`
+	text-align: left;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -61,7 +62,6 @@ export const EventTime = styled.div`
     letter-spacing: 0.1px;
     color: #C5C7CD;
     text-align: left;
-    padding-left: 13%;
 `
 
 export const RegisterActionButton = styled.button`
