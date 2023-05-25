@@ -573,7 +573,7 @@ export const Priority = styled.div`
 	right: 1%;
 	top: 0px;
 `
-  
+
 export const Rectangle20 = styled.div`
 	background-color: rgba(216, 216, 216, 1);
 	border-radius: 28px;
@@ -583,7 +583,7 @@ export const Rectangle20 = styled.div`
 	left: 0px;
 	top: 0px;
 `
-  
+
 export const Low = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -601,7 +601,7 @@ export const Low = styled.div`
 	left: 18%;
 	top: 4px;
 `
-  
+
 export const ShsAppImageryUpdates = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -620,7 +620,7 @@ export const ShsAppImageryUpdates = styled.div`
 	left: 0px;
 	top: 2px;
 `
-  
+
 export const DateText1 = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -638,7 +638,7 @@ export const DateText1 = styled.div`
 	left: 32px;
 	top: 2px;
 `
-  
+
 export const Rectangle17 = styled.div`
 	background-color: rgba(216, 216, 216, 1);
 	width: 477px;
@@ -648,7 +648,7 @@ export const Rectangle17 = styled.div`
 	top: 0px;
 	width: -webkit-fill-available;
 `
-  
+
 export const Row1 = styled.div`
 	display: flex;
 	position: absolute;
@@ -662,7 +662,7 @@ export const Row1 = styled.div`
 	top: 320px;
 	width: 87%;
 `
-  
+
 export const Heading2 = styled.div`
 	display: flex;
 	position: relative;
@@ -676,7 +676,7 @@ export const Heading2 = styled.div`
 	width: -webkit-fill-available;
 	margin: 0px;
 `
-  
+
 export const Priority1 = styled.div`
 	display: flex;
 	position: absolute;
@@ -691,7 +691,7 @@ export const Priority1 = styled.div`
 	right: 1%;
 	top: 0px;
 `
-  
+
 export const Rectangle201 = styled.div`
 	background-color: rgba(216, 216, 216, 1);
 	border-radius: 28px;
@@ -701,7 +701,7 @@ export const Rectangle201 = styled.div`
 	left: 0px;
 	top: 0px;
 `
-  
+
 export const Medium = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -719,7 +719,7 @@ export const Medium = styled.div`
 	left: 18%;
 	top: 4px;
 `
-  
+
 export const MyCareRefreshLaunchA = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -738,7 +738,7 @@ export const MyCareRefreshLaunchA = styled.div`
 	left: 0px;
 	top: 2px;
 `
- 
+
 export const Date1 = styled.div`
 	display: flex;
 	position: relative;
@@ -766,7 +766,7 @@ export const Date2 = styled.div`
 	width: 120px;
 	margin: 8px 0px 0px 0px;
 `
-  
+
 export const DateText2 = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -784,7 +784,7 @@ export const DateText2 = styled.div`
 	left: 32px;
 	top: 2px;
 `
-  
+
 export const Divider1 = styled.div`
 	display: flex;
 	position: relative;
@@ -797,7 +797,7 @@ export const Divider1 = styled.div`
 	margin: 8px 0px 0px 0px;
 	width: -webkit-fill-available;
 `
-  
+
 export const Border1 = styled.div`
 	display: flex;
 	position: relative;
@@ -811,7 +811,7 @@ export const Border1 = styled.div`
 	margin: 0px;
 	width: -webkit-fill-available;
 `
-  
+
 export const Rectangle171 = styled.div`
 	background-color: rgba(216, 216, 216, 1);
 	width: 477px;
@@ -821,7 +821,7 @@ export const Rectangle171 = styled.div`
 	top: 0px;
 	width: -webkit-fill-available;
 `
-  
+
 export const Row2 = styled.div`
 	display: flex;
 	position: absolute;
@@ -849,7 +849,7 @@ export const Heading3 = styled.div`
 	width: -webkit-fill-available;
 	margin: 0px;
 `
-  
+
 export const Priority2 = styled.div`
 	display: flex;
 	position: absolute;
@@ -864,7 +864,7 @@ export const Priority2 = styled.div`
 	right: 1%;
 	top: 0px;
 `
-  
+
 export const Rectangle202 = styled.div`
 	background-color: rgba(193, 35, 53, 1);
 	border-radius: 28px;
@@ -874,7 +874,7 @@ export const Rectangle202 = styled.div`
 	left: 0px;
 	top: 0px;
 `
-  
+
 export const High = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -892,7 +892,7 @@ export const High = styled.div`
 	left: 18%;
 	top: 4px;
 `
-  
+
 export const HealthQuebecClinicsP = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -911,7 +911,7 @@ export const HealthQuebecClinicsP = styled.div`
 	left: 0px;
 	top: 2px;
 `
-  
+
 export const Date3 = styled.div`
 	display: flex;
 	position: relative;
@@ -925,7 +925,7 @@ export const Date3 = styled.div`
 	width: 123px;
 	margin: 8px 0px 0px 0px;
 `
-  
+
 export const DateText3 = styled.div`
 	text-align: left;
 	white-space: pre-wrap;
@@ -943,7 +943,7 @@ export const DateText3 = styled.div`
 	left: 32px;
 	top: 2px;
 `
-  
+
 export const Divider2 = styled.div`
 	display: flex;
 	position: relative;
@@ -956,7 +956,7 @@ export const Divider2 = styled.div`
 	margin: 8px 0px 0px 0px;
 	width: -webkit-fill-available;
 `
-  
+
 export const Border2 = styled.div`
 	display: flex;
 	position: relative;
@@ -970,7 +970,7 @@ export const Border2 = styled.div`
 	margin: 0px;
 	width: -webkit-fill-available;
 `
-  
+
 export const Rectangle172 = styled.div`
 	background-color: rgba(216, 216, 216, 1);
 	width: -webkit-fill-available;
@@ -980,7 +980,7 @@ export const Rectangle172 = styled.div`
 	top: 0px;
 	width: -webkit-fill-available;
 `
-  
+
 export const EventsHeading = styled.div`
 	display: flex;
 	position: absolute;
@@ -995,7 +995,7 @@ export const EventsHeading = styled.div`
 	left: 41px;
 	top: 40px;
 `
-  
+
 export const Task1 = styled.div`
 	text-align: left;
 	white-space: pre-wrap;

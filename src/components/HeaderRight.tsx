@@ -9,6 +9,7 @@ const headerRightP = {
 	marginTop: '4px',
 	marginBottom: '1rem',
 	color: 'white',
+	fontFamily: 'Mulish'
 	// border: '1px solid red'
 }
 
@@ -24,11 +25,11 @@ export const HeaderRight = () => {
 				
 		<div className='headerRight'>
 
-			<div  > <img className="search" src ={require('../assets/images/Search.png')} /> </div> 					
-			<div  > <img className="notification" src ={require('../assets/images/notification.png')} /> </div> 
-			<div>  |  </div>
-			<div > <p>{userSession.givenName} {userSession.familyName} </p></div>
-			<div  > 
+			<div> <img className="search" src ={require('../assets/images/Search.png')} /> </div>								
+			<div> <img className="notification" src ={require('../assets/images/notification.png')} /> </div> 
+			<div style={{ color: '#D8D8D8' }}>  |  </div>
+			<div> <p style={{ fontFamily: 'Mulish' }}>{userSession.givenName + ' ' + userSession.familyName}</p></div>
+			<div> 
 				<div className='circle'><p style={headerRightP}>{firstLetter}{familyNameFirstLetter}</p></div>
                 
 			</div>

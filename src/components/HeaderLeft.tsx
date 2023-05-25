@@ -17,10 +17,6 @@ export const HeaderLeft = () => {
 	const userSession = useAppSelector((state) => state.userSession)
 
 	return (
-		
-				
-		<div className='headerLeft'><p>Overview</p> </div>	
-						
-		
+		<div className='headerLeft' style={{fontFamily:'Mulish'}}><p>Overview</p> </div>
 	)
 }

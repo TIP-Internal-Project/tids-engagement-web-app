@@ -45,6 +45,7 @@ export const ViewDetails = styled.div`
 `
 
 export const EventsDates = styled.div`
+	text-align: left;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;

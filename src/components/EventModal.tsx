@@ -13,12 +13,17 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
     
 	const modalStyle = {
 		border: 'none', // Add a new border style
-		marginLeft: '40px',
-		marginRight: '40px'
+		margin: '4%',
+		marginBottom: '0',
 	}
 
 	const ModalButton = {
-		backgroundColor: '#2B8000'
+		marginRight: '5px',
+		borderColor: '#2B8000',
+		backgroundColor: '#2B8000',
+		width: '125px',
+		fontSize: '11px',
+		fontFamily: 'Mulish',
 	}
 
 
@@ -37,40 +42,33 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 			
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter">
-                Save the date: Be part of the TELUS Days of Giving   <Badge bg="danger"> ongoing
-        
-      	</Badge>{' '}
+                Save the date: Be part of the TELUS Days of Giving 
+					<h5><span className='ModalBadge'>Event Ongoing</span></h5>
 				</Modal.Title>
 			</Modal.Header>
 				
-			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px' }} />
+			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
 
 			<Modal.Body className='ModalBody'>
 				
-				<div className='ModalBodyLeft'> <img src ={require('../assets/images/ModalImage.png')} /> </div>
+				<div className='ModalBodyLeft' style={{width:'auto'}}> <img src ={require('../assets/images/ModalImage.png')} /> </div>
 				
-				<div className='ModalBodyRight'>
+				<div className='ModalBodyRight' style={{width:'45%'}}>
 
 					<div className='ModalBodyRightSubDiv1'>
-						<p>Join us for the TELUS Days of Giving, a special event dedicated to giving back to our community and making a positive impact. This is an opportunity for TELUS employees, partners, and volunteers to come together and contribute their time and skills to various charitable initiatives. </p>
-						<p>To participate in the TELUS Days of Giving, please register in advance using the provided registration link or contact the event organizers for more information. </p>
-						
+						<p style={{fontSize:'14px'}}>Join us for the TELUS Days of Giving, a special event dedicated to giving back to our community and making a positive impact. This is an opportunity for TELUS employees, partners, and volunteers to come together and contribute their time and skills to various charitable initiatives. </p>
 					</div>
 
 					<div className='ModalBodyRightSubDiv'>
 						<Button style={ModalButton} >REGISTER</Button>{' '}
-						<Button style={ModalButton}>SURVEY</Button>{' '}
-						<img src ={require('../assets/images/GoogleMeetLogo.png')} />
-						<img src ={require('../assets/images/GoogleCalendarLogo.png')} />
-						<img className='bookmarklogo' src ={require('../assets/images/BookmarkLogo.png')} />
-						<img className='bookmarklogo' src ={require('../assets/images/PolygonLogo.png')} />
+						<Button style={ModalButton}>EVENT SURVEY</Button>{' '}
+						<a href="https://meet.google.com/"><img style={{marginLeft: '-1%', marginRight: '-1%', width:'43px', height: '33px'}} src ={require('../assets/images/GmeetLogo.png')} /></a>
+						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
+						<a href="https://calendar.google.com/"><img style={{marginLeft:'10px', marginRight:'5px', width:'17.5px', height: '25px'}} src ={require('../assets/images/BookmarkLogo.png')} /></a>
+						<a href="https://calendar.google.com/"><img style={{marginLeft:'5px', marginRight:'5px', width:'23.75px', height: '23.75px'}} src ={require('../assets/images/PolygonLogo.png')} /></a>
 					</div>
 
 				</div>
-
-
-				
-
 			
 			</Modal.Body>
 			

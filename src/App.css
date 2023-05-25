@@ -6,11 +6,10 @@
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: 'Mulish' !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
@@ -112,20 +111,19 @@ body {
 
 .sidebarContent > ul {
   list-style-type: none;
+  padding-left: 0;
 }
 
 .sidebarContent > ul > li {
-  width: 150px;
-  height: 20px;
+  width: max-content;
+  height: 40px;
   font-family: 'Mulish';
   font-weight: 400;
   font-size: 14px;
   flex: none;
   order: 1;
   flex-grow: 0;
-  margin-top: 18px;
-  margin-bottom: 10px;
-  margin-left: 5px;
+  padding: 8px 24px;
 }
 
 .sidebarContent > ul > li > img {
@@ -145,7 +143,6 @@ body {
   height: 36px;
   font-family: 'helvetica';
   font-style: normal;
-  font-weight: 300;
   font-weight: 300;
   font-size: 28px;
   line-height: 36px;
@@ -220,7 +217,7 @@ body {
   position: absolute;
   width: 125px;
   height: 36px;
-  font-family: 'helvetica';
+  font-family: 'Mulish';
   font-style: normal;
   font-weight: 300;
   font-size: 28px;
@@ -235,6 +232,10 @@ body {
 
 .custom-modal {
   border-bottom: 0 none;
+}
+
+.modal-xl {
+	width: 69% !important;
 }
 
 .ModalBody > div {
@@ -260,6 +261,10 @@ body {
 height: 157.28px;
 }
 
+.ModalBodyRightSubDiv > a {
+	width: 40px;
+	height: 40px;
+}
 
 .ModalBodyLeft > img {
 
@@ -305,4 +310,19 @@ height: 157.28px;
 
   padding: 9px;
 
+}
+
+.ModalBadge {
+  background-color: #C12335;
+  margin-right: 12px;
+  color: white;
+  padding: 4px 8px;
+  text-align: center;
+  border-radius: 28px;
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  width: 142px;
 }
