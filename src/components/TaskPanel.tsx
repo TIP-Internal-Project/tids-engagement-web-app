@@ -131,8 +131,7 @@ export const TaskPanel = () => {
 		width: '84px',
 		height: '28px',
 		borderRadius: '11px',
-		backgroundColor: 'red'
-
+		paddingTop: '9px',
 	}
 
 
@@ -183,18 +182,98 @@ export const TaskPanel = () => {
 		
 	}
 
-	const importanceBadge = {
-		width: '84px',
-		height: '28px',
-		borderRadius: '11px 11px'
+
+	const eventContentButtons: React.CSSProperties = {
+		padding: '3px 6px',
+		fontSize: '16px',
+		background: 'none',
+		border: 'none',
+		color: 'green'
+		
 	}
   
 
 
 
-	const tasks: { id: number; title: string; content: string; dueDate: string; dueTime: string; Importance: string }[] = [
-		{ id: 1, title: '[Health] Quebec Clinic Pages', content: 'Event 1 content', dueDate: 'August 28, 2022',  dueTime: '03:30 PM',  Importance: 'High' },
-		{ id: 2, title: 'event2', content: 'Event 2 content' , dueDate: 'Set Date', dueTime: '05:00 AM' ,Importance: 'High' },
+	type Task = {
+        id: number;
+        title: string;
+        dueDate: string;
+        dueTime: string;
+        content: string;
+        importance: 'Low' | 'Medium' | 'High';
+      };
+    
+	const tasks: Task[] = [
+		{
+			id: 1,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'High',
+		},
+		{
+			id: 2,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'Medium',
+		},
+
+		{
+			id: 3,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'Low',
+		},
+		{
+			id: 4,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'High',
+		},
+		{
+			id: 5,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'Medium',
+		},
+
+		{
+			id: 6,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'Low',
+		},
+		{
+			id: 7,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'Low',
+		},
+
+		{
+			id: 8,
+			title: 'Task 1',
+			dueDate: '2023-05-30',
+			dueTime: '12:00 PM',
+			content: 'Task 1 content',
+			importance: 'Low',
+		}
+		
+		
 	]
       
     
@@ -202,10 +281,9 @@ export const TaskPanel = () => {
  
 		<div style={EventPanelDiv}>
 			<div style={TaskPanelSubheader1}>
-				<p style={TaskPanelSubheader2Content}>Add New Task</p>
-				<p style={TaskPanelSubheader2Content}></p>
-				<p style={TaskPanelSubheader2Content}>Sort</p>
-				<p style={TaskPanelSubheader2Content}>Filter</p>
+				<div style={TaskPanelSubheader2Content}>Add New Task</div>
+				<div style={TaskPanelSubheader2Content}>Sort</div>
+				<div style={TaskPanelSubheader2Content}>Filter</div>
 			</div>
 
 
@@ -243,14 +321,10 @@ export const TaskPanel = () => {
 								</div>
 								<div style={IndItemImportance}>
 									<Badge
-										pill
-										style={{
-											...IndImportanceBadge,
-											color: event.Importance === 'High' ? 'white' : 'black',
-											backgroundColor: event.Importance === 'High' ? 'red' : 'transparent',
-										}}
+										bg={event.importance === 'High' ? 'danger' : event.importance === 'Medium' ? 'warning' : 'secondary'}
+										style={IndImportanceBadge}
 									>
-										{event.Importance}
+										{event.importance}
 									</Badge>
 								</div>
 								<div style={IndItemAction}>
@@ -259,7 +333,14 @@ export const TaskPanel = () => {
 							</div>
 						</Form.Text>
 						<Collapse in={eventStates[event.id]}>
-							<div id={`example-collapse-text-${event.id}`}>{event.content}</div>
+							<div id={`example-collapse-text-${event.id}`}>{event.content}
+								
+								<div>
+									<Button style={eventContentButtons}>Workday Link</Button>
+									<Button style={eventContentButtons}>MyGrowth</Button>
+									<Button style={eventContentButtons}>Check Progress</Button>
+								</div>
+							</div>
 						</Collapse>
 					</ListGroup.Item>
 				))}
