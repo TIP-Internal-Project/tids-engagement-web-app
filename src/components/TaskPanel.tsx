@@ -1,6 +1,9 @@
 
 
 
+
+import { BiPlus  } from 'react-icons/bi'
+import Nav from 'react-bootstrap/Nav'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Collapse from 'react-bootstrap/Collapse'
 import Form from 'react-bootstrap/Form'
@@ -44,12 +47,29 @@ export const TaskPanel = () => {
 		borderTopRightRadius: '0'
 	}
 
+
+	const TaskPanelSubheader2ContentRgihtIcons = {
+		width: '18px',
+		heigth: '19px',
+		marginRight: '10px'
+
+	}
+
+
 	const TaskPanelSubheader2Content: React.CSSProperties = {
 		flex: '1',
-		textAlign: 'left'
+		textAlign: 'left',
 		
 
 	}
+
+	const TaskPanelSubheader2ContentRgiht: React.CSSProperties = {
+		flex: '1',
+		float: 'right',
+		margin: '20px'
+	}
+
+
 
 	const TaskPanelSubheader2ContentTitle: React.CSSProperties = {
 		flex: '1',
@@ -155,7 +175,9 @@ export const TaskPanel = () => {
 		borderBottomRightRadius: '0',
 		borderBottomLeftRadius: '0',
 		borderTopRightRadius: '17px',
-		borderTopLeftRadius: '17px'
+		borderTopLeftRadius: '17px',
+		
+		
 	}
 
 	const TaskPanelSubheader2: React.CSSProperties = {
@@ -168,7 +190,7 @@ export const TaskPanel = () => {
 		borderTop: 'none',
 		borderBottomRightRadius: '0',
 		borderBottomLeftRadius: '0',
-        
+		paddingTop: '104px'
 
 	}
 
@@ -191,8 +213,26 @@ export const TaskPanel = () => {
 		color: 'green'
 		
 	}
+
+
+
+
+
+	const addNewTaskTypeHereButton = {
+		fontFamily: 'Mulish',
+		fontWeight: '400',
+		fontSize: '16px',
+		lineHeight: '24px',
+		FontStyle: 'normal',
+		marginBottom: '0',
+		marginTop: '25px',
+		color: '#71757B',
+		paddingLeft: '61px'
+        
+	}
   
 
+	// ++++++ task items
 
 
 	type Task = {
@@ -273,6 +313,8 @@ export const TaskPanel = () => {
 			importance: 'Low',
 		}
 		
+
+
 		
 	]
       
@@ -281,9 +323,16 @@ export const TaskPanel = () => {
  
 		<div style={EventPanelDiv}>
 			<div style={TaskPanelSubheader1}>
-				<div style={TaskPanelSubheader2Content}>Add New Task</div>
-				<div style={TaskPanelSubheader2Content}>Sort</div>
-				<div style={TaskPanelSubheader2Content}>Filter</div>
+				<div style={TaskPanelSubheader2Content}> <span id="boot-icon" className='bi bi-plus' style={{ fontSize: '18px', color: 'rgb(128, 128, 128)' }}></span>
+					<p style={addNewTaskTypeHereButton}> <BiPlus/> Add new task type here </p> </div>
+				<div style={TaskPanelSubheader2Content}>
+					<Nav.Item>
+						<Nav.Link style={TaskPanelSubheader2ContentRgiht} href="/home"><img style={TaskPanelSubheader2ContentRgihtIcons} src ={require('../assets/images/filter.png')} />Filter</Nav.Link>
+						<Nav.Link style={TaskPanelSubheader2ContentRgiht} href="/home"><img style={TaskPanelSubheader2ContentRgihtIcons} src ={require('../assets/images/sort-up.png')} />Sort</Nav.Link>
+					</Nav.Item>
+
+
+				</div>
 			</div>
 
 
