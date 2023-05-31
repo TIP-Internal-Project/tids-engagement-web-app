@@ -8,6 +8,8 @@ import './styles.css'
 import React, { useState } from 'react'
 import EventModal from '../../components/EventModal'
 import Button from 'react-bootstrap/Button'
+import HeaderLeft from '../../components/HeaderLeft'
+
 
 const EventsHeaderLeft = () => {
 	return (
@@ -49,7 +51,7 @@ const Events = () => {
 			<div className='div1'>
 				<Row>
 					<Col style={header}>
-						<EventsHeaderLeft />
+						<HeaderLeft pageTitle="Events" />
 					</Col>
 					<Col style={header}> 
 						<HeaderRight />
