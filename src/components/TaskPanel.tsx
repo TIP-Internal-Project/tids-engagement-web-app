@@ -74,7 +74,8 @@ export const TaskPanel = () => {
 	const TaskPanelSubheader2ContentTitle: React.CSSProperties = {
 		flex: '1',
 		textAlign: 'left',
-		marginLeft: '14px'
+		marginLeft: '31px',
+		paddingBottom: '8px'
 		
 
 	}
@@ -91,7 +92,8 @@ export const TaskPanel = () => {
 	const TaskPanelSubheader2ContentDueDate: React.CSSProperties = {
 		flex: '1',
 		textAlign: 'center',
-		marginLeft: '14px'
+		marginLeft: '11px',
+
 		
 
 	}
@@ -100,7 +102,8 @@ export const TaskPanel = () => {
 	const TaskPanelSubheader2ContentImportance: React.CSSProperties = {
 		flex: '1',
 		textAlign: 'center',
-		marginLeft: '14px',
+		
+		paddingRight: '10px'
       
 	}
 
@@ -108,6 +111,7 @@ export const TaskPanel = () => {
 	const IndItemTitle: React.CSSProperties = {
 		flex: '1',
 		textAlign: 'left',
+		paddingLeft: '10px'
     
 	}
 
@@ -137,7 +141,20 @@ export const TaskPanel = () => {
 		FontStyle: 'normal',
 		marginBottom: '0',
 		marginTop: '9px',
-		color: '#252733'
+		color: '#252733',
+		marginLeft: '51px'
+	}
+
+	const IndItemDueTimeDisplay = {
+		fontFamily: 'Mulish',
+		fontWeight: '600',
+		fontSize: '14px',
+		lineHeight: '28px',
+		FontStyle: 'normal',
+		marginBottom: '0',
+		
+		color: '##C5C7CD',
+		
 	}
 
 	const IndItemImportance: React.CSSProperties = {
@@ -190,7 +207,7 @@ export const TaskPanel = () => {
 		borderTop: 'none',
 		borderBottomRightRadius: '0',
 		borderBottomLeftRadius: '0',
-		paddingTop: '104px'
+		paddingTop: '74px'
 
 	}
 
@@ -207,11 +224,16 @@ export const TaskPanel = () => {
 
 	const eventContentButtons: React.CSSProperties = {
 		padding: '3px 6px',
-		fontSize: '16px',
+		fontSize: '14px',
 		background: 'none',
 		border: 'none',
 		color: 'green'
 		
+	}
+
+
+	const eventContent = {
+		padding: '11px'
 	}
 
 
@@ -227,7 +249,7 @@ export const TaskPanel = () => {
 		marginBottom: '0',
 		marginTop: '25px',
 		color: '#71757B',
-		paddingLeft: '61px'
+		paddingLeft: '28px'
         
 	}
   
@@ -241,76 +263,76 @@ export const TaskPanel = () => {
         dueDate: string;
         dueTime: string;
         content: string;
-        importance: 'Low' | 'Medium' | 'High';
+        importance: 'Required' | 'Optional';
       };
     
 	const tasks: Task[] = [
 		{
 			id: 1,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: '[Health] Quebec Clinic Pages',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
-			content: 'Task 1 content',
-			importance: 'High',
+			content: 'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
+			importance: 'Required',
 		},
 		{
 			id: 2,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: 'Task 2',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
-			importance: 'Medium',
+			importance: 'Optional',
 		},
 
 		{
 			id: 3,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: 'Task 3',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
-			importance: 'Low',
+			importance: 'Required',
 		},
 		{
 			id: 4,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: 'Task 4',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
-			importance: 'High',
+			importance: 'Required',
 		},
 		{
 			id: 5,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: 'Task 5',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
-			importance: 'Medium',
+			importance: 'Optional',
 		},
 
 		{
 			id: 6,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: 'Task 6',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
-			importance: 'Low',
+			importance: 'Optional',
 		},
 		{
 			id: 7,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: 'Task 7',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
-			importance: 'Low',
+			importance: 'Optional',
 		},
 
 		{
 			id: 8,
-			title: 'Task 1',
-			dueDate: '2023-05-30',
+			title: 'Task 8',
+			dueDate: 'August 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
-			importance: 'Low',
+			importance: 'Required',
 		}
 		
 
@@ -362,27 +384,27 @@ export const TaskPanel = () => {
 										style={viewDetailsButton}
 										onClick={() => handleToggle(event.id)}
 										aria-controls={`example-collapse-text-${event.id}`}
-										aria-expanded={eventStates[event.id] ? 'true' : 'false'}>view details</Button>
+										aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details</Button>
 								</div>
 								<div style={IndItemDueDate}>
 									<p style={IndItemDueDateDisplay}>{event.dueDate}</p>
-									<p>{event.dueTime}</p>
+									<p style={IndItemDueTimeDisplay} >{event.dueTime}</p>
 								</div>
 								<div style={IndItemImportance}>
 									<Badge
-										bg={event.importance === 'High' ? 'danger' : event.importance === 'Medium' ? 'warning' : 'secondary'}
+										bg={event.importance === 'Required' ? 'danger' : event.importance === 'Optional' ? 'warning' : 'secondary'}
 										style={IndImportanceBadge}
 									>
 										{event.importance}
 									</Badge>
 								</div>
 								<div style={IndItemAction}>
-									<Button variant="primary">Tag as complete</Button>
+									<Button variant="primary">Mark as completed</Button>
 								</div>
 							</div>
 						</Form.Text>
 						<Collapse in={eventStates[event.id]}>
-							<div id={`example-collapse-text-${event.id}`}>{event.content}
+							<div style={eventContent} id={`example-collapse-text-${event.id}`}>{event.content}
 								
 								<div>
 									<Button style={eventContentButtons}>Workday Link</Button>
