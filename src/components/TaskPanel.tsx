@@ -72,46 +72,45 @@ export const TaskPanel = () => {
 
 
 	const TaskPanelSubheader2ContentTitle: React.CSSProperties = {
-		flex: '1',
 		textAlign: 'left',
-		marginLeft: '31px',
-		paddingBottom: '8px'
+		paddingLeft: '31px',
+		paddingBottom: '8px',
+		width: '605px'
 		
 
 	}
 
 
 	const TaskPanelSubheader2ContentAction: React.CSSProperties = {
-		flex: '1',
-		textAlign: 'center',
+		
 		marginLeft: '14px'
 		
 
 	}
 
 	const TaskPanelSubheader2ContentDueDate: React.CSSProperties = {
-		flex: '1',
-		textAlign: 'center',
-		marginLeft: '11px',
-
+		
+		textAlign: 'left',
+		paddingLeft: '15px',
+		width: '421px'
 		
 
 	}
 
 
 	const TaskPanelSubheader2ContentImportance: React.CSSProperties = {
-		flex: '1',
-		textAlign: 'center',
 		
-		paddingRight: '10px'
+		width: '376px'
+	
       
 	}
 
 
 	const IndItemTitle: React.CSSProperties = {
-		flex: '1',
+		
 		textAlign: 'left',
-		paddingLeft: '10px'
+		paddingLeft: '10px',
+		width: '605px'
     
 	}
 
@@ -122,14 +121,22 @@ export const TaskPanel = () => {
 		fontSize: '16px',
 		lineHeight: '24px',
 		FontStyle: 'normal',
-		marginBottom: '0'
+		marginBottom: '0',
+		width: 'fit-content'
+
+	}
+
+
+	const IndItemTitleDiv = {
+		
 
 	}
     
 	const IndItemDueDate: React.CSSProperties = {
-		flex: '1',
-		textAlign: 'center',
-		marginLeft: '14px'
+		
+		textAlign: 'left',
+		width: '401px'
+		
       
 	}
 
@@ -142,7 +149,8 @@ export const TaskPanel = () => {
 		marginBottom: '0',
 		marginTop: '9px',
 		color: '#252733',
-		marginLeft: '51px'
+		
+		
 	}
 
 	const IndItemDueTimeDisplay = {
@@ -152,15 +160,14 @@ export const TaskPanel = () => {
 		lineHeight: '28px',
 		FontStyle: 'normal',
 		marginBottom: '0',
-		
 		color: '##C5C7CD',
 		
 	}
 
 	const IndItemImportance: React.CSSProperties = {
-		flex: '1',
-		textAlign: 'center',
-		marginLeft: '14px'
+		
+		textAlign: 'left',
+		width:'312px'
       
 	}
 
@@ -175,9 +182,8 @@ export const TaskPanel = () => {
 
 
 	const IndItemAction: React.CSSProperties = {
-		flex: '1',
-		textAlign: 'center',
-		marginLeft: '14px'
+		
+		paddingLeft: '21px'
       
 	}
 
@@ -287,7 +293,7 @@ export const TaskPanel = () => {
 		{
 			id: 3,
 			title: 'Task 3',
-			dueDate: 'August 23, 2022',
+			dueDate: 'July 23, 2022',
 			dueTime: '12:00 PM',
 			content: 'Task 1 content',
 			importance: 'Required',
@@ -373,7 +379,7 @@ export const TaskPanel = () => {
 						>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<div style={IndItemTitle}>
-									<div >
+									<div style={IndItemTitleDiv}>
 										<p style={IndItemTitleDisplay} 
 											onClick={() => handleToggle(event.id)}
 											aria-controls={`example-collapse-text-${event.id}`}
