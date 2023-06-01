@@ -213,7 +213,7 @@ export const TaskPanel = () => {
 		borderTop: 'none',
 		borderBottomRightRadius: '0',
 		borderBottomLeftRadius: '0',
-		paddingTop: '74px'
+		paddingTop: '24px'
 
 	}
 
@@ -233,7 +233,8 @@ export const TaskPanel = () => {
 		fontSize: '14px',
 		background: 'none',
 		border: 'none',
-		color: 'green'
+		color: 'green',
+		paddingTop: '18px'
 		
 	}
 
@@ -258,6 +259,15 @@ export const TaskPanel = () => {
 		paddingLeft: '28px'
         
 	}
+
+
+	const taskContentTitle = {
+        
+
+	}
+
+
+
   
 
 	// ++++++ task items
@@ -405,12 +415,15 @@ export const TaskPanel = () => {
 									</Badge>
 								</div>
 								<div style={IndItemAction}>
-									<Button variant="primary">Mark as completed</Button>
+									<Button variant="success">Mark as completed</Button>
 								</div>
 							</div>
 						</Form.Text>
 						<Collapse in={eventStates[event.id]}>
-							<div style={eventContent} id={`example-collapse-text-${event.id}`}>{event.content}
+							
+							<div style={eventContent} id={`example-collapse-text-${event.id}`}>
+								<h3>{event.title}</h3>
+								{event.content}
 								
 								<div>
 									<Button style={eventContentButtons}>Workday Link</Button>
