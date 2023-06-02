@@ -6,6 +6,7 @@ import Auth from './Auth'
 import Login from './Login'
 import Events from './pages/Events/index'
 import Overview from './pages/Overview'
+import Tasks from './pages/Tasks'
 import { fetchEvents } from './redux/eventSlice'
 import { useCallback, useEffect } from 'react'
 
@@ -37,6 +38,7 @@ function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/auth' element={<Auth />}  />
 				<Route path="events" element={<Events />} />
+				<Route path="tasks" element={<Tasks />} />
 				<Route
 					path="*"
 					element={

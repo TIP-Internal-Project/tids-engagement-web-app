@@ -1,6 +1,4 @@
 
-
-
 import { HeaderRight } from '../../components/HeaderRight'
 import { Sidebar } from '../../components/Sidebar'
 import Row from 'react-bootstrap/Row'
@@ -27,7 +25,6 @@ const header = {
 
 
 const Events = () => {
-
 	const [modalShow, setModalShow] = useState(false)
   
 	const handleOpenModal = () => {
@@ -38,18 +35,21 @@ const Events = () => {
 	  setModalShow(false)
 	}
 
+
+
+
 	return (
 		<div>
 			
-			
 			<Sidebar />
-			{/* <div>
+			<div>
 				<img src={require('../../assets/images/white circle.png')} className='circle-for-back-option'/>
 				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
-			</div> */}
+			</div>
 			<div className='back-to-top-button'>
-				<p style={{fontFamily: 'Mulish'}}>Back to Top</p>
-				<img style={{width: '42.5px', height: '42.5px', marginLeft: '1.5%' }} src={require('../../assets/images/BackToTop.png')} className='back-to-top-circle'/>
+				<p>Back to Top</p>
+				<img src={require('../../assets/images/oval.png')} className='back-to-top-circle'/>
+				<img src={require('../../assets/images/up-arrow.png')} className='back-to-top-arrow'/>
 			</div>
 			<div className='div1'>
 				<Row>
@@ -58,9 +58,6 @@ const Events = () => {
 					</Col>
 					<Col style={header}> 
 						<HeaderRight />
-						
-						
-
 						
 						
 
@@ -85,16 +82,15 @@ const Events = () => {
 							</tr>
 							<tr>
 								<td>
-									
 									<EventsTitles>
-										<img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>
+										<img src={require('../../assets/images/caution.png')} alt='' className='caution-icon' />
 										<a href="#" className='EventModalLink' onClick={handleOpenModal}>
-              								Save the date: Be part of the TELUS Days of Giving
+              Save the date: Be part of the TELUS Days of Giving
 										</a>
 									</EventsTitles><ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
+								<td>
+									<EventsDates>August 25 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
@@ -105,8 +101,8 @@ const Events = () => {
 									<EventsTitles><img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>Open Web-Session | BigQuery GCP | 31st</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
+								<td>
+									<EventsDates>August 25 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TIDSCategory>TIDS</TIDSCategory></td>
@@ -117,8 +113,8 @@ const Events = () => {
 									<EventsTitles>HappyHere FlipTIP Intersite Competition</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
+								<td>
+									<EventsDates>August 25 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
@@ -129,8 +125,8 @@ const Events = () => {
 									<EventsTitles><img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>DevOps CoP: Call for Video Content</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
+								<td>
+									<EventsDates>August 25 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TeamEventCategory>TEAM EVENT</TeamEventCategory></td>
@@ -141,8 +137,8 @@ const Events = () => {
 									<EventsTitles>Learning from the Experts: Evolution of Communication</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
+								<td>
+									<EventsDates>August 25 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><TIDSCategory>TIDS</TIDSCategory></td>
@@ -153,8 +149,8 @@ const Events = () => {
 									<EventsTitles>Simple Wellness: Find the Beat</EventsTitles>
 									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
 								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
+								<td>
+									<EventsDates>August 25 2022</EventsDates>
 									<EventTime>6:30 PM</EventTime>
 								</td>
 								<td><COPCategory>COP</COPCategory></td>
@@ -164,7 +160,6 @@ const Events = () => {
 					</EventsDetails>
 				</div>
 			</div>
-			<EventModal show={modalShow} onHide={handleCloseModal} />
 			<EventModal show={modalShow} onHide={handleCloseModal} />
 		</div>
 	)
