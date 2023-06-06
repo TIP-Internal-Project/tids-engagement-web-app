@@ -10,6 +10,12 @@ import Form from 'react-bootstrap/Form'
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+
 export const TaskPanel = () => {
 
 
@@ -23,6 +29,16 @@ export const TaskPanel = () => {
 		}))
 	}
 
+	const TitleBar = {
+		marginLeft: '32px',
+		backgroundColor: '#fff',
+		border: '1px solid #ccc',
+		borderTop: 'none',
+		borderBottomRightRadius: '0',
+		borderBottomLeftRadius: '0',
+		paddingTop: '24px',
+		marginRight: '32px',
+	}
 
 	const EventStyle = {
 		color: 'black'
@@ -81,10 +97,7 @@ export const TaskPanel = () => {
 	}
 
 
-	const TaskPanelSubheader2ContentAction: React.CSSProperties = {
-		
-		marginLeft: '14px'
-		
+	const TaskPanelSubheader2ContentAction: React.CSSProperties = {		
 
 	}
 
@@ -92,7 +105,7 @@ export const TaskPanel = () => {
 		
 		textAlign: 'left',
 		paddingLeft: '15px',
-		width: '421px'
+		width: '401px'
 		
 
 	}
@@ -100,7 +113,7 @@ export const TaskPanel = () => {
 
 	const TaskPanelSubheader2ContentImportance: React.CSSProperties = {
 		
-		width: '376px'
+		width: '312px'
 	
       
 	}
@@ -374,12 +387,23 @@ export const TaskPanel = () => {
 			</div>
 
 
-			<div style={TaskPanelSubheader2}>
+			{/* <div style={TaskPanelSubheader2}>
 				<h6 style={TaskPanelSubheader2ContentTitle}>Title</h6>
 				<h6 style={TaskPanelSubheader2ContentDueDate}>Due Date</h6>
 				<h6 style={TaskPanelSubheader2ContentImportance}>Importance</h6>
 				<h6 style={TaskPanelSubheader2ContentAction}>Action</h6>
-			</div>
+			</div> */}
+
+			<Container fluid style={{margin: '0', padding: '0'}}>
+				<Row style={TitleBar}>
+					<Col xs={4} style={{paddingLeft:'28px'}}>Title</Col>
+					<Col xs={3} className='text-center' style={{paddingRight:'30px'}}>Due Date</Col>
+					<Col xs={3} className='text-center' style={{paddingRight:'30px'}}>Importance</Col>
+					<Col className='text-center' style={{paddingLeft:'50px'}}>Action</Col>
+				</Row>
+			</Container>
+
+
             
 			<ListGroup style={EventPanelContainer}>
 				{tasks.map((event) => (
