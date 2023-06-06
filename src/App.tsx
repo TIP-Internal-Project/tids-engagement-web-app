@@ -6,6 +6,7 @@ import Auth from './Auth'
 import Login from './Login'
 import Events from './pages/Events/index'
 import Overview from './pages/Overview'
+import ProfileSettingsPage from './pages/ProfileSettings'
 import { fetchEvents } from './redux/eventSlice'
 import { useCallback, useEffect } from 'react'
 
@@ -25,8 +26,10 @@ function App() {
 
 	const userSession = useAppSelector(getUserSession)
 	const isUserAuthenticated = userSession.email ? true : false
-	
+	const email = userSession.email
+
 	console.log(userSession)
+	console.log(userSession.email)
 
 	return (
 		<BrowserRouter>
@@ -37,6 +40,7 @@ function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/auth' element={<Auth />}  />
 				<Route path="events" element={<Events />} />
+				<Route path="profile" element={<ProfileSettingsPage variable={email}/>} />
 				<Route
 					path="*"
 					element={
