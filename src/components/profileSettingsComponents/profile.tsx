@@ -73,21 +73,21 @@ export const MyProfilePanel = (props: any) => {
 		}
 
 		return <div>
-			<div style={{float: 'left', width: '40%', paddingRight: '4%', paddingLeft: '4%', paddingTop: '2px'}}>
+			<div style={{float: 'left', width: '31%', marginRight: '4%', marginLeft: '4%'}}>
 				<FullName>{'Full Name'}</FullName>
-				<Rectangle2 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{name.slice(0, -10)}</Rectangle2>
+				<Rectangle2 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{name.replace(/ \([\s\S]*?\)/g, '').replace(/ *\[[^\]]*]/, '')}</Rectangle2>
 				<Email>{'Email'}</Email>
 				<Rectangle8 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{email}</Rectangle8>
 				<Supervisor>{'Supervisor'}</Supervisor>
-				<Rectangle11 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{supervisor.slice(0, -10)}</Rectangle11>
+				<Rectangle11 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{supervisor.replace(/ \([\s\S]*?\)/g, '')}</Rectangle11>
 			</div>
-			<div style={{float: 'left', width: '40%', paddingRight: '4%', paddingLeft: '2%'}}>
+			<div style={{float: 'left', width: '31%', marginRight: '4%', marginLeft: '1%'}}>
 				<WorkdayId>{'Workday ID'}</WorkdayId>
 				<Rectangle9 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{workdayId}</Rectangle9>
 				<FunctionalArea>{'Functional Area'}</FunctionalArea>
 				<Rectangle10 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{functionalArea}</Rectangle10>
 				<Manager>{'Manager'}</Manager>
-				<Rectangle12 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{manager.slice(0, -10)}</Rectangle12>
+				<Rectangle12 style={{paddingLeft: '11px', paddingTop: '5px', fontSize: '14px'}}>{manager.replace(/ \([\s\S]*?\)/g, '')}</Rectangle12>
 			</div>
 		</div>
 	}
