@@ -167,6 +167,13 @@ body {
 
 }
 
+.headerRightP {
+
+  margin-top: 4px;
+  margin-bottom: 1rem;
+
+}
+
 .notification {
   width: 18px;
   height: 21px;
@@ -301,28 +308,19 @@ height: 157.28px;
 }
 
 
-.ModalBodyRightSubDiv > img {
+.ModalBodyRightSubDiv > a {
   width: 40px;
   height: 40px;
 }
+
+.ModalBodyRightSubDiv > img {
+  width: 43px;
+  height: 43px;
+}
+
 
 .bookmarklogo {
 
   padding: 9px;
 
-}
-
-.ModalBadge {
-  background-color: #C12335;
-  margin-right: 12px;
-  color: white;
-  padding: 4px 8px;
-  text-align: center;
-  border-radius: 28px;
-  font-family: 'Mulish';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  width: 142px;
 }

@@ -95,22 +95,4 @@ export default function TaskPage() {
 
 
 
-		 {/* <h1>Overview</h1>
-
-		  <ListGroup>
-	 {events &&
-  events.map((event: Event, index: number) => (
-				 <ListGroup.Item key={index}>
-
-		   <div>Welcome! {userSession.givenName} </div>
-		  <div>{event.title}</div>
-		 <div>{event.startDate ? new Date(event.startDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}</div>
-		   <div>{event.category}</div>
-
-		 <StyledButton>Register</StyledButton>
-					 </ListGroup.Item>
-			  ))}
-		  </ListGroup> */}
-
-
-			
+	

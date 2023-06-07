@@ -26,16 +26,10 @@ export default function OverviewPage() {
 	
 	// CSS samples
 
-
-
-	
-
 	const header = {
 		height: '81px',
 		// border:'1px solid red'
 	}
-
-	
 
 	const header2 = {
 		height: 'auto',
@@ -57,22 +51,14 @@ export default function OverviewPage() {
 		// border:'1px solid red'
 	}
 
-
-	
-
-
 	useEffect(() => {
 	  dispatch(fetchEvents())
 	}, [dispatch])
 
 	return (
-		
 
 		<div>
-			
 			<Sidebar />
-
-
 			<div className='div1' >
 				<Row>
 				
@@ -81,9 +67,7 @@ export default function OverviewPage() {
 					</Col>
 
 					<Col style={header}> 
-
 						<HeaderRight />
-	
 					</Col>
 				</Row>
 
