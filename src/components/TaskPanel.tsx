@@ -397,9 +397,9 @@ export const TaskPanel = () => {
 			<Container fluid style={{margin: '0', padding: '0'}}>
 				<Row style={TitleBar}>
 					<Col xs={4} style={{paddingLeft:'28px'}}>Title</Col>
-					<Col xs={3} className='text-center' style={{paddingRight:'30px'}}>Due Date</Col>
-					<Col xs={3} className='text-center' style={{paddingRight:'30px'}}>Importance</Col>
-					<Col className='text-center' style={{paddingLeft:'50px'}}>Action</Col>
+					<Col xs={3} className='text-center' style={{paddingRight:'6%'}}>Due Date</Col>
+					<Col xs={3} className='text-center' style={{paddingRight:'3%'}}>Importance</Col>
+					<Col className='text-center' style={{paddingLeft:'4%'}}>Action</Col>
 				</Row>
 			</Container>
 
