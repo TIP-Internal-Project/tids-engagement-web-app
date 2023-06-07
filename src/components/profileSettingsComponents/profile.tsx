@@ -4,8 +4,7 @@ import { Sheet, DividerLineHorizonta, Frame6, CarbonNotificationFi, EmailNotific
 	Frame8, CarbonNotificationFi2, MuteAllNotifications, Frame10, CarbonNotificationFi3, ShowPromotions, Frame11, CarbonNotificationFi4, 
 	ShowPastEvents, NotificationSettings, DividerLineHorizonta1, PrivacySettings, DividerLineHorizonta2, AppSettings, Frame13, 
 	CarbonNotificationFi5, AutoHideNavigationMe, Toggle6, Title, FullName, Photo, Rectangle2, Email, Rectangle8, WorkdayId, Rectangle9, 
-	FunctionalArea, Rectangle10, Supervisor, Rectangle11, Manager, Rectangle12 } from './style'
-import './style.css'
+	FunctionalArea, Rectangle10, Supervisor, Rectangle11, Manager, Rectangle12, NewSpan, NewInput } from './style'
 import TIDSRoster from '../../assets/files/TIDS_Roster.csv'
 
 export const MyProfilePanel = (props: any) => {
