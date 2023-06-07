@@ -442,7 +442,6 @@ export const TaskPanel = () => {
 								{event.content}
 								
 								<div>
-                                    
 									<Button style={eventContentButtons}>Workday Link</Button>
 									<Button style={eventContentButtons}>MyGrowth</Button>
 									<Button style={eventContentButtons}>Check Progress</Button>

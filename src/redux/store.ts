@@ -1,8 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-
-
 import pageStatusReducer from './pageStatusSlice'
 import userSessionReducer from './userSessionSlice'
 import eventsReducer from './eventSlice'

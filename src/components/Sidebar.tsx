@@ -2,9 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export const Sidebar = () => {
-	
+
 	return (
-		
 		
 		<div className='sidebar'> 
 			<div className='sidebarContent'>
@@ -13,7 +12,6 @@ export const Sidebar = () => {
 				<p style={{fontSize:'14px'}}>Dashboard</p>
 					
 				<ul>
-					
 					<li><img src ={require('../assets/images/home logo.png')} style={{height:'17px',width:'20px'}}/><a href="url"><Link to='/overview'>Overview</Link></a></li>						
 					<li><img src ={require('../assets/images/events.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/events'>Events</Link></a></li>
 					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/tasks'>Tasks</Link></a></li>

@@ -10,7 +10,7 @@ body {
 	font-family: 'Mulish' !important;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-  }
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -144,8 +144,6 @@ body {
   font-family: 'helvetica';
   font-style: normal;
   font-weight: 300;
-  font-weight: 300;
-  font-weight: 300;
   font-size: 28px;
   line-height: 36px;
   color: #000000;
@@ -270,6 +268,10 @@ body {
 height: 157.28px;
 }
 
+.ModalBodyRightSubDiv > a {
+	width: 40px;
+	height: 40px;
+}
 
 .ModalBodyLeft > img {
 
@@ -321,20 +323,4 @@ height: 157.28px;
 
   padding: 9px;
 
-}
-
-
-.ModalBadge {
-  background-color: #C12335;
-  margin-right: 12px;
-  color: white;
-  padding: 4px 8px;
-  text-align: center;
-  border-radius: 28px;
-  font-family: 'Mulish';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-width: 142px;
 }
