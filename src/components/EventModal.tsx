@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import Badge from 'react-bootstrap/Badge'
+
 
 
 interface EventModalProps {
@@ -27,24 +27,33 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 	}
 
 
+	const ModalTitleDiv = {
+		display: 'inline-flex'
+	}
+
+
+	const ModalStatus = {
+		marginTop: '6px',
+		paddingLeft: '11px'
+	}
+
 
 	return (
 		<Modal
 			show={show}
 			onHide={onHide}
 			size="xl"
-			
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
-			
-			
 		>
 			
 			<Modal.Header closeButton style={modalStyle}>
-				<Modal.Title id="contained-modal-title-vcenter">
-                Save the date: Be part of the TELUS Days of Giving 
-					<h5><span className='ModalBadge'>Event Ongoing</span></h5>
+				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>
+				Save the date: Be part of the TELUS Days of Giving 
+					<h5 style={ModalStatus}><span className='ModalBadge'>Event Ongoing</span></h5>
+
 				</Modal.Title>
+				
 			</Modal.Header>
 				
 			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
@@ -69,7 +78,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 					</div>
 
 				</div>
-			
 			</Modal.Body>
 			
 		</Modal>

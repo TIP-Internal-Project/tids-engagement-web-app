@@ -14,7 +14,7 @@ export const Sidebar = () => {
 				<ul>
 					<li><img src ={require('../assets/images/home logo.png')} style={{height:'17px',width:'20px'}}/><a href="url"><Link to='/overview'>Overview</Link></a></li>						
 					<li><img src ={require('../assets/images/events.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/events'>Events</Link></a></li>
-					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url">Tasks</a></li>
+					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/tasks'>Tasks</Link></a></li>
 				</ul> 
 
 				<p style={{fontSize:'14px'}}>External Links</p>
@@ -27,7 +27,7 @@ export const Sidebar = () => {
 				</ul> 
 
 				<ul className='HNS'>
-					<li><img src ={require('../assets/images/bulbIcon.png')} style={{height:'19px', width:'12px'}}/> <a href="url">Help and Support</a> </li>
+					<li><img src ={require('../assets/images/bulbIcon.png')} style={{height:'19px', width:'12px'}}/> <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHiNGQL5SpnlkC9d613noKzHodesh0iEN-6jXDHf0NEM7F2w/viewform">Help and Support</a> </li>
 				</ul>
 
 			</div>

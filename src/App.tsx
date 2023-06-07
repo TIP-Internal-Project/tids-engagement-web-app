@@ -7,6 +7,7 @@ import Login from './Login'
 import Events from './pages/Events/index'
 import Overview from './pages/Overview'
 import ProfileSettingsPage from './pages/ProfileSettings'
+import Tasks from './pages/Tasks'
 import { fetchEvents } from './redux/eventSlice'
 import { useCallback, useEffect } from 'react'
 
@@ -41,6 +42,7 @@ function App() {
 				<Route path='/auth' element={<Auth />}  />
 				<Route path="events" element={<Events />} />
 				<Route path="profile" element={<ProfileSettingsPage variable={email}/>} />
+				<Route path="tasks" element={<Tasks />} />
 				<Route
 					path="*"
 					element={
