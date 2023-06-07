@@ -399,7 +399,7 @@ export const TaskPanel = () => {
 					<Col xs={4} style={{paddingLeft:'28px'}}>Title</Col>
 					<Col xs={3} className='text-center' style={{paddingRight:'6%'}}>Due Date</Col>
 					<Col xs={3} className='text-center' style={{paddingRight:'3%'}}>Importance</Col>
-					<Col className='text-center' style={{paddingLeft:'4%'}}>Action</Col>
+					<Col className='text-center' style={{paddingLeft:'5%'}}>Action</Col>
 				</Row>
 			</Container>
 
