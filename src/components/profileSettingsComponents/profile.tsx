@@ -39,20 +39,16 @@ export const MyProfilePanel = (props: any) => {
 				})
 
 				setFoundRows(filteredRows)
-				console.log(filteredRows)
 
 			}
 
 			fetchData()
-			console.log(fetchData())
 		}, [])
 
 		useEffect(() => {
 			// Check if foundRows has data
 			if (foundRows.length > 0) {
 				foundRow = foundRows[0]
-				console.log(foundRows[0])
-				console.log((Object.values(foundRow))[1])
 				name = ((Object.values(foundRow))[1])
 			}
 		}, [foundRows])
@@ -60,9 +56,7 @@ export const MyProfilePanel = (props: any) => {
 		if (foundRows.length === 0) {
 			return <p>Still loading...</p>
 		} else {
-			console.log(foundRows)
 			foundRow = foundRows[0]
-			console.log((Object.values(foundRow))[1])
 			name = ((Object.values(foundRow))[1])
 			email = ((Object.values(foundRow))[8])
 			supervisor = ((Object.values(foundRow))[3])

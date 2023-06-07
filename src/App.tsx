@@ -29,9 +29,6 @@ function App() {
 	const isUserAuthenticated = userSession.email ? true : false
 	const email = userSession.email
 
-	console.log(userSession)
-	console.log(userSession.email)
-
 	return (
 		<BrowserRouter>
 			<Routes>
