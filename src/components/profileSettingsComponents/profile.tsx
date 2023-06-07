@@ -174,8 +174,8 @@ const ToggleButton = () => {
   
 	return (
 		<label>
-			<input type="checkbox" defaultChecked={isToggled} onClick={handleToggle} />
-			<span />
+			<NewInput type="checkbox" defaultChecked={isToggled} onClick={handleToggle} />
+			<NewSpan />
 		</label>
 	)
 }
