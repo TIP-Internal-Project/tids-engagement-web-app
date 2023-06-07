@@ -985,3 +985,40 @@ export const Button = styled.button`
   font-size: 18px;
   cursor: pointer;
 `
+
+export const NewSpan = styled.span`
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #d8d8d8;
+    transition: 0.3s;
+    border-radius: 30px;
+	&:before {
+		position: absolute;
+		content: "";
+		height: 19px;
+		width: 19px;
+		left: 0px;
+		bottom: -1.5px;
+		background-color: #71757B;
+		border-radius: 50%;
+		transition: 0.3s;
+		margin-bottom: -2px;
+	}
+`
+
+export const NewInput = styled.input`
+    opacity: 0;
+    width: 0;
+    height: 0;
+	&:checked ~ span {
+		background-color: #996FC1;
+	}
+	&:checked ~ span:before {
+		transform: translateX(29px);
+		background-color: #4B286D;
+	}
+`
