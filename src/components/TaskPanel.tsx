@@ -14,6 +14,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { ListGroupItem } from 'react-bootstrap'
 
 
 export const TaskPanel = () => {
@@ -135,7 +136,6 @@ export const TaskPanel = () => {
 		lineHeight: '24px',
 		FontStyle: 'normal',
 		marginBottom: '0',
-		width: 'fit-content'
 
 	}
 
@@ -145,12 +145,7 @@ export const TaskPanel = () => {
 
 	}
     
-	const IndItemDueDate: React.CSSProperties = {
-		
-		textAlign: 'left',
-		width: '401px'
-		
-      
+	const IndItemDueDate: React.CSSProperties = {      
 	}
 
 	const IndItemDueDateDisplay = {
@@ -159,10 +154,7 @@ export const TaskPanel = () => {
 		fontSize: '14px',
 		lineHeight: '28px',
 		FontStyle: 'normal',
-		marginBottom: '0',
-		marginTop: '9px',
 		color: '#252733',
-		
 		
 	}
 
@@ -173,7 +165,7 @@ export const TaskPanel = () => {
 		lineHeight: '28px',
 		FontStyle: 'normal',
 		marginBottom: '0',
-		color: '##C5C7CD',
+		color: '#C5C7CD',
 		
 	}
 
@@ -395,17 +387,17 @@ export const TaskPanel = () => {
 			</div> */}
 
 			<Container fluid style={{margin: '0', padding: '0'}}>
-				<Row style={TitleBar}>
-					<Col xs={4} style={{paddingLeft:'28px'}}>Title</Col>
-					<Col xs={3} className='text-center' style={{paddingRight:'6%'}}>Due Date</Col>
-					<Col xs={3} className='text-center' style={{paddingRight:'3%'}}>Importance</Col>
-					<Col className='text-center' style={{paddingLeft:'5%'}}>Action</Col>
+				<Row style={TitleBar} className='px-3'>
+					<Col xs={4}>Title</Col>
+					<Col xs={3}>Due Date</Col>
+					<Col xs={3}>Importance</Col>
+					<Col className='text-center'>Action</Col>
 				</Row>
 			</Container>
 
 
             
-			<ListGroup style={EventPanelContainer}>
+			{/* <ListGroup style={EventPanelContainer}>
 				{tasks.map((event) => (
 					<ListGroup.Item key={event.id} style={listGroupItem}>
 						<Form.Text
@@ -457,6 +449,59 @@ export const TaskPanel = () => {
 								</div>
 							</div>
 						</Collapse>
+					</ListGroup.Item>
+				))}
+			</ListGroup> */}
+
+			<ListGroup style={EventPanelContainer}>
+				{tasks.map((event) => (
+					<ListGroup.Item key={event.id} style={listGroupItem}>
+						<Row className='px-3 py-2'>
+							<Col xs={4} style={IndItemTitleDisplay}>
+								<p 			
+									onClick={() => handleToggle(event.id)}
+									aria-controls={`example-collapse-text-${event.id}`}
+									aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0'>
+									{event.title}
+								</p>
+								<Button 
+									style={viewDetailsButton}
+									onClick={() => handleToggle(event.id)}
+									aria-controls={`example-collapse-text-${event.id}`}
+									aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details
+								</Button>
+							</Col>
+
+							<Col xs={3} style={IndItemDueDate}>
+								<p style={IndItemDueDateDisplay} className='mb-0'>{event.dueDate}</p>
+								<p style={IndItemDueTimeDisplay} >{event.dueTime}</p>
+							</Col>
+
+							<Col xs={3}>
+								<Badge
+									bg={event.importance === 'Required' ? 'danger' : event.importance === 'Optional' ? 'warning' : 'secondary'}
+									style={IndImportanceBadge}
+								>
+									{event.importance}
+								</Badge>
+							</Col>
+							<Col>
+								<Button variant="success">Mark as completed</Button>
+							</Col>
+							<Collapse in={eventStates[event.id]}>
+								<div style={eventContent} id={`example-collapse-text-${event.id}`}>
+									<h3>{event.title}</h3>
+									{event.content}
+									
+									<div>
+										<Button style={eventContentButtons}>Workday Link</Button>
+										<Button style={eventContentButtons}>MyGrowth</Button>
+										<Button style={eventContentButtons}>Check Progress</Button>
+									</div>
+								</div>
+							</Collapse>
+						</Row>
+						
 					</ListGroup.Item>
 				))}
 			</ListGroup>
