@@ -485,7 +485,7 @@ export const TaskPanel = () => {
 									{event.importance}
 								</Badge>
 							</Col>
-							<Col>
+							<Col className='text-center'>
 								<Button variant="success">Mark as completed</Button>
 							</Col>
 							<Collapse in={eventStates[event.id]}>
