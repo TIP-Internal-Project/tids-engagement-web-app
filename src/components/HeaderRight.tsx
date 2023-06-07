@@ -11,8 +11,6 @@ const headerRightP = {
 	marginBottom: '1rem',
 	color: 'white',
 	fontFamily: 'Mulish'
-	color: 'white',
-	fontFamily: 'Mulish'
 	// border: '1px solid red'
 }
 
