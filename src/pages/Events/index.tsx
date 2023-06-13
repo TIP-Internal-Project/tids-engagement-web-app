@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import EventModal from '../../components/EventModal'
 import Button from 'react-bootstrap/Button'
 import HeaderLeft from '../../components/HeaderLeft'
+import { EventPanel2 } from '../../components/EventPanel2'
 
 
 const EventsHeaderLeft = () => {
@@ -24,6 +25,13 @@ const header = {
 	// border:'1px solid red'
 }
 
+const categoryBadge = {
+	fontSize: '69%',
+	fontWeight: '700',
+	textAlign: 'center',
+	color: '#FFFFFF'
+    
+}
 
 const Events = () => {
 	const [modalShow, setModalShow] = useState(false)
@@ -57,7 +65,9 @@ const Events = () => {
 						<HeaderRight />
 					</Col>
 				</Row>
-				<div className='events-panel'>
+
+				<EventPanel2/>
+				{/* <div className='events-panel'>
 					<EventsDetails>
 						<ul className='nav-options'>
 							<NavOptions className='refresh'><img src ={require('../../assets/images/refresh.png')} className='refresh-icon'/>Refresh</NavOptions>
@@ -152,7 +162,7 @@ const Events = () => {
 							</tr>
 						</table>
 					</EventsDetails>
-				</div>
+				</div> */}
 			</div>
 			<EventModal show={modalShow} onHide={handleCloseModal} />
 		</div>
