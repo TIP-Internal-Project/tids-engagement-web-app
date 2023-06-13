@@ -367,7 +367,7 @@ export const TaskPanel = () => {
 		<div style={EventPanelDiv}>
 			<div style={TaskPanelSubheader1}>
 				<div style={TaskPanelSubheader2Content}> <span id="boot-icon" className='bi bi-plus' style={{ fontSize: '18px', color: 'rgb(128, 128, 128)' }}></span>
-					<p style={addNewTaskTypeHereButton}> <BiPlus/> Add new task type here </p> </div>
+					<p style={addNewTaskTypeHereButton}> + Add new task type here </p> </div>
 				<div style={TaskPanelSubheader2Content}>
 					<Nav.Item>
 						<Nav.Link style={TaskPanelSubheader2ContentRgiht} href="/home"><img style={TaskPanelSubheader2ContentRgihtIcons} src ={require('../assets/images/filter.png')} />Filter</Nav.Link>
@@ -388,9 +388,9 @@ export const TaskPanel = () => {
 
 			<Container fluid style={{margin: '0', padding: '0'}}>
 				<Row style={TitleBar} className='px-3'>
-					<Col xs={4}>Title</Col>
-					<Col xs={3}>Due Date</Col>
-					<Col xs={3}>Importance</Col>
+					<Col xs={6}>Title</Col>
+					<Col xs={2} className='text-center'>Due Date</Col>
+					<Col xs={2} className='text-center'>Importance</Col>
 					<Col className='text-center'>Action</Col>
 				</Row>
 			</Container>
@@ -456,7 +456,7 @@ export const TaskPanel = () => {
 				{tasks.map((event) => (
 					<ListGroup.Item key={event.id} style={listGroupItem}>
 						<Row className='px-3 py-2'>
-							<Col xs={4} style={IndItemTitleDisplay}>
+							<Col xs={6} style={IndItemTitleDisplay}>
 								<p 			
 									onClick={() => handleToggle(event.id)}
 									aria-controls={`example-collapse-text-${event.id}`}
@@ -471,12 +471,15 @@ export const TaskPanel = () => {
 								</Button>
 							</Col>
 
-							<Col xs={3} style={IndItemDueDate}>
-								<p style={IndItemDueDateDisplay} className='mb-0'>{event.dueDate}</p>
-								<p style={IndItemDueTimeDisplay} >{event.dueTime}</p>
+							<Col xs={2} style={IndItemDueDate} className='text-center' >
+								<div style={{display:'inline-block', textAlign:'left'}}>
+									<p style={IndItemDueDateDisplay} className='mb-0'>{event.dueDate}</p>
+									<p style={IndItemDueTimeDisplay} >{event.dueTime}</p>
+								</div>
+								
 							</Col>
 
-							<Col xs={3}>
+							<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
 								<Badge
 									bg={event.importance === 'Required' ? 'danger' : event.importance === 'Optional' ? 'warning' : 'secondary'}
 									style={IndImportanceBadge}
@@ -484,7 +487,7 @@ export const TaskPanel = () => {
 									{event.importance}
 								</Badge>
 							</Col>
-							<Col className='text-center'>
+							<Col style={{display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px'}}>
 								<Button variant="success">Mark as completed</Button>
 							</Col>
 							<Collapse in={eventStates[event.id]}>
