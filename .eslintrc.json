@@ -21,7 +21,6 @@
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
-    "indent": ["error", "tab"],
     "linebreak-style":"off",
     "quotes": ["error", "single"],
     "semi": ["error", "never"],

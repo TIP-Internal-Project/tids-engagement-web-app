@@ -10,6 +10,7 @@ import ProfileSettingsPage from './pages/ProfileSettings'
 import Tasks from './pages/Tasks'
 import { fetchEvents } from './redux/eventSlice'
 import { useCallback, useEffect } from 'react'
+import { EventAttendance } from './components/EventAttendance'
 
 
 
@@ -40,6 +41,7 @@ function App() {
 				<Route path="events" element={<Events />} />
 				<Route path="profile" element={<ProfileSettingsPage variable={email}/>} />
 				<Route path="tasks" element={<Tasks />} />
+				<Route path="atten" element={<EventAttendance/>}/>
 				<Route
 					path="*"
 					element={
