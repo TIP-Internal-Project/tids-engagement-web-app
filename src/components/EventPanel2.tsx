@@ -1,9 +1,7 @@
 import Nav from 'react-bootstrap/Nav'
 import ListGroup from 'react-bootstrap/ListGroup'
-import Collapse from 'react-bootstrap/Collapse'
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -27,12 +25,6 @@ export const EventPanel2 = () => {
 	const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
 
 
-	const handleToggle = (eventId:number) => {
-		setEventStates((prevState) => ({
-			...prevState,
-			[eventId]: !prevState[eventId]
-		}))
-	}
 
 	const tidsBadge = {
 		background: '#2A66FF',
@@ -82,14 +74,8 @@ export const EventPanel2 = () => {
 	}
 
 	const TitleBar = {
-		marginLeft: '32px',
-		backgroundColor: '#fff',
-		border: '1px solid #ccc',
-		borderTop: 'none',
-		borderBottomRightRadius: '0',
-		borderBottomLeftRadius: '0',
 		paddingTop: '24px',
-		marginRight: '32px',
+		color:'#9FA2B4'
 	}
 
 	const EventPanelDiv = {
@@ -115,8 +101,6 @@ export const EventPanel2 = () => {
 	const TaskPanelSubheader2ContentRgihtIcons = {
 		width: '18px',
 		heigth: '19px',
-		marginRight: '10px'
-
 	}
 
 
@@ -211,25 +195,6 @@ export const EventPanel2 = () => {
 	}
 
 
-	const eventContentButtons: React.CSSProperties = {
-		padding: '3px 6px',
-		fontSize: '14px',
-		background: 'none',
-		border: 'none',
-		color: 'green',
-		paddingTop: '18px'
-		
-	}
-
-
-	const eventContent = {
-		padding: '11px'
-	}
-
-
-
-
-
 	const addNewTaskTypeHereButton = {
 		fontFamily: 'Mulish',
 		fontWeight: '400',
@@ -310,78 +275,253 @@ export const EventPanel2 = () => {
 		}		
 	]
       
+	const registered: Event[] = [
+	]
+	
     
 	return (
- 
-		<div style={EventPanelDiv}>
-			<div style={TaskPanelSubheader1}>
-				<div style={TaskPanelSubheader2Content}> <span id="boot-icon" className='bi bi-plus' style={{ fontSize: '18px', color: 'rgb(128, 128, 128)' }}></span>
-					<p style={addNewTaskTypeHereButton}> + Add new task type here </p> </div>
-				<div style={TaskPanelSubheader2Content}>
-					<Nav.Item>
-						<Nav.Link style={TaskPanelSubheader2ContentRgiht} href="/home"><img style={TaskPanelSubheader2ContentRgihtIcons} src ={require('../assets/images/filter.png')} />Filter</Nav.Link>
-						<Nav.Link style={TaskPanelSubheader2ContentRgiht} href="/home"><img style={TaskPanelSubheader2ContentRgihtIcons} src ={require('../assets/images/sort-up.png')} />Sort</Nav.Link>
-					</Nav.Item>
+
+		<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
+			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
+				
+				<div className="d-flex flex-row-reverse px-5">
+					<Nav.Link href='/home' className='mx-3 '>
+						<img style={{height:'15px', width:'14px', marginRight:'10px'}}src ={require('../assets/images/filter.png')} />Filter
+					</Nav.Link>
+
+					<Nav.Link href='/home' className='mx-3 '>
+						<img style={{height:'15px', width:'15px', marginRight:'10px'}} src ={require('../assets/images/sort-up.png')} />Sort
+					</Nav.Link>
+
+					<Nav.Link href='/home' className='mx-3'>
+						<img style={{height:'22px', width:'19px', marginRight:'10px'}} src ={require('../assets/images/refresh.png')} />Refresh
+					</Nav.Link>
+
+					
+
+					
 				</div>
-			</div>
 
-			<Container fluid style={{margin: '0', padding: '0'}}>
-				<Row style={TitleBar} className='px-3'>
-					<Col xs={6}>Title</Col>
+				<Row style={TitleBar} className='px-5'>
+		 			<Col>Currently Registered</Col>
+		 		</Row>
+
+				 {registered.length > 0 ? (
+					<ListGroup>
+						{registered.map((event) => (
+							<ListGroup.Item key={event.id} style={{borderLeft:'none', borderRight:'none', borderRadius:'0px'}} className='px-5'>
+								
+								<Row className='py-2'>
+									<Col xs={6} style={IndItemTitleDisplay} >
+										<p 			
+											onClick={handleOpenModal}
+											aria-controls={`example-collapse-text-${event.id}`}
+											aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0'>
+											{event.title}
+										</p>
+										<Button 
+											onClick={handleOpenModal}
+											style={viewDetailsButton}
+											aria-controls={`example-collapse-text-${event.id}`}
+											aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details
+										</Button>
+									</Col>
+
+									<Col xs={2} style={IndItemDueDate} className='text-center' >
+										<div style={{display:'inline-block', textAlign:'left'}}>
+											<p style={IndItemDueDateDisplay} className='mb-0'>{event.date}</p>
+											<p style={IndItemDueTimeDisplay} >{event.time}</p>
+										</div>
+										
+									</Col>
+
+									<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
+
+										<Button style={event.category ==='TIDS'? tidsBadge : event.category ==='TEAM EVENT'? teamBadge : event.category ==='COP'? copBadge : happyBadge} className='py-2'>
+											{event.category}
+										</Button>
+
+									</Col>
+									<Col style={{display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px'}}>
+										<Button className='bg-success border-success' style={actionBadge}> REGISTER</Button>
+									</Col>
+								</Row>
+								
+							</ListGroup.Item>
+							
+						))}
+					</ListGroup>
+				):(
+					<div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'10px'}}>No Events</div>
+				)}
+
+
+				<Row style={TitleBar} className='px-5'>
+		 			<Col xs={6}>Title</Col>
 					<Col xs={2} className='text-center'>Due Date</Col>
-					<Col xs={2} className='text-center'>Importance</Col>
-					<Col className='text-center'>Action</Col>
-				</Row>
-			</Container>
+		 			<Col xs={2} className='text-center'>Importance</Col>
+		 			<Col className='text-center'>Action</Col>
+		 		</Row>
+				<ListGroup>
+					{tasks.map((event) => (
+						<ListGroup.Item key={event.id} style={{borderLeft:'none', borderRight:'none', borderRadius:'0px'}} className='px-5'>
+							
+							<Row className='py-2'>
+								<Col xs={6} style={IndItemTitleDisplay} >
+									<p 			
+										onClick={handleOpenModal}
+										aria-controls={`example-collapse-text-${event.id}`}
+										aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0 ps-4'>
+										{event.title}
+									</p>
+									<Button 
+										onClick={handleOpenModal}
+										style={viewDetailsButton}
+										aria-controls={`example-collapse-text-${event.id}`}
+										aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='ms-4'>View details
+									</Button>
+								</Col>
 
-			<ListGroup style={EventPanelContainer}>
-				{tasks.map((event) => (
-					<ListGroup.Item key={event.id} style={listGroupItem}>
-						<Row className='px-3 py-2'>
-							<Col xs={6} style={IndItemTitleDisplay} >
-								
-								<p 			
-									onClick={handleOpenModal}
-									aria-controls={`example-collapse-text-${event.id}`}
-									aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0'>
-									{event.title}
-								</p>
-								<Button 
-									onClick={handleOpenModal}
-									style={viewDetailsButton}
-									aria-controls={`example-collapse-text-${event.id}`}
-									aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details
-								</Button>
-							</Col>
+								<Col xs={2} style={IndItemDueDate} className='text-center' >
+									<div style={{display:'inline-block', textAlign:'left'}}>
+										<p style={IndItemDueDateDisplay} className='mb-0'>{event.date}</p>
+										<p style={IndItemDueTimeDisplay} >{event.time}</p>
+									</div>
+									
+								</Col>
 
-							<Col xs={2} style={IndItemDueDate} className='text-center' >
-								<div style={{display:'inline-block', textAlign:'left'}}>
-									<p style={IndItemDueDateDisplay} className='mb-0'>{event.date}</p>
-									<p style={IndItemDueTimeDisplay} >{event.time}</p>
-								</div>
-								
-							</Col>
+								<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
 
-							<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
+									<Button style={event.category ==='TIDS'? tidsBadge : event.category ==='TEAM EVENT'? teamBadge : event.category ==='COP'? copBadge : happyBadge} className='py-2'>
+										{event.category}
+									</Button>
 
-								<Button style={event.category ==='TIDS'? tidsBadge : event.category ==='TEAM EVENT'? teamBadge : event.category ==='COP'? copBadge : happyBadge} className='py-2'>
-									{event.category}
-								</Button>
-
-							</Col>
-							<Col style={{display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px'}}>
-								<Button className='bg-success border-success' style={actionBadge}> REGISTER</Button>
-							</Col>
-						</Row>
+								</Col>
+								<Col style={{display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px'}}>
+									<Button className='bg-success border-success' style={actionBadge}> REGISTER</Button>
+								</Col>
+							</Row>
+							
+						</ListGroup.Item>
 						
-					</ListGroup.Item>
-                    
-				))}
-			</ListGroup>
+					))}
+				</ListGroup>
+				<EventModal show={modalShow} onHide={handleCloseModal} />
+			</Container>
+		</Container>
+ 
+		// <div>
+		// 	<Container fluid style={EventPanelDiv}>
+		// 		<Row>
+		// 			Hi
+		// 		</Row>
+		// 		<Row style={TitleBar} className='px-3'>
+		// 			<Col>Currently Registered</Col>
+		// 		</Row>
 
-			<EventModal show={modalShow} onHide={handleCloseModal} />
+				// <ListGroup style={EventPanelContainer}>
+				// 	{registered.map((event) => (
+				// 		<ListGroup.Item key={event.id} style={listGroupItem}>
+				// 			<Row className='px-3 py-2'>
+				// 				<Col xs={6} style={IndItemTitleDisplay} >
+				// 					<p 			
+				// 						onClick={handleOpenModal}
+				// 						aria-controls={`example-collapse-text-${event.id}`}
+				// 						aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0'>
+				// 						{event.title}
+				// 					</p>
+				// 					<Button 
+				// 						onClick={handleOpenModal}
+				// 						style={viewDetailsButton}
+				// 						aria-controls={`example-collapse-text-${event.id}`}
+				// 						aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details
+				// 					</Button>
+				// 				</Col>
+
+				// 				<Col xs={2} style={IndItemDueDate} className='text-center' >
+				// 					<div style={{display:'inline-block', textAlign:'left'}}>
+				// 						<p style={IndItemDueDateDisplay} className='mb-0'>{event.date}</p>
+				// 						<p style={IndItemDueTimeDisplay} >{event.time}</p>
+				// 					</div>
+									
+				// 				</Col>
+
+				// 				<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
+
+				// 					<Button style={event.category ==='TIDS'? tidsBadge : event.category ==='TEAM EVENT'? teamBadge : event.category ==='COP'? copBadge : happyBadge} className='py-2'>
+				// 						{event.category}
+				// 					</Button>
+
+				// 				</Col>
+				// 				<Col style={{display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px'}}>
+				// 					<Button className='bg-success border-success' style={actionBadge}> REGISTER</Button>
+				// 				</Col>
+				// 			</Row>
+							
+				// 		</ListGroup.Item>
+						
+				// 	))}
+				// </ListGroup>
+
+				
+
+		// 		<Row style={TitleBar} className='px-3'>
+		// 			<Col xs={6}>Title</Col>
+		// 			<Col xs={2} className='text-center'>Due Date</Col>
+		// 			<Col xs={2} className='text-center'>Importance</Col>
+		// 			<Col className='text-center'>Action</Col>
+		// 		</Row>
+			
+
+		// 		<ListGroup style={EventPanelContainer}>
+		// 			{tasks.map((event) => (
+		// 				<ListGroup.Item key={event.id} style={listGroupItem}>
+		// 					<Row className='px-3 py-2'>
+		// 						<Col xs={6} style={IndItemTitleDisplay} >
+									
+		// 							<p 			
+		// 								onClick={handleOpenModal}
+		// 								aria-controls={`example-collapse-text-${event.id}`}
+		// 								aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0'>
+		// 								{event.title}
+		// 							</p>
+		// 							<Button 
+		// 								onClick={handleOpenModal}
+		// 								style={viewDetailsButton}
+		// 								aria-controls={`example-collapse-text-${event.id}`}
+		// 								aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details
+		// 							</Button>
+		// 						</Col>
+
+		// 						<Col xs={2} style={IndItemDueDate} className='text-center' >
+		// 							<div style={{display:'inline-block', textAlign:'left'}}>
+		// 								<p style={IndItemDueDateDisplay} className='mb-0'>{event.date}</p>
+		// 								<p style={IndItemDueTimeDisplay} >{event.time}</p>
+		// 							</div>
+									
+		// 						</Col>
+
+		// 						<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
+
+		// 							<Button style={event.category ==='TIDS'? tidsBadge : event.category ==='TEAM EVENT'? teamBadge : event.category ==='COP'? copBadge : happyBadge} className='py-2'>
+		// 								{event.category}
+		// 							</Button>
+
+		// 						</Col>
+		// 						<Col style={{display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px'}}>
+		// 							<Button className='bg-success border-success' style={actionBadge}> REGISTER</Button>
+		// 						</Col>
+		// 					</Row>
+							
+		// 				</ListGroup.Item>
+						
+		// 			))}
+		// 		</ListGroup>
+		// 	</Container>
+
+			// <EventModal show={modalShow} onHide={handleCloseModal} />
             
-		</div>
+		// </div>
 	)
 }
     
