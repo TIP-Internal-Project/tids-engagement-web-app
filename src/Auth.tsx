@@ -16,7 +16,7 @@ export default function Auth() {
 	if (hash && hash.indexOf('#id_token=') === 0) {
 		const response = parse(hash) as object
 		extractSessionDetails(response as OIDCResponse)
-		redirectPath = '/dashboard'
+		redirectPath = '/overview'
 	}
 
 	return <Navigate to={redirectPath} />

@@ -10,15 +10,8 @@ export default function Container() {
 	return (
 		<Base>
 			<div className='App'>
-				<header className='App-header'>
-					<p>
-					Edit <code>src/App.tsx</code> and save to reload.
-					</p>
-					<a className='App-link' href='https://reactjs.org' target='_blank' rel='noopener noreferrer'>
-					Learn React
-					</a>
-					<Link className='App-link' to="/dashboard/events">Events</Link>
-					<Link className='App-link' to="/dashboard/overview">Overview</Link>
+				<header >
+					
 				</header>
 			</div>
 			<Outlet />

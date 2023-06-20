@@ -1,0 +1,148 @@
+ @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+
+ @media (min-width: 900px){
+    body {
+        background-color: #D8D8D8;
+        font-family: 'Mulish';
+        font-size: 1vw;
+    }
+
+    .calendar {
+       margin-bottom: 32px;
+       height: 412px;
+        border-radius: 1vw;
+        display: flex;
+    }
+
+    .calendar > Col {
+        padding: 20px;
+    
+    }
+
+    .CalendarCol {
+        flex: 1;
+        background-color: #FFFFFF;
+        height: 412px;
+        overflow: auto;
+      }
+      
+      .EventsAttendanceCol {
+        flex: 1;
+        background-color: #FFFFFF;
+        overflow: auto;
+      }
+
+
+    .calendar-head {
+        display: flex;
+        justify-content: space-between;
+        padding: 2% 3.8%;
+    }
+
+    .month-year {
+        width: 40%;
+        display: flex;
+        justify-content: space-evenly;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .head-icons {
+        width: .5vw;
+        cursor: pointer;
+    }
+
+    hr {
+        border-top: none;
+        border-bottom: 1px solid #D8D8D8;
+    }
+
+    .main-table-div {
+        padding: 1px 2px;
+    }
+
+    table {
+        
+        width: 100%;
+    }
+
+    .date-rows {
+        text-align: center;
+    }
+
+    .days {
+        text-align: center;
+    }
+
+    .date-cells div {
+        
+        padding: 1px 7px;
+        width: 35%;
+        left:5px;
+        justify-content: center;
+        border-radius: 50%;
+        border: .5px solid transparent;
+        margin: 0;
+        height: 28px;
+        width: 28px;
+        display: flex;
+  align-items: center;
+  justify-content: center;
+    }
+
+
+ .date-cells > td {
+    width: 24px;
+ }
+
+
+
+    .date-cells > p {
+
+        font-size: 14px;
+
+    }
+
+td.date-cells {
+  width: calc(100% / 7);
+}
+
+    .date-cells div:not(.current-date):hover {
+        border: .5px solid #4B286D;
+        cursor: pointer;
+        
+    }
+
+    .current-date {
+        background-color: #69785b;
+        color: #FFFFFF;
+    }
+    .current-date:hover {
+        background-color: #69785b;
+        box-shadow: inset;
+    }
+
+
+
+    .date-with-events div{
+        background-color: #66CC00;
+        color: #FFFFFF;
+        border-radius: 50%;
+        border: solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+     }
+
+     .eventsReportHeader {
+
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+     }
+
+ }
+
+
+ 

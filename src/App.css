@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;700&display=swap');
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+body {
+	margin: 0;
+	font-family: 'Mulish' !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
 .App {
   text-align: center;
 }
@@ -35,4 +52,345 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar {
+  width: 15%;
+  height: 100%;
+  position: fixed;
+  background-color: #ffffff;
+  float: left;
+}
+
+.div1 {
+  width: 85%;
+  float: right;
+  background-color: #f5f5f5;
+  overflow: inherit;
+}
+
+.div1 #p {
+  text-align: right;
+}
+
+.headerRight {
+  text-align: right;
+}
+
+.sidebarContent > img {
+  width: 160px;
+  height: 37px;
+  margin-left: 17px;
+  margin-top: 24px;
+}
+
+.sidebarContent {
+  height: 100%;
+  left: 0px;
+  right: 0px;
+}
+
+.sidebarContent > p {
+  width: 100px;
+  height: 20px;
+  margin-top: 52px;
+  margin-left: 24px;
+  color: #71757b;
+}
+
+.sidebarContent > ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.sidebarContent > ul > li {
+  width: max-content;
+  height: 40px;
+  font-family: 'Mulish';
+  font-weight: 400;
+  font-size: 14px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  padding: 8px 24px;
+}
+
+.sidebarContent > ul > li > img {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 7px;
+  margin-right: 10px;
+
+  /* Brand - TELUS Purple */
+}
+
+.headerLeft > p {
+  margin-top: 30px;
+  margin-left: 20px;
+  position: absolute;
+  width: 125px;
+  height: 36px;
+  font-family: 'helvetica';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 36px;
+  color: #000000;
+}
+
+.headerRight > div {
+  width: auto;
+  height: 17px;
+  margin-top: 18px;
+  clear: both;
+  margin-right: 30px;
+  word-spacing: 5px;
+  color: #000000;
+  display: inline-block;
+}
+
+.headerRightP {
+
+  margin-top: 4px;
+  margin-bottom: 1rem;
+
+}
+
+.headerRightP {
+
+  margin-top: 4px;
+  margin-bottom: 1rem;
+
+}
+
+.notification {
+  width: 18px;
+  height: 21px;
+}
+
+.userPic {
+  width: 51px;
+  height: 51px;
+}
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+
+.sidebarContent > ul > li a {
+  color: black;
+  text-decoration: none;
+}
+
+.sidebarContent > ul > li a:hover {
+  text-decoration: underline;
+}
+
+
+.circle {
+  box-sizing: border-box;
+  width: 38px;
+  height: 38px;
+  right: 0px;
+  top: calc(50% - 44px/2);
+  background: #66CC00;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0px 4px 24px rgba(38, 39, 42, 0.04);
+  border-radius: 50%;
+}
+
+.circle > p {
+  text-align: center;
+  padding-top: 3%;
+  font-weight: 700;
+}
+
+.event-header-left > p {
+  margin-top: 30px;
+  margin-left: 20px;
+  position: absolute;
+  width: 125px;
+  height: 36px;
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 36px;
+  color: #000000;
+}
+
+.view-all-events{
+  text-decoration: none;
+  color: #2B8000;
+}
+
+.custom-modal {
+  border-bottom: 0 none;
+}
+
+.modal-xl {
+	width: 69% !important;
+}
+
+.ModalBody > div {
+
+  display: inline-block;
+  margin-bottom: 48px;
+}
+
+
+.ModalBodyLeft {
+  
+  margin-left: 40px;
+  width: 382px;
+  height: 208px;
+  float: left;
+  
+}
+
+.ModalBodyRight{
+  
+  margin-left:40px;
+  width: 590px;
+height: 157.28px;
+}
+
+.ModalBodyRightSubDiv > a {
+	width: 40px;
+	height: 40px;
+}
+
+.ModalBodyLeft > img {
+
+  width: 382px;
+  height: 208px;
+}
+
+.ModalBodyRight > p {
+  
+  width: auto;
+ 
+}
+
+
+.HNS {
+
+  margin-top: 56px;
+
+}
+
+
+#ModalButton{
+
+  color: #2B8000;
+
+}
+
+
+.ModalBodyRightSubDiv{
+
+  
+  margin-top: 12px;
+  
+}
+
+
+.ModalBodyRightSubDiv > a {
+  width: 40px;
+  height: 40px;
+}
+
+.ModalBodyRightSubDiv > img {
+  width: 43px;
+  height: 43px;
+}
+
+
+.bookmarklogo {
+
+  padding: 9px;
+
+}
+
+.ModalBadge {
+	background-color: #C12335;
+	margin-right: 12px;
+	color: white;
+	padding: 4px 8px;
+	text-align: center;
+	border-radius: 28px;
+	font-family: 'Mulish';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 20px;
+	width: 142px;
+}
+
+
+.custom-progress-bar .progress-bar  {
+  background-color: #66CC00;
+}
+
+.EventItemDiv {
+  background-color: #FFFFFF;
+}
+
+.EventItem {
+  cursor: pointer;
+}
+
+.EventItem:hover {
+  background-color: lightgray;
+}
+
+
+.EventItemLeftDiv {
+  display: inline-block;
+  width: 525px;
+  height: 52px;
+  
+}
+
+.EventItemRightDiv {
+  display: inline-block;
+  height: 100%;
+  width: 715px;
+  padding-left: 32px;
+}
+
+
+
+.EventItemRightDivTotalInvites {
+  float: left;
+}
+
+.EventItemRightDivTotalInvites
+
+
+.EventItemRight > p {
+ display: inline-block;
+padding-left: 10px;
+
+}
+
+
+.EventReportCircle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  
 }
