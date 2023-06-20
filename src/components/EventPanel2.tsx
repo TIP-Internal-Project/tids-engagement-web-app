@@ -6,20 +6,31 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import EventModal from './EventModal'
+import DetailsModal from './DetailsModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 
 export const EventPanel2 = () => {
-	const [modalShow, setModalShow] = useState(false)
+	const [eventModalShow, setEventModalShow] = useState(false)
 
-	const handleOpenModal = () => {
-		setModalShow(true)
+	const handleOpenEventModal = () => {
+		setEventModalShow(true)
 	  }
 	
-	  const handleCloseModal = () => {
-		setModalShow(false)
+	  const handleCloseEventModal = () => {
+		setEventModalShow(false)
 	  }
+
+	const [detailsModalShow, setDetailsModalShow] = useState(false)
+
+	const handleOpenDetailsModal = () => {
+		setDetailsModalShow(true)
+	}
+	
+	const handleCloseDetailsModal = () => {
+		setDetailsModalShow(false)
+	}
 
 
 	const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
@@ -284,7 +295,34 @@ export const EventPanel2 = () => {
 		<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
 			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
 				
-				<div className="d-flex flex-row-reverse px-5">
+				<Row className='px-2' >
+					<Col xs={8} className='px-5' style={{color:'#9FA2B4'}}>
+						<Nav.Link className='' onClick={handleOpenDetailsModal}>
+							+  Add new task type here
+						</Nav.Link>
+					</Col>
+
+					<Col className='text-center' >
+
+						<Nav.Link href='' className=''>
+							<img style={{height:'22px', width:'19px', marginRight:'10px'}} src ={require('../assets/images/refresh.png')} />Refresh
+						</Nav.Link>
+
+					</Col>
+
+					<Col className='text-center'>
+						<Nav.Link href='' className=''>
+							<img style={{height:'15px', width:'15px', marginRight:'10px'}} src ={require('../assets/images/sort-up.png')} />Sort
+						</Nav.Link>
+					</Col>
+
+					<Col>
+						<Nav.Link href='/home' className=''>
+							<img style={{height:'15px', width:'14px', marginRight:'10px'}}src ={require('../assets/images/filter.png')} />Filter
+						</Nav.Link>
+					</Col>
+				</Row>
+				{/* <div className="d-flex flex-row-reverse px-5">
 					<Nav.Link href='/home' className='mx-3 '>
 						<img style={{height:'15px', width:'14px', marginRight:'10px'}}src ={require('../assets/images/filter.png')} />Filter
 					</Nav.Link>
@@ -300,7 +338,7 @@ export const EventPanel2 = () => {
 					
 
 					
-				</div>
+				</div> */}
 
 				<Row style={TitleBar} className='px-5'>
 		 			<Col>Currently Registered</Col>
@@ -314,13 +352,13 @@ export const EventPanel2 = () => {
 								<Row className='py-2'>
 									<Col xs={6} style={IndItemTitleDisplay} >
 										<p 			
-											onClick={handleOpenModal}
+											onClick={handleOpenEventModal}
 											aria-controls={`example-collapse-text-${event.id}`}
 											aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0'>
 											{event.title}
 										</p>
 										<Button 
-											onClick={handleOpenModal}
+											onClick={handleOpenEventModal}
 											style={viewDetailsButton}
 											aria-controls={`example-collapse-text-${event.id}`}
 											aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details
@@ -369,13 +407,13 @@ export const EventPanel2 = () => {
 							<Row className='py-2'>
 								<Col xs={6} style={IndItemTitleDisplay} >
 									<p 			
-										onClick={handleOpenModal}
+										onClick={handleOpenEventModal}
 										aria-controls={`example-collapse-text-${event.id}`}
 										aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='mb-0 ps-4'>
 										{event.title}
 									</p>
 									<Button 
-										onClick={handleOpenModal}
+										onClick={handleOpenEventModal}
 										style={viewDetailsButton}
 										aria-controls={`example-collapse-text-${event.id}`}
 										aria-expanded={eventStates[event.id] ? 'true' : 'false'} className='ms-4'>View details
@@ -406,7 +444,8 @@ export const EventPanel2 = () => {
 						
 					))}
 				</ListGroup>
-				<EventModal show={modalShow} onHide={handleCloseModal} />
+				<EventModal show={eventModalShow} onHide={handleCloseEventModal} />
+				<DetailsModal show={detailsModalShow} onHide={handleCloseDetailsModal}/>
 			</Container>
 		</Container>
  

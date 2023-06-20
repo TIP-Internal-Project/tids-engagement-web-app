@@ -5,6 +5,7 @@ import { getUserSession } from './redux/userSessionSlice'
 import Auth from './Auth'
 import Login from './Login'
 import Events from './pages/Events/index'
+import OrderProcessing from './pages/OrderProcessing/index'
 import Overview from './pages/Overview'
 import ProfileSettingsPage from './pages/ProfileSettings'
 import Tasks from './pages/Tasks'
@@ -42,6 +43,7 @@ function App() {
 				<Route path="profile" element={<ProfileSettingsPage variable={email}/>} />
 				<Route path="tasks" element={<Tasks />} />
 				<Route path="atten" element={<EventAttendance/>}/>
+				<Route path="OrderProcessing" element={<OrderProcessing/>}/>
 				<Route
 					path="*"
 					element={
