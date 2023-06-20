@@ -129,14 +129,14 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 								<Form.Group>
 									<Form.Label>Start Date / Time</Form.Label> 
 									<div className="d-flex align-items-center">
-										<img src ={require('../assets/images/Date.png')} className='ms-2' />
+
 
 										<Form.Control
 											required
-											type="text"
+											type="date"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE', width: '90%'}}
-											className='ms-4'
+											style={{backgroundColor:'#DEDEDE'}}
+											
 										/>
 
 									</div>
@@ -147,14 +147,13 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 								<Form.Group>
 									<Form.Label>End Date / Time</Form.Label> 
 									<div className="d-flex align-items-center">
-										<img src ={require('../assets/images/Date.png')} className='ms-2' />
 
 										<Form.Control
 											required
-											type="text"
+											type="date"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE', width: '90%'}}
-											className='ms-4'
+											style={{backgroundColor:'#DEDEDE'}}
+											className=''
 										/>
 
 									</div>
@@ -180,7 +179,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 
 						<Col xs={4}>
 							<Form.Group>
-									<Form.Label>Venue Details</Form.Label>
+									<Form.Label>Category</Form.Label>
 									<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE'}}>
 										<option value='TIDS'>TIDS</option>
 										<option value='happyhere'>#HAPPYHERE</option>
@@ -192,7 +191,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 
 						<Col xs={4}>
 							<Form.Group>
-									<Form.Label>Venue Details</Form.Label>
+									<Form.Label>Importance</Form.Label>
 									<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE'}}>
 										<option value='required'>Required</option>
 										<option value='optional'>Optional</option>

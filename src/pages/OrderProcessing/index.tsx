@@ -50,7 +50,7 @@ const Events = () => {
 			<div className='div1'>
 				<Row>
 					<Col style={header}>
-						<HeaderLeft pageTitle="Events" />
+						<HeaderLeft pageTitle="Order Processing" />
 					</Col>
 					<Col style={header}> 
 						<HeaderRight />
