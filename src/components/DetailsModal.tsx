@@ -109,11 +109,18 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 							<Form.Group>
 								<Form.Label>Upload Photo</Form.Label>
 									<Form.Control
+										id="imageInput"
 										required
 										type="file"
 										placeholder=""
-										style={{backgroundColor:'#DEDEDE', height:'120px'}}
+										style={{backgroundColor:'#DEDEDE', height:'120px', display:'none'}}
 									/>
+									<br />
+									<label 
+										style={{height:'120px', backgroundColor:'#DEDEDE', borderRadius:'6px', width:'100%', display:'flex', alignItems:'center', justifyContent:'center'}} 
+										htmlFor="imageInput">
+										<img src ={require('../assets/images/image.png')} style={{width:'40px', height:'40px'}}  />
+									</label>
 							</Form.Group>
 						</Col>
 
