@@ -92,7 +92,9 @@ export const EventAttendance = () => {
                         </Row>
                         <Row className='mt-3' style={{alignItems:'center'}}>
                             <div style={legendCircle2}></div>
-                            <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{nonAttend}% </p>
+
+                            <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn&apos;t Attend <span style={{color:'lightgrey'}}>___________</span>{nonAttend}% </p>
+
                         </Row>
                         <Row className='mt-3' style={{alignItems:'center'}}>
                             <div style={legendCircle3}></div>
