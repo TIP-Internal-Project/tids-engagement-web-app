@@ -107,7 +107,7 @@ export const OrderPanel= () => {
 
 
 	const actionBadge ={
-		width: '115px',
+		width: '50%',
 		height:'30px',
 		borderRadius: '8px',
 		display:'flex',
