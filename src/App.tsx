@@ -38,7 +38,7 @@ function App() {
 				</Route>
 				<Route path='/login' element={<Login />} />
 				<Route path='/auth' element={<Auth />}  />
-				<Route path="events" element={<Events />} />
+				<Route path="events" element={<Events variable={email}/>} />
 				<Route path="profile" element={<ProfileSettingsPage variable={email}/>} />
 				<Route path="tasks" element={<Tasks />} />
 				<Route path="atten" element={<EventAttendance/>}/>
