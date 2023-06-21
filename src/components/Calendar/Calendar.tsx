@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Container from 'react-bootstrap/Container'
@@ -331,7 +332,7 @@ const Calendar = () => {
 				<Col xs={7} >
 					<div className='EventsAttendanceCol'>
 						<Container fluid style={{maxWidth:'656px', maxHeight: '412px', borderRadius: '20px'}} className='px-5 py-5'>
-							<Row style={{width: '700px', height:'412px'}}>
+							<Row >
 								<Col xs={6} >
 									<p style={{fontFamily:'Mulish', fontSize:'20px'}}>Overall Events Attendance</p>
 									<div style={{height: '200px', width:'200px'}}>
@@ -352,7 +353,7 @@ const Calendar = () => {
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle2}></div>
-											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Did not Attend <span style={{color:'lightgrey'}}>___________</span>{nonAttend}% </p>
+											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{nonAttend}% </p>
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle3}></div>
