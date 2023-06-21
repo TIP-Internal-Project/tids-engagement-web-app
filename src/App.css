@@ -339,3 +339,57 @@ height: 157.28px;
 	line-height: 20px;
 	width: 142px;
 }
+
+.floating-div {
+	position: absolute;
+	top: 170px;
+	right: 170px;
+	background-color: lightgrey;
+	border: 1px solid lightgrey;
+	border-radius: 5px;
+	padding: 10px;
+	z-index: 1;
+}
+
+.floating-div::before {
+	content: '';
+	position: absolute;
+	top: -15px;
+	right: 10px;
+	transform: translateX(-50%);
+	border: 8px solid transparent;
+	border-bottom-color: lightgrey;
+}
+
+.floating-div2 {
+	position: absolute;
+	top: 170px;
+	right: 85px;
+	background-color: lightgrey;
+	border: 1px solid lightgrey;
+	border-radius: 5px;
+	padding: 10px;
+	z-index: 1;
+}
+
+.floating-div2::before {
+	content: '';
+	position: absolute;
+	top: -15px;
+	right: 10px;
+	transform: translateX(-50%);
+	border: 8px solid transparent;
+	border-bottom-color: lightgrey;
+}
+
+.textStyle {
+	color: black;
+	transition: color 0.3s;
+	margin-bottom: 5px;
+	font-size: 14px;
+	cursor: pointer;
+}
+  
+.textStyle:hover {
+	color: white;
+}
