@@ -71,6 +71,15 @@ export const events: Event[] = [
 		totalInvites: 500,
 		date: 'June 2, 2023',
 	},
+	{
+		id: 5,
+		title: 'TIDS CRBN | Download your Intellicare Agora App Now!',
+		attendees: 50,
+		registered: 300,
+		didNotAttend: 200,
+		totalInvites: 500,
+		date: 'June 2, 2023',
+	}
 ]
 
 const ProgressBarDiv = {
@@ -79,7 +88,7 @@ const ProgressBarDiv = {
 }
 
 const TitleBar = {
-	marginLeft: '32px',
+	
 	backgroundColor: '#fff',
 	paddingTop: '24px',
 	marginRight: '32px',
@@ -100,6 +109,7 @@ const viewDetailsButton = {
 	color: 'green',
 	float:'right',
 	marginBottom:'10px'
+	, fontWeight: '700', fontFamily:'Mulish',fontStyle:'normal'
 } as React.CSSProperties
 
 const legendCircle1 = {
@@ -373,32 +383,32 @@ const Calendar = () => {
 
 
 			{/* Events Report */}
-			<Row>					
+			<Row style={{padding:'12px'}}>					
 				<div style={{backgroundColor: '#FFFF', padding:'12px'}}>
 
 	  				<Container fluid style={{margin: '0', padding: '0', backgroundColor: '#FFFF'}}>
-						<Row className = 'px-3 py-2'> 
+						<Row style={{paddingTop: '21px'}}> 
 					
-							<Col> 
+							<Col style={{paddingTop: '28px'}}> 
 								<h4 style={{ display: 'inline-block' }}>Events Report</h4>
 								
 							 </Col>
 											
 					
 							<Col>
-								<div style={{ display: 'inline-block',float: 'right' }}><Button style={viewDetailsButton}> 
+								<div style={{ display: 'inline-block',float: 'right' , paddingLeft: '20px' }}><Button style={viewDetailsButton}> 
                         Generate Report <img  style={{height: '12px', width: '13px', marginLeft:'5px', marginBottom:'3px'}} src={require('../../assets/images/Arrow.png')} alt="" />
 								</Button> </div>
-								<div style={{ display: 'inline-block',float: 'right' }}><img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} /> Did not Attend</div> 
-								<div style={{ display: 'inline-block',float: 'right' }}><img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} /> Attendees</div>
+								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} /> Did not Attend</div> 
+								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} /> Attendees</div>
 								
 							</Col>
 					
 					
 						</Row>
 						<Row style={TitleBar} className='px-3'>
-							<Col xs={5}>Event</Col>
-							<Col xs={7}>Performance</Col>
+							<Col xs={5}><h5>Event</h5></Col>
+							<Col xs={7}><h5>Performance</h5></Col>
 
 						</Row>
 					</Container>
@@ -412,7 +422,7 @@ const Calendar = () => {
 									const eventDate = new Date(event.date).toLocaleDateString()
 									if (eventDate === clickedDate) {
 										return (
-											<Row className = 'px-3 py-2' key={event.id}> 
+											<Row className = ' horizontal-line' key={event.id}> 
 												<Col>
 													<div >
 														<h6 className='EventItem'>{event.title}</h6>
@@ -420,21 +430,30 @@ const Calendar = () => {
 														
 													</div>
 												</Col>
-												<Col xs={7} key={event.id}  className='EventItemRightDiv' >
-													<div>
-														<p className='EventItemRightDivTotalInvites'>Total Invites: {event.totalInvites}</p>
-													</div>
-                                
-													<div > 
-														<p className='EventItemRightDivIcons'> <img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} />   {event.attendees}  <img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} />   {event.didNotAttend}  </p>
-													</div>
+												<Col xs={7} key={event.id}  className='EventItemRightDiv'style={{padding: '0'}} >
+													<Row>
+														<div>
+															<div className='EventItemRightDivTotalInvites'>
+															Total Invites: {event.totalInvites}
+															</div>
+															<div  className='EventItemRightDivIcons'> <img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} /> {event.didNotAttend}</div>
+															<div  className='EventItemRightDivIcons'> <img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} /> {event.attendees} </div>
+														
+													
+															
+														</div>
+													</Row>
 
-													<ProgressBar
-														style={ProgressBarDiv}
-														now={event.attendees}
-														label={`${event.attendees}%`}
-														className="custom-progress-bar .progress-bar"
-													/>
+													<Row>
+														<div className='ProgressBar'>
+															<ProgressBar
+																style={ProgressBarDiv}
+																now={event.attendees}
+																label={`${event.attendees}%`}
+																className="custom-progress-bar .progress-bar"
+															/>
+														</div>
+													</Row>
 												</Col>
 											</Row>
 				  
