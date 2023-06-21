@@ -54,8 +54,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 		>
 			
 			<Modal.Header closeButton style={modalStyle}>
-				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>
-				Add / Edit Event
+				<Modal.Title id="contained-modal-title-vcenter" className='mx-3' style={ModalTitleDiv}>
+					Add / Edit Event
 				</Modal.Title>
 				
 			</Modal.Header>
@@ -73,7 +73,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 										required
 										type="text"
 										placeholder=""
-										style={{backgroundColor:'#DEDEDE'}}
+										style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 									/>
 							</Form.Group>
 						</Col>	
@@ -85,7 +85,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											required
 											type="text"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE'}}
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 										/>
 							</Form.Group>
 						</Col>
@@ -100,7 +100,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 										required
 										type="text"
 										placeholder=""
-										style={{backgroundColor:'#DEDEDE', height:'120px'}}
+										style={{backgroundColor:'#DEDEDE', height:'120px', borderRadius:'25px'}}
 									/>
 							</Form.Group>
 						</Col>
@@ -117,7 +117,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 									/>
 									<br />
 									<label 
-										style={{height:'120px', backgroundColor:'#DEDEDE', borderRadius:'6px', width:'100%', display:'flex', alignItems:'center', justifyContent:'center'}} 
+										style={{height:'120px', backgroundColor:'#DEDEDE', borderRadius:'25px', width:'100%', display:'flex', alignItems:'center', justifyContent:'center'}} 
 										htmlFor="imageInput">
 										<img src ={require('../assets/images/image.png')} style={{width:'40px', height:'40px'}}  />
 									</label>
@@ -129,14 +129,14 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 								<Form.Group>
 									<Form.Label>Start Date / Time</Form.Label> 
 									<div className="d-flex align-items-center">
-										<img src ={require('../assets/images/Date.png')} className='ms-2' />
+
 
 										<Form.Control
 											required
-											type="text"
+											type="date"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE', width: '90%'}}
-											className='ms-4'
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
+											
 										/>
 
 									</div>
@@ -147,14 +147,13 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 								<Form.Group>
 									<Form.Label>End Date / Time</Form.Label> 
 									<div className="d-flex align-items-center">
-										<img src ={require('../assets/images/Date.png')} className='ms-2' />
 
 										<Form.Control
 											required
-											type="text"
+											type="date"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE', width: '90%'}}
-											className='ms-4'
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
+											
 										/>
 
 									</div>
@@ -173,15 +172,15 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											required
 											type="text"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE'}}
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 										/>
 							</Form.Group>
 						</Col>
 
 						<Col xs={4}>
 							<Form.Group>
-									<Form.Label>Venue Details</Form.Label>
-									<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE'}}>
+									<Form.Label>Category</Form.Label>
+									<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
 										<option value='TIDS'>TIDS</option>
 										<option value='happyhere'>#HAPPYHERE</option>
 										<option value='happyhere'>Team Event</option>
@@ -192,8 +191,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 
 						<Col xs={4}>
 							<Form.Group>
-									<Form.Label>Venue Details</Form.Label>
-									<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE'}}>
+									<Form.Label>Importance</Form.Label>
+									<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
 										<option value='required'>Required</option>
 										<option value='optional'>Optional</option>
 									</Form.Select>
@@ -210,7 +209,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											required
 											type="text"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE'}}
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 										/>
 							</Form.Group>
 						</Col>
@@ -222,7 +221,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											required
 											type="text"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE'}}
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 										/>
 							</Form.Group>
 						</Col>
@@ -234,14 +233,14 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											required
 											type="text"
 											placeholder=""
-											style={{backgroundColor:'#DEDEDE'}}
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 										/>
 							</Form.Group>
 						</Col>
 
 					</Row>
 
-					<Row className='mt-5'>
+					<Row className='' style={{marginTop:'150px'}}>
 						<Col xs={6} className='px-5' style={{color:'#9FA2B4'}}>
 						</Col>
 
