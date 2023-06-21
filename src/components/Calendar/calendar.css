@@ -23,13 +23,13 @@
         flex: 1;
         background-color: #FFFFFF;
         height: 412px;
-        overflow: auto;
+      
       }
       
       .EventsAttendanceCol {
         flex: 1;
         background-color: #FFFFFF;
-        overflow: auto;
+       
       }
 
 
