@@ -21,8 +21,8 @@ const HeaderLeft: React.FC<HeaderLeftProps> = ({ pageTitle }) =>  {
 	const userSession = useAppSelector((state) => state.userSession)
 
 	return (
-		<div className='headerLeft' style={{ fontFamily: 'Mulish' }}>
-			<p>{pageTitle}</p>
+		<div className='headerLeft' style={{ fontFamily: 'Mulish', }}>
+			<p style={{width:'max-content'}}>{pageTitle}</p>
 	  </div>
 	)
 }

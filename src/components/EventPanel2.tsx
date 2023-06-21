@@ -296,9 +296,9 @@ export const EventPanel2 = () => {
 			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
 				
 				<Row className='px-2' >
-					<Col xs={8} className='px-5' style={{color:'#9FA2B4'}}>
+					<Col xs={8} className='px-5' style={{color:'#7175B'}}>
 						<Nav.Link className='' onClick={handleOpenDetailsModal}>
-							+  Add new task type here
+							+  Add new event here
 						</Nav.Link>
 					</Col>
 
