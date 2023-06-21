@@ -13,49 +13,48 @@ import { fetchEvents } from './redux/eventSlice'
 import { useCallback, useEffect } from 'react'
 import { EventAttendance } from './components/EventAttendance'
 
-
-
-
 function App() {
-	const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
-	const initApp = useCallback(async () => {
-		await dispatch(fetchEvents())
-	}, [dispatch])
+  const initApp = useCallback(async () => {
+    await dispatch(fetchEvents())
+  }, [dispatch])
 
-	// useEffect(() => {
-	// 	dispatch(getUserSession())
-	// }, [])
+  // useEffect(() => {
+  // 	dispatch(getUserSession())
+  // }, [])
 
-	const userSession = useAppSelector(getUserSession)
-	const isUserAuthenticated = userSession.email ? true : false
-	const email = userSession.email
+  const userSession = useAppSelector(getUserSession)
+  const isUserAuthenticated = sessionStorage.getItem('email') ? true : false
 
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
-					<Route path="overview" element={<Overview />} />
-				</Route>
-				<Route path='/login' element={<Login />} />
-				<Route path='/auth' element={<Auth />}  />
-				<Route path="events" element={<Events />} />
-				<Route path="profile" element={<ProfileSettingsPage variable={email}/>} />
-				<Route path="tasks" element={<Tasks />} />
-				<Route path="atten" element={<EventAttendance/>}/>
-				<Route path="OrderProcessing" element={<OrderProcessing/>}/>
-				<Route
-					path="*"
-					element={
-						<main style={{ padding: '10px' }}>
-							<p>Requested page does not exist</p>
-						</main>
-					}
-				/>
-
-			</Routes>
-		</BrowserRouter>
-	)
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
+          <Route path='/' element={<Overview />} />
+          <Route path='overview' element={<Overview />} />
+          <Route path='events' element={<Events />} />
+          <Route
+            path='profile'
+            element={<ProfileSettingsPage variable={sessionStorage.getItem('email')} />}
+          />
+          <Route path='tasks' element={<Tasks />} />
+          <Route path='atten' element={<EventAttendance />} />
+          <Route path='OrderProcessing' element={<OrderProcessing />} />
+        </Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/auth' element={<Auth />} />
+        <Route
+          path='*'
+          element={
+            <main style={{ padding: '10px' }}>
+              <p>Requested page does not exist</p>
+            </main>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App
