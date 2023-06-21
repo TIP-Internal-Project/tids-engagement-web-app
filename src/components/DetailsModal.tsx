@@ -117,7 +117,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 									/>
 									<br />
 									<label 
-										style={{height:'115px', backgroundColor:'#DEDEDE', borderRadius:'25px', width:'100%', display:'flex', alignItems:'center', justifyContent:'center'}} 
+										style={{height:'116px', backgroundColor:'#DEDEDE', borderRadius:'25px', width:'100%', display:'flex', alignItems:'center', justifyContent:'center'}} 
 										htmlFor="imageInput">
 										<img src ={require('../assets/images/image.png')} style={{width:'40px', height:'40px'}}  />
 									</label>
