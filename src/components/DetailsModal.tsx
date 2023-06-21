@@ -100,7 +100,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 										required
 										type="text"
 										placeholder=""
-										style={{backgroundColor:'#DEDEDE', height:'120px', borderRadius:'25px'}}
+										style={{backgroundColor:'#DEDEDE', height:'116px', borderRadius:'25px'}}
 									/>
 							</Form.Group>
 						</Col>
@@ -113,11 +113,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 										required
 										type="file"
 										placeholder=""
-										style={{backgroundColor:'#DEDEDE', height:'120px', display:'none'}}
+										style={{backgroundColor:'#DEDEDE', height:'116px', display:'none'}}
 									/>
 									<br />
 									<label 
-										style={{height:'120px', backgroundColor:'#DEDEDE', borderRadius:'25px', width:'100%', display:'flex', alignItems:'center', justifyContent:'center'}} 
+										style={{height:'115px', backgroundColor:'#DEDEDE', borderRadius:'25px', width:'100%', display:'flex', alignItems:'center', justifyContent:'center'}} 
 										htmlFor="imageInput">
 										<img src ={require('../assets/images/image.png')} style={{width:'40px', height:'40px'}}  />
 									</label>
@@ -125,7 +125,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 						</Col>
 
 						<Col xs={4}>
-							<Row>
+							<Row className=''>
 								<Form.Group>
 									<Form.Label>Start Date / Time</Form.Label> 
 									<div className="d-flex align-items-center">
@@ -143,7 +143,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 									
 								</Form.Group>
 							</Row>
-							<Row>
+							<Row className='mt-2'>
 								<Form.Group>
 									<Form.Label>End Date / Time</Form.Label> 
 									<div className="d-flex align-items-center">
