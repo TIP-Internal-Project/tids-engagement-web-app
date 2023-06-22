@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import React, { useState } from 'react'
-import EventModal from '../../components/EventModal'
+// import EventModal from '../../components/EventModal'
 import Button from 'react-bootstrap/Button'
 import HeaderLeft from '../../components/HeaderLeft'
 import { EventPanel2 } from '../../components/EventPanel2'
@@ -60,7 +60,7 @@ const Events = () => {
 				<OrderPanel/>
 				
 			</div>
-			<EventModal show={modalShow} onHide={handleCloseModal} />
+			{/* <EventModal show={modalShow} onHide={handleCloseModal} /> */}
 		</div>
 	)
 }
