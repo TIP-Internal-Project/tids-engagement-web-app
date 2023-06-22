@@ -21,10 +21,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 	const [data, setData] = useState<any>({})
 	const [disable, setDisable] = useState<any>()
 	const dispatch = useAppDispatch()
-	// const [sortedEvents, setSortedEvents] = useState<Event[]>([])
-	// const [sortedEvents1, setSortedEvents1] = useState<Event[]>([])
-	
-	console.log(email)
 	
 	useEffect(()=>{
 		setData(modalData)
@@ -35,7 +31,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 	}, [modalData])
 
 	const handleRegister = async (eventId: any, email: any) => {
-		console.log(eventId, email)
 		await dispatch(register({ eventId, email }))
 		const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
 		const registeredEventsArray = Object.values(registeredEventsData.payload)

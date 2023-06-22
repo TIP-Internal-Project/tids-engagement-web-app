@@ -271,7 +271,7 @@ export const EventPanel2 = (props: any) => {
 					setSortedEvents(sortedUnregisteredEvents as Event[])
 				}
 			} else {
-				if (sortOption === 'asc') {
+				if (sortOption === 'asc' || sortOption === undefined) {
 					const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
 					const registeredEventsArray = Object.values(registeredEventsData.payload)
 					const filteredRegisteredEvents = registeredEventsArray.filter((event: any) => event.category === filterOption)
