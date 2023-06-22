@@ -39,10 +39,10 @@ export const events: Event[] = [
 	{
 		id: 1,
 		title: 'Join the Kape and Kame hybrid activity',
-		attendees: 50,
+		attendees: 40,
 		registered: 300,
 		didNotAttend: 200,
-		totalInvites: 500,
+		totalInvites: 400,
 		date: 'June 5, 2023',
 	},
 	{
@@ -51,34 +51,34 @@ export const events: Event[] = [
 		attendees: 100,
 		registered: 600,
 		didNotAttend: 200,
-		totalInvites: 720,
+		totalInvites: 421,
 		date: 'June 5, 2023',
 	},
 	{
 		id: 3,
-		title: 'TIDS HRBP | Download your Intellicare Agora App Now!',
+		title: 'TELUS Wellness Webinar | Boost Your Wellbeing',
 		attendees: 50,
 		registered: 300,
 		didNotAttend: 200,
-		totalInvites: 500,
+		totalInvites: 311,
 		date: 'June 2, 2023',
 	},
 	{
 		id: 4,
-		title: 'TIDS CRBN | Download your Intellicare Agora App Now!',
-		attendees: 50,
+		title: 'TELUS Leadership Conference | Unleashing Your Leadership Potential',
+		attendees: 61,
 		registered: 300,
-		didNotAttend: 200,
-		totalInvites: 500,
+		didNotAttend: 120,
+		totalInvites: 231,
 		date: 'June 2, 2023',
 	},
 	{
 		id: 5,
-		title: 'TIDS CRBN | Download your Intellicare Agora App Now!',
-		attendees: 50,
+		title: 'TELUS Town Hall Meeting | Connecting for Success',
+		attendees: 43,
 		registered: 300,
-		didNotAttend: 200,
-		totalInvites: 500,
+		didNotAttend: 80,
+		totalInvites: 170,
 		date: 'June 2, 2023',
 	}
 ]
@@ -385,7 +385,7 @@ const Calendar = () => {
 
 			{/* Events Report */}
 			<Row style={{padding:'12px'}}>					
-				<div style={{backgroundColor: '#FFFF', padding:'12px'}}>
+				<div style={{backgroundColor: '#FFFF', padding:'12px', borderRadius: '20px'}}>
 
 	  				<Container fluid style={{margin: '0', padding: '0', backgroundColor: '#FFFF'}}>
 						<Row style={{paddingTop: '21px'}}> 
@@ -400,8 +400,8 @@ const Calendar = () => {
 								<div style={{ display: 'inline-block',float: 'right' , paddingLeft: '20px' }}><Button style={viewDetailsButton}> 
                         Generate Report <img  style={{height: '12px', width: '13px', marginLeft:'5px', marginBottom:'3px'}} src={require('../../assets/images/Arrow.png')} alt="" />
 								</Button> </div>
-								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} /> Did not Attend</div> 
-								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} /> Attendees</div>
+								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><p> <img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} /> Did not Attend </p></div> 
+								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><p> <img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} />Attendees </p> </div>
 								
 							</Col>
 					
@@ -448,10 +448,10 @@ const Calendar = () => {
 													<Row>
 														<div className='ProgressBar'>
 															<ProgressBar
-																style={ProgressBarDiv}
-																now={event.attendees}
-																label={`${event.attendees}%`}
-																className="custom-progress-bar .progress-bar"
+																 style={ProgressBarDiv}
+																 now={(event.attendees / event.totalInvites) * 100}
+																 label={<span>&nbsp;</span>}
+																 className="custom-progress-bar .progress-bar"
 															/>
 														</div>
 													</Row>

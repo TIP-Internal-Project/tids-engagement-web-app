@@ -8,7 +8,7 @@
     }
 
     .calendar {
-       margin-bottom: 32px;
+      
        height: 412px;
         border-radius: 1vw;
         display: flex;
@@ -23,13 +23,16 @@
         flex: 1;
         background-color: #FFFFFF;
         height: 412px;
-      
+        overflow: auto;
+        height: 377px;
+        border-radius: 20px;
       }
       
       .EventsAttendanceCol {
         flex: 1;
         background-color: #FFFFFF;
-       
+       height: 377px;
+       border-radius: 20px;
       }
 
 

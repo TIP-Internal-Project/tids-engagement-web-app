@@ -6,6 +6,7 @@ import Auth from './Auth'
 import Login from './Login'
 import Events from './pages/Events/index'
 import Overview from './pages/Overview'
+import AdminOverview from './pages/AdminOverview'
 import ProfileSettingsPage from './pages/ProfileSettings'
 import Tasks from './pages/Tasks'
 import { fetchEvents } from './redux/eventSlice'
@@ -39,6 +40,7 @@ function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/auth' element={<Auth />}  />
 				<Route path="events" element={<Events />} />
+				<Route path="adminOverview" element={<AdminOverview />} />
 				<Route path="profile" element={<ProfileSettingsPage variable={email}/>} />
 				<Route path="tasks" element={<Tasks />} />
 				<Route path="atten" element={<EventAttendance/>}/>
