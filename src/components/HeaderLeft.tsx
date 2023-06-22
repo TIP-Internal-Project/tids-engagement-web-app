@@ -8,7 +8,7 @@ interface HeaderLeftProps {
 const HeaderLeft: React.FC<HeaderLeftProps> = ({ pageTitle }) => {
   return (
     <div className='headerLeft' style={{ fontFamily: 'Mulish' }}>
-      <p>{pageTitle}</p>
+      <p style={{width:'max-content'}}>{pageTitle}</p>
     </div>
   )
 }

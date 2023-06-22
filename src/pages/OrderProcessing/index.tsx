@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import HeaderLeft from '../../components/HeaderLeft'
 import { EventPanel2 } from '../../components/EventPanel2'
-import {OrderPanel} from '../../components/OrderPanel'
+import {OrderPanel} from '../../components/OrderPanel2'
 
 
 const EventsHeaderLeft = () => {
