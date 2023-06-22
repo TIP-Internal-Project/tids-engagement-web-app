@@ -231,8 +231,8 @@ export const OrderPanel= () => {
 		 			<Col xs={3}>Team Member</Col>
 					<Col xs={2} className=''>Order</Col>
 		 			<Col xs={1} className='text-center'>Size</Col>
-					 <Col xs={2} className='text-center'>Cost (PHP)</Col>
-					<Col xs={1} className=''>Status</Col>
+					 <Col xs={2} className='text-center ps-0'>Cost (PHP)</Col>
+					<Col xs={1} className='ps-0'>Status</Col>
 		 			<Col xs={3} className='text-center'>Action</Col>
 		 		</Row>
 				<ListGroup>
@@ -257,17 +257,17 @@ export const OrderPanel= () => {
 									<p style={IndItem} className='mb-0'>{event.size}</p>
 								</Col>
 
-								<Col xs={2} className='text-center'>
+								<Col xs={2} className='text-center ps-0'>
 									<p style={IndItem} className='mb-0'>{event.cost}</p>
 								</Col>
 
-								<Col xs={1}>
+								<Col xs={1} className='ps-0' >
 									<p style={IndItem} className='mb-0'>{event.status}</p>
 								</Col>
 
 								<Col xs={3} style={{display:'flex',  justifyContent:'center', fontSize:'12px'}}>
-									<Button className={event.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge}> PROCESSING</Button>
-									<Button className={event.status==='Processing'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge}> CLAIMED</Button>
+									<Button className={event.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge}> CANCEL</Button>
+									<Button className={event.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge}> CLAIM</Button>
 								</Col>
 							</Row>
 							
