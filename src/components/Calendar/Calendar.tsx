@@ -391,7 +391,7 @@ const Calendar = () => {
 						<Row style={{paddingTop: '21px'}}> 
 					
 							<Col style={{paddingTop: '28px'}}> 
-								<h4 style={{ display: 'inline-block' }}>Events Report</h4>
+								<h4 style={{ display: 'inline-block', paddingLeft: '1rem' }}>Events Report</h4>
 								
 							 </Col>
 											
@@ -408,7 +408,7 @@ const Calendar = () => {
 					
 						</Row>
 						<Row style={TitleBar} className='px-3'>
-							<Col xs={5}><h5>Event</h5></Col>
+							<Col xs={5}><h5 style={{fontWeight: '700'}}>Event</h5></Col>
 							<Col xs={7}><h5>Performance</h5></Col>
 
 						</Row>
@@ -448,11 +448,21 @@ const Calendar = () => {
 													<Row>
 														<div className='ProgressBar'>
 															<ProgressBar
-																 style={ProgressBarDiv}
-																 now={(event.attendees / event.totalInvites) * 100}
-																 label={<span>&nbsp;</span>}
-																 className="custom-progress-bar .progress-bar"
+																style={ProgressBarDiv}
+																now={(event.attendees / event.totalInvites) * 100}
+																label={<span>&nbsp;</span>}
+																className="custom-progress-bar .progress-bar"
 															/>
+															<style>
+																{`
+      .custom-progress-bar .progress-bar {
+        border-radius: 10px;
+      }
+      .custom-progress-bar .progress-bar-success {
+        background-color: #28a745;
+      }
+    `}
+															</style>
 														</div>
 													</Row>
 												</Col>
