@@ -33,7 +33,7 @@ function App() {
         <Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
           <Route path='/' element={<Overview />} />
           <Route path='overview' element={<Overview />} />
-          <Route path='events' element={<Events />} />
+          <Route path='events' element={<Events variable={sessionStorage.getItem('email')} />} />
           <Route
             path='profile'
             element={<ProfileSettingsPage variable={sessionStorage.getItem('email')} />}

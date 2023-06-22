@@ -33,7 +33,8 @@ const categoryBadge = {
     
 }
 
-const Events = () => {
+const Events = (props: any) => {
+
 	const [modalShow, setModalShow] = useState(false)
   
 	const handleOpenModal = () => {
@@ -43,6 +44,8 @@ const Events = () => {
 	const handleCloseModal = () => {
 	  setModalShow(false)
 	}
+
+	const { variable } = props
 
 	return (
 		<div>
@@ -66,105 +69,10 @@ const Events = () => {
 					</Col>
 				</Row>
 
-				<EventPanel2/>
-				{/* <div className='events-panel'>
-					<EventsDetails>
-						<ul className='nav-options'>
-							<NavOptions className='refresh'><img src ={require('../../assets/images/refresh.png')} className='refresh-icon'/>Refresh</NavOptions>
-							<NavOptions className='sort'><img src ={require('../../assets/images/sort-up.png')} className='sort-icon'/>Sort</NavOptions>
-							<NavOptions className='filter'><img src ={require('../../assets/images/filter.png')} className='filter-icon'/>Filter</NavOptions>
-						</ul>
-						<h3 id='current-events-registered'>Currently Registered</h3>
-						<hr />
-						<h3 id='no-events'>No Events</h3>
-						<table id='unregistered-events-table'>
-							<tr id=''>
-								<th id='event-head-title'>Title</th>
-								<th id='event-head-date'>Date</th>
-								<th id='event-head-category'>Category</th>
-								<th id='event-head-action'>Action</th>
-							</tr>
-							<tr>
-								<td>
-									<EventsTitles>
-										<img src={require('../../assets/images/caution.png')} alt='' className='caution-icon' />
-										<a href="#" className='EventModalLink' onClick={handleOpenModal}>
-              								Save the date: Be part of the TELUS Days of Giving
-										</a>
-									</EventsTitles><ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
-								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
-									<EventTime>6:30 PM</EventTime>
-								</td>
-								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
-								<td><RegisterActionButton>REGISTER</RegisterActionButton></td>
-							</tr>
-							<tr>
-								<td>
-									<EventsTitles><img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>Open Web-Session | BigQuery GCP | 31st</EventsTitles>
-									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
-								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
-									<EventTime>6:30 PM</EventTime>
-								</td>
-								<td><TIDSCategory>TIDS</TIDSCategory></td>
-								<td><RegisterActionButton>REGISTER</RegisterActionButton></td>
-							</tr>
-							<tr>
-								<td>
-									<EventsTitles>HappyHere FlipTIP Intersite Competition</EventsTitles>
-									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
-								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
-									<EventTime>6:30 PM</EventTime>
-								</td>
-								<td><HappyHereCategory>#HAPPYHERE</HappyHereCategory></td>
-								<td><RegisterActionButton>REGISTER</RegisterActionButton></td>
-							</tr>
-							<tr>
-								<td>
-									<EventsTitles><img src={require('../../assets/images/caution.png')} alt='' className='caution-icon'/>DevOps CoP: Call for Video Content</EventsTitles>
-									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
-								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
-									<EventTime>6:30 PM</EventTime>
-								</td>
-								<td><TeamEventCategory>TEAM EVENT</TeamEventCategory></td>
-								<td><RegisterActionButton>REGISTER</RegisterActionButton></td>
-							</tr>
-							<tr>
-								<td>
-									<EventsTitles>Learning from the Experts: Evolution of Communication</EventsTitles>
-									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
-								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
-									<EventTime>6:30 PM</EventTime>
-								</td>
-								<td><TIDSCategory>TIDS</TIDSCategory></td>
-								<td><RegisterActionButton>REGISTER</RegisterActionButton></td>
-							</tr>
-							<tr>
-								<td>
-									<EventsTitles>Simple Wellness: Find the Beat</EventsTitles>
-									<ViewDetails><a href="" className='view-details'>View details</a></ViewDetails>
-								</td>
-								<td style={{paddingLeft:'2%'}}>
-									<EventsDates>August 25, 2022</EventsDates>
-									<EventTime>6:30 PM</EventTime>
-								</td>
-								<td><COPCategory>COP</COPCategory></td>
-								<td><RegisterActionButton>REGISTER</RegisterActionButton></td>
-							</tr>
-						</table>
-					</EventsDetails>
-				</div> */}
+				<EventPanel2 variable={variable}/>
+				
 			</div>
-			<EventModal show={modalShow} onHide={handleCloseModal} />
+			{/* <EventModal show={modalShow} onHide={handleCloseModal}/> */}
 		</div>
 	)
 }
