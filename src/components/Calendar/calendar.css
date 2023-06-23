@@ -1,7 +1,7 @@
  @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900;1000&display=swap');
 
  @media (min-width: 900px){
-    
+   
     .calendar {
       
        height: 412px;
@@ -167,7 +167,6 @@ td.date-cells {
         padding-right: 20px;
         padding-bottom: 5px;
       }
-
 
       .custom-progress-bar .progress-bar {
         border-radius: 10px;

@@ -445,7 +445,6 @@ const Calendar = () => {
 														</div>
 													</Row>
  
- 
 													<Row>
 														<div className='ProgressBar'>
 														<ProgressBar
