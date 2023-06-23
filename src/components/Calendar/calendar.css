@@ -1,12 +1,7 @@
  @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900;1000&display=swap');
 
  @media (min-width: 900px){
-    body {
-        background-color: #D8D8D8;
-        font-family: 'Mulish';
-        font-size: 1vw;
-    }
-
+   
     .calendar {
       
        height: 412px;
@@ -33,6 +28,7 @@
         background-color: #FFFFFF;
        height: 377px;
        border-radius: 20px;
+       overflow: auto;
       }
 
 
@@ -172,6 +168,12 @@ td.date-cells {
         padding-bottom: 5px;
       }
 
+      .custom-progress-bar .progress-bar {
+        border-radius: 10px;
+      }
+      .custom-progress-bar .progress-bar-success {
+        background-color: #28a745;
+      }
 
  }
 

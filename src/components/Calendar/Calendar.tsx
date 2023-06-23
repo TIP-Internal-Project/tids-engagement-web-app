@@ -444,27 +444,17 @@ const Calendar = () => {
 															
 														</div>
 													</Row>
-
+ 
 													<Row>
 														<div className='ProgressBar'>
-															<ProgressBar
-																style={ProgressBarDiv}
-																now={(event.attendees / event.totalInvites) * 100}
-																label={<span>&nbsp;</span>}
-																className="custom-progress-bar .progress-bar"
-															/>
-															<style>
-																{`
-      .custom-progress-bar .progress-bar {
-        border-radius: 10px;
-      }
-      .custom-progress-bar .progress-bar-success {
-        background-color: #28a745;
-      }
-    `}
-															</style>
+														<ProgressBar
+																		style={ProgressBarDiv}
+																		now={(event.attendees / event.totalInvites) * 100}
+																		label={<span style={{backgroundColor:'#66CC00'}}>&nbsp;</span>}
+																		className="custom-progress-bar custom-progress-bar-success"
+																		/>
 														</div>
-													</Row>
+														</Row>
 												</Col>
 											</Row>
 				  

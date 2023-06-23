@@ -41,6 +41,7 @@ function App() {
           />
           <Route path='tasks' element={<Tasks />} />
           <Route path='atten' element={<EventAttendance />} />
+          <Route path='adminOverview' element={<AdminOverview />} />
           <Route path='OrderProcessing' element={<OrderProcessing />} />
         </Route>
         <Route path='adminOverview' element={<AdminOverview />} />
