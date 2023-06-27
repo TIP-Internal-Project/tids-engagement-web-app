@@ -211,10 +211,10 @@ export const OrderPanel= () => {
 		<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
 			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
 				
-				<Row className='ps-5 pe-2' >
+				<Row className='ps-4 pe-2' >
 					<Col xs={8} className='px-3' style={{color:'#9FA2B4'}}>
 						<Nav.Link className='' onClick={handleOpenDetailsModal}>
-							+  New Entry
+							<span className='me-2' style={{fontSize:'20px',fontWeight:'heavy', color:'black'}}>+</span> New Entry
 						</Nav.Link>
 					</Col>
 
