@@ -15,6 +15,9 @@ export const Sidebar = () => {
 					<li><img src ={require('../assets/images/home logo.png')} style={{height:'17px',width:'20px'}}/><a href="url"><Link to='/overview'>Overview</Link></a></li>						
 					<li><img src ={require('../assets/images/events.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/events'>Events</Link></a></li>
 					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/tasks'>Tasks</Link></a></li>
+					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/tasks'>Reports</Link></a></li>
+					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/tasks'>Team Roster</Link></a></li>
+					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/OrderProcessing'>Orders</Link></a></li>
 				</ul> 
 
 				<p style={{fontSize:'14px'}}>External Links</p>

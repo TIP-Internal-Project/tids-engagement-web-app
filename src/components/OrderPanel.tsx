@@ -5,8 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import EventModal from './EventModal'
-import DetailsModal from './DetailsModal'
+import OrderModal from './OrderDetailsModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -14,6 +13,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 export const OrderPanel= () => {
 
 	const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
+
+	const [detailsModalShow, setDetailsModalShow] = useState(false)
+
+	const handleOpenDetailsModal = () => {
+		setDetailsModalShow(true)
+	}
+	
+	const handleCloseDetailsModal = () => {
+		setDetailsModalShow(false)
+	}
 
 
 
@@ -202,10 +211,10 @@ export const OrderPanel= () => {
 		<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
 			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
 				
-				<Row className='px-2' >
-					<Col xs={8} className='px-5' style={{color:'#9FA2B4'}}>
-						<Nav.Link className=''>
-							+  New Entry
+				<Row className='ps-4 pe-2' >
+					<Col xs={8} className='px-3' style={{color:'#9FA2B4'}}>
+						<Nav.Link className='' onClick={handleOpenDetailsModal}>
+							<span className='me-2' style={{fontSize:'20px',fontWeight:'heavy', color:'black'}}>+</span> New Entry
 						</Nav.Link>
 					</Col>
 
@@ -227,17 +236,17 @@ export const OrderPanel= () => {
 				</Row>		 
 
 
-				<Row style={TitleBar} className='px-5'>
+				<Row style={TitleBar} className='px-3'>
 		 			<Col xs={3}>Team Member</Col>
 					<Col xs={2} className=''>Order</Col>
-		 			<Col xs={2} className='text-center'>Size</Col>
-					<Col xs={2} className='text-center'>Cost (PHP)</Col>
-
-		 			<Col className='text-center'>Action</Col>
+		 			<Col xs={1} className='text-center'>Size</Col>
+					 <Col xs={2} className='text-center ps-0'>Cost (PHP)</Col>
+					<Col xs={1} className='ps-0'>Status</Col>
+		 			<Col xs={3} className='text-center'>Action</Col>
 		 		</Row>
 				<ListGroup>
 					{orders.map((event) => (
-						<ListGroup.Item key={event.id} style={{borderLeft:'none', borderRight:'none', borderRadius:'0px'}} className='px-5'>
+						<ListGroup.Item key={event.id} style={{borderLeft:'none', borderRight:'none', borderRadius:'0px'}} className='px-3'>
 							
 							<Row className='py-2'>
 								<Col xs={3} style={IndItemTitleDisplay} >
@@ -253,17 +262,21 @@ export const OrderPanel= () => {
 									<p style={IndItem} className='mb-0'>{event.order}</p>
 								</Col>
 
-								<Col xs={2} className='text-center'>
+								<Col xs={1} className='text-center'>
 									<p style={IndItem} className='mb-0'>{event.size}</p>
 								</Col>
 
-								<Col xs={2} className='text-center'>
+								<Col xs={2} className='text-center ps-0'>
 									<p style={IndItem} className='mb-0'>{event.cost}</p>
 								</Col>
 
-								<Col style={{display:'flex',  justifyContent:'center', fontSize:'12px'}}>
-									<Button className={event.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge}> PROCESSING</Button>
-									<Button className={event.status==='Processing'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge}> CLAIMED</Button>
+								<Col xs={1} className='ps-0' >
+									<p style={IndItem} className='mb-0'>{event.status}</p>
+								</Col>
+
+								<Col xs={3} style={{display:'flex',  justifyContent:'center', fontSize:'12px'}}>
+									<Button className={event.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge}> CANCEL</Button>
+									<Button className={event.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge}> CLAIM</Button>
 								</Col>
 							</Row>
 							
@@ -273,6 +286,7 @@ export const OrderPanel= () => {
 				</ListGroup>
 	
 			</Container>
+			<OrderModal show={detailsModalShow} onHide={handleCloseDetailsModal}/>
 		</Container>
  
 

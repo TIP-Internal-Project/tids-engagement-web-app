@@ -4,11 +4,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import React, { useState } from 'react'
-// import EventModal from '../../components/EventModal'
 import Button from 'react-bootstrap/Button'
 import HeaderLeft from '../../components/HeaderLeft'
 import { EventPanel2 } from '../../components/EventPanel2'
-import {OrderPanel} from '../../components/OrderPanel2'
+import {OrderPanel} from '../../components/OrderPanel'
 
 
 const EventsHeaderLeft = () => {
@@ -32,7 +31,7 @@ const categoryBadge = {
     
 }
 
-const Events = () => {
+const Orders = () => {
 	const [modalShow, setModalShow] = useState(false)
   
 	const handleOpenModal = () => {
@@ -60,9 +59,8 @@ const Events = () => {
 				<OrderPanel/>
 				
 			</div>
-			{/* <EventModal show={modalShow} onHide={handleCloseModal} /> */}
 		</div>
 	)
 }
 
-export default Events
+export default Orders
