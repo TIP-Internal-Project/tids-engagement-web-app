@@ -17,6 +17,7 @@ import { EventPanel } from '../../components/EventPanel'
 import { Subheader } from '../../components/Subheader'
 import { EventAttendance } from '../../components/EventAttendance'
 import Calendar from '../../components/Calendar/Calendar'
+import Roles from '../../components/Roles/roles'
 
 export default function AdminOverviewPage() {
 	const dispatch = useAppDispatch()
@@ -57,6 +58,8 @@ export default function AdminOverviewPage() {
 	  dispatch(fetchEvents())
 	}, [dispatch])
 
+
+	
 	return (
 
 		<div>

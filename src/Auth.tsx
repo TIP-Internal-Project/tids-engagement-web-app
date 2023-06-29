@@ -29,4 +29,6 @@ export function storeUser() {
   sessionStorage.setItem('email', userSession.email)
   sessionStorage.setItem('familyName', userSession.familyName)
   sessionStorage.setItem('givenName', userSession.givenName)
+  sessionStorage.setItem('isAdmin', userSession.role === 'admin' ? 'true' : 'false')
+
 }

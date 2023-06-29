@@ -15,6 +15,8 @@ import { HeaderRight } from '../../components/HeaderRight'
 import  HeaderLeft  from '../../components/HeaderLeft'
 import { EventPanel } from '../../components/EventPanel'
 import { Subheader } from '../../components/Subheader'
+import GeneralAdminAnalyst from '../../components/Roles/roles'
+
 
 export default function OverviewPage() {
 	const dispatch = useAppDispatch()
@@ -79,6 +81,12 @@ export default function OverviewPage() {
 				</Row>
 				
 				<EventsPanel></EventsPanel>
+
+				<Row>
+					<GeneralAdminAnalyst/>
+				</Row>
+
+
 
 				<Row>
 					<Col style={footerComponent}></Col>
