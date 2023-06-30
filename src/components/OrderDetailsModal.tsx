@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../redux/store'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -7,15 +8,17 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Nav from 'react-bootstrap/Nav'
-
+import { addOrder } from '../redux/addOrderSlice'
+import { OrderState, fetchOrders } from '../redux/orderSlice'
 
 
 interface EventModalProps {
   show: boolean
   onHide: () => void
+  addedOrders: (orders: OrderState) => void
 }
 
-const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
+const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) => {
     
 	const modalStyle = {
 		border: 'none', // Add a new border style
@@ -42,7 +45,77 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 		marginTop: '6px',
 		paddingLeft: '11px'
 	}
+	
+	const dispatch = useAppDispatch()
+	const [buttonClicked, setButtonClicked] = useState(false)
 
+	const [formValues, setFormValues] = useState({
+		workdayId: '',
+		name: '',
+		orderName: 'TI Digital Solutions Jacket Hoodie',
+		orderSize: 'XS',
+		orderCost: 1000,
+		status: 'Processing',
+		createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+	})
+
+	const handleInputChange = (event: any) => {
+		const { name, value } = event.target
+		setFormValues((prevValues) => ({
+		  ...prevValues,
+		  [name]: value,
+		}))
+	}
+
+	const handleAddOrder = async () => {
+		const orderName = formValues.orderName
+	
+		let orderCost = 0
+		let orderSize = ''
+		if (orderName === 'TI Digital Solutions Jacket Hoodie') {
+			orderCost = 1000
+			orderSize = formValues.orderSize
+		} else if (orderName === 'TI Digital Solutions Tumbler') {
+			orderCost = 500
+			orderSize = ''
+		} else if (orderName === 'TI Digital Solutions Facemask') {
+			orderCost = 250
+			orderSize = ''
+		} else if (orderName === 'Communities of Practice (COP) Tumbler') {
+			orderCost = 500
+			orderSize = ''
+		} else if (orderName === 'Communities of Practice (COP) Bag') {
+			orderCost = 800
+			orderSize = ''
+		} else if (orderName === 'Communities of Practice (COP) RPA Mug') {
+			orderCost = 150
+			orderSize = ''
+		}
+	
+		await setFormValues((prevValues) => ({
+		  ...prevValues,
+		  orderSize,
+		  orderCost,
+		}))
+
+		setButtonClicked(true)
+	
+	}
+
+	useEffect(() => {
+		if (buttonClicked){
+			dispatch(addOrder(formValues))
+			.then(() => dispatch(fetchOrders()))
+			.then((resultAction) => {
+			if (resultAction.type === fetchOrders.fulfilled.type) {
+				const newOrders = resultAction.payload as OrderState
+				addedOrders(newOrders)
+				setButtonClicked(false)
+				setFormValues({workdayId: '', name: '', orderName: 'TI Digital Solutions Jacket Hoodie', orderSize: 'XS', orderCost: 1000, status: 'Processing', createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')})
+			}
+		})
+		}
+	}, [buttonClicked])
 
 	return (
 		<Modal
@@ -55,7 +128,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 			
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter" className='mx-3' style={ModalTitleDiv}>
-					Add / Edit Order
+					Add Order
 				</Modal.Title>
 				
 			</Modal.Header>
@@ -73,6 +146,9 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 										required
 										type="text"
 										placeholder=""
+										name="name"
+          								value={formValues.name}
+          								onChange={handleInputChange}
 										style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 									/>
 							</Form.Group>
@@ -85,6 +161,9 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											required
 											type="text"
 											placeholder=""
+											name="workdayId"
+											value={formValues.workdayId}
+											onChange={handleInputChange}
 											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 										/>
 							</Form.Group>
@@ -95,21 +174,22 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 						<Col xs={8}>
 							<Form.Group>
 								<Form.Label>Order</Form.Label>
-										<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
-											<option value='jacketHoodie'>TI Digital Solutions Jacket Hoodie</option>
-											<option value='tumbler'>TI Digital Solutions Tumbler</option>
-											<option value='facemas'>TI Digital Solutions Facemask</option>
-											<option value='copTumbler'>Communities of Practice (COP) Tumbler</option>
-											<option value='copBag'>Communities of Practice (COP) Bag</option>
-											<option value='copMug'>Communities of Practice (COP) RPA Mug</option>
+										<Form.Select aria-label="Default select example" name="orderName" value={formValues.orderName} onChange={handleInputChange} style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
+											<option>TI Digital Solutions Jacket Hoodie</option>
+											<option>TI Digital Solutions Tumbler</option>
+											<option>TI Digital Solutions Facemask</option>
+											<option>Communities of Practice (COP) Tumbler</option>
+											<option>Communities of Practice (COP) Bag</option>
+											<option>Communities of Practice (COP) RPA Mug</option>
 										</Form.Select>
 							</Form.Group>
 						</Col>	
 
 						<Col>
+						{formValues.orderName === 'TI Digital Solutions Jacket Hoodie' && (
 							<Form.Group>
 									<Form.Label>Size</Form.Label>
-										<Form.Select aria-label="Default select example" style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
+										<Form.Select aria-label="Default select example" name="orderSize" value={formValues.orderSize} onChange={handleInputChange} style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
 											<option value='XS'>XS</option>
 											<option value='S'>S</option>
 											<option value='M'>M</option>
@@ -119,6 +199,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											<option value='XXXL'>XXXL</option>
 										</Form.Select>
 							</Form.Group>
+						)}
 						</Col>
 
 					</Row>
@@ -135,7 +216,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 						</Col> */}
 
 						<Col xs={3} style={{display:'flex', alignItems:'center', justifyContent:'end'}} >
-							<Button variant='success' className='px-4'>
+							<Button variant='success' className='px-4' onClick={handleAddOrder}>
 								Add Order
 							</Button>
 						</Col>
