@@ -13,13 +13,6 @@ import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 import { register } from '../redux/eventRegistrationSlice'
 
-export const useSortedEvents = () => {
-	const [sortedEvents, setSortedEvents] = useState<Event[]>([])
-	const [sortedEvents1, setSortedEvents1] = useState<Event[]>([])
-  
-	return [sortedEvents, setSortedEvents, sortedEvents1, setSortedEvents1]  
-}
-
 export const EventPanel2 = (props: any) => {
 
 	const [eventModalShow, setEventModalShow] = useState(false)

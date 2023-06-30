@@ -8,6 +8,8 @@ import overviewEventsReducer from './overviewEventsSlice'
 import unregisteredEventsReducer from './unregisteredEventsSlice'
 import registeredEventsReducer from './registeredEventsSlice'
 import eventRegistrationReducer from './eventRegistrationSlice'
+import orderReducer from './orderSlice'
+import addOrderReducer from './addOrderSlice'
 
 export const store = configureStore({
   	reducer: {
@@ -17,7 +19,9 @@ export const store = configureStore({
 		overviewEvents: overviewEventsReducer,
 		unregisteredEvents: unregisteredEventsReducer,
 		registeredEvents: registeredEventsReducer,
-		eventRegistration: eventRegistrationReducer
+		eventRegistration: eventRegistrationReducer,
+		order: orderReducer,
+		addOrder: addOrderReducer
   	},
 })
 
