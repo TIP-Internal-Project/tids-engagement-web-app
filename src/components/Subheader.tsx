@@ -11,7 +11,7 @@ export const Subheader = () => {
 		
 		<div>
 		    <StyledStarDiv>
-				<TitleDiv>Stars</TitleDiv>
+				<TitleDiv>Star Points</TitleDiv>
 				<IconDiv><img src={require('../assets/images/Star.png')} /></IconDiv>
 				<ValueDiv>9,999</ValueDiv>
 			</StyledStarDiv>
