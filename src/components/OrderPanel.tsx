@@ -222,7 +222,7 @@ export const OrderPanel= () => {
 		 			<Col xs={3}>Team Member</Col>
 					<Col xs={2} className=''>Order</Col>
 		 			<Col xs={1} className='text-center'>Size</Col>
-					<Col xs={2} className='text-center ps-0'>Cost (PHP)</Col>
+					 <Col xs={2} className='text-center ps-0'>Cost (Star Points)</Col>
 					<Col xs={1} className='ps-0'>Status</Col>
 		 			<Col xs={3} className='text-center'>Action</Col>
 		 		</Row>
