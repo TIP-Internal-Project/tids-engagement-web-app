@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import OrderModal from './OrderDetailsModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { OrderState, fetchOrders } from '../redux/orderSlice'
+import { fetchOrders } from '../redux/orderSlice'
 
 
 export const OrderPanel= () => {
@@ -141,7 +141,6 @@ export const OrderPanel= () => {
 	const dispatch = useAppDispatch()
 	useEffect(() => {
 		dispatch(fetchOrders())
-		console.log(dispatch)
 	}, [dispatch])
 
 	const handleAddedOrders = () => {
@@ -222,7 +221,7 @@ export const OrderPanel= () => {
 		 			<Col xs={3}>Team Member</Col>
 					<Col xs={2} className=''>Order</Col>
 		 			<Col xs={1} className='text-center'>Size</Col>
-					<Col xs={2} className='text-center ps-0'>Cost (PHP)</Col>
+					 <Col xs={2} className='text-center ps-0'>Cost (Star Points)</Col>
 					<Col xs={1} className='ps-0'>Status</Col>
 		 			<Col xs={3} className='text-center'>Action</Col>
 		 		</Row>

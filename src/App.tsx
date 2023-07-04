@@ -12,7 +12,6 @@ import Tasks from './pages/Tasks'
 import { fetchEvents } from './redux/eventSlice'
 import { useCallback, useEffect } from 'react'
 import { EventAttendance } from './components/EventAttendance'
-import AdminOverview from './pages/AdminOverview'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -21,11 +20,12 @@ function App() {
     await dispatch(fetchEvents())
   }, [dispatch])
 
+  const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
+
   // useEffect(() => {
   // 	dispatch(getUserSession())
   // }, [])
 
-  const userSession = useAppSelector(getUserSession)
   const isUserAuthenticated = sessionStorage.getItem('email') ? true : false
 
   return (
@@ -41,10 +41,11 @@ function App() {
           />
           <Route path='tasks' element={<Tasks />} />
           <Route path='atten' element={<EventAttendance />} />
-          <Route path='adminOverview' element={<AdminOverview />} />
-          <Route path='OrderProcessing' element={<OrderProcessing />} />
+          <Route
+            path='OrderProcessing'
+            element={isAdmin ? <OrderProcessing /> : <Navigate to={'/overview'} />}
+          />
         </Route>
-        <Route path='adminOverview' element={<AdminOverview />} />
         <Route path='/login' element={<Login />} />
         <Route path='/auth' element={<Auth />} />
         <Route

@@ -5,6 +5,8 @@ import { loaderOn } from './redux/pageStatusSlice'
 import { extractSessionDetails } from './helpers/session'
 import OIDCResponse from './interfaces/OIDCResponse'
 import { getUserSession } from './redux/userSessionSlice'
+import { setUserRole } from './components/Roles/Roles'
+import Login from './Login'
 
 export default function Auth() {
   const dispatch = useAppDispatch()
@@ -25,8 +27,13 @@ export default function Auth() {
 }
 
 export function storeUser() {
+  setUserRole()
   const userSession = useAppSelector(getUserSession)
   sessionStorage.setItem('email', userSession.email)
   sessionStorage.setItem('familyName', userSession.familyName)
   sessionStorage.setItem('givenName', userSession.givenName)
 }
+
+window.addEventListener('storage', () => {
+  Login()
+})

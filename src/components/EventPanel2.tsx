@@ -136,6 +136,8 @@ export const EventPanel2 = (props: any) => {
 		color: 'green'
 	}
 
+	const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
+
 	const [modalData, setModalData] = useState<any[]>([])
 	const [showSortDropdown, setShowSortDropdown] = useState(false)
 	const [showFilterDropdown, setShowFilterDropdown] = useState(false)
@@ -465,11 +467,11 @@ export const EventPanel2 = (props: any) => {
 
 		<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
 			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
-					<Col xs={8} className='px-5' style={{color:'#7175B'}}>
+					{isAdmin && <Col xs={8} className='px-5' style={{color:'#7175B'}}>
 						<Nav.Link className=''  style={{fontSize:'14px'}} onClick={handleOpenDetailsModal}>
 							<span className='mx-2' style={{fontSize:'20px'}}>+</span>  Add new event here
 						</Nav.Link>
-					</Col>
+					</Col>}
 				<div className="d-flex flex-row-reverse px-5">
 					<Nav.Link className='mx-3 ' style={{fontSize:'14px'}} onClick={handleFilterButtonClick}>
 						<img style={{height:'15px', width:'14px', marginRight:'10px'}}src ={require('../assets/images/filter.png')} />Filter
