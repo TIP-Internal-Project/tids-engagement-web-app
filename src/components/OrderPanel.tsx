@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col'
 import OrderModal from './OrderDetailsModal'
 import UpdateOrderModal from './UpdateOrderModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { OrderState, fetchOrders } from '../redux/orderSlice'
+import { fetchOrders } from '../redux/orderSlice'
 
 
 export const OrderPanel= () => {
@@ -153,7 +153,6 @@ export const OrderPanel= () => {
 	const dispatch = useAppDispatch()
 	useEffect(() => {
 		dispatch(fetchOrders())
-		console.log(dispatch)
 	}, [dispatch])
 
 	const handleAddedOrders = () => {

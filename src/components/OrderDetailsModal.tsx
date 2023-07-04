@@ -219,19 +219,28 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 					
 
 					<Row className='justify-content-end' style={{marginTop:'100px'}}>
-						{/* <Col xs={9} className='px-5' style={{color:'#9FA2B4'}}>
-						</Col> */}
+						<Col xs={6} className='px-5' style={{color:'#9FA2B4'}}>
+						</Col>
 
-						{/* <Col xs={2}  style={{display:'flex', alignItems:'center', justifyContent:'end', color:'#2B8000'}}>
+						<Col xs={2} className='' style={{display:'flex', alignItems:'center', justifyContent:'end', color:'#2B8000'}} >
+
+							<Nav.Link href='' className=''>
+								Preview
+							</Nav.Link>
+
+						</Col>
+
+						<Col xs={2} className='text-center' style={{display:'flex', alignItems:'center', justifyContent:'center',color:'#2B8000'}}>
 							<Nav.Link href='' className=''>
 								Clear Fields
 							</Nav.Link>
-						</Col> */}
+						</Col>
 
 						<Col xs={3} style={{display:'flex', alignItems:'center', justifyContent:'end'}} >
 							<Button variant='success' className='px-4' onClick={handleAddOrder} disabled={!formValues.name || !formValues.workdayId}>
 								Add Order
 							</Button>
+              
 						</Col>
 					</Row>
 				</Container>
