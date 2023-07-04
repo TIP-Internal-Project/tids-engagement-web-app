@@ -102,6 +102,19 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 	
 	}
 
+	const handleModalHide = () => {
+		setFormValues({
+		  workdayId: '',
+		  name: '',
+		  orderName: 'TI Digital Solutions Jacket Hoodie',
+		  orderSize: 'XS',
+		  orderCost: 1000,
+		  status: 'Processing',
+		  createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+		})
+		onHide()
+	  }
+
 	useEffect(() => {
 		if (buttonClicked){
 			dispatch(addOrder(formValues))
@@ -120,7 +133,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 	return (
 		<Modal
 			show={show}
-			onHide={onHide}
+			onHide={handleModalHide}
 			size="xl"
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
@@ -216,7 +229,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 						</Col> */}
 
 						<Col xs={3} style={{display:'flex', alignItems:'center', justifyContent:'end'}} >
-							<Button variant='success' className='px-4' onClick={handleAddOrder}>
+							<Button variant='success' className='px-4' onClick={handleAddOrder} disabled={!formValues.name || !formValues.workdayId}>
 								Add Order
 							</Button>
 						</Col>
