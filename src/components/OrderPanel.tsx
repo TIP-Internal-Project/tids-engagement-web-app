@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import OrderModal from './OrderDetailsModal'
+import UpdateOrderModal from './UpdateOrderModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { OrderState, fetchOrders } from '../redux/orderSlice'
 
@@ -127,6 +128,8 @@ export const OrderPanel= () => {
 	const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
 
 	const [detailsModalShow, setDetailsModalShow] = useState(false)
+	const [modalData, setModalData] = useState<any[]>([])
+	const [updateModalShow, setUpdateModalShow] = useState(false)
 
 	const handleOpenDetailsModal = () => {
 		setDetailsModalShow(true)
@@ -134,6 +137,15 @@ export const OrderPanel= () => {
 	
 	const handleCloseDetailsModal = () => {
 		setDetailsModalShow(false)
+	}
+
+	const handleOpenUpdateModal = (order: any) => {
+		setModalData(order)
+		setUpdateModalShow(true)
+	}
+	
+	const handleCloseUpdateModal = () => {
+		setUpdateModalShow(false)
 	}
 
 	const orders = useAppSelector((state) => state.order)
@@ -149,16 +161,21 @@ export const OrderPanel= () => {
 		dispatch(fetchOrders())
 	}
 
+	const handleUpdatedOrders = () => {
+		setUpdateModalShow(false)
+		dispatch(fetchOrders())
+	}
+
 	const renderedOrders = Object.values(orders.orders).map((order: any, index) => {
 		return (
 			<ListGroup.Item key={order.orderId} style={{borderLeft:'none', borderRight:'none', borderRadius:'0px'}} className='px-3'>
 				
 				<Row className='py-2'>
 					<Col xs={3} style={IndItemTitleDisplay} >
-						<p 	className='mb-0'>
+						<p 	className='mb-0' onClick={() => handleOpenUpdateModal(order)}>
 							{order.name}
 						</p>
-						<Button style={viewDetailsButton} className=''>
+						<Button style={viewDetailsButton} className='' onClick={() => handleOpenUpdateModal(order)}>
 								{order.workdayId}
 						</Button>
 					</Col>
@@ -234,6 +251,7 @@ export const OrderPanel= () => {
 	
 			</Container>
 			<OrderModal show={detailsModalShow} onHide={handleCloseDetailsModal} addedOrders={handleAddedOrders} />
+			<UpdateOrderModal show={updateModalShow} onHide={handleCloseUpdateModal} modalData={modalData} updatedOrders={handleUpdatedOrders}/>
 		</Container>
  
 

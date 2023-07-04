@@ -9,16 +9,18 @@ import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Nav from 'react-bootstrap/Nav'
 import { addOrder } from '../redux/addOrderSlice'
+import { updateOrder } from '../redux/updateOrderSlice'
 import { OrderState, fetchOrders } from '../redux/orderSlice'
 
 
 interface EventModalProps {
   show: boolean
   onHide: () => void
-  addedOrders: (orders: OrderState) => void
+  modalData: any[]
+  updatedOrders: (orders: OrderState) => void
 }
 
-const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) => {
+const UpdateOrderModal: React.FC<EventModalProps> = ({ show, onHide, modalData, updatedOrders }) => {
     
 	const modalStyle = {
 		border: 'none', // Add a new border style
@@ -49,29 +51,35 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 	const dispatch = useAppDispatch()
 	const [buttonClicked, setButtonClicked] = useState(false)
 
-	const [formValues, setFormValues] = useState({
-		workdayId: '',
-		name: '',
-		orderName: 'TI Digital Solutions Jacket Hoodie',
-		orderSize: 'XS',
-		orderCost: 1000,
-		status: 'Processing',
-		createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
-	})
+	const [data, setData] = useState<any>({})
+	
+	useEffect(()=>{
+		setData(modalData)
+	}, [modalData])
+
+	console.log(data)
+	const [formValues, setFormValues] = useState<any>({})
+
+	useEffect(()=>{
+		setFormValues(data)
+		console.log(formValues)
+	}, [data])
 
 	const handleInputChange = (event: any) => {
 		const { name, value } = event.target
-		setFormValues((prevValues) => ({
+		setFormValues((prevValues:any) => ({
 		  ...prevValues,
 		  [name]: value,
 		}))
 	}
 
-	const handleAddOrder = async () => {
+	const handleEditOrder = async () => {
 		const orderName = formValues.orderName
 	
 		let orderCost = 0
 		let orderSize = ''
+		const updatedBy = sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+		const updatedAt = new Date() 
 		if (orderName === 'TI Digital Solutions Jacket Hoodie') {
 			orderCost = 1000
 			orderSize = formValues.orderSize
@@ -92,10 +100,12 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 			orderSize = ''
 		}
 	
-		await setFormValues((prevValues) => ({
+		await setFormValues((prevValues:any) => ({
 		  ...prevValues,
 		  orderSize,
 		  orderCost,
+		  updatedBy,
+		  updatedAt
 		}))
 
 		setButtonClicked(true)
@@ -103,32 +113,24 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 	}
 
 	const handleModalHide = () => {
-		setFormValues({
-		  workdayId: '',
-		  name: '',
-		  orderName: 'TI Digital Solutions Jacket Hoodie',
-		  orderSize: 'XS',
-		  orderCost: 1000,
-		  status: 'Processing',
-		  createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
-		})
+		setFormValues(data)
 		onHide()
-	  }
+	}
 
 	useEffect(() => {
 		if (buttonClicked){
-			dispatch(addOrder(formValues))
+			console.log(formValues)
+			dispatch(updateOrder(formValues))
 			.then(() => dispatch(fetchOrders()))
 			.then((resultAction) => {
 			if (resultAction.type === fetchOrders.fulfilled.type) {
-				const newOrders = resultAction.payload as OrderState
-				addedOrders(newOrders)
+				const editedOrders = resultAction.payload as OrderState
+				updatedOrders(editedOrders)
 				setButtonClicked(false)
-				setFormValues({workdayId: '', name: '', orderName: 'TI Digital Solutions Jacket Hoodie', orderSize: 'XS', orderCost: 1000, status: 'Processing', createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')})
 			}
 		})
 		}
-	}, [buttonClicked])
+	}, [formValues, buttonClicked])
 
 	return (
 		<Modal
@@ -141,7 +143,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 			
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter" className='mx-3' style={ModalTitleDiv}>
-					Add Order
+					Edit Order
 				</Modal.Title>
 				
 			</Modal.Header>
@@ -162,7 +164,8 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 										name="name"
           								value={formValues.name}
           								onChange={handleInputChange}
-										style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
+										style={{backgroundColor:'#DEDEDE', borderRadius:'25px', color: 'gray'}}
+										disabled
 									/>
 							</Form.Group>
 						</Col>	
@@ -177,7 +180,8 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 											name="workdayId"
 											value={formValues.workdayId}
 											onChange={handleInputChange}
-											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
+											style={{backgroundColor:'#DEDEDE', borderRadius:'25px', color: 'gray'}}
+											disabled
 										/>
 							</Form.Group>
 						</Col>
@@ -229,8 +233,8 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 						</Col> */}
 
 						<Col xs={3} style={{display:'flex', alignItems:'center', justifyContent:'end'}} >
-							<Button variant='success' className='px-4' onClick={handleAddOrder} disabled={!formValues.name || !formValues.workdayId}>
-								Add Order
+							<Button variant='success' className='px-4' onClick={handleEditOrder}>
+								Edit Order
 							</Button>
 						</Col>
 					</Row>
@@ -241,4 +245,4 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 	)
 }
 
-export default OrderModal
+export default UpdateOrderModal
