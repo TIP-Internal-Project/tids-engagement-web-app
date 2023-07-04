@@ -366,7 +366,7 @@
 
 							<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
 								<Button variant='success' className='px-4'>
-									Add Task
+									Add Event
 								</Button>
 							</Col>
 						</Row>
