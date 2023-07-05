@@ -207,6 +207,8 @@ export const EventPanel2 = (props: any) => {
 	}, [])
 
 	const handleRegister = async (eventId: any, email: any) => {
+		setSortedEvents([])
+		setSortedEvents1([])
 		setSortOption('asc')
 		setFilterOption('')
 		await dispatch(register({ eventId, email }))
@@ -225,6 +227,8 @@ export const EventPanel2 = (props: any) => {
 	}
 
 	const handleRefresh = async (email: any) => {
+		setSortedEvents([])
+		setSortedEvents1([])
 		setSortOption('asc')
 		setFilterOption('')
 		const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
@@ -253,6 +257,8 @@ export const EventPanel2 = (props: any) => {
 	
 	useEffect(() => {
 		const sort = async () => {
+			setSortedEvents([])
+			setSortedEvents1([])
 			const email = props.variable
 			if (filterOption === null || filterOption === '' || filterOption === undefined) {
 				if (sortOption === 'asc') {
