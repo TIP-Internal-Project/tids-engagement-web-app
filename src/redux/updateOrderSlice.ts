@@ -3,6 +3,7 @@ import axios from 'axios'
 import { RootState } from './store'
 
 export interface UpdateOrderState {
+
 	loading: boolean;
 	orderId: number;
 	workdayId: string;
@@ -14,9 +15,11 @@ export interface UpdateOrderState {
 	updatedBy: string;
 	updatedAt: Date | null;
 	error: string;
+
 }
 
 const initialState: UpdateOrderState = {
+
 	loading: false,
 	orderId: 0,
 	workdayId: '',
@@ -28,9 +31,11 @@ const initialState: UpdateOrderState = {
 	updatedBy: '',
 	updatedAt: null,
 	error: '',
+
 }
 
 interface UpdateOrderPayload {
+
 	orderId: number;
 	workdayId: string;
 	name: string;
@@ -40,15 +45,19 @@ interface UpdateOrderPayload {
 	status: string;
 	updatedBy: string;
 	updatedAt: Date;
+
 }
 
 export const updateOrder = createAsyncThunk('updateOrder', async (payload: UpdateOrderPayload) => {
+
 	const { orderId, workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt } = payload
 	const response = await axios.put(`http://localhost:3001/order/updateOrderById/${orderId}`, { workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt })
 	return response.data
+
 })
 
 export const updateOrderSlice = createSlice({
+
   name: 'updateOrder',
   initialState,
   reducers: {
@@ -88,6 +97,7 @@ export const updateOrderSlice = createSlice({
         state.error = action.error.message || 'Failed to update order.'
       })
   },
+  
 })
 
 export const { editOrder } = updateOrderSlice.actions
