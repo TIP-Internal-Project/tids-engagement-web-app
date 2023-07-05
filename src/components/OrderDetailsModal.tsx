@@ -236,8 +236,8 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 							</Nav.Link>
 						</Col>
 
-						<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'end', paddingLeft: '10px', paddingRight: '10px'}} >
-							<Button variant='success' className='px-4' onClick={handleAddOrder} disabled={!formValues.name || !formValues.workdayId}>
+						<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'end'}} >
+							<Button variant='success' onClick={handleAddOrder} disabled={!formValues.name || !formValues.workdayId}>
 								Add Order
 							</Button>
               
