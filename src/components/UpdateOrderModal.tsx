@@ -83,6 +83,9 @@ const UpdateOrderModal: React.FC<EventModalProps> = ({ show, onHide, modalData, 
 		if (orderName === 'TI Digital Solutions Jacket Hoodie') {
 			orderCost = 1000
 			orderSize = formValues.orderSize
+			if (orderSize === '') {
+				orderSize = 'XS'
+			}
 		} else if (orderName === 'TI Digital Solutions Tumbler') {
 			orderCost = 500
 			orderSize = ''
