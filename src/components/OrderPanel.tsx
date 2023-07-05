@@ -250,6 +250,7 @@ export const OrderPanel= () => {
 	
 			</Container>
 			<OrderModal show={detailsModalShow} onHide={handleCloseDetailsModal} addedOrders={handleAddedOrders} />
+			
 			<UpdateOrderModal show={updateModalShow} onHide={handleCloseUpdateModal} modalData={modalData} updatedOrders={handleUpdatedOrders}/>
 		</Container>
  
