@@ -10,6 +10,7 @@ import OrderModal from './OrderDetailsModal'
 import UpdateOrderModal from './UpdateOrderModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchOrders } from '../redux/orderSlice'
+import { updateOrderStatusByID  } from '../redux/updateOrderByIDSlice'
 
 
 export const OrderPanel= () => {
@@ -165,6 +166,20 @@ export const OrderPanel= () => {
 		dispatch(fetchOrders())
 	}
 
+	const handleClaimOrder = (orderId: number) => {
+		dispatch(updateOrderStatusByID({ orderId: String(orderId), status: 'Claimed' }))
+		  .then((action) => {
+			// Handle successful response
+			console.log('Order status updated successfully')
+			dispatch(fetchOrders()) // Fetch the updated list of orders
+		  })
+		  .catch((error) => {
+			// Handle error
+			console.error('Failed to update order status:', error)
+		  })
+	  }
+
+
 	const renderedOrders = Object.values(orders.orders).map((order: any, index) => {
 		return (
 			<ListGroup.Item key={order.orderId} style={{borderLeft:'none', borderRight:'none', borderRadius:'0px'}} className='px-3'>
@@ -197,7 +212,7 @@ export const OrderPanel= () => {
 
 					<Col xs={3} style={{display:'flex',  justifyContent:'center', fontSize:'12px'}}>
 						<Button className={order.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge}> CANCEL</Button>
-						<Button className={order.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge}> CLAIM</Button>
+						<Button className={order.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge} onClick={() => handleClaimOrder(order.orderId)} > CLAIM</Button>
 					</Col>
 				</Row>
 				
