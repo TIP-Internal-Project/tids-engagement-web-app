@@ -251,7 +251,7 @@ export const TaskPanel = () => {
           <Col xs={2} style={IndItemDueDate} className='text-center'>
             <div style={{ display: 'inline-block', textAlign: 'left' }}>
               <p style={IndItemDueDateDisplay} className='mb-0'>
-                {tasks.dueDate}
+                {`${new Date(tasks.dueDate).toDateString().slice(3)}`}
               </p>
               <p style={IndItemDueTimeDisplay}>{tasks.dueTime}</p>
             </div>
