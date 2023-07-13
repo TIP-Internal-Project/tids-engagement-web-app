@@ -224,25 +224,27 @@ export const TaskPanel = () => {
     dispatch(fetchTasks())
   },[dispatch])
 
+  console.log(tasks)
+
   const renderedTasks = Object.values(tasks.tasks).map((tasks: any, index) =>{
     return(
 
-      <ListGroup.Item key={tasks.id} style={listGroupItem}>
+      <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
         <Row className='px-3 py-2'>
           <Col xs={6} style={IndItemTitleDisplay}>
             <p
-              onClick={() => handleToggle(tasks.id)}
-              aria-controls={`example-collapse-text-${tasks.id}`}
-              aria-expanded={eventStates[tasks.id] ? 'true' : 'false'}
+              onClick={() => handleToggle(tasks.taskId)}
+              aria-controls={`example-collapse-text-${tasks.taskId}`}
+              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
               className='mb-0'
             >
               {tasks.title}
             </p>
             <Button
               style={viewDetailsButton}
-              onClick={() => handleToggle(tasks.id)}
-              aria-controls={`example-collapse-text-${tasks.id}`}
-              aria-expanded={eventStates[tasks.id] ? 'true' : 'false'}
+              onClick={() => handleToggle(tasks.taskId)}
+              aria-controls={`example-collapse-text-${tasks.taskId}`}
+              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
             >
               View details
             </Button>
@@ -253,7 +255,7 @@ export const TaskPanel = () => {
               <p style={IndItemDueDateDisplay} className='mb-0'>
                 {`${new Date(tasks.dueDate).toDateString().slice(3)}`}
               </p>
-              <p style={IndItemDueTimeDisplay}>{tasks.dueTime}</p>
+              <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
             </div>
           </Col>
 
@@ -281,10 +283,10 @@ export const TaskPanel = () => {
           >
             <Button variant='success'>Mark as completed</Button>
           </Col>
-          <Collapse in={eventStates[tasks.id]}>
-            <div style={eventContent} id={`example-collapse-text-${tasks.id}`}>
+          <Collapse in={eventStates[tasks.taskId]}>
+            <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
               <h3>{tasks.title}</h3>
-              {tasks.content}
+              {tasks.details}
 
               <div>
                 <Button style={eventContentButtons}>Workday Link</Button>
