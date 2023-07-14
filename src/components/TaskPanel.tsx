@@ -1,7 +1,9 @@
 import Nav from 'react-bootstrap/Nav'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Collapse from 'react-bootstrap/Collapse'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../redux/store'
+import {fetchTasks} from '../redux/taskSlice'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
@@ -216,83 +218,87 @@ export const TaskPanel = () => {
     importance: 'Required' | 'Optional'
   }
 
-  const tasks: Task[] = [
-    {
-      id: 1,
-      title: '[Health] Quebec Clinic Pages',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-    {
-      id: 2,
-      title: 'MyCare Refresh Launch',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
+  const tasks = useAppSelector((state) => state.tasks)
+  const dispatch = useAppDispatch()
+  useEffect(()=>{
+    dispatch(fetchTasks())
+  },[dispatch])
 
-    {
-      id: 3,
-      title: 'Internet Superiority 2022',
-      dueDate: 'July 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-    {
-      id: 4,
-      title: 'HomePro Landing Page',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-    {
-      id: 5,
-      title: 'XGPU (XBox Game Plus Ultimate)',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
+  console.log(tasks)
 
-    {
-      id: 6,
-      title: 'TIP General Assembly',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
-    {
-      id: 7,
-      title: 'Easter Egg Hunt',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
+  const renderedTasks = Object.values(tasks.tasks).map((tasks: any, index) =>{
+    return(
 
-    {
-      id: 8,
-      title: 'The Running Man',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-  ]
+      <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
+        <Row className='px-3 py-2'>
+          <Col xs={6} style={IndItemTitleDisplay}>
+            <p
+              onClick={() => handleToggle(tasks.taskId)}
+              aria-controls={`example-collapse-text-${tasks.taskId}`}
+              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+              className='mb-0'
+            >
+              {tasks.title}
+            </p>
+            <Button
+              style={viewDetailsButton}
+              onClick={() => handleToggle(tasks.taskId)}
+              aria-controls={`example-collapse-text-${tasks.taskId}`}
+              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+            >
+              View details
+            </Button>
+          </Col>
+
+          <Col xs={2} style={IndItemDueDate} className='text-center'>
+            <div style={{ display: 'inline-block', textAlign: 'left' }}>
+              <p style={IndItemDueDateDisplay} className='mb-0'>
+                {`${new Date(tasks.dueDate).toDateString().slice(3)}`}
+              </p>
+              <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
+            </div>
+          </Col>
+
+          <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Badge
+              bg={
+                tasks.importance === 'Required'
+                  ? 'danger'
+                  : tasks.importance === 'Optional'
+                  ? 'warning'
+                  : 'secondary'
+              }
+              style={IndImportanceBadge}
+            >
+              {tasks.importance}
+            </Badge>
+          </Col>
+          <Col
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px',
+            }}
+          >
+            <Button variant='success'>Mark as completed</Button>
+          </Col>
+          <Collapse in={eventStates[tasks.taskId]}>
+            <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
+              <h3>{tasks.title}</h3>
+              {tasks.details}
+
+              <div>
+                <Button style={eventContentButtons}>Workday Link</Button>
+                <Button style={eventContentButtons}>MyGrowth</Button>
+                <Button style={eventContentButtons}>Check Progress</Button>
+              </div>
+            </div>
+          </Collapse>
+        </Row>
+      </ListGroup.Item>
+  )})
+
 
   return (
     <div style={EventPanelDiv}>
@@ -326,13 +332,6 @@ export const TaskPanel = () => {
         </div>
       </div>
 
-      {/* <div style={TaskPanelSubheader2}>
-				<h6 style={TaskPanelSubheader2ContentTitle}>Title</h6>
-				<h6 style={TaskPanelSubheader2ContentDueDate}>Due Date</h6>
-				<h6 style={TaskPanelSubheader2ContentImportance}>Importance</h6>
-				<h6 style={TaskPanelSubheader2ContentAction}>Action</h6>
-			</div> */}
-
       <Container fluid style={{ margin: '0', padding: '0' }}>
         <Row style={TitleBar} className='px-3'>
           <Col xs={6}>Title</Col>
@@ -346,132 +345,10 @@ export const TaskPanel = () => {
         </Row>
       </Container>
 
-      {/* <ListGroup style={EventPanelContainer}>
-				{tasks.map((event) => (
-					<ListGroup.Item key={event.id} style={listGroupItem}>
-						<Form.Text
-                    
-						>
-							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<div style={IndItemTitle}>
-									<div style={IndItemTitleDiv}>
-										<p style={IndItemTitleDisplay} 
-											onClick={() => handleToggle(event.id)}
-											aria-controls={`example-collapse-text-${event.id}`}
-											aria-expanded={eventStates[event.id] ? 'true' : 'false'}>{event.title}</p>
-									</div>
-									<Button 
-										
-										style={viewDetailsButton}
-										onClick={() => handleToggle(event.id)}
-										aria-controls={`example-collapse-text-${event.id}`}
-										aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details</Button>
-								</div>
-								<div style={IndItemDueDate}>
-									<p style={IndItemDueDateDisplay}>{event.dueDate}</p>
-									<p style={IndItemDueTimeDisplay} >{event.dueTime}</p>
-								</div>
-								<div style={IndItemImportance}>
-									<Badge
-										bg={event.importance === 'Required' ? 'danger' : event.importance === 'Optional' ? 'warning' : 'secondary'}
-										style={IndImportanceBadge}
-									>
-										{event.importance}
-									</Badge>
-								</div>
-								<div style={IndItemAction}>
-									<Button variant="success">Mark as completed</Button>
-								</div>
-							</div>
-						</Form.Text>
-						<Collapse in={eventStates[event.id]}>
-							
-							<div style={eventContent} id={`example-collapse-text-${event.id}`}>
-								<h3>{event.title}</h3>
-								{event.content}
-								
-								<div>
-									<Button style={eventContentButtons}>Workday Link</Button>
-									<Button style={eventContentButtons}>MyGrowth</Button>
-									<Button style={eventContentButtons}>Check Progress</Button>
-								</div>
-							</div>
-						</Collapse>
-					</ListGroup.Item>
-				))}
-			</ListGroup> */}
+
 
       <ListGroup style={EventPanelContainer}>
-        {tasks.map((event) => (
-          <ListGroup.Item key={event.id} style={listGroupItem}>
-            <Row className='px-3 py-2'>
-              <Col xs={6} style={IndItemTitleDisplay}>
-                <p
-                  onClick={() => handleToggle(event.id)}
-                  aria-controls={`example-collapse-text-${event.id}`}
-                  aria-expanded={eventStates[event.id] ? 'true' : 'false'}
-                  className='mb-0'
-                >
-                  {event.title}
-                </p>
-                <Button
-                  style={viewDetailsButton}
-                  onClick={() => handleToggle(event.id)}
-                  aria-controls={`example-collapse-text-${event.id}`}
-                  aria-expanded={eventStates[event.id] ? 'true' : 'false'}
-                >
-                  View details
-                </Button>
-              </Col>
-
-              <Col xs={2} style={IndItemDueDate} className='text-center'>
-                <div style={{ display: 'inline-block', textAlign: 'left' }}>
-                  <p style={IndItemDueDateDisplay} className='mb-0'>
-                    {event.dueDate}
-                  </p>
-                  <p style={IndItemDueTimeDisplay}>{event.dueTime}</p>
-                </div>
-              </Col>
-
-              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Badge
-                  bg={
-                    event.importance === 'Required'
-                      ? 'danger'
-                      : event.importance === 'Optional'
-                      ? 'warning'
-                      : 'secondary'
-                  }
-                  style={IndImportanceBadge}
-                >
-                  {event.importance}
-                </Badge>
-              </Col>
-              <Col
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '12px',
-                }}
-              >
-                <Button variant='success'>Mark as completed</Button>
-              </Col>
-              <Collapse in={eventStates[event.id]}>
-                <div style={eventContent} id={`example-collapse-text-${event.id}`}>
-                  <h3>{event.title}</h3>
-                  {event.content}
-
-                  <div>
-                    <Button style={eventContentButtons}>Workday Link</Button>
-                    <Button style={eventContentButtons}>MyGrowth</Button>
-                    <Button style={eventContentButtons}>Check Progress</Button>
-                  </div>
-                </div>
-              </Collapse>
-            </Row>
-          </ListGroup.Item>
-        ))}
+        {renderedTasks}
       </ListGroup>
     </div>
   )

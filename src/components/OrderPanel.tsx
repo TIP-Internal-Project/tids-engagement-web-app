@@ -12,7 +12,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchOrders } from '../redux/orderSlice'
 import { updateOrderStatusByID  } from '../redux/updateOrderByIDSlice'
 
-
 export const OrderPanel= () => {
 
 	const tidsBadge = {
@@ -178,7 +177,6 @@ export const OrderPanel= () => {
 			console.error('Failed to update order status:', error)
 		  })
 	  }
-
 
 	const renderedOrders = Object.values(orders.orders).map((order: any, index) => {
 		return (
