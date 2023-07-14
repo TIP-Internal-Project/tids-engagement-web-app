@@ -211,7 +211,6 @@ export const OrderPanel= () => {
 					<Col xs={3} style={{display:'flex',  justifyContent:'center', fontSize:'12px'}}>
 						<Button className={order.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge}> CANCEL</Button>
 						<Button className={order.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge} onClick={() => handleClaimOrder(order.orderId)} > CLAIM</Button>
-					
 					</Col>
 				</Row>
 				
