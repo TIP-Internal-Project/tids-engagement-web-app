@@ -223,7 +223,6 @@ export const TaskPanel = () => {
 
   const handleAddedTasks = () => {
 	setShowAddTaskModal(false)
-	console.log(showAddTaskModal)
 	dispatch(fetchTasks())
   }
 
@@ -238,7 +237,6 @@ export const TaskPanel = () => {
   	h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
   	const ampm = H < 12 ? ' AM' : ' PM'
   	ts = h + ts.substr(2, 3) + ampm
-	console.log(new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'}))
     return(
 
       <ListGroup.Item key={tasks.taskId} style={listGroupItem}>

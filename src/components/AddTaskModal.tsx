@@ -53,8 +53,6 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 	const dispatch = useAppDispatch()
 	const [buttonClicked, setButtonClicked] = useState(false)
 
-	console.log(new Date().toISOString().split('T')[0])
-
 	const [formValues, setFormValues] = useState({
 		title: '',
 		dueDate: new Date(),
