@@ -12,6 +12,7 @@ import orderReducer from './orderSlice'
 import addOrderReducer from './addOrderSlice'
 import updateOrderReducer from './updateOrderSlice'
 import getTasks from './taskSlice'
+import addTaskReducer from './addTaskSlice'
 
 export const store = configureStore({
   	reducer: {
@@ -25,7 +26,8 @@ export const store = configureStore({
 		order: orderReducer,
 		addOrder: addOrderReducer,
 		updateOrder: updateOrderReducer,
-		tasks: getTasks
+		tasks: getTasks,
+		addTask: addTaskReducer,
   	},
 })
 
