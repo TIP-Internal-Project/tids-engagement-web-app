@@ -9,6 +9,7 @@ import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import { Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import AddTaskModal from './AddTaskModal'
 
 export const TaskPanel = () => {
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
@@ -21,15 +22,9 @@ export const TaskPanel = () => {
   }
 
   const TitleBar = {
-    marginLeft: '32px',
-    backgroundColor: '#fff',
-    border: '1px solid #ccc',
-    borderTop: 'none',
-    borderBottomRightRadius: '0',
-    borderBottomLeftRadius: '0',
-    paddingTop: '24px',
-    marginRight: '32px',
-  }
+	paddingTop: '24px',
+	color:'#9FA2B4'
+}
 
   const EventStyle = {
     color: 'black',
@@ -42,13 +37,9 @@ export const TaskPanel = () => {
     paddingTop: '62px',
   }
 
-  const EventPanelContainer = {
-    marginLeft: '32px',
-    marginRight: '32px',
-    borderRadius: 'none',
-  }
-
   const listGroupItem = {
+	borderLeftColor: 'white',
+	borderRightColor: 'white',
     borderTopLeftRadius: '0',
     borderTopRightRadius: '0',
   }
@@ -224,9 +215,28 @@ export const TaskPanel = () => {
     dispatch(fetchTasks())
   },[dispatch])
 
-  console.log(tasks)
+  const [showAddTaskModal, setShowAddTaskModal] = useState(false)
+
+  const handleOpenAddTaskModal = () => {
+	setShowAddTaskModal(true)
+}
+
+  const handleAddedTasks = () => {
+	setShowAddTaskModal(false)
+	dispatch(fetchTasks())
+  }
+
+  const handleCloseAddTaskModal = () => {
+	setShowAddTaskModal(false)
+  }
 
   const renderedTasks = Object.values(tasks.tasks).map((tasks: any, index) =>{
+	let ts = tasks.time
+  	const H = +ts.substr(0, 2)
+  	let h = (H % 12) || 12
+  	h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
+  	const ampm = H < 12 ? ' AM' : ' PM'
+  	ts = h + ts.substr(2, 3) + ampm
     return(
 
       <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
@@ -253,9 +263,9 @@ export const TaskPanel = () => {
           <Col xs={2} style={IndItemDueDate} className='text-center'>
             <div style={{ display: 'inline-block', textAlign: 'left' }}>
               <p style={IndItemDueDateDisplay} className='mb-0'>
-                {`${new Date(tasks.dueDate).toDateString().slice(3)}`}
+                {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})}`}
               </p>
-              <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
+              <p style={IndItemDueTimeDisplay}>{ts}</p>
             </div>
           </Col>
 
@@ -281,7 +291,7 @@ export const TaskPanel = () => {
               fontSize: '12px',
             }}
           >
-            <Button variant='success'>Mark as completed</Button>
+            <Button variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>MARK AS COMPLETED</Button>
           </Col>
           <Collapse in={eventStates[tasks.taskId]}>
             <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
@@ -301,55 +311,47 @@ export const TaskPanel = () => {
 
 
   return (
-    <div style={EventPanelDiv}>
-      <div style={TaskPanelSubheader1}>
-        <div style={TaskPanelSubheader2Content}>
-          {' '}
-          <span
-            id='boot-icon'
-            className='bi bi-plus'
-            style={{ fontSize: '18px', color: 'rgb(128, 128, 128)' }}
-          ></span>
-          {isAdmin && <p style={addNewTaskTypeHereButton}> + Add new task type here </p>}
-        </div>
-        <div style={TaskPanelSubheader2Content}>
-          <Nav.Item>
-            <Nav.Link style={TaskPanelSubheader2ContentRgiht} href='/home'>
-              <img
-                style={TaskPanelSubheader2ContentRgihtIcons}
-                src={require('../assets/images/filter.png')}
-              />
-              Filter
-            </Nav.Link>
-            <Nav.Link style={TaskPanelSubheader2ContentRgiht} href='/home'>
-              <img
-                style={TaskPanelSubheader2ContentRgihtIcons}
-                src={require('../assets/images/sort-up.png')}
-              />
-              Sort
-            </Nav.Link>
-          </Nav.Item>
-        </div>
-      </div>
+      	<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
+			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
+				<div className="d-flex justify-content-between" style={{ color: '#7175B', padding: '0 2%' }}>
+					<div style={{width: '250px'}}>
+						{isAdmin && (
+						<Col xs={8} style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}>
+							<Nav.Link className="" style={{ fontSize: '14px' }} onClick={handleOpenAddTaskModal}>
+							<span className="mx-2" style={{ fontSize: '20px' }}>+</span> Add new task, type here
+							</Nav.Link>
+						</Col>
+						)}
+					</div>
+					<div className="d-flex">
+						<Nav.Link className="mx-3" style={{ fontSize: '14px' }}>
+						<img style={{ height: '15px', width: '14px', marginRight: '10px' }} src={require('../assets/images/filter.png')} />
+						Filter
+						</Nav.Link>
 
-      <Container fluid style={{ margin: '0', padding: '0' }}>
-        <Row style={TitleBar} className='px-3'>
-          <Col xs={6}>Title</Col>
-          <Col xs={2} className='text-center'>
-            Due Date
-          </Col>
-          <Col xs={2} className='text-center'>
-            Importance
-          </Col>
-          <Col className='text-center'>Action</Col>
-        </Row>
-      </Container>
-
-
-
-      <ListGroup style={EventPanelContainer}>
-        {renderedTasks}
-      </ListGroup>
-    </div>
-  )
+						<Nav.Link className="mx-3" style={{ fontSize: '14px' }}>
+						<img style={{ height: '15px', width: '15px', marginRight: '10px' }} src={require('../assets/images/sort-up.png')} />
+						Sort
+						</Nav.Link>
+					</div>
+				</div>
+				<Row style={TitleBar} className='px-5'>
+					<Col xs={6} style={{fontSize: '14px'}}>Title</Col>
+					<Col xs={2} style={{fontSize: '14px'}} className='text-center'>Due Date</Col>
+					<Col xs={2} style={{fontSize: '14px'}} className='text-center'>Importance</Col>
+					<Col style={{fontSize: '14px'}} className='text-center'>Action</Col>
+				</Row>
+				<ListGroup>
+					{tasks.loading && <div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>{'Loading...'}</div>}
+					{!tasks.loading && tasks.error ? <div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>{'Error: ' + tasks.error}</div> : null}
+					{renderedTasks.length > 0 ? (
+						<div>{renderedTasks}</div>
+					) : (
+						<div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>No Tasks</div>
+					)}
+				</ListGroup>
+      		</Container>
+			<AddTaskModal show={showAddTaskModal} onHide={handleCloseAddTaskModal} addedTasks={handleAddedTasks} />
+	  	</Container>
+  	)
 }

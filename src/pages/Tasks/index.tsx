@@ -79,11 +79,6 @@ export default function TaskPage() {
 
 				<TaskPanel/>
                         
-
-				<Row>
-					<Col style={footerComponent}></Col>
-				
-				</Row>
 			</div>
 		
 	
