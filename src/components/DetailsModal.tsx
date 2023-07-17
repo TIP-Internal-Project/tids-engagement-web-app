@@ -1,79 +1,114 @@
-	import React, { ChangeEvent, useState } from 'react'
-	import Button from 'react-bootstrap/Button'
-	import Row from 'react-bootstrap/Row'
-	import Container from 'react-bootstrap/Container'
-	import Col from 'react-bootstrap/Col'
-	import Modal from 'react-bootstrap/Modal'
-	import Form from 'react-bootstrap/Form'
-	import InputGroup from 'react-bootstrap/InputGroup'
-	import Nav from 'react-bootstrap/Nav'
+import React, { ChangeEvent, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
+import Nav from 'react-bootstrap/Nav'
+import { addEvent } from '../redux/addEventSlice'
 
+interface EventModalProps {
+  show: boolean;
+  onHide: () => void;
+}
 
+const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
+  const dispatch = useDispatch()
 
-	interface EventModalProps {
-	show: boolean
-	onHide: () => void
-	}
+  const [formData, setFormData] = useState({
+    eventTitle: '',
+    venueDetails: '',
+    details: '',
+    startDate: '',
+    endDate: '',
+    eventCode: '',
+    category: '',
+    importance: '',
+    googleMeetLink: '',
+    postSurveyLink: '',
+    starsToEarn: '',
+    registrationLink: '',
+  })
 
-	const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
+  const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }))
+  }
 
-		const [formData, setFormData] = useState({
-			eventTitle: '',
-			venueDetails: '',
-			details: '',
-			startDate: '',
-			endDate: '',
-			eventCode: '',
-			category: '',
-			importance: '',
-			googleMeetLink: '',
-			postSurveyLink: '',
-			starsToEarn: '',
-			registrationLink: '',
-		  })
-		
-		  const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
-			const { name, value } = event.target
-			setFormData((prevFormData) => ({
-			  ...prevFormData,
-			  [name]: value,
-			}))
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }))
+  }
 
-		  }
+  const generateQr = () => {
+    if (formData.registrationLink === '') {
+      alert('Please enter a registration link')
+      return
+    }
+    console.log(formData.registrationLink)
+    const clickQR = document.getElementById('clickQR')
+    const eventQR = document.getElementById('eventQR') as HTMLImageElement
+    if (clickQR) {
+      clickQR.style.display = 'none'
+    }
 
-		  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-			const { name, value } = event.target
-			setFormData((prevFormData) => ({
-			  ...prevFormData,
-			  [name]: value,
-			}))
+    if (eventQR) {
+      eventQR.src = `https://quickchart.io/qr?text="${formData.registrationLink}"`
+      eventQR.style.display = ''
+    }
+  }
 
-		  }
+  const handleAddEvent = () => {
+    const newEvent = {
+      eventId: 'unique-event-id',
+      title: formData.eventTitle,
+      startDate: new Date(formData.startDate),
+      endDate: new Date(formData.endDate),
+     
+      detail: formData.details,
+      category: formData.category,
+      createdDate: new Date(),
+      venueDetail: formData.venueDetails,
+      importance: formData.importance,
+      code: formData.eventCode,
+      googleMeetLink: formData.googleMeetLink,
+      starsNum: parseInt(formData.starsToEarn),
+      postEventSurveyURL: formData.postSurveyLink,
+    }
 
+    dispatch(addEvent(newEvent))
 
-		const generateQr = () => {
-			if (formData.registrationLink === ''){
-				alert('Please enter a registration link')
-				return
-			}
-			console.log(formData.registrationLink)	
-			const clickQR = document.getElementById('clickQR')
-			const eventQR = document.getElementById('eventQR') as HTMLImageElement
-			if (clickQR) {
-				clickQR.style.display = 'none'
-			  }
+    setFormData({
+      eventTitle: '',
+      venueDetails: '',
+      details: '',
+      startDate: '',
+      endDate: '',
+      eventCode: '',
+      category: '',
+      importance: '',
+      googleMeetLink: '',
+      postSurveyLink: '',
+      starsToEarn: '',
+      registrationLink: '',
+    })
 
-			if (eventQR){
-				eventQR.src ='https://quickchart.io/qr?text="'+ formData.registrationLink + '"'
-				eventQR.style.display = ''
-			}
-		}
-		
-		const modalStyle = {
-			border: 'none', // Add a new border style
-			margin: '4%',
-			marginBottom: '0',
-		}
+    onHide()
+  }
+
+  const modalStyle = {
+    border: 'none',
+    margin: '4%',
+    marginBottom: '0',
+  }
 
 		const ModalButton = {
 			marginRight: '5px',
@@ -365,7 +400,7 @@
 							</Col>
 
 							<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
-								<Button variant='success' className='px-4'>
+								<Button variant='success' className='px-4' onClick={handleAddEvent}>
 									Add Event
 								</Button>
 							</Col>

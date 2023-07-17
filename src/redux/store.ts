@@ -11,6 +11,7 @@ import eventRegistrationReducer from './eventRegistrationSlice'
 import orderReducer from './orderSlice'
 import addOrderReducer from './addOrderSlice'
 import updateOrderReducer from './updateOrderSlice'
+import addEventReducer from './addEventSlice'
 
 export const store = configureStore({
   	reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
 		eventRegistration: eventRegistrationReducer,
 		order: orderReducer,
 		addOrder: addOrderReducer,
-		updateOrder: updateOrderReducer
+		updateOrder: updateOrderReducer,
+		addEvent: addEventReducer,
   	},
 })
 
