@@ -1,114 +1,150 @@
-import React, { ChangeEvent, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import Modal from 'react-bootstrap/Modal'
-import Form from 'react-bootstrap/Form'
-import Nav from 'react-bootstrap/Nav'
-import { addEvent } from '../redux/addEventSlice'
+	import React, { ChangeEvent, useState, useEffect } from 'react'
+	import Button from 'react-bootstrap/Button'
+	import Row from 'react-bootstrap/Row'
+	import Container from 'react-bootstrap/Container'
+	import Col from 'react-bootstrap/Col'
+	import Modal from 'react-bootstrap/Modal'
+	import Form from 'react-bootstrap/Form'
+	import InputGroup from 'react-bootstrap/InputGroup'
+	import Nav from 'react-bootstrap/Nav'
+	import {addEvent} from '../redux/addEventSlice'
+	import { useDispatch } from 'react-redux'
+	import { fetchEvents } from '../redux/eventSlice'
+	import PropTypes from 'prop-types'
 
-interface EventModalProps {
-  show: boolean;
-  onHide: () => void;
-}
+	interface EventModalProps {
+	show: boolean
+	onHide: () => void
+	onAdd: () => void
+	}
 
-const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
-  const dispatch = useDispatch()
+	const EventModal: React.FC<EventModalProps> = ({ show, onHide, onAdd }) => {
+		const dispatch = useDispatch()
+		const [buttonClicked, setButtonClicked] = useState(false)
+		const [formData, setFormData] = useState({
+		  eventTitle: '',
+		  venueDetails: '',
+		  details: '',
+		  startDate: '',
+		  endDate: '',
+		  eventCode: '',
+		  category: '',
+		  importance: '',
+		  googleMeetLink: '',
+		  postSurveyLink: '',
+		  starsToEarn: '',
+		  registrationLink: '',
+		})
+	  
+		const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
+		  const { name, value } = event.target
+		  setFormData((prevFormData) => ({
+			...prevFormData,
+			[name]: value,
+		  }))
+		}
+	  
+		const handleAddEvent = () => {
+		  const { eventTitle } = formData
+		  if (!eventTitle) {
+			alert('Please enter the event title')
+			return
+		  }
 
-  const [formData, setFormData] = useState({
-    eventTitle: '',
-    venueDetails: '',
-    details: '',
-    startDate: '',
-    endDate: '',
-    eventCode: '',
-    category: '',
-    importance: '',
-    googleMeetLink: '',
-    postSurveyLink: '',
-    starsToEarn: '',
-    registrationLink: '',
-  })
+		  (dispatch as any)(
+			addEvent({
+			  eventId: 0,
+			  title: formData.eventTitle,
+			  startDate: new Date(formData.startDate),
+			  endDate: new Date(formData.endDate),
+			  detail: formData.details,
+			  category: formData.category,
+			  createdDate: new Date(),
+			  venueDetail: formData.venueDetails,
+			  importance: formData.importance,
+			  code: formData.eventCode,
+			  googleMeetLink: formData.googleMeetLink,
+			  starsNum: parseInt(formData.starsToEarn),
+			  postEventSurveyURL: formData.postSurveyLink,
+			  createdBy: '',
+			})
+		  )
+	  
+		  // Perform the necessary actions to add the event with the provided title
+		  // For simplicity, you can log the event data to the console
+		  
+	  
+		  // Reset the form data
+		  setFormData({
+			eventTitle: '',
+			venueDetails: '',
+			details: '',
+			startDate: '',
+			endDate: '',
+			eventCode: '',
+			category: '',
+			importance: '',
+			googleMeetLink: '',
+			postSurveyLink: '',
+			starsToEarn: '',
+			registrationLink: '',
+		  })
+	  
+		  // Close the modal
+		  onAdd()
+		  onHide()
+		}
+		// useEffect(() => {
+		// 	if (buttonClicked) {
+		// 		dispatch(addEvent(formData))
+		// 		.then(() => dispatch(fetchEvents()))
+		// 		.then((resultAction) => {
+		// 			if (resultAction.type === fetchEvents.fulfilled.type) {
+		// 				const ne
 
-  const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }))
-  }
+		// 			}
 
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }))
-  }
+		// 		}
+		// 	}
 
-  const generateQr = () => {
-    if (formData.registrationLink === '') {
-      alert('Please enter a registration link')
-      return
-    }
-    console.log(formData.registrationLink)
-    const clickQR = document.getElementById('clickQR')
-    const eventQR = document.getElementById('eventQR') as HTMLImageElement
-    if (clickQR) {
-      clickQR.style.display = 'none'
-    }
 
-    if (eventQR) {
-      eventQR.src = `https://quickchart.io/qr?text="${formData.registrationLink}"`
-      eventQR.style.display = ''
-    }
-  }
+		// }
 
-  const handleAddEvent = () => {
-    const newEvent = {
-      eventId: 'unique-event-id',
-      title: formData.eventTitle,
-      startDate: new Date(formData.startDate),
-      endDate: new Date(formData.endDate),
-     
-      detail: formData.details,
-      category: formData.category,
-      createdDate: new Date(),
-      venueDetail: formData.venueDetails,
-      importance: formData.importance,
-      code: formData.eventCode,
-      googleMeetLink: formData.googleMeetLink,
-      starsNum: parseInt(formData.starsToEarn),
-      postEventSurveyURL: formData.postSurveyLink,
-    }
 
-    dispatch(addEvent(newEvent))
 
-    setFormData({
-      eventTitle: '',
-      venueDetails: '',
-      details: '',
-      startDate: '',
-      endDate: '',
-      eventCode: '',
-      category: '',
-      importance: '',
-      googleMeetLink: '',
-      postSurveyLink: '',
-      starsToEarn: '',
-      registrationLink: '',
-    })
+		  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+			const { name, value } = event.target
+			setFormData((prevFormData) => ({
+			  ...prevFormData,
+			  [name]: value,
+			}))
 
-    onHide()
-  }
+		  }
 
-  const modalStyle = {
-    border: 'none',
-    margin: '4%',
-    marginBottom: '0',
-  }
+
+		const generateQr = () => {
+			if (formData.registrationLink === ''){
+				alert('Please enter a registration link')
+				return
+			}
+			console.log(formData.registrationLink)	
+			const clickQR = document.getElementById('clickQR')
+			const eventQR = document.getElementById('eventQR') as HTMLImageElement
+			if (clickQR) {
+				clickQR.style.display = 'none'
+			  }
+
+			if (eventQR){
+				eventQR.src ='https://quickchart.io/qr?text="'+ formData.registrationLink + '"'
+				eventQR.style.display = ''
+			}
+		}
+		
+		const modalStyle = {
+			border: 'none', // Add a new border style
+			margin: '4%',
+			marginBottom: '0',
+		}
 
 		const ModalButton = {
 			marginRight: '5px',
@@ -175,6 +211,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 												type="text"
 												placeholder=""
 												name="venueDetails"
+												value={formData.venueDetails}
 												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 												onChange={handleFormChange}
 											/>
@@ -192,6 +229,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											type="text"
 											placeholder=""
 											name="details"
+											value={formData.details}
 											style={{backgroundColor:'#DEDEDE', height:'116px', borderRadius:'25px'}}
 											onChange={handleFormChange}
 										/>
@@ -229,6 +267,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 												type="date"
 												placeholder=""
 												name="startDate"
+												value={formData.startDate}
 												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 												onChange={handleFormChange}
 												
@@ -248,6 +287,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 												type="date"
 												placeholder=""
 												name="endDate"
+												value={formData.endDate}
 												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 												onChange={handleFormChange}
 												
@@ -270,6 +310,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 												type="text"
 												placeholder=""
 												name="eventCode"
+												value={formData.eventCode}
 												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 												onChange={handleFormChange}
 											/>
@@ -281,16 +322,22 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 										<Form.Label>Category</Form.Label>
 
 										<Form.Select 
-											aria-label="Default select example" 
-											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
-											name="category"
-											onChange={handleSelectChange}
-											>
-											<option value='TIDS'>TIDS</option>
-											<option value='happyhere'>#HAPPYHERE</option>
-											<option value='happyhere'>Team Event</option>
-											<option value='happyhere'>COP</option>
+										aria-label="Default select example" 
+										style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
+										name="category"
+										value={formData.category}
+										onChange={handleSelectChange}
+										>
+										<option value="">Select a category</option>
+										<option value="TIDS">TIDS</option>
+										<option value="happyhere">#HAPPYHERE</option>
+										<option value="team-event">Team Event</option>
+										<option value="cop">COP</option>
 										</Form.Select>
+
+									
+
+
 
 								</Form.Group>
 							</Col>
@@ -302,6 +349,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 											aria-label="Default select example" 
 											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 											name="importance"
+											value={formData.importance}
 											onChange={handleSelectChange}
 											>
 											<option value='required'>Required</option>
@@ -321,6 +369,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 												type="text"
 												placeholder=""
 												name = "googleMeetLink"
+												value={formData.googleMeetLink}
 												onChange={handleFormChange}
 												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 											/>
@@ -400,7 +449,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 							</Col>
 
 							<Col xs={2} style={{display:'flex', alignItems:'center', justifyContent:'center'}} >
-								<Button variant='success' className='px-4' onClick={handleAddEvent}>
+								<Button variant='success' className='px-4' onClick={handleAddEvent} >
 									Add Event
 								</Button>
 							</Col>
@@ -412,4 +461,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide }) => {
 		)
 	}
 
+
+	
 	export default EventModal
