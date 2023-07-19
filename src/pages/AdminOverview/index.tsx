@@ -23,7 +23,6 @@ export default function AdminOverviewPage() {
 	const { events } = useAppSelector((state) => state.events)
 	const userSession = useAppSelector((state) => state.userSession)
 
-	const firstEvent: Event | undefined = events && events[0]
 	
 	
 	// CSS samples
