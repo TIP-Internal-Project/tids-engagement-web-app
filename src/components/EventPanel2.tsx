@@ -12,8 +12,20 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 import { register } from '../redux/eventRegistrationSlice'
+import { fetchEvents } from '../redux/eventSlice'
+import { Email } from './profileSettingsComponents/style'
+
+
+interface EventModalProps {
+	show: boolean
+	onHide: () => void
+	// addedEvents: (orders: OrderState) => void
+  }
+
 
 export const EventPanel2 = (props: any) => {
+
+	const dispatch = useAppDispatch()
 
 	const [eventModalShow, setEventModalShow] = useState(false)
 	const handleOpenEventModal = () => {
@@ -29,8 +41,19 @@ export const EventPanel2 = (props: any) => {
 	}
 	
 	const handleCloseDetailsModal = () => {
+		
 		setDetailsModalShow(false)
+		
+
+
+	  const handleAddedOrders = () => {
+		setDetailsModalShow(false)
+		dispatch(fetchUnregisteredEvents(Email))
+		dispatch(fetchRegisteredEvents(Email))
+	  }
 	}
+
+
 
 	const tidsBadge = {
 		background: '#2A66FF',
@@ -172,7 +195,7 @@ export const EventPanel2 = (props: any) => {
 	}, [])
 
 	const unregisteredEvents = useAppSelector((state) => state.unregisteredEvents)
-	const dispatch = useAppDispatch()
+	
 	useEffect(() => {
 		const email = props.variable
 		dispatch(fetchUnregisteredEvents(email))
@@ -253,6 +276,11 @@ export const EventPanel2 = (props: any) => {
 	const handleFilterOption = (option: string) => {
 		setFilterOption(option)
 		setShowFilterDropdown(false)
+	}
+
+	const handleAddedOrders = () => {
+		setDetailsModalShow(false)
+		handleRefresh(props.variable)
 	}
 	
 	useEffect(() => {
@@ -533,7 +561,7 @@ export const EventPanel2 = (props: any) => {
 				{!unregisteredEvents.loading && unregisteredEvents.error ? 	<div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>{'Error: ' + unregisteredEvents.error}</div> : null}
 				{renderedUnregisteredEvents}
 				<EventModal show={modalShow} onHide={handleCloseModal} modalData={modalData} disableRegistration={disableRegistration} email={props.variable} onSortedEvents={handleSortedEvents} onSortedEvents1={handleSortedEvents1}/>
-				<DetailsModal show={detailsModalShow} onHide={handleCloseDetailsModal}/>
+				<DetailsModal show={detailsModalShow} onHide={handleCloseDetailsModal} onAdd={handleAddedOrders}/>
 			</Container>
 		</Container>
 	)
