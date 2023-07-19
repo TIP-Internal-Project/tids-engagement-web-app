@@ -70,11 +70,6 @@
 			})
 		  )
 	  
-		  // Perform the necessary actions to add the event with the provided title
-		  // For simplicity, you can log the event data to the console
-		  
-	  
-		  // Reset the form data
 		  setFormData({
 			eventTitle: '',
 			venueDetails: '',
@@ -90,25 +85,10 @@
 			registrationLink: '',
 		  })
 	  
-		  // Close the modal
 		  onAdd()
 		  onHide()
 		}
-		// useEffect(() => {
-		// 	if (buttonClicked) {
-		// 		dispatch(addEvent(formData))
-		// 		.then(() => dispatch(fetchEvents()))
-		// 		.then((resultAction) => {
-		// 			if (resultAction.type === fetchEvents.fulfilled.type) {
-		// 				const ne
-
-		// 			}
-
-		// 		}
-		// 	}
-
-
-		// }
+		
 
 
 
