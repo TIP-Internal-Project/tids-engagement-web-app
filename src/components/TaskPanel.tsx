@@ -1,12 +1,15 @@
 import Nav from 'react-bootstrap/Nav'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Collapse from 'react-bootstrap/Collapse'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../redux/store'
+import {fetchTasks} from '../redux/taskSlice'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import Container from 'react-bootstrap/Container'
 import { Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import AddTaskModal from './AddTaskModal'
 
 export const TaskPanel = () => {
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
@@ -19,15 +22,9 @@ export const TaskPanel = () => {
   }
 
   const TitleBar = {
-    marginLeft: '32px',
-    backgroundColor: '#fff',
-    border: '1px solid #ccc',
-    borderTop: 'none',
-    borderBottomRightRadius: '0',
-    borderBottomLeftRadius: '0',
-    paddingTop: '24px',
-    marginRight: '32px',
-  }
+	paddingTop: '24px',
+	color:'#9FA2B4'
+}
 
   const EventStyle = {
     color: 'black',
@@ -40,13 +37,9 @@ export const TaskPanel = () => {
     paddingTop: '62px',
   }
 
-  const EventPanelContainer = {
-    marginLeft: '32px',
-    marginRight: '32px',
-    borderRadius: 'none',
-  }
-
   const listGroupItem = {
+	borderLeftColor: 'white',
+	borderRightColor: 'white',
     borderTopLeftRadius: '0',
     borderTopRightRadius: '0',
   }
@@ -216,263 +209,149 @@ export const TaskPanel = () => {
     importance: 'Required' | 'Optional'
   }
 
-  const tasks: Task[] = [
-    {
-      id: 1,
-      title: '[Health] Quebec Clinic Pages',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-    {
-      id: 2,
-      title: 'MyCare Refresh Launch',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
+  const tasks = useAppSelector((state) => state.tasks)
+  const dispatch = useAppDispatch()
+  useEffect(()=>{
+    dispatch(fetchTasks())
+  },[dispatch])
 
-    {
-      id: 3,
-      title: 'Internet Superiority 2022',
-      dueDate: 'July 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-    {
-      id: 4,
-      title: 'HomePro Landing Page',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-    {
-      id: 5,
-      title: 'XGPU (XBox Game Plus Ultimate)',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
+  const [showAddTaskModal, setShowAddTaskModal] = useState(false)
 
-    {
-      id: 6,
-      title: 'TIP General Assembly',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
-    {
-      id: 7,
-      title: 'Easter Egg Hunt',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Optional',
-    },
+  const handleOpenAddTaskModal = () => {
+	setShowAddTaskModal(true)
+}
 
-    {
-      id: 8,
-      title: 'The Running Man',
-      dueDate: 'August 23, 2022',
-      dueTime: '12:00 PM',
-      content:
-        'Welcome to TELUS comprehensive collection of Quebec Clinic Pages, where you will find exceptional healthcare services tailored to your needs. Our dedicated team of medical professionals is committed to delivering top-quality care in a compassionate and patient-centered environment. With advanced technologies and innovative treatments, we strive to improve the health and well-being of individuals and families across Quebec. Explore our diverse range of specialties and experience personalized care that prioritizes your health and happiness. Trust TELUS to be your partner on your journey towards optimal health.',
-      importance: 'Required',
-    },
-  ]
+  const handleAddedTasks = () => {
+	setShowAddTaskModal(false)
+	dispatch(fetchTasks())
+  }
+
+  const handleCloseAddTaskModal = () => {
+	setShowAddTaskModal(false)
+  }
+
+  const renderedTasks = Object.values(tasks.tasks).map((tasks: any, index) =>{
+	let ts = tasks.time
+  	const H = +ts.substr(0, 2)
+  	let h = (H % 12) || 12
+  	h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
+  	const ampm = H < 12 ? ' AM' : ' PM'
+  	ts = h + ts.substr(2, 3) + ampm
+    return(
+
+      <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
+        <Row className='px-3 py-2'>
+          <Col xs={6} style={IndItemTitleDisplay}>
+            <p
+              onClick={() => handleToggle(tasks.taskId)}
+              aria-controls={`example-collapse-text-${tasks.taskId}`}
+              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+              className='mb-0'
+            >
+              {tasks.title}
+            </p>
+            <Button
+              style={viewDetailsButton}
+              onClick={() => handleToggle(tasks.taskId)}
+              aria-controls={`example-collapse-text-${tasks.taskId}`}
+              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+            >
+              View details
+            </Button>
+          </Col>
+
+          <Col xs={2} style={IndItemDueDate} className='text-center'>
+            <div style={{ display: 'inline-block', textAlign: 'left' }}>
+              <p style={IndItemDueDateDisplay} className='mb-0'>
+                {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})}`}
+              </p>
+              <p style={IndItemDueTimeDisplay}>{ts}</p>
+            </div>
+          </Col>
+
+          <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Badge
+              bg={
+                tasks.importance === 'Required'
+                  ? 'danger'
+                  : tasks.importance === 'Optional'
+                  ? 'warning'
+                  : 'secondary'
+              }
+              style={IndImportanceBadge}
+            >
+              {tasks.importance}
+            </Badge>
+          </Col>
+          <Col
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px',
+            }}
+          >
+            <Button variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>MARK AS COMPLETED</Button>
+          </Col>
+          <Collapse in={eventStates[tasks.taskId]}>
+            <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
+              <h3>{tasks.title}</h3>
+              {tasks.details}
+
+              <div>
+                <Button style={eventContentButtons}>Workday Link</Button>
+                <Button style={eventContentButtons}>MyGrowth</Button>
+                <Button style={eventContentButtons}>Check Progress</Button>
+              </div>
+            </div>
+          </Collapse>
+        </Row>
+      </ListGroup.Item>
+  )})
+
 
   return (
-    <div style={EventPanelDiv}>
-      <div style={TaskPanelSubheader1}>
-        <div style={TaskPanelSubheader2Content}>
-          {' '}
-          <span
-            id='boot-icon'
-            className='bi bi-plus'
-            style={{ fontSize: '18px', color: 'rgb(128, 128, 128)' }}
-          ></span>
-          {isAdmin && <p style={addNewTaskTypeHereButton}> + Add new task type here </p>}
-        </div>
-        <div style={TaskPanelSubheader2Content}>
-          <Nav.Item>
-            <Nav.Link style={TaskPanelSubheader2ContentRgiht} href='/home'>
-              <img
-                style={TaskPanelSubheader2ContentRgihtIcons}
-                src={require('../assets/images/filter.png')}
-              />
-              Filter
-            </Nav.Link>
-            <Nav.Link style={TaskPanelSubheader2ContentRgiht} href='/home'>
-              <img
-                style={TaskPanelSubheader2ContentRgihtIcons}
-                src={require('../assets/images/sort-up.png')}
-              />
-              Sort
-            </Nav.Link>
-          </Nav.Item>
-        </div>
-      </div>
+      	<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
+			<Container fluid style={{backgroundColor:'white', height:'100%', width:'100%', borderRadius:'20px'}} className='px-0 py-4'>
+				<div className="d-flex justify-content-between" style={{ color: '#7175B', padding: '0 2%' }}>
+					<div style={{width: '250px'}}>
+						{isAdmin && (
+						<Col xs={8} style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}>
+							<Nav.Link className="" style={{ fontSize: '14px' }} onClick={handleOpenAddTaskModal}>
+							<span className="mx-2" style={{ fontSize: '20px' }}>+</span> Add new task, type here
+							</Nav.Link>
+						</Col>
+						)}
+					</div>
+					<div className="d-flex">
+						<Nav.Link className="mx-3" style={{ fontSize: '14px' }}>
+						<img style={{ height: '15px', width: '14px', marginRight: '10px' }} src={require('../assets/images/filter.png')} />
+						Filter
+						</Nav.Link>
 
-      {/* <div style={TaskPanelSubheader2}>
-				<h6 style={TaskPanelSubheader2ContentTitle}>Title</h6>
-				<h6 style={TaskPanelSubheader2ContentDueDate}>Due Date</h6>
-				<h6 style={TaskPanelSubheader2ContentImportance}>Importance</h6>
-				<h6 style={TaskPanelSubheader2ContentAction}>Action</h6>
-			</div> */}
-
-      <Container fluid style={{ margin: '0', padding: '0' }}>
-        <Row style={TitleBar} className='px-3'>
-          <Col xs={6}>Title</Col>
-          <Col xs={2} className='text-center'>
-            Due Date
-          </Col>
-          <Col xs={2} className='text-center'>
-            Importance
-          </Col>
-          <Col className='text-center'>Action</Col>
-        </Row>
-      </Container>
-
-      {/* <ListGroup style={EventPanelContainer}>
-				{tasks.map((event) => (
-					<ListGroup.Item key={event.id} style={listGroupItem}>
-						<Form.Text
-                    
-						>
-							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<div style={IndItemTitle}>
-									<div style={IndItemTitleDiv}>
-										<p style={IndItemTitleDisplay} 
-											onClick={() => handleToggle(event.id)}
-											aria-controls={`example-collapse-text-${event.id}`}
-											aria-expanded={eventStates[event.id] ? 'true' : 'false'}>{event.title}</p>
-									</div>
-									<Button 
-										
-										style={viewDetailsButton}
-										onClick={() => handleToggle(event.id)}
-										aria-controls={`example-collapse-text-${event.id}`}
-										aria-expanded={eventStates[event.id] ? 'true' : 'false'}>View details</Button>
-								</div>
-								<div style={IndItemDueDate}>
-									<p style={IndItemDueDateDisplay}>{event.dueDate}</p>
-									<p style={IndItemDueTimeDisplay} >{event.dueTime}</p>
-								</div>
-								<div style={IndItemImportance}>
-									<Badge
-										bg={event.importance === 'Required' ? 'danger' : event.importance === 'Optional' ? 'warning' : 'secondary'}
-										style={IndImportanceBadge}
-									>
-										{event.importance}
-									</Badge>
-								</div>
-								<div style={IndItemAction}>
-									<Button variant="success">Mark as completed</Button>
-								</div>
-							</div>
-						</Form.Text>
-						<Collapse in={eventStates[event.id]}>
-							
-							<div style={eventContent} id={`example-collapse-text-${event.id}`}>
-								<h3>{event.title}</h3>
-								{event.content}
-								
-								<div>
-									<Button style={eventContentButtons}>Workday Link</Button>
-									<Button style={eventContentButtons}>MyGrowth</Button>
-									<Button style={eventContentButtons}>Check Progress</Button>
-								</div>
-							</div>
-						</Collapse>
-					</ListGroup.Item>
-				))}
-			</ListGroup> */}
-
-      <ListGroup style={EventPanelContainer}>
-        {tasks.map((event) => (
-          <ListGroup.Item key={event.id} style={listGroupItem}>
-            <Row className='px-3 py-2'>
-              <Col xs={6} style={IndItemTitleDisplay}>
-                <p
-                  onClick={() => handleToggle(event.id)}
-                  aria-controls={`example-collapse-text-${event.id}`}
-                  aria-expanded={eventStates[event.id] ? 'true' : 'false'}
-                  className='mb-0'
-                >
-                  {event.title}
-                </p>
-                <Button
-                  style={viewDetailsButton}
-                  onClick={() => handleToggle(event.id)}
-                  aria-controls={`example-collapse-text-${event.id}`}
-                  aria-expanded={eventStates[event.id] ? 'true' : 'false'}
-                >
-                  View details
-                </Button>
-              </Col>
-
-              <Col xs={2} style={IndItemDueDate} className='text-center'>
-                <div style={{ display: 'inline-block', textAlign: 'left' }}>
-                  <p style={IndItemDueDateDisplay} className='mb-0'>
-                    {event.dueDate}
-                  </p>
-                  <p style={IndItemDueTimeDisplay}>{event.dueTime}</p>
-                </div>
-              </Col>
-
-              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Badge
-                  bg={
-                    event.importance === 'Required'
-                      ? 'danger'
-                      : event.importance === 'Optional'
-                      ? 'warning'
-                      : 'secondary'
-                  }
-                  style={IndImportanceBadge}
-                >
-                  {event.importance}
-                </Badge>
-              </Col>
-              <Col
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '12px',
-                }}
-              >
-                <Button variant='success'>Mark as completed</Button>
-              </Col>
-              <Collapse in={eventStates[event.id]}>
-                <div style={eventContent} id={`example-collapse-text-${event.id}`}>
-                  <h3>{event.title}</h3>
-                  {event.content}
-
-                  <div>
-                    <Button style={eventContentButtons}>Workday Link</Button>
-                    <Button style={eventContentButtons}>MyGrowth</Button>
-                    <Button style={eventContentButtons}>Check Progress</Button>
-                  </div>
-                </div>
-              </Collapse>
-            </Row>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
-    </div>
-  )
+						<Nav.Link className="mx-3" style={{ fontSize: '14px' }}>
+						<img style={{ height: '15px', width: '15px', marginRight: '10px' }} src={require('../assets/images/sort-up.png')} />
+						Sort
+						</Nav.Link>
+					</div>
+				</div>
+				<Row style={TitleBar} className='px-5'>
+					<Col xs={6} style={{fontSize: '14px'}}>Title</Col>
+					<Col xs={2} style={{fontSize: '14px'}} className='text-center'>Due Date</Col>
+					<Col xs={2} style={{fontSize: '14px'}} className='text-center'>Importance</Col>
+					<Col style={{fontSize: '14px'}} className='text-center'>Action</Col>
+				</Row>
+				<ListGroup>
+					{tasks.loading && <div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>{'Loading...'}</div>}
+					{!tasks.loading && tasks.error ? <div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>{'Error: ' + tasks.error}</div> : null}
+					{renderedTasks.length > 0 ? (
+						<div>{renderedTasks}</div>
+					) : (
+						<div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>No Tasks</div>
+					)}
+				</ListGroup>
+      		</Container>
+			<AddTaskModal show={showAddTaskModal} onHide={handleCloseAddTaskModal} addedTasks={handleAddedTasks} />
+	  	</Container>
+  	)
 }

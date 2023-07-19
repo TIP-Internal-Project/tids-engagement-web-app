@@ -382,6 +382,7 @@ export const EventPanel2 = (props: any) => {
 	const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
 
 	const renderedUnregisteredEvents = Object.values(sortedEvents).map((event: any, index) => {
+		console.log(event.eventId)
 		const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString({},
 			{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})
 		const time = new (window.Date as any)(event.startTime)

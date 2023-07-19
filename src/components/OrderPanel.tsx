@@ -12,7 +12,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchOrders } from '../redux/orderSlice'
 import { updateOrderStatusByID  } from '../redux/updateOrderByIDSlice'
 
-
 export const OrderPanel= () => {
 
 	const tidsBadge = {
@@ -141,8 +140,10 @@ export const OrderPanel= () => {
 	}
 
 	const handleOpenUpdateModal = (order: any) => {
-		setModalData(order)
-		setUpdateModalShow(true)
+		if (order.status === 'Processing') {
+			setModalData(order)
+			setUpdateModalShow(true)
+		}
 	}
 	
 	const handleCloseUpdateModal = () => {
@@ -179,6 +180,18 @@ export const OrderPanel= () => {
 		  })
 	  }
 
+	const handleCancelOrder = (orderId: number) => {
+	dispatch(updateOrderStatusByID({ orderId: String(orderId), status: 'Cancelled' }))
+		.then((action) => {
+		// Handle successful response
+		console.log('Order status updated successfully')
+		dispatch(fetchOrders()) // Fetch the updated list of orders
+		})
+		.catch((error) => {
+		// Handle error
+		console.error('Failed to update order status:', error)
+		})
+	}
 
 	const renderedOrders = Object.values(orders.orders).map((order: any, index) => {
 		return (
@@ -211,8 +224,8 @@ export const OrderPanel= () => {
 					</Col>
 
 					<Col xs={3} style={{display:'flex',  justifyContent:'center', fontSize:'12px'}}>
-						<Button className={order.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge}> CANCEL</Button>
-						<Button className={order.status==='Claimed'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge} onClick={() => handleClaimOrder(order.orderId)} > CLAIM</Button>
+						<Button className={order.status!=='Processing'? 'bg-secondary border-secondary mx-1 disabled':'bg-danger border-danger mx-1'} style={actionBadge} onClick={() => handleCancelOrder(order.orderId)}> CANCEL</Button>
+						<Button className={order.status!=='Processing'? 'bg-secondary border-secondary mx-1 disabled':'bg-success border-success mx-1'} style={actionBadge} onClick={() => handleClaimOrder(order.orderId)} > CLAIM</Button>
 					</Col>
 				</Row>
 				
