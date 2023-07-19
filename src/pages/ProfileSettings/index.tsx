@@ -29,7 +29,6 @@ export default function ProfileSettingsPage(props: any) {
 	const userSession = useAppSelector((state) => state.userSession)
 	const { variable } = props
 
-	const firstEvent: Event | undefined = events && events[0]
 
 	const header = {
 		height: '81px',
