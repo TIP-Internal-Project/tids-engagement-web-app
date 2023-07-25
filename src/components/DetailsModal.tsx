@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -319,7 +319,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   name='category'
                   onChange={handleSelectChange}
                 >
-                  <option value=''>Select a category</option>
+                  <option>Select a category</option>
                   <option value='TIDS'>TIDS</option>
                   <option value='happyhere'>#HAPPYHERE</option>
                   <option value='teamEvent'>Team Event</option>
