@@ -218,10 +218,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 <Form.Label>Details</Form.Label>
                 <Form.Control
                   required
-                  type='text'
+                  as='textarea'
                   defaultValue={action == 'edit' ? event.eventDetails : ''}
                   name='eventDetails'
-                  style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px' }}
+                  style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px', resize:'none'}}
                   onChange={handleFormChange}
                 />
               </Form.Group>

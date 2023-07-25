@@ -72,7 +72,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 		paddingLeft: '11px'
 	}
 
-
 	return (
 		<Modal
 			show={show}
@@ -99,7 +98,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 				<div className='ModalBodyRight' style={{width:'45%'}}>
 
 					<div className='ModalBodyRightSubDiv1'>
-						<p style={{fontSize:'14px'}}>{data.detail}</p>
+						<p style={{fontSize:'14px'}}>{data.eventDetails}</p>
 					</div>
 
 					<div className='ModalBodyRightSubDiv'>
