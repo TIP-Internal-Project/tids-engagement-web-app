@@ -197,6 +197,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
               </Form.Group>
             </Col>
 
+          
+
+
             <Col>
               <Form.Group>
                 <Form.Label>Venue Details</Form.Label>
@@ -212,7 +215,46 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
             </Col>
           </Row>
 
+
+
+
           <Row className='my-4'>
+
+
+          <Col xs={8}>
+              <Form.Group>
+                <Form.Control
+                  required
+                  type='hidden'
+                  value={action == 'edit' ? event.tinyURL : ''}
+                  name='eventId'
+                />
+                <Form.Label>Tiny URL</Form.Label>
+                <Form.Control
+                  required
+                  type='text'
+                  defaultValue={action == 'edit' ? event.tinyURL : ''}
+                  name='title'
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+            </Col>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <Col xs={4}>
               <Form.Group>
                 <Form.Label>Details</Form.Label>
@@ -226,6 +268,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 />
               </Form.Group>
             </Col>
+
+
 
             <Col xs={4}>
               <Form.Group>
