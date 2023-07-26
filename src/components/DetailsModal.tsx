@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -36,6 +36,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     starsNum: '',
     regLink: '',
   })
+
+  const reload = () => window.location.reload()
 
   const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -76,10 +78,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   const handleEventUpdate = async () => {
     beforeSubmit()
     await dispatch(updateEvent(formData))
+    reload()
     onChange()
   }
   function beforeSubmit() {
-    formData.eventId = formData.eventId == '' ? event.eventId : formData.eventId
+    formData.eventId = event.eventId
     formData.title = formData.title == '' ? event.title : formData.title
     formData.venueDetails = formData.venueDetails == '' ? event.venueDetails : formData.venueDetails
     formData.eventDetails = formData.eventDetails == '' ? event.eventDetails : formData.eventDetails
@@ -319,7 +322,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   name='category'
                   onChange={handleSelectChange}
                 >
-                  <option value=''>Select a category</option>
+                  <option>Select a category</option>
                   <option value='TIDS'>TIDS</option>
                   <option value='happyhere'>#HAPPYHERE</option>
                   <option value='teamEvent'>Team Event</option>

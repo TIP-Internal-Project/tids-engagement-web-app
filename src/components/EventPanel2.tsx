@@ -441,7 +441,7 @@ export const EventPanel2 = (props: any) => {
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
-                    : event.category === 'TEAM EVENT'
+                    : event.category === 'teamEvent'
                     ? teamBadge
                     : event.category === 'COP'
                     ? copBadge
@@ -449,7 +449,13 @@ export const EventPanel2 = (props: any) => {
                 }
                 className='py-2'
               >
-                {event.category}
+                {event.category == 'TIDS'
+                  ? 'TIDS'
+                  : event.category === 'teamEvent'
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}
               </Button>
             </Col>
             <Col
@@ -538,7 +544,7 @@ export const EventPanel2 = (props: any) => {
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
-                    : event.category === 'TEAM EVENT'
+                    : event.category === 'teamEvent'
                     ? teamBadge
                     : event.category === 'COP'
                     ? copBadge
@@ -546,7 +552,13 @@ export const EventPanel2 = (props: any) => {
                 }
                 className='py-2'
               >
-                {event.category}
+                {event.category == 'TIDS'
+                  ? 'TIDS'
+                  : event.category === 'teamEvent'
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}
               </Button>
             </Col>
             <Col
