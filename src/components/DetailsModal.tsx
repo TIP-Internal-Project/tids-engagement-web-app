@@ -37,6 +37,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     regLink: '',
   })
 
+  const reload = () => window.location.reload()
+
   const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setFormData((prevFormData) => ({
@@ -76,10 +78,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   const handleEventUpdate = async () => {
     beforeSubmit()
     await dispatch(updateEvent(formData))
+    reload()
     onChange()
   }
   function beforeSubmit() {
-    formData.eventId = formData.eventId == '' ? event.eventId : formData.eventId
+    formData.eventId = event.eventId
     formData.title = formData.title == '' ? event.title : formData.title
     formData.venueDetails = formData.venueDetails == '' ? event.venueDetails : formData.venueDetails
     formData.eventDetails = formData.eventDetails == '' ? event.eventDetails : formData.eventDetails

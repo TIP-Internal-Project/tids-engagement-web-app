@@ -32,7 +32,13 @@ const EventsPanel = () => {
 					<Rectangle2 style={{ display: event.category === 'TIDS' ? 'block' : 'none' }}></Rectangle2>
 					<Rectangle3 style={{ display: event.category === '#HAPPYHERE' ? 'block' : 'none' }}></Rectangle3>
 					<Rectangle4 style={{ display: event.category === 'COP' ? 'block' : 'none' }}></Rectangle4>
-					<EventCategory style={{ width: 'max-content' }}>{event.category}</EventCategory>
+					<EventCategory style={{ width: 'max-content' }}>{event.category == 'TIDS'
+                  ? 'TIDS'
+                  : event.category === 'teamEvent'
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}</EventCategory>
 				</Category>
 				<Headings>
 					<Title>
