@@ -265,7 +265,7 @@ export const TaskPanel = () => {
               <p style={IndItemDueDateDisplay} className='mb-0'>
                 {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})}`}
               </p>
-              <p style={IndItemDueTimeDisplay}>{ts}</p>
+              <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
             </div>
           </Col>
 

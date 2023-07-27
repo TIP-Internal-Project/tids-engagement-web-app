@@ -402,3 +402,12 @@ height: 157.28px;
 .custom-progress-bar .progress-bar.custom-progress-bar-success {
   background-color: #66CC00;
 }
+
+.custom-timepicker {
+	background-color: #DEDEDE !important;
+	border-radius: 25px !important;
+}
+
+.react-datepicker-wrapper {
+	width: -webkit-fill-available !important;
+}
