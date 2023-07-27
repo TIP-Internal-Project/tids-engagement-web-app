@@ -47,11 +47,20 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 		paddingLeft: '11px'
 	}
 
-	// const date = new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila', hour12: false }).toString().slice(11, 16)
-	// console.log(date)
+	const datePickerStyles = {
+		backgroundColor: '#DEDEDE',
+		borderRadius: '25px',
+	}
 	
+	const [titleError, setTitleError] = useState('')
+	const [timeError, setTimeError] = useState('')
+	const [detailsError, setDetailsError] = useState('')
+
 	const dispatch = useAppDispatch()
 	const [buttonClicked, setButtonClicked] = useState(false)
+
+	const [time, setTime] = useState()
+	let newTime
 
 	const [formValues, setFormValues] = useState({
 		title: '',
@@ -65,8 +74,24 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 		createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
 	})
 
-	const handleInputChange = (event: any) => {
-		const { name, value } = event.target
+	const handleInputChange = async (event: any) => {
+
+		let name : any, value : any
+
+		console.log(event)
+		if (event.target) {
+			name = event.target.name
+			value = event.target.value
+		} else {
+			name = 'time'
+			await setTime(event)
+			newTime = event
+			console.log(time)
+			console.log('newTime')
+			console.log(newTime)
+			console.log(convertTo12HourFormat(newTime))
+			value = convertTo12HourFormat(newTime)
+		}
 		if (name === 'dueDate') {
 		  const dateValue = new Date(value)
 		  setFormValues((prevFormValues) => ({
@@ -82,6 +107,31 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 	}
 
 	const handleAddTask = () => {
+		setTitleError('')
+ 		setTimeError('')
+  		setDetailsError('')
+
+  		let hasError = false
+
+		if (formValues.title.trim() === '') {
+			setTitleError('Title is required.')
+			hasError = true
+		}
+
+		if (formValues.time === null || formValues.time.trim() === '') {
+			setTimeError('Time is required.')
+			hasError = true
+		}
+
+		if (formValues.details.trim() === '') {
+			setDetailsError('Details are required.')
+			hasError = true
+		}
+
+		if (hasError) {
+			return
+		}
+
 		setButtonClicked(true)
 	}
 
@@ -123,6 +173,59 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 		}
 	}, [buttonClicked])
 
+	console.log(formValues.time)
+
+	const getCurrentTime = () => {
+		const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]
+		if (formValues.dueDate.toISOString().split('T')[0] === today) {
+			const now = new Date()
+			const timezone = 'Asia/Manila'
+			const timeOptions = {
+			timeZone: timezone,
+			hour12: true,
+			}
+		
+			const formattedTime = now.toLocaleString('en-PH', timeOptions)
+			const [date, time] = formattedTime.split(', ')
+		
+			return new Date(`${date} ${time}`)
+		}
+
+		const minTime = new Date()
+		minTime.setHours(0)
+		minTime.setMinutes(0)
+		minTime.setSeconds(0)
+		minTime.setMilliseconds(0)
+		return minTime
+	}
+
+	const getMaxTime = () => {
+		// You can set the maximum allowed time here. For example, if you want to allow times up to 23:59 (11:59 PM), use:
+		const maxTime = new Date()
+		maxTime.setHours(23)
+		maxTime.setMinutes(59)
+		maxTime.setSeconds(0)
+		maxTime.setMilliseconds(0)
+		return maxTime
+	}
+
+	const convertTo12HourFormat = (time: any) => {
+		if (!(time instanceof Date) || isNaN(time.getTime())) {
+			return '' // Handle the case when the time is not a valid Date object
+		}
+		
+		const hours = time.getHours()
+		const minutes = time.getMinutes()
+	
+		const amOrPm = hours >= 12 ? 'PM' : 'AM'
+		const twelveHourFormatHours = hours % 12 || 12
+	
+		const formattedTime = `${twelveHourFormatHours}:${minutes.toString().padStart(2, '0')} ${amOrPm}`
+		return formattedTime
+	}
+
+	const formattedTime = convertTo12HourFormat(time)
+
 	return (
 		<Modal
 			show={show}
@@ -131,17 +234,12 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
 		>
-			
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter" className='mx-3' style={ModalTitleDiv}>
 					Add Task
 				</Modal.Title>
-				
 			</Modal.Header>
-				
 			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
-			
-
 			<Modal.Body>
 				<Container fluid className='px-5 pb-4'>
 					<Row className='mb-3'>
@@ -157,6 +255,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
           								onChange={handleInputChange}
 										style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 									/>
+									{titleError && <div className="text-danger">{titleError}</div>}
 							</Form.Group>
 						</Col>	
 						<Col>
@@ -176,17 +275,22 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 						</Col>
 						<Col>
 							<Form.Group>
-									<Form.Label>Time</Form.Label>
-									<Form.Control
-										required
-										type="time"
-										placeholder=""
+								<Form.Label>Time</Form.Label>
+								<div style={{width: '-webkit-fill-available'}}>
+									<DatePicker
 										name="time"
 										value={formValues.time}
-										style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 										onChange={handleInputChange}
-										
+										showTimeSelect
+										showTimeSelectOnly
+										timeFormat="h:mm aa"
+										minTime={getCurrentTime()}
+										maxTime={getMaxTime()}
+										className="custom-timepicker form-control"
+										autoComplete="off"
 									/>
+								</div>
+								{timeError && <div className="text-danger">{timeError}</div>}
 							</Form.Group>
 						</Col>
 					</Row>
@@ -203,9 +307,9 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 											onChange={handleInputChange}
 											style={{backgroundColor:'#DEDEDE', height:'116px', borderRadius:'25px'}}
 										/>
+										{detailsError && <div className="text-danger">{detailsError}</div>}
 							</Form.Group>
 						</Col>	
-
 						<Col xs={4}>
 								<Row className=''>
 									<Form.Group>
@@ -221,7 +325,6 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}	
 											/>
 										</div>
-										
 									</Form.Group>
 								</Row>
 								<Row className='mt-2'>
@@ -251,9 +354,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 											/>
 								</Form.Group>
 							</Col>
-
 					</Row>
-					
 
 					<Row className='justify-content-end' style={{marginTop:'100px'}}>
 						<Col xs={8} className='px-5' style={{color:'#9FA2B4'}}>
