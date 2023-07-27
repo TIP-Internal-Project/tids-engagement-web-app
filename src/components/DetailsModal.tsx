@@ -73,6 +73,26 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     onChange()
     onHide()
   }
+
+  const handleImageSelect = () =>{
+    console.log('Image Changed')
+    const fileInput = document.getElementById('imageInput') as HTMLInputElement
+    let imageURL = ''
+    console.log(fileInput)
+    console.log(fileInput.files)
+    if (fileInput && fileInput.files){
+      imageURL = URL.createObjectURL(fileInput.files[0])
+    }
+    const imagePrev = document.getElementById('imagePreview') as HTMLImageElement
+
+    if (imagePrev){
+      imagePrev.src = imageURL
+      imagePrev.style.height = '116px'
+      imagePrev.style.borderRadius = '25px'
+      imagePrev.style.width = '100%'
+    }
+  }
+
   const handleEventUpdate = async () => {
     beforeSubmit()
     await dispatch(updateEvent(formData))
@@ -218,10 +238,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 <Form.Label>Details</Form.Label>
                 <Form.Control
                   required
-                  type='text'
+                  as='textarea'
                   defaultValue={action == 'edit' ? event.eventDetails : ''}
                   name='eventDetails'
-                  style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px' }}
+                  style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px', resize:'none'}}
                   onChange={handleFormChange}
                 />
               </Form.Group>
@@ -236,6 +256,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   type='file'
                   defaultValue=''
                   style={{ backgroundColor: '#DEDEDE', height: '116px', display: 'none' }}
+                  onChange={handleImageSelect}
                 />
                 <br />
                 <label
@@ -251,6 +272,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   htmlFor='imageInput'
                 >
                   <img
+                    id ='imagePreview'
                     src={require('../assets/images/image.png')}
                     style={{ width: '40px', height: '40px' }}
                   />
