@@ -11,15 +11,17 @@ import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Nav from 'react-bootstrap/Nav'
 import { addTask, AddTaskState } from '../redux/addTaskSlice'
-import {fetchTasks} from '../redux/taskSlice'
+import {fetchTasks, taskState} from '../redux/taskSlice'
+import { UpdateTaskState, updateTask } from '../redux/updateTaskSlice'
 
 interface EventModalProps {
   show: boolean
   onHide: () => void
-  addedTasks: (orders: AddTaskState) => void
+  modalData: any[]
+  updatedTasks: (tasks: taskState) => void
 }
 
-const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) => {
+const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, updatedTasks }) => {
     
 	const modalStyle = {
 		border: 'none', // Add a new border style
@@ -62,17 +64,17 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 	const [time, setTime] = useState()
 	let newTime
 
-	const [formValues, setFormValues] = useState({
-		title: '',
-		dueDate: new Date(),
-		time: '',
-		details: '',
-		workdayLink: '',
-		myGrowthLink: '',
-		importance: 'Required',
-		createdDate: new Date(),
-		createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
-	})
+	const [data, setData] = useState<any>({})
+
+	useEffect(()=>{
+		setData(modalData)
+	}, [modalData])
+
+	const [formValues, setFormValues] = useState<any>({})
+
+	useEffect(()=>{
+		setFormValues(data)
+	}, [data])
 
 	const handleInputChange = async (event: any) => {
 
@@ -89,19 +91,19 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 		}
 		if (name === 'dueDate') {
 		  const dateValue = new Date(value)
-		  setFormValues((prevFormValues) => ({
+		  setFormValues((prevFormValues: any) => ({
 			...prevFormValues,
 			[name]: dateValue,
 		  }))
 		} else {
-		  setFormValues((prevFormValues) => ({
+		  setFormValues((prevFormValues: any) => ({
 			...prevFormValues,
 			[name]: value,
 		  }))
 		}
 	}
 
-	const handleAddTask = () => {
+	const handleEditTask = () => {
 		setTitleError('')
  		setTimeError('')
   		setDetailsError('')
@@ -131,38 +133,19 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 	}
 
 	const handleModalHide = () => {
-		setFormValues({
-			title: '',
-			dueDate: new Date(),
-			time: '',
-			details: '',
-			workdayLink: '',
-			myGrowthLink: '',
-			importance: 'Required',
-			createdDate: new Date(),
-			createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
-		})
+		setFormValues(data)
 		onHide()
 	}
 
 	useEffect(() => {
 		if (buttonClicked){
-			dispatch(addTask(formValues))
+			dispatch(updateTask(formValues))
 			.then(() => dispatch(fetchTasks()))
 			.then((resultAction) => {
 			if (resultAction.type === fetchTasks.fulfilled.type) {
-				const newTasks = resultAction.payload as AddTaskState
-				addedTasks(newTasks)
+				const editedTasks = resultAction.payload as taskState
+				updatedTasks(editedTasks)
 				setButtonClicked(false)
-				setFormValues({title: '',
-					dueDate: new Date(),
-					time: '',
-					details: '',
-					workdayLink: '',
-					myGrowthLink: '',
-					importance: 'Required',
-					createdDate: new Date(),
-					createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')})
 			}
 		})
 		}
@@ -170,7 +153,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 
 	const getCurrentTime = () => {
 		const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]
-		if (formValues.dueDate.toISOString().split('T')[0] === today) {
+		if (new Date(formValues.dueDate).toISOString().split('T')[0] === today) {
 			const now = new Date()
 			const timezone = 'Asia/Manila'
 			const timeOptions = {
@@ -229,10 +212,11 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 		>
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter" className='mx-3' style={ModalTitleDiv}>
-					Add Task
+					Edit Task
 				</Modal.Title>
 			</Modal.Header>
 			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
+			{formValues.dueDate ? (
 			<Modal.Body>
 				<Container fluid className='px-5 pb-4'>
 					<Row className='mb-3'>
@@ -260,12 +244,12 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 											type="date"
 											placeholder=""
 											name="dueDate"
-											value={formValues.dueDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]}
+											value={new Date(formValues.dueDate).toISOString().split('T')[0]}
 											onChange={handleInputChange}
 											style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
 											min={new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]}
-											onKeyDown={(e) => e.preventDefault()}
 											autoComplete="off"
+											onKeyDown={(e) => e.preventDefault()}
 										/>
 							</Form.Group>
 						</Col>
@@ -366,17 +350,20 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 							</Nav.Link>
 						</Col>
 						<Col xs={2} style={{width: '116px', display:'flex', alignItems:'center', justifyContent:'end'}}>
-							<Button variant='success' onClick={handleAddTask} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
-								ADD TASK
+							<Button variant='success' onClick={handleEditTask} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
+								EDIT TASK
 							</Button>
               
 						</Col>
 					</Row>
 				</Container>
 			</Modal.Body>
+			) : (
+				<Modal.Body>Loading...</Modal.Body> // Placeholder content while formValues is being fetched
+			  )}
 			
 		</Modal>
 	)
 }
 
-export default AddTaskModal
+export default UpdateTaskModal
