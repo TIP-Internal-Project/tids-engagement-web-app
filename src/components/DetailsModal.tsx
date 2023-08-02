@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState,useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -10,6 +10,7 @@ import { addEvent } from '../redux/addEventSlice'
 import { useDispatch } from 'react-redux'
 import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
+
 
 interface EventModalProps {
   show: boolean
@@ -37,8 +38,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     regLink: '',
   })
 
-  const reload = () => window.location.reload()
-
 
   useEffect(() => {
     if (!show) {
@@ -64,6 +63,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
 
 
+  const reload = () => window.location.reload()
 
   const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -394,44 +394,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   </div>
                 </Form.Group>
               </Row>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs={4}>
-              <Form.Group>
-                <Form.Label>Event Code</Form.Label>
-                <Form.Control
-                  required
-                  type='text'
-                  defaultValue={action == 'edit' ? event.code : ''}
-                  name='code'
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-            </Col>
-
-            <Col xs={4}>
-              <Form.Group>
-                <Form.Label>Category</Form.Label>
-                <Form.Select
-                  aria-label='Default select example'
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  defaultValue={action == 'edit' ? event.category : ''}
-                  name='category'
-                  onChange={handleSelectChange}
-                >
-                  <option value=''>Select a category</option>
-                  <option value='TIDS'>TIDS</option>
-                  <option value='happyhere'>#HAPPYHERE</option>
-                  <option value='teamEvent'>Team Event</option>
-                  <option value='COP'>COP</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-
-            <Col xs={4}>
+              <Row>
               <Form.Group>
                 <Form.Label>Importance</Form.Label>
                 <Form.Select
@@ -501,7 +464,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   name='category'
                   onChange={handleSelectChange}
                 >
-                  <option value=''>Select a category</option>
+                  <option>Select a category</option>
                   <option value='TIDS'>TIDS</option>
                   <option value='happyhere'>#HAPPYHERE</option>
                   <option value='teamEvent'>Team Event</option>
