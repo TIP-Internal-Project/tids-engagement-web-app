@@ -395,7 +395,10 @@ export const EventPanel2 = (props: any) => {
 
     // Convert 24 Clock to 12 Hour Clock
     const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-    const hours = parseInt(timeString.slice(0,3))
+    let hours = parseInt(timeString.slice(0,3))
+    if (hours == 0){
+      hours = 12
+    }
     const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
     let formattedTime = timeString + ' ' + newformat
 
@@ -502,7 +505,10 @@ export const EventPanel2 = (props: any) => {
 
     // Convert 24 Clock to 12 Hour Clock
     const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-    const hours = parseInt(timeString.slice(0,3))
+    let hours = parseInt(timeString.slice(0,3))
+    if (hours == 0){
+      hours = 12
+    }
     const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
     let formattedTime = timeString + ' ' + newformat
     formattedTime = finalHour + formattedTime.slice(2,)
