@@ -127,7 +127,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 
 					<div className='ModalBodyRightSubDiv1'>
 						<p style={{fontSize:'14px'}}>{data.eventDetails}</p>
-						
 					</div>
 
 					<div className='ModalBodyRightSubDiv'>

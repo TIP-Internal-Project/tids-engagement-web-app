@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -36,6 +36,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     starsNum: '',
     regLink: '',
   })
+
+  const reload = () => window.location.reload()
 
 
   useEffect(() => {
@@ -106,13 +108,34 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     onChange()
     onHide()
   }
+
+  const handleImageSelect = () =>{
+    console.log('Image Changed')
+    const fileInput = document.getElementById('imageInput') as HTMLInputElement
+    let imageURL = ''
+    console.log(fileInput)
+    console.log(fileInput.files)
+    if (fileInput && fileInput.files){
+      imageURL = URL.createObjectURL(fileInput.files[0])
+    }
+    const imagePrev = document.getElementById('imagePreview') as HTMLImageElement
+
+    if (imagePrev){
+      imagePrev.src = imageURL
+      imagePrev.style.height = '116px'
+      imagePrev.style.borderRadius = '25px'
+      imagePrev.style.width = '100%'
+    }
+  }
+
   const handleEventUpdate = async () => {
     beforeSubmit()
     await dispatch(updateEvent(formData))
+    reload()
     onChange()
   }
   function beforeSubmit() {
-    formData.eventId = formData.eventId == '' ? event.eventId : formData.eventId
+    formData.eventId = event.eventId
     formData.title = formData.title == '' ? event.title : formData.title
     formData.venueDetails = formData.venueDetails == '' ? event.venueDetails : formData.venueDetails
     formData.eventDetails = formData.eventDetails == '' ? event.eventDetails : formData.eventDetails
@@ -275,10 +298,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 <Form.Label>Details</Form.Label>
                 <Form.Control
                   required
-                  type='text'
+                  as='textarea'
                   defaultValue={action == 'edit' ? event.eventDetails : ''}
                   name='eventDetails'
-                  style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px' }}
+                  style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px', resize:'none'}}
                   onChange={handleFormChange}
                 />
               </Form.Group>
@@ -292,6 +315,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   type='file'
                   defaultValue=''
                   style={{ backgroundColor: '#DEDEDE', height: '116px', display: 'none' }}
+                  onChange={handleImageSelect}
                 />
                 <br />
                 <label
@@ -307,6 +331,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   htmlFor='imageInput'
                 >
                   <img
+                    id ='imagePreview'
                     src={require('../assets/images/image.png')}
                     style={{ width: '40px', height: '40px' }}
                   />
@@ -369,7 +394,44 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   </div>
                 </Form.Group>
               </Row>
-              <Row>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col xs={4}>
+              <Form.Group>
+                <Form.Label>Event Code</Form.Label>
+                <Form.Control
+                  required
+                  type='text'
+                  defaultValue={action == 'edit' ? event.code : ''}
+                  name='code'
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+            </Col>
+
+            <Col xs={4}>
+              <Form.Group>
+                <Form.Label>Category</Form.Label>
+                <Form.Select
+                  aria-label='Default select example'
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  defaultValue={action == 'edit' ? event.category : ''}
+                  name='category'
+                  onChange={handleSelectChange}
+                >
+                  <option value=''>Select a category</option>
+                  <option value='TIDS'>TIDS</option>
+                  <option value='happyhere'>#HAPPYHERE</option>
+                  <option value='teamEvent'>Team Event</option>
+                  <option value='COP'>COP</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+
+            <Col xs={4}>
               <Form.Group>
                 <Form.Label>Importance</Form.Label>
                 <Form.Select

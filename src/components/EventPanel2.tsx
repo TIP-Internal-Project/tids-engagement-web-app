@@ -390,15 +390,21 @@ export const EventPanel2 = (props: any) => {
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
-    const time = new (window.Date as any)(event.startTime)
-    let hours = time.getHours()
-    let minutes = time.getMinutes()
+    const time = new Date(event.startDate)
+    const timeString = time.toLocaleTimeString().slice(0,-3)
+
+    // Convert 24 Clock to 12 Hour Clock
     const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-    hours = hours % 12
-    // To display "0" as "12"
-    hours = hours ? hours : 12
-    minutes = minutes < 10 ? '0' + minutes : minutes
-    const formattedTime = ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ' ' + newformat
+    let hours = parseInt(timeString.slice(0,3))
+    if (hours == 0){
+      hours = 12
+    }
+    const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
+    let formattedTime = timeString + ' ' + newformat
+
+
+    formattedTime = finalHour + formattedTime.slice(2,)
+
 
     return (
       <ListGroup key={event.eventId}>
@@ -441,7 +447,7 @@ export const EventPanel2 = (props: any) => {
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
-                    : event.category === 'TEAM EVENT'
+                    : event.category === 'teamEvent'
                     ? teamBadge
                     : event.category === 'COP'
                     ? copBadge
@@ -449,7 +455,13 @@ export const EventPanel2 = (props: any) => {
                 }
                 className='py-2'
               >
-                {event.category}
+                {event.category == 'TIDS'
+                  ? 'TIDS'
+                  : event.category === 'teamEvent'
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}
               </Button>
             </Col>
             <Col
@@ -488,15 +500,18 @@ export const EventPanel2 = (props: any) => {
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
-    const time = new (window.Date as any)(event.startTime)
-    let hours = time.getHours()
-    let minutes = time.getMinutes()
+    const time = new Date(event.startDate)
+    const timeString = time.toLocaleTimeString().slice(0,-3)
+
+    // Convert 24 Clock to 12 Hour Clock
     const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-    hours = hours % 12
-    // To display "0" as "12"
-    hours = hours ? hours : 12
-    minutes = minutes < 10 ? '0' + minutes : minutes
-    const formattedTime = ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ' ' + newformat
+    let hours = parseInt(timeString.slice(0,3))
+    if (hours == 0){
+      hours = 12
+    }
+    const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
+    let formattedTime = timeString + ' ' + newformat
+    formattedTime = finalHour + formattedTime.slice(2,)
 
     return (
       <ListGroup key={event.eventId}>
@@ -538,7 +553,7 @@ export const EventPanel2 = (props: any) => {
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
-                    : event.category === 'TEAM EVENT'
+                    : event.category === 'teamEvent'
                     ? teamBadge
                     : event.category === 'COP'
                     ? copBadge
@@ -546,7 +561,13 @@ export const EventPanel2 = (props: any) => {
                 }
                 className='py-2'
               >
-                {event.category}
+                {event.category == 'TIDS'
+                  ? 'TIDS'
+                  : event.category === 'teamEvent'
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}
               </Button>
             </Col>
             <Col

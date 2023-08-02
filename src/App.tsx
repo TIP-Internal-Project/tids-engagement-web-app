@@ -1,7 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Container from './Container'
-import { useAppDispatch, useAppSelector } from './redux/hooks'
-import { getUserSession } from './redux/userSessionSlice'
 import Auth from './Auth'
 import Login from './Login'
 import Events from './pages/Events/index'
@@ -9,23 +7,10 @@ import OrderProcessing from './pages/OrderProcessing/index'
 import Overview from './pages/Overview'
 import ProfileSettingsPage from './pages/ProfileSettings'
 import Tasks from './pages/Tasks'
-import { fetchEvents } from './redux/eventSlice'
-import { useCallback, useEffect } from 'react'
 import { EventAttendance } from './components/EventAttendance'
-import AdminOverview from './pages/AdminOverview'
 
 function App() {
-  const dispatch = useAppDispatch()
-
-  const initApp = useCallback(async () => {
-    await dispatch(fetchEvents())
-  }, [dispatch])
-
   const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
-
-  // useEffect(() => {
-  // 	dispatch(getUserSession())
-  // }, [])
 
   const isUserAuthenticated = sessionStorage.getItem('email') ? true : false
 
@@ -42,13 +27,11 @@ function App() {
           />
           <Route path='tasks' element={<Tasks />} />
           <Route path='atten' element={<EventAttendance />} />
-          <Route path='adminOverview' element={<AdminOverview />} />
           <Route
             path='OrderProcessing'
             element={isAdmin ? <OrderProcessing /> : <Navigate to={'/overview'} />}
           />
         </Route>
-        <Route path='adminOverview' element={<AdminOverview />} />
         <Route path='/login' element={<Login />} />
         <Route path='/auth' element={<Auth />} />
         <Route

@@ -15,15 +15,18 @@ const EventsPanel = () => {
 	const renderedEvents = Object.values(overviewEvents.events).map((event: any, index) => {
 		const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString({},
 			{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})
-		const time = new (window.Date as any)(event.startTime)
-		let hours = time.getHours()
-		let minutes = time.getMinutes()
+			
+		const time = new (window.Date as any)(event.startDate)
+		const timeString = time.toLocaleTimeString().slice(0,-3)
+	
+		// Convert 24 Clock to 12 Hour Clock
 		const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-		hours = hours % 12 
-		// To display "0" as "12" 
-		hours = hours ? hours : 12 
-		minutes = minutes < 10 ? '0' + minutes : minutes
-		const formattedTime = ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ' ' + newformat
+		const hours = parseInt(timeString.slice(0,3))
+		const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
+		let formattedTime = timeString + ' ' + newformat
+	
+	
+		formattedTime = finalHour + formattedTime.slice(2,)
 
 		return (
 			<RowDiv key={event.eventId}>
@@ -32,7 +35,13 @@ const EventsPanel = () => {
 					<Rectangle2 style={{ display: event.category === 'TIDS' ? 'block' : 'none' }}></Rectangle2>
 					<Rectangle3 style={{ display: event.category === '#HAPPYHERE' ? 'block' : 'none' }}></Rectangle3>
 					<Rectangle4 style={{ display: event.category === 'COP' ? 'block' : 'none' }}></Rectangle4>
-					<EventCategory style={{ width: 'max-content' }}>{event.category}</EventCategory>
+					<EventCategory style={{ width: 'max-content' }}>{event.category == 'TIDS'
+                  ? 'TIDS'
+                  : event.category === 'teamEvent'
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}</EventCategory>
 				</Category>
 				<Headings>
 					<Title>

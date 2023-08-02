@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container'
 import { Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AddTaskModal from './AddTaskModal'
+import UpdateTaskModal from './UpdateTaskModal'
 
 export const TaskPanel = () => {
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
@@ -216,7 +217,8 @@ export const TaskPanel = () => {
   },[dispatch])
 
   const [showAddTaskModal, setShowAddTaskModal] = useState(false)
-
+  const [modalData, setModalData] = useState<any[]>([])
+  const [updateModalShow, setUpdateModalShow] = useState(false)
   const handleOpenAddTaskModal = () => {
 	setShowAddTaskModal(true)
 }
@@ -226,9 +228,23 @@ export const TaskPanel = () => {
 	dispatch(fetchTasks())
   }
 
+  const handleUpdatedTask = () => {
+	setUpdateModalShow(false)
+	dispatch(fetchTasks())
+	}
+
   const handleCloseAddTaskModal = () => {
 	setShowAddTaskModal(false)
   }
+
+  const handleOpenUpdateModal = (task: any) => {
+		setModalData(task)
+		setUpdateModalShow(true)
+	}
+
+	const handleCloseUpdateModal = () => {
+		setUpdateModalShow(false)
+	}
 
   const renderedTasks = Object.values(tasks.tasks).map((tasks: any, index) =>{
 	let ts = tasks.time
@@ -242,14 +258,26 @@ export const TaskPanel = () => {
       <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
         <Row className='px-3 py-2'>
           <Col xs={6} style={IndItemTitleDisplay}>
+		  { isAdmin === true ? (
             <p
-              onClick={() => handleToggle(tasks.taskId)}
+               onClick={() => handleOpenUpdateModal(tasks)}
+              aria-controls={`example-collapse-text-${tasks.taskId}`}
+              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+              className='mb-0'
+			  style={{cursor:'pointer'}}
+            >
+              {tasks.title}
+            </p>
+			) : (
+				<p
               aria-controls={`example-collapse-text-${tasks.taskId}`}
               aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
               className='mb-0'
             >
               {tasks.title}
             </p>
+			  )
+			}
             <Button
               style={viewDetailsButton}
               onClick={() => handleToggle(tasks.taskId)}
@@ -265,7 +293,7 @@ export const TaskPanel = () => {
               <p style={IndItemDueDateDisplay} className='mb-0'>
                 {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})}`}
               </p>
-              <p style={IndItemDueTimeDisplay}>{ts}</p>
+              <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
             </div>
           </Col>
 
@@ -352,6 +380,9 @@ export const TaskPanel = () => {
 				</ListGroup>
       		</Container>
 			<AddTaskModal show={showAddTaskModal} onHide={handleCloseAddTaskModal} addedTasks={handleAddedTasks} />
-	  	</Container>
+			{updateModalShow && (
+				<UpdateTaskModal show={updateModalShow} onHide={handleCloseUpdateModal} modalData={modalData} updatedTasks={handleUpdatedTask}/>
+			)}
+		</Container>
   	)
 }
