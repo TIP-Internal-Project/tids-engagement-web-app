@@ -21,14 +21,24 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 	const [data, setData] = useState<any>({})
 	const [disable, setDisable] = useState<any>()
 	const dispatch = useAppDispatch()
-	
+	const [qrCodeUrl, setQrCodeUrl] = useState<string>('')
+	const [isQrCodeExpanded, setIsQrCodeExpanded] = useState(false)
+
 	useEffect(()=>{
 		setData(modalData)
 	}, [modalData])
 
 	useEffect(()=> {
 		setDisable(disableRegistration)
-	}, [modalData])
+
+		const qrCodeUrlFromDatabase = 'https://quickchart.io/qr?text=test%20event%204'
+
+		setQrCodeUrl(qrCodeUrlFromDatabase)
+	}, [modalData, disableRegistration])
+
+	
+
+	
 
 	const handleRegister = async (eventId: any, email: any) => {
 		await dispatch(register({ eventId, email }))
@@ -46,6 +56,12 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 		onSortedEvents(sortedUnregisteredEvents as Event[])
 	}
 
+
+	const handleCloseModal = () => {
+		setIsQrCodeExpanded(false) // Reset the state to false when the modal is closed
+		onHide() // Call the onHide prop to close the modal
+	  }
+
 	const modalStyle = {
 		border: 'none', // Add a new border style
 		margin: '4%',
@@ -59,6 +75,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 		width: '125px',
 		fontSize: '11px',
 		fontFamily: 'Mulish',
+		height: '29px'
 	}
 
 
@@ -72,10 +89,21 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 		paddingLeft: '11px'
 	}
 
+
+	const qrCodeTitle = {
+		backgroundColor: '#5a8d37',
+		width: '160px',
+		padding: '11px',
+		borderStyle: 'ridge',
+		marginBottom: '1px'
+		
+	}
+
+
 	return (
 		<Modal
 			show={show}
-			onHide={onHide}
+			onHide={handleCloseModal}
 			size="xl"
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
@@ -83,7 +111,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 			
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>
-				{data.title}
+				{data.title} 
 				{/* <h5 style={ModalStatus}><span className='ModalBadge'>Event Ongoing</span></h5> */}
 				</Modal.Title>
 				
@@ -103,13 +131,37 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 
 					<div className='ModalBodyRightSubDiv'>
 						<Button style={ModalButton} disabled={disable} onClick={() => handleRegister(data.eventId, email)}>REGISTER</Button>{' '}
-						<Button style={ModalButton}>EVENT SURVEY</Button>{' '}
-						<a href="https://meet.google.com/"><img style={{marginLeft: '-1%', marginRight: '-1%', width:'43px', height: '33px'}} src ={require('../assets/images/GmeetLogo.png')} /></a>
-						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
-						<a href="https://calendar.google.com/"><img style={{marginLeft:'10px', marginRight:'5px', width:'17.5px', height: '25px'}} src ={require('../assets/images/BookmarkLogo.png')} /></a>
-						<a href="https://calendar.google.com/"><img style={{marginLeft:'5px', marginRight:'5px', width:'23.75px', height: '23.75px'}} src ={require('../assets/images/PolygonLogo.png')} /></a>
-					</div>
+						
+						{data.postEventSurveyURL && (
+						<Button style={ModalButton} href={data.postEventSurveyURL} >EVENT SURVEY</Button> 
+						)}
 
+						{data.gmeetLink && (
+						<a href={data.gmeetLink}>
+							<img style={{ marginLeft: '-1%', marginRight: '-1%', width:'43px', height: '33px' }} src={require('../assets/images/GmeetLogo.png')} />
+						</a>
+						)}
+						
+						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
+						<a>{data.qrCodeUrl && (
+								<div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
+									{isQrCodeExpanded ? (
+									 <div>
+									 <p style={qrCodeTitle}>{data.title}</p> {/* Add the title above the QR code */}
+									 <img src={data.qrCodeUrl} alt="QR Code" style={{ width: '160px', height: '160px', border: 'groove', borderWidth: '2px' }} />
+								   </div>
+
+
+									) : (
+									<img src={data.qrCodeUrl} alt="QR Code" style={{ width: '30px', height: '30px' }} />
+									)}
+								</div>
+						 )}
+						</a>
+						
+						
+          				</div>
+						 
 				</div>
 			</Modal.Body>
 			

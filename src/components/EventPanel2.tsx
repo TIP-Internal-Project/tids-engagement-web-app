@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import EventModal from './EventModal'
 import DetailsModal from './DetailsModal'
+import DeleteEventModal from './DeleteEventModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
@@ -44,6 +45,17 @@ export const EventPanel2 = (props: any) => {
 
   const handleCloseDetailsModal = () => {
     setDetailsModalShow(false)
+  }
+
+  const [deleteEventModalShow, setDeleteEventModalShow] = useState(false)
+
+  const handleDeleteModalShow = (event: any) => {
+	setModalData(event)
+    setDeleteEventModalShow(true)
+  }
+
+  const handleDeleteModalClose = () => {
+    setDeleteEventModalShow(false)
   }
 
   const tidsBadge = {
@@ -217,7 +229,7 @@ export const EventPanel2 = (props: any) => {
     })
   }, [])
 
-  const handleRegister = async (eventId: any, email: any) => {
+  const handleRegister = async (eventId: any, email: any, status: any) => {
     setSortedEvents([])
     setSortedEvents1([])
     setSortOption('asc')
@@ -225,16 +237,16 @@ export const EventPanel2 = (props: any) => {
     await dispatch(register({ eventId, email }))
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray.sort(
-      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-    )
+    const sortedRegisteredEvents = registeredEventsArray
+	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents1(sortedRegisteredEvents as Event[])
+	console.log(sortedEvents1)
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray.sort(
-      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-    )
+    const sortedUnregisteredEvents = unregisteredEventsArray
+	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents(sortedUnregisteredEvents as Event[])
+	console.log(sortedEvents)
   }
 
   const handleRefresh = async (email: any) => {
@@ -244,15 +256,15 @@ export const EventPanel2 = (props: any) => {
     setFilterOption('')
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray.sort(
-      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-    )
+    const sortedRegisteredEvents = registeredEventsArray
+	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+	.filter((event: any) => event.status === 'Active')
     setSortedEvents1(sortedRegisteredEvents as Event[])
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray.sort(
-      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-    )
+    const sortedUnregisteredEvents = unregisteredEventsArray
+	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+	.filter((event: any) => event.status === 'Active')
     setSortedEvents(sortedUnregisteredEvents as Event[])
   }
 
@@ -268,6 +280,11 @@ export const EventPanel2 = (props: any) => {
 
   const handleChangeInData = () => {
     setDetailsModalShow(false)
+    handleRefresh(props.variable)
+  }
+
+  const handleDelete = () => {
+    setDeleteEventModalShow(false)
     handleRefresh(props.variable)
   }
 
@@ -385,7 +402,7 @@ export const EventPanel2 = (props: any) => {
 
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
 
-  const renderedUnregisteredEvents = Object.values(sortedEvents).map((event: any, index) => {
+  const renderedUnregisteredEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active').map((event: any, index) => {
     const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
@@ -473,13 +490,14 @@ export const EventPanel2 = (props: any) => {
               }}
             >
               <Button
-                onClick={() => handleRegister(event.eventId, props.variable)}
+                onClick={() => handleRegister(event.eventId, props.variable, event.status)}
                 className='bg-success border-success'
                 style={actionBadge}
               >
                 {' '}
                 REGISTER
               </Button>
+			  {isAdmin && (
               <Button
                 onClick={() => handleOpenDetailsModal('edit', event)}
                 className='bg-success border-success'
@@ -488,14 +506,28 @@ export const EventPanel2 = (props: any) => {
                 {' '}
                 MODIFY
               </Button>
+			  )}
+			  {/* <img
+				style={{ height: '20px', width: '20px', marginLeft: '10px' }}
+				src={require('../assets/images/delete-icon.png')}
+				onClick={() => handleDeleteModalShow(event)}
+				/> */}
             </Col>
+			{isAdmin && (
+			<Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<img
+					style={{ height: '20px', width: '20px', cursor: 'pointer' }}
+					src={require('../assets/images/delete-icon.png')}
+					onClick={() => handleDeleteModalShow(event)}
+				/>
+			</Col>)}
           </Row>
         </ListGroup.Item>
       </ListGroup>
     )
   })
 
-  const renderedRegisteredEvents = Object.values(sortedEvents1).map((event: any, index) => {
+  const renderedRegisteredEvents = Object.values(sortedEvents1).filter((event: any) => event.status === 'Active').map((event: any, index) => {
     const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
@@ -582,6 +614,15 @@ export const EventPanel2 = (props: any) => {
             >
               <p>Registered</p>
             </Col>
+			{isAdmin && (
+			<Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<img
+					style={{ height: '20px', width: '20px', marginTop: '-10px', cursor:'pointer' }}
+					src={require('../assets/images/delete-icon.png')}
+					onClick={() => handleDeleteModalShow(event)}
+				/>
+			</Col>
+			)}
           </Row>
         </ListGroup.Item>
       </ListGroup>
@@ -710,7 +751,7 @@ export const EventPanel2 = (props: any) => {
           </div>
         ) : null}
 
-        {sortedEvents1.length > 0 ? (
+        {sortedEvents1.filter((event: any) => event.status === 'Active').length > 0 ? (
           <div style={{ paddingBottom: '3%' }}>{renderedRegisteredEvents}</div>
         ) : (
           <div
@@ -727,7 +768,7 @@ export const EventPanel2 = (props: any) => {
           </div>
         )}
 
-        {sortedEvents.length > 0 ? (
+        {sortedEvents.filter((event: any) => event.status === 'Active').length > 0 ? (
           <Row style={TitleBar} className='px-5'>
             <Col xs={4} style={{ fontSize: '14px' }}>
               Title
@@ -787,6 +828,12 @@ export const EventPanel2 = (props: any) => {
           onChange={handleChangeInData}
           event={event}
           action={action}
+        />
+		<DeleteEventModal
+          show={deleteEventModalShow}
+          onHide={handleDeleteModalClose}
+		  onChange={handleDelete}
+          modalData={modalData}
         />
       </Container>
     </Container>
