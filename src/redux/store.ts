@@ -15,6 +15,7 @@ import addEventReducer from './addEventSlice'
 import getTasks from './taskSlice'
 import addTaskReducer from './addTaskSlice'
 import updateTaskReducer from './updateTaskSlice'
+import deleteEventReducer from './deleteEventSlice'
 
 export const store = configureStore({
   reducer: {
@@ -32,6 +33,7 @@ export const store = configureStore({
     tasks: getTasks,
     addTask: addTaskReducer,
 	updateTask: updateTaskReducer,
+	deleteEvent: deleteEventReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
