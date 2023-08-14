@@ -361,7 +361,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   defaultValue={action == 'edit' ? event.importance : 'required'}
                   name='importance'
-                  value={formData.importance}
                   onChange={handleSelectChange}
                 >
                   <option value='required'>Required</option>
