@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState,useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -10,6 +10,7 @@ import { addEvent } from '../redux/addEventSlice'
 import { useDispatch } from 'react-redux'
 import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
+
 
 interface EventModalProps {
   show: boolean
@@ -37,6 +38,31 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     regLink: '',
   })
 
+
+  useEffect(() => {
+    if (!show) {
+      setFormData({
+        eventId: '',
+        title: '',
+        venueDetails: '',
+        eventDetails: '',
+        startDate: '',
+        endDate: '',
+        code: '',
+        category: '',
+        importance: 'required',
+        gmeetLink: '',
+        postEventSurveyURL: '',
+        starsNum: '',
+        regLink: '',
+      })
+    }
+  }, [show])
+
+
+
+
+
   const reload = () => window.location.reload()
 
   const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,11 +74,17 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   }
 
   const handleAddEvent = () => {
-    const { title } = formData
+    const { title, regLink } = formData
     if (!title) {
       alert('Please enter the event title')
       return
     }
+    
+    generateQr()
+
+    const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title)}`
+
+
     ;(dispatch as any)(
       addEvent({
         eventId: 0,
@@ -70,6 +102,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         regLink: formData.regLink,
         createdDate: new Date(),
         createdBy: '',
+        qrCodeUrl: qrCodeUrl,
       })
     )
     onChange()
@@ -141,20 +174,40 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }))
   }
 
+
+  const [qrCodeUrl, setQrCodeUrl] = useState('')
+
+
+  // const generateQr = () => {
+  //   console.log('generateQr function called')
+  //   if (formData.regLink === '') {
+  //     alert('Please enter a registration link')
+  //     return
+  //   }
+  //   const clickQR = document.getElementById('clickQR')
+  //   const eventQR = document.getElementById('eventQR') as HTMLImageElement
+
+
+  //   console.log('eventQR:', eventQR)
+
+  //   if (clickQR) {
+  //     clickQR.style.display = 'none'
+  //   }
+  //   if (eventQR) {
+  //     const url = `https://quickchart.io/qr?text=${encodeURIComponent(formData.regLink)}`
+  //     setQrCodeUrl(url)
+  //   }
+  // }
+
   const generateQr = () => {
+    console.log('generateQr function called')
     if (formData.regLink === '') {
-      alert('Please enter a registration link')
+      
       return
     }
-    const clickQR = document.getElementById('clickQR')
-    const eventQR = document.getElementById('eventQR') as HTMLImageElement
-    if (clickQR) {
-      clickQR.style.display = 'none'
-    }
-    if (eventQR) {
-      eventQR.src = 'https://quickchart.io/qr?text="' + formData.regLink + '"'
-      eventQR.style.display = ''
-    }
+  
+    const url = `https://quickchart.io/qr?text=${encodeURIComponent(formData.title)}`
+    setQrCodeUrl(url)
   }
 
   const modalStyle = {
@@ -216,27 +269,31 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   name='title'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   onChange={handleFormChange}
-                />
-              </Form.Group>
-            </Col>
-
-            <Col>
+                /></Form.Group>
+              <Row>
               <Form.Group>
-                <Form.Label>Venue Details</Form.Label>
+                <Form.Control
+                  required
+                  type='hidden'
+                  value={action == 'edit' ? event.tinyURL : ''}
+                  name='eventId'
+                />
+                <Form.Label>Tiny URL</Form.Label>
                 <Form.Control
                   required
                   type='text'
-                  defaultValue={action == 'edit' ? event.venueDetails : ''}
-                  name='venueDetails'
+                  defaultValue={action == 'edit' ? event.tinyURL : ''}
+                  name='tinyURL'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   onChange={handleFormChange}
                 />
               </Form.Group>
-            </Col>
-          </Row>
 
-          <Row className='my-4'>
-            <Col xs={4}>
+
+              </Row>
+
+              <Row>
+                <Col>
               <Form.Group>
                 <Form.Label>Details</Form.Label>
                 <Form.Control
@@ -248,9 +305,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   onChange={handleFormChange}
                 />
               </Form.Group>
-            </Col>
-
-            <Col xs={4}>
+              </Col>
+              <Col>
               <Form.Group>
                 <Form.Label>Upload Photo</Form.Label>
                 <Form.Control
@@ -281,9 +337,31 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   />
                 </label>
               </Form.Group>
+              
+              </Col>
+
+              </Row>
+
+              
             </Col>
 
-            <Col xs={4}>
+          
+
+
+            <Col>
+              <Row>
+                    <Form.Group>
+                    <Form.Label>Venue Details</Form.Label>
+                    <Form.Control
+                      required
+                      type='text'
+                      defaultValue={action == 'edit' ? event.venueDetails : ''}
+                      name='venueDetails'
+                      style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Group>  
+              </Row>
               <Row className=''>
                 <Form.Group>
                   <Form.Label>Start Date & Time</Form.Label>
@@ -316,23 +394,64 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   </div>
                 </Form.Group>
               </Row>
+              <Row>
+              <Form.Group>
+                <Form.Label>Importance</Form.Label>
+                <Form.Select
+                  aria-label='Default select example'
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  defaultValue={action == 'edit' ? event.importance : 'required'}
+                  name='importance'
+                  onChange={handleSelectChange}
+                >
+                  <option value='required'>Required</option>
+                  <option value='optional'>Optional</option>
+                </Form.Select>
+              </Form.Group>
+              </Row>
+      
+              
             </Col>
+            
           </Row>
 
-          <Row>
-            <Col xs={4}>
-              <Form.Group>
-                <Form.Label>Event Code</Form.Label>
+
+
+
+          <Row className='my-4'>
+                  
+
+          <Col xs={8}>
+            <Row>
+            <Form.Group>
+                <Form.Label>Google Meet Link</Form.Label>
                 <Form.Control
                   required
                   type='text'
-                  defaultValue={action == 'edit' ? event.code : ''}
-                  name='code'
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  defaultValue={action == 'edit' ? event.gmeetLink : ''}
+                  name='gmeetLink'
                   onChange={handleFormChange}
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                 />
               </Form.Group>
-            </Col>
+              </Row>
+              <Row>
+              <Form.Group>
+                <Form.Label>Post Survey Link</Form.Label>
+                <Form.Control
+                  required
+                  type='text'
+                  defaultValue={action == 'edit' ? event.postEventSurveyURL : ''}
+                  name='postEventSurveyURL'
+                  onChange={handleFormChange}
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                />
+              </Form.Group>
+              </Row>
+
+          </Col>
+
+
 
             <Col xs={4}>
               <Form.Group>
@@ -351,55 +470,56 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   <option value='COP'>COP</option>
                 </Form.Select>
               </Form.Group>
-            </Col>
 
-            <Col xs={4}>
+
               <Form.Group>
-                <Form.Label>Importance</Form.Label>
+                <Form.Label>Event Type</Form.Label>
                 <Form.Select
                   aria-label='Default select example'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  defaultValue={action == 'edit' ? event.importance : 'required'}
-                  name='importance'
+                  defaultValue={action == 'edit' ? event.eventType : ''}
+                  name='eventType'
                   onChange={handleSelectChange}
                 >
-                  <option value='required'>Required</option>
-                  <option value='optional'>Optional</option>
+                  <option value=''>Select an Event Type</option>
+                  <option value='TIDS'>Team Meeting</option>
+                  <option value='happyhere'>Team Building</option>
+                  <option value='teamEvent'>Team Dinner</option>
+                  <option value='COP'>COP</option>
                 </Form.Select>
               </Form.Group>
             </Col>
+
           </Row>
 
+          {/* <Row>
+            <Col xs={4}>
+              <Form.Group>
+                <Form.Label>Event Code</Form.Label>
+                <Form.Control
+                  required
+                  type='text'
+                  defaultValue={action == 'edit' ? event.code : ''}
+                  name='code'
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+            </Col>
+
+            <Col xs={4}>
+             
+            </Col>
+
+            <Col xs={4}>
+              
+            </Col>
+          </Row> */}
+
           <Row className='mt-4 mb-4'>
-            <Col xs={4}>
-              <Form.Group>
-                <Form.Label>Google Meet Link</Form.Label>
-                <Form.Control
-                  required
-                  type='text'
-                  defaultValue={action == 'edit' ? event.gmeetLink : ''}
-                  name='gmeetLink'
-                  onChange={handleFormChange}
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                />
-              </Form.Group>
-            </Col>
+           
 
-            <Col xs={4}>
-              <Form.Group>
-                <Form.Label>Post Survey Link</Form.Label>
-                <Form.Control
-                  required
-                  type='text'
-                  defaultValue={action == 'edit' ? event.postEventSurveyURL : ''}
-                  name='postEventSurveyURL'
-                  onChange={handleFormChange}
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                />
-              </Form.Group>
-            </Col>
-
-            <Col xs={4}>
+            {/* <Col xs={4}>
               <Form.Group>
                 <Form.Label># of Stars to earn</Form.Label>
                 <Form.Control
@@ -415,42 +535,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   }
                 />
               </Form.Group>
-            </Col>
+            </Col> */}
+
+
           </Row>
-          <Row>
-            <Col xs={8}>
-              <Form.Group>
-                <Form.Label>Registration Link</Form.Label>
-                <Form.Control
-                  required
-                  id='regLink'
-                  type='text'
-                  defaultValue={action == 'edit' ? event.regLink : ''}
-                  name='regLink'
-                  onChange={handleFormChange}
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                />
-              </Form.Group>
-            </Col>
-            <Col style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}>
-              {action == 'add' ? (
-                <p
-                  id='clickQR'
-                  style={{ fontFamily: 'Mulish', textDecoration: 'underline' }}
-                  onClick={generateQr}
-                >
-                  Click to generate Event QR
-                </p>
-              ) : (
-                <img
-                  id='eventQR'
-                  src='https://quickchart.io/qr?text=%27facebook.com%27'
-                  alt=''
-                  style={{ display: 'none' }}
-                />
-              )}
-            </Col>
-          </Row>
+          
 
           <Row className='' style={{ marginTop: '100px' }}>
             <Col xs={6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
@@ -487,7 +576,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {action == 'add' ? (
-                <Button variant='success' className='px-4' onClick={handleAddEvent}>
+                <Button variant='success' className='px-4' onClick={handleAddEvent} >
                   Add Event
                 </Button>
               ) : (

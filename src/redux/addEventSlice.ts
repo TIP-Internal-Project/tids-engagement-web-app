@@ -19,6 +19,7 @@ export interface AddEventState {
   postEventSurveyURL: string
   createdBy: string
   error: string
+  qrCodeUrl: string
 }
 
 const initialState: AddEventState = {
@@ -38,6 +39,7 @@ const initialState: AddEventState = {
   category: '',
   createdDate: new Date(),
   error: '',
+  qrCodeUrl: ''
 }
 
 interface AddEventPayload {
@@ -56,6 +58,7 @@ interface AddEventPayload {
   regLink: string
   createdDate: Date
   createdBy: string
+  qrCodeUrl: string
 }
 
 export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPayload) => {
@@ -73,6 +76,8 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     postEventSurveyURL,
     starsNum,
     regLink,
+    qrCodeUrl
+
   } = payload
   const response = await axios.post('http://localhost:3001/events', {
     eventId,
@@ -88,6 +93,7 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     postEventSurveyURL,
     starsNum,
     regLink,
+    qrCodeUrl,
   })
 
   return response.data
@@ -110,6 +116,7 @@ export const addEventSlice = createSlice({
       state.starsNum = action.payload.starsNum
       state.postEventSurveyURL = action.payload.postEventSurveyURL
       state.createdBy = action.payload.createdBy
+      state.qrCodeUrl = action.payload.qrCodeUrl
     },
   },
 
@@ -132,6 +139,7 @@ export const addEventSlice = createSlice({
         state.starsNum = action.payload.starsNum
         state.postEventSurveyURL = action.payload.postEventSurveyURL
         state.createdBy = action.payload.createdBy
+        state.qrCodeUrl = action.payload.qrCodeUrl
       })
       .addCase(addEvent.rejected, (state, action) => {
         state.loading = false
