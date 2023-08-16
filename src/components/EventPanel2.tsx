@@ -402,26 +402,18 @@ export const EventPanel2 = (props: any) => {
 
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
 
+  const setTimeFormat = (aDateString: string): string => {
+    const aDate = new Date(aDateString)
+    const timeString = aDate.toLocaleTimeString().slice(0,-6)
+    const newFormat = aDate.getHours() >= 12 ? 'PM' : 'AM'
+    return `${timeString} ${newFormat}`
+  }
+
   const renderedUnregisteredEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active').map((event: any, index) => {
     const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
-    const time = new Date(event.startDate)
-    const timeString = time.toLocaleTimeString().slice(0,-3)
-
-    // Convert 24 Clock to 12 Hour Clock
-    const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-    let hours = parseInt(timeString.slice(0,3))
-    if (hours == 0){
-      hours = 12
-    }
-    const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
-    let formattedTime = timeString + ' ' + newformat
-
-
-    formattedTime = finalHour + formattedTime.slice(2,)
-
 
     return (
       <ListGroup key={event.eventId}>
@@ -455,7 +447,7 @@ export const EventPanel2 = (props: any) => {
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{formattedTime}</p>
+                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate)}</p>
               </div>
             </Col>
 
@@ -532,18 +524,6 @@ export const EventPanel2 = (props: any) => {
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
-    const time = new Date(event.startDate)
-    const timeString = time.toLocaleTimeString().slice(0,-3)
-
-    // Convert 24 Clock to 12 Hour Clock
-    const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-    let hours = parseInt(timeString.slice(0,3))
-    if (hours == 0){
-      hours = 12
-    }
-    const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
-    let formattedTime = timeString + ' ' + newformat
-    formattedTime = finalHour + formattedTime.slice(2,)
 
     return (
       <ListGroup key={event.eventId}>
@@ -576,7 +556,7 @@ export const EventPanel2 = (props: any) => {
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{formattedTime}</p>
+                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate)}</p>
               </div>
             </Col>
 
