@@ -12,6 +12,7 @@ import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
 
 
+
 interface EventModalProps {
   show: boolean
   onHide: () => void
@@ -36,6 +37,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     postEventSurveyURL: '',
     starsNum: '',
     regLink: '',
+    imageUrl:''
   })
 
 
@@ -55,6 +57,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         postEventSurveyURL: '',
         starsNum: '',
         regLink: '',
+        imageUrl:''
       })
     }
   }, [show])
@@ -73,10 +76,17 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }))
   }
 
-  const handleAddEvent = () => {
+
+  // Add Event
+  const handleAddEvent  = async () => {
     const { title, regLink } = formData
     if (!title) {
       alert('Please enter the event title')
+      return
+    }
+
+    if (selectedImage === null) {
+      // alert('Please select an image')
       return
     }
     
@@ -85,43 +95,60 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title)}`
 
 
-    ;(dispatch as any)(
-      addEvent({
-        eventId: 0,
-        title: formData.title,
-        venueDetails: formData.venueDetails,
-        eventDetails: formData.eventDetails,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        code: formData.code,
-        category: formData.category,
-        importance: formData.importance,
-        gmeetLink: formData.gmeetLink,
-        postEventSurveyURL: formData.postEventSurveyURL,
-        starsNum: parseInt(formData.starsNum),
-        regLink: formData.regLink,
-        createdDate: new Date(),
-        createdBy: '',
-        qrCodeUrl: qrCodeUrl,
-      })
-    )
-    onChange()
-    onHide()
-  }
+    const defaultStarsNum = 0
 
-  const handleImageSelect = () =>{
-    console.log('Image Changed')
-    const fileInput = document.getElementById('imageInput') as HTMLInputElement
-    let imageURL = ''
-    console.log(fileInput)
-    console.log(fileInput.files)
-    if (fileInput && fileInput.files){
-      imageURL = URL.createObjectURL(fileInput.files[0])
-    }
+   
+
+    try {
+     
+
+
+      await dispatch(
+          addEvent({
+              eventId: 0,
+              title: formData.title,
+              venueDetails: formData.venueDetails,
+              eventDetails: formData.eventDetails,
+              startDate: formData.startDate,
+              endDate: formData.endDate,
+              code: formData.code,
+              category: formData.category,
+              importance: formData.importance,
+              gmeetLink: formData.gmeetLink,
+              postEventSurveyURL: formData.postEventSurveyURL,
+              starsNum: parseInt(formData.starsNum) || defaultStarsNum,
+              regLink: formData.regLink,
+              createdDate: new Date(),
+              createdBy: '',
+              qrCodeUrl: qrCodeUrl,
+              imageFile: selectedImage,
+              imageUrl: formData.imageUrl
+          })
+      )
+
+      onChange()
+      onHide()
+
+      // Wait for a brief moment before reloading (optional)
+      await new Promise(resolve => setTimeout(resolve, 1000)) // Adjust the delay as needed
+
+      reload()
+  } catch (error) {
+      console.error('Error adding event:', error)
+      // Handle error as needed
+  }
+}
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+
+  const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null
+    setSelectedImage(file)
+
     const imagePrev = document.getElementById('imagePreview') as HTMLImageElement
 
-    if (imagePrev){
-      imagePrev.src = imageURL
+    if (imagePrev && file) {
+      imagePrev.src = URL.createObjectURL(file)
       imagePrev.style.height = '116px'
       imagePrev.style.borderRadius = '25px'
       imagePrev.style.width = '100%'

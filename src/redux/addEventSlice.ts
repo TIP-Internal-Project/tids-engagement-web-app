@@ -20,6 +20,7 @@ export interface AddEventState {
   createdBy: string
   error: string
   qrCodeUrl: string
+  imageUrl: string
 }
 
 const initialState: AddEventState = {
@@ -39,7 +40,8 @@ const initialState: AddEventState = {
   category: '',
   createdDate: new Date(),
   error: '',
-  qrCodeUrl: ''
+  qrCodeUrl: '',
+  imageUrl: ''
 }
 
 interface AddEventPayload {
@@ -59,6 +61,8 @@ interface AddEventPayload {
   createdDate: Date
   createdBy: string
   qrCodeUrl: string
+  imageFile: File
+  imageUrl: string
 }
 
 export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPayload) => {
@@ -76,27 +80,44 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     postEventSurveyURL,
     starsNum,
     regLink,
-    qrCodeUrl
-
-  } = payload
-  const response = await axios.post('http://localhost:3001/events', {
-    eventId,
-    title,
-    venueDetails,
-    eventDetails,
-    startDate,
-    endDate,
-    code,
-    category,
-    importance,
-    gmeetLink,
-    postEventSurveyURL,
-    starsNum,
-    regLink,
     qrCodeUrl,
-  })
+    imageFile,
+    imageUrl
+  
+  } = payload
+  
+  
 
-  return response.data
+  const formData = new FormData()
+  formData.append('eventId', eventId.toString())
+  formData.append('title', title)
+  formData.append('venueDetails', venueDetails)
+  formData.append('eventDetails', eventDetails)
+  formData.append('startDate', startDate)
+  formData.append('endDate', endDate)
+  formData.append('code', code)
+  formData.append('category', category)
+  formData.append('importance', importance)
+  formData.append('gmeetLink', gmeetLink)
+  formData.append('postEventSurveyURL', postEventSurveyURL)
+  formData.append('starsNum', starsNum.toString())
+  formData.append('regLink', regLink)
+  formData.append('qrCodeUrl', qrCodeUrl)
+  formData.append('imgfile', imageFile)
+  formData.append('imageUrl', imageUrl)
+
+  try {
+    // Upload the image and create the event using axios
+    const response = await axios.post('http://localhost:3001/createEvent', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Important for file upload
+      },
+    })
+
+    return response.data
+  } catch (error) {
+    throw new Error('Failed to create an event')
+  }
 })
 
 export const addEventSlice = createSlice({
@@ -117,6 +138,7 @@ export const addEventSlice = createSlice({
       state.postEventSurveyURL = action.payload.postEventSurveyURL
       state.createdBy = action.payload.createdBy
       state.qrCodeUrl = action.payload.qrCodeUrl
+      state.imageUrl = action.payload.imageUrl
     },
   },
 
