@@ -427,7 +427,7 @@ export const EventPanel2 = (props: any) => {
                 onClick={() => handleOpenModal(event, false)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
                 aria-expanded={eventStates[event.eventId] ? 'true' : 'false'}
-                className='mb-0 ps-4'
+                className='mb-0'
               >
                 {event.title}
               </p>
@@ -436,7 +436,7 @@ export const EventPanel2 = (props: any) => {
                 style={viewDetailsButton}
                 aria-controls={`example-collapse-text-${event.eventId}`}
                 aria-expanded={eventStates[event.eventId] ? 'true' : 'false'}
-                className='ms-4'
+                className='ms-0'
               >
                 View details
               </Button>
@@ -473,7 +473,7 @@ export const EventPanel2 = (props: any) => {
                   : '#HAPPYHERE'}
               </Button>
             </Col>
-            <Col
+            <Col xs={2}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -506,7 +506,7 @@ export const EventPanel2 = (props: any) => {
 				/> */}
             </Col>
 			{isAdmin && (
-			<Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+			<Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 				<img
 					style={{ height: '20px', width: '20px', cursor: 'pointer' }}
 					src={require('../assets/images/delete-icon.png')}
@@ -532,7 +532,7 @@ export const EventPanel2 = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            <Col xs={6} style={IndItemTitleDisplay}>
+            <Col xs={4} style={IndItemTitleDisplay}>
               <p
                 onClick={() => handleOpenModal(event, true)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -582,7 +582,7 @@ export const EventPanel2 = (props: any) => {
                   : '#HAPPYHERE'}
               </Button>
             </Col>
-            <Col
+            <Col xs={2}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -595,7 +595,7 @@ export const EventPanel2 = (props: any) => {
               <p>Registered</p>
             </Col>
 			{isAdmin && (
-			<Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+			<Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 				<img
 					style={{ height: '20px', width: '20px', marginTop: '-10px', cursor:'pointer' }}
 					src={require('../assets/images/delete-icon.png')}
@@ -759,7 +759,7 @@ export const EventPanel2 = (props: any) => {
             <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>
               Category
             </Col>
-            <Col style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>
               Action
             </Col>
           </Row>
