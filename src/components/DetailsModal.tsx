@@ -31,7 +31,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     endDate: '',
     code: '',
     category: '',
-    importance: 'required',
+    importance: '',
     gmeetLink: '',
     postEventSurveyURL: '',
     starsNum: '',
@@ -50,7 +50,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         endDate: '',
         code: '',
         category: '',
-        importance: 'required',
+        importance: '',
         gmeetLink: '',
         postEventSurveyURL: '',
         starsNum: '',
@@ -402,7 +402,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   defaultValue={action == 'edit' ? event.importance : 'required'}
                   name='importance'
-                  value={formData.importance}
                   onChange={handleSelectChange}
                 >
                   <option value='required'>Required</option>
@@ -577,11 +576,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {action == 'add' ? (
-                <Button variant='success' className='px-4' onClick={handleAddEvent} >
+                <Button variant='success' className='px-3' onClick={handleAddEvent} >
                   Add Event
                 </Button>
               ) : (
-                <Button variant='success' className='px-4' onClick={handleEventUpdate}>
+                <Button variant='success' className='px-3' onClick={handleEventUpdate}>
                   Update Event
                 </Button>
               )}
