@@ -10,6 +10,7 @@ export interface AddEventState {
   endDate: Date
   detail: string
   category: string
+  eventType: string
   createdDate: Date
   venueDetail: string
   importance: string
@@ -37,6 +38,7 @@ const initialState: AddEventState = {
   createdBy: '',
   detail: '',
   category: '',
+  eventType: '',
   createdDate: new Date(),
   error: '',
   qrCodeUrl: ''
@@ -51,6 +53,7 @@ interface AddEventPayload {
   endDate: string
   code: string
   category: string
+  eventType: string
   importance: string
   gmeetLink: string
   postEventSurveyURL: string
@@ -71,6 +74,7 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     endDate,
     code,
     category,
+    eventType,
     importance,
     gmeetLink,
     postEventSurveyURL,
@@ -88,6 +92,7 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     endDate,
     code,
     category,
+    eventType,
     importance,
     gmeetLink,
     postEventSurveyURL,
