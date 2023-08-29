@@ -67,8 +67,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 		dueDate: new Date(),
 		time: '',
 		details: '',
-		workdayLink: '',
-		myGrowthLink: '',
+		link: '',
 		importance: 'Required',
 		createdDate: new Date(),
 		createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
@@ -136,8 +135,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 			dueDate: new Date(),
 			time: '',
 			details: '',
-			workdayLink: '',
-			myGrowthLink: '',
+			link: '',
 			importance: 'Required',
 			createdDate: new Date(),
 			createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
@@ -158,8 +156,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 					dueDate: new Date(),
 					time: '',
 					details: '',
-					workdayLink: '',
-					myGrowthLink: '',
+					link: '',
 					importance: 'Required',
 					createdDate: new Date(),
 					createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')})
@@ -312,14 +309,14 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 						<Col xs={4}>
 								<Row className=''>
 									<Form.Group>
-										<Form.Label>Workday Link</Form.Label> 
+										<Form.Label>Link</Form.Label> 
 										<div className="d-flex align-items-center">
 											<Form.Control
 												required
 												type="text"
 												placeholder=""
-												name="workdayLink"
-												value={formValues.workdayLink}
+												name="link"
+												value={formValues.link}
 												onChange={handleInputChange}
 												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}	
 												autoComplete="off"
@@ -327,32 +324,16 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 										</div>
 									</Form.Group>
 								</Row>
-								<Row className='mt-2'>
-									<Form.Group>
-										<Form.Label>Importance</Form.Label> 
-										<div className="d-flex align-items-center">
-											<Form.Select aria-label="Default select example" name="importance" value={formValues.importance} onChange={handleInputChange} style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
-												<option value='Required'>Required</option>
-												<option value='Optional'>Optional</option>
-											</Form.Select>
-										</div>
-										
-									</Form.Group>
-								</Row>
 							</Col>
 							<Col>
 								<Form.Group>
-										<Form.Label>MyGrowth Link</Form.Label>
-											<Form.Control
-												required
-												type="text"
-												placeholder=""
-												name="myGrowthLink"
-												value={formValues.myGrowthLink}
-												onChange={handleInputChange}
-												style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}
-												autoComplete="off"
-											/>
+									<Form.Label>Importance</Form.Label> 
+									<div className="d-flex align-items-center">
+										<Form.Select aria-label="Default select example" name="importance" value={formValues.importance} onChange={handleInputChange} style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
+											<option value='Required'>Required</option>
+											<option value='Optional'>Optional</option>
+										</Form.Select>
+									</div>
 								</Form.Group>
 							</Col>
 					</Row>

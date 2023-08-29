@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState,useEffect } from 'react'
+import React, { ChangeEvent, useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -10,7 +10,6 @@ import { addEvent } from '../redux/addEventSlice'
 import { useDispatch } from 'react-redux'
 import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
-
 
 interface EventModalProps {
   show: boolean
@@ -31,13 +30,13 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     endDate: '',
     code: '',
     category: '',
-    importance: 'required',
+    eventType: '',
+    importance: '',
     gmeetLink: '',
     postEventSurveyURL: '',
     starsNum: '',
     regLink: '',
   })
-
 
   useEffect(() => {
     if (!show) {
@@ -50,7 +49,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         endDate: '',
         code: '',
         category: '',
-        importance: 'required',
+        eventType: '',
+        importance: '',
         gmeetLink: '',
         postEventSurveyURL: '',
         starsNum: '',
@@ -58,10 +58,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       })
     }
   }, [show])
-
-
-
-
 
   const reload = () => window.location.reload()
 
@@ -74,16 +70,15 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   }
 
   const handleAddEvent = () => {
-    const { title, regLink } = formData
+    const { title } = formData
     if (!title) {
       alert('Please enter the event title')
       return
     }
-    
+
     generateQr()
 
     const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title)}`
-
 
     ;(dispatch as any)(
       addEvent({
@@ -95,7 +90,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         endDate: formData.endDate,
         code: formData.code,
         category: formData.category,
-        importance: formData.importance,
+        eventType: formData.eventType,
+        importance: formData.importance == '' ? 'required' : formData.importance,
         gmeetLink: formData.gmeetLink,
         postEventSurveyURL: formData.postEventSurveyURL,
         starsNum: parseInt(formData.starsNum),
@@ -109,18 +105,18 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     onHide()
   }
 
-  const handleImageSelect = () =>{
+  const handleImageSelect = () => {
     console.log('Image Changed')
     const fileInput = document.getElementById('imageInput') as HTMLInputElement
     let imageURL = ''
     console.log(fileInput)
     console.log(fileInput.files)
-    if (fileInput && fileInput.files){
+    if (fileInput && fileInput.files) {
       imageURL = URL.createObjectURL(fileInput.files[0])
     }
     const imagePrev = document.getElementById('imagePreview') as HTMLImageElement
 
-    if (imagePrev){
+    if (imagePrev) {
       imagePrev.src = imageURL
       imagePrev.style.height = '116px'
       imagePrev.style.borderRadius = '25px'
@@ -143,6 +139,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     formData.endDate = formData.endDate == '' ? event.endDate : formData.endDate
     formData.code = formData.code == '' ? event.code : formData.code
     formData.category = formData.category == '' ? event.category : formData.category
+    formData.eventType = formData.eventType == '' ? event.eventType : formData.eventType
     formData.importance = formData.importance == '' ? event.importance : formData.importance
     formData.gmeetLink = formData.gmeetLink == '' ? event.gmeetLink : formData.gmeetLink
     formData.postEventSurveyURL =
@@ -174,9 +171,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }))
   }
 
-
   const [qrCodeUrl, setQrCodeUrl] = useState('')
-
 
   // const generateQr = () => {
   //   console.log('generateQr function called')
@@ -186,7 +181,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   //   }
   //   const clickQR = document.getElementById('clickQR')
   //   const eventQR = document.getElementById('eventQR') as HTMLImageElement
-
 
   //   console.log('eventQR:', eventQR)
 
@@ -202,10 +196,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   const generateQr = () => {
     console.log('generateQr function called')
     if (formData.regLink === '') {
-      
       return
     }
-  
+
     const url = `https://quickchart.io/qr?text=${encodeURIComponent(formData.title)}`
     setQrCodeUrl(url)
   }
@@ -270,27 +263,24 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   onChange={handleFormChange}
                 /></Form.Group>
-              <Row>
-              <Form.Group className='mb-3'>
-                <Form.Control
-                  required
-                  type='hidden'
-                  value={action == 'edit' ? event.tinyURL : ''}
-                  name='eventId'
-                />
-                <Form.Label>Tiny URL</Form.Label>
-                <Form.Control
-                  required
-                  type='text'
-                  defaultValue={action == 'edit' ? event.tinyURL : ''}
-                  name='tinyURL'
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-
-
-              </Row>
+                <Form.Group className='mb-3'>
+                  <Form.Control
+                    required
+                    type='hidden'
+                    value={action == 'edit' ? event.tinyURL : ''}
+                    name='eventId'
+                  />
+                  <Form.Label>Tiny URL</Form.Label>
+                  <Form.Control
+                    required
+                    type='text'
+                    defaultValue={action == 'edit' ? event.tinyURL : ''}
+                    name='tinyURL'
+                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              {/* </Row> */}
 
               <Row>
                 <Col>
@@ -341,12 +331,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
               </Col>
 
               </Row>
-
-              
             </Col>
-
-          
-
 
             <Col>
               <Row>
@@ -378,7 +363,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   </div>
                 </Form.Group>
               </Row>
-              <Row className='mt-2'>
+              <Row>
                 <Form.Group className='mb-3'>
                   <Form.Label>End Date & Time</Form.Label>
                   <div className='d-flex align-items-center'>
@@ -409,10 +394,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 </Form.Select>
               </Form.Group>
               </Row>
-      
-              
             </Col>
-            
           </Row>
 
 
@@ -448,10 +430,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 />
               </Form.Group>
               </Row>
-
-          </Col>
-
-
+            </Col>
 
             <Col xs={4}>
               <Form.Group className='mb-3'>
@@ -489,7 +468,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 </Form.Select>
               </Form.Group>
             </Col>
-
           </Row>
 
           {/* <Row>
@@ -517,8 +495,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
           </Row> */}
 
           <Row className='mt-4 mb-4'>
-           
-
             {/* <Col xs={4}>
               <Form.Group>
                 <Form.Label># of Stars to earn</Form.Label>
@@ -536,10 +512,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 />
               </Form.Group>
             </Col> */}
-
-
           </Row>
-          
 
           <Row>
             <Col xs={6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
