@@ -10,6 +10,7 @@ type Event = {
   endDate: Date
   code: string
   category: string
+  eventType: string
   importance: string
   gmeetLink: string
   postSurveyLink: string
@@ -45,6 +46,7 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     endDate,
     code,
     category,
+    eventType,
     importance,
     gmeetLink,
     postSurveyLink,
@@ -60,6 +62,7 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
       endDate,
       code,
       category,
+      eventType,
       importance,
       gmeetLink,
       postSurveyLink,
