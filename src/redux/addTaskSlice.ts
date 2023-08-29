@@ -8,8 +8,7 @@ export interface AddTaskState {
 	dueDate: Date | null;
 	time: string;
 	details: string;
-	workdayLink: string;
-	myGrowthLink: string;
+	link: string;
 	importance: string;
 	createdDate: Date | null;
 	createdBy: string;
@@ -22,8 +21,7 @@ const initialState: AddTaskState = {
 	dueDate: null,
 	time: '',
 	details: '',
-	workdayLink: '',
-	myGrowthLink: '',
+	link: '',
 	importance: '',
 	createdDate: null,
 	createdBy: '',
@@ -35,16 +33,15 @@ interface AddTaskPayload {
 	dueDate: Date;
 	time: string;
 	details: string;
-	workdayLink: string;
-	myGrowthLink: string;
+	link: string;
 	importance: string;
 	createdDate: Date;
 	createdBy: string;
 }
 
 export const addTask = createAsyncThunk('addTask', async (payload: AddTaskPayload) => {
-	const { title, dueDate, time, details, workdayLink, myGrowthLink, importance, createdDate, createdBy } = payload
-	const response = await axios.post('http://localhost:3001/task/addTask', { title, dueDate, time, details, workdayLink, myGrowthLink, importance, createdDate, createdBy })
+	const { title, dueDate, time, details, link, importance, createdDate, createdBy } = payload
+	const response = await axios.post('http://localhost:3001/task/addTask', { title, dueDate, time, details, link, importance, createdDate, createdBy })
 	return response.data
 })
 
@@ -58,8 +55,7 @@ export const addTaskSlice = createSlice({
 		state.dueDate = action.payload.dueDate
 		state.time = action.payload.time
 		state.details = action.payload.details
-		state.workdayLink = action.payload.workdayLink
-		state.myGrowthLink = action.payload.myGrowthLink
+		state.link = action.payload.link
 		state.importance = action.payload.importance
 		state.createdDate = action.payload.createdDate
 		state.createdBy = action.payload.createdBy
@@ -77,8 +73,7 @@ export const addTaskSlice = createSlice({
 		state.dueDate = action.payload.dueDate
 		state.time = action.payload.time
 		state.details = action.payload.details
-		state.workdayLink = action.payload.workdayLink
-		state.myGrowthLink = action.payload.myGrowthLink
+		state.link = action.payload.link
 		state.importance = action.payload.importance
 		state.createdDate = action.payload.createdDate
 		state.createdBy = action.payload.createdBy
