@@ -253,6 +253,7 @@ export const TaskPanel = () => {
   	h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
   	const ampm = H < 12 ? ' AM' : ' PM'
   	ts = h + ts.substr(2, 3) + ampm
+    console.log(tasks.link)
     return(
 
       <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
@@ -327,9 +328,9 @@ export const TaskPanel = () => {
               {tasks.details}
 
               <div>
-                <Button style={eventContentButtons}>Workday Link</Button>
-                <Button style={eventContentButtons}>MyGrowth</Button>
-                <Button style={eventContentButtons}>Check Progress</Button>
+                {tasks.link !== '' && (<a href={`//${tasks.link}`} target="_blank" rel="noreferrer">
+                  <Button style={eventContentButtons}>Link<img style={{ height: '20px', marginLeft: '5px', marginBottom: '5px' }} src={require('../assets/images/link.png')} /></Button>
+                </a>)}
               </div>
             </div>
           </Collapse>

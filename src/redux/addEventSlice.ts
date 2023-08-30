@@ -10,6 +10,7 @@ export interface AddEventState {
   endDate: Date
   detail: string
   category: string
+  eventType: string
   createdDate: Date
   venueDetail: string
   importance: string
@@ -38,6 +39,7 @@ const initialState: AddEventState = {
   createdBy: '',
   detail: '',
   category: '',
+  eventType: '',
   createdDate: new Date(),
   error: '',
   qrCodeUrl: '',
@@ -53,6 +55,7 @@ interface AddEventPayload {
   endDate: string
   code: string
   category: string
+  eventType: string
   importance: string
   gmeetLink: string
   postEventSurveyURL: string
@@ -75,6 +78,7 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     endDate,
     code,
     category,
+    eventType,
     importance,
     gmeetLink,
     postEventSurveyURL,
@@ -105,6 +109,7 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
   formData.append('qrCodeUrl', qrCodeUrl)
   formData.append('imgfile', imageFile)
   formData.append('imageUrl', imageUrl)
+  formData.append('eventType', eventType)
 
   try {
     // Upload the image and create the event using axios
@@ -139,6 +144,7 @@ export const addEventSlice = createSlice({
       state.createdBy = action.payload.createdBy
       state.qrCodeUrl = action.payload.qrCodeUrl
       state.imageUrl = action.payload.imageUrl
+      state.eventType = action.payload.eventType
     },
   },
 
@@ -162,6 +168,7 @@ export const addEventSlice = createSlice({
         state.postEventSurveyURL = action.payload.postEventSurveyURL
         state.createdBy = action.payload.createdBy
         state.qrCodeUrl = action.payload.qrCodeUrl
+        state.eventType = action.payload.eventType
       })
       .addCase(addEvent.rejected, (state, action) => {
         state.loading = false

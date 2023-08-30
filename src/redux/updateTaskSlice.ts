@@ -9,8 +9,7 @@ export interface UpdateTaskState {
 	dueDate: Date | null;
 	time: string;
 	details: string;
-	workdayLink: string;
-	myGrowthLink: string;
+	link: string;
 	importance: string;
 	updatedDate: Date | null;
 	updatedBy: string;
@@ -24,8 +23,7 @@ const initialState: UpdateTaskState = {
 	dueDate: null,
 	time: '',
 	details: '',
-	workdayLink: '',
-	myGrowthLink: '',
+	link: '',
 	importance: '',
 	updatedDate: null,
 	updatedBy: '',
@@ -38,16 +36,15 @@ interface UpdateTaskPayload {
 	dueDate: Date;
 	time: string;
 	details: string;
-	workdayLink: string;
-	myGrowthLink: string;
+	link: string;
 	importance: string;
 	updatedDate: Date;
 	updatedBy: string;
 }
 
 export const updateTask = createAsyncThunk('updateTask', async (payload: UpdateTaskPayload) => {
-	const { taskId, title, dueDate, time, details, workdayLink, myGrowthLink, importance, updatedDate, updatedBy } = payload
-	const response = await axios.put(`http://localhost:3001/task/updateTaskById/${taskId}`, { title, dueDate, time, details, workdayLink, myGrowthLink, importance, updatedDate, updatedBy })
+	const { taskId, title, dueDate, time, details, link, importance, updatedDate, updatedBy } = payload
+	const response = await axios.put(`http://localhost:3001/task/updateTaskById/${taskId}`, { title, dueDate, time, details, link, importance, updatedDate, updatedBy })
 	return response.data
 })
 
@@ -62,8 +59,7 @@ export const updateTaskSlice = createSlice({
 		state.dueDate = action.payload.dueDate
 		state.time = action.payload.time
 		state.details = action.payload.details
-		state.workdayLink = action.payload.workdayLink
-		state.myGrowthLink = action.payload.myGrowthLink
+		state.link = action.payload.link
 		state.importance = action.payload.importance
 		state.updatedDate = action.payload.updatedDate
 		state.updatedBy = action.payload.updatedBy
@@ -82,8 +78,7 @@ export const updateTaskSlice = createSlice({
 		state.dueDate = action.payload.dueDate
 		state.time = action.payload.time
 		state.details = action.payload.details
-		state.workdayLink = action.payload.workdayLink
-		state.myGrowthLink = action.payload.myGrowthLink
+		state.link = action.payload.link
 		state.importance = action.payload.importance
 		state.updatedDate = action.payload.updatedDate
 		state.updatedBy = action.payload.updatedBy

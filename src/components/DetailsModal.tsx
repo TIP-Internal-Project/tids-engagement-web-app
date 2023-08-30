@@ -37,7 +37,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     postEventSurveyURL: '',
     starsNum: '',
     regLink: '',
-    imageUrl:''
+    imageUrl:'',
+    eventType:''
   })
 
 
@@ -57,7 +58,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         postEventSurveyURL: '',
         starsNum: '',
         regLink: '',
-        imageUrl:''
+        imageUrl:'',
+        eventType:''
       })
     }
   }, [show])
@@ -119,26 +121,27 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
               starsNum: parseInt(formData.starsNum) || defaultStarsNum,
               regLink: formData.regLink,
               createdDate: new Date(),
-              createdBy: '',
+             createdBy: '',
               qrCodeUrl: qrCodeUrl,
               imageFile: selectedImage,
-              imageUrl: formData.imageUrl
+              imageUrl: formData.imageUrl,
+              eventType: formData.eventType
           })
-      )
+      ) 
 
       onChange()
       onHide()
 
-      
-      await new Promise(resolve => setTimeout(resolve, 1000)) 
+      // Wait for a brief moment before reloading (optional)
+      await new Promise(resolve => setTimeout(resolve, 1000)) // Adjust the delay as needed
 
       reload()
   } catch (error) {
       console.error('Error adding event:', error)
-     
+      // Handle error as needed
   }
   finally {
-    setCreatingEvent(false) 
+    setCreatingEvent(false) // Hide the spinner
   }
 }
 
