@@ -588,6 +588,8 @@ export const EventPanel2 = (props: any) => {
         </ListGroup.Item>
       </ListGroup>
     )
+
+    
   })
 
   return (
