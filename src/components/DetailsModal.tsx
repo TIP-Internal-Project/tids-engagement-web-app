@@ -247,7 +247,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         <Container fluid className='px-5 pb-4'>
           <Row>
             <Col xs={8}>
-              <Form.Group>
+              <Form.Group className='mb-3'>
                 <Form.Control
                   required
                   type='hidden'
@@ -262,10 +262,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   name='title'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   onChange={handleFormChange}
-                />
-              </Form.Group>
-              <Row>
-                <Form.Group>
+                /></Form.Group>
+                <Form.Group className='mb-3'>
                   <Form.Control
                     required
                     type='hidden'
@@ -282,78 +280,75 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                     onChange={handleFormChange}
                   />
                 </Form.Group>
-              </Row>
+              {/* </Row> */}
 
               <Row>
                 <Col>
-                  <Form.Group>
-                    <Form.Label>Details</Form.Label>
-                    <Form.Control
-                      required
-                      as='textarea'
-                      defaultValue={action == 'edit' ? event.eventDetails : ''}
-                      name='eventDetails'
-                      style={{
-                        backgroundColor: '#DEDEDE',
-                        height: '116px',
-                        borderRadius: '25px',
-                        resize: 'none',
-                      }}
-                      onChange={handleFormChange}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Upload Photo</Form.Label>
-                    <Form.Control
-                      id='imageInput'
-                      required
-                      type='file'
-                      defaultValue=''
-                      style={{ backgroundColor: '#DEDEDE', height: '116px', display: 'none' }}
-                      onChange={handleImageSelect}
-                    />
-                    <br />
-                    <label
-                      style={{
-                        height: '116px',
-                        backgroundColor: '#DEDEDE',
-                        borderRadius: '25px',
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      htmlFor='imageInput'
-                    >
-                      <img
-                        id='imagePreview'
-                        src={require('../assets/images/image.png')}
-                        style={{ width: '40px', height: '40px' }}
-                      />
-                    </label>
-                  </Form.Group>
-                </Col>
+              <Form.Group className='mb-3'>
+                <Form.Label>Details</Form.Label>
+                <Form.Control
+                  required
+                  as='textarea'
+                  defaultValue={action == 'edit' ? event.eventDetails : ''}
+                  name='eventDetails'
+                  style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px', resize:'none'}}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+              </Col>
+              <Col>
+              <Form.Group className='mb-3'>
+                <Form.Label>Upload Photo</Form.Label>
+                <Form.Control
+                  id='imageInput'
+                  required
+                  type='file'
+                  defaultValue=''
+                  style={{ backgroundColor: '#DEDEDE', height: '116px', display: 'none' }}
+                  onChange={handleImageSelect}
+                />
+                <br />
+                <label
+                  style={{
+                    height: '116px',
+                    backgroundColor: '#DEDEDE',
+                    borderRadius: '25px',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  htmlFor='imageInput'
+                >
+                  <img
+                    id ='imagePreview'
+                    src={require('../assets/images/image.png')}
+                    style={{ width: '40px', height: '40px' }}
+                  />
+                </label>
+              </Form.Group>
+              
+              </Col>
+
               </Row>
             </Col>
 
             <Col>
               <Row>
-                <Form.Group>
-                  <Form.Label>Venue Details</Form.Label>
-                  <Form.Control
-                    required
-                    type='text'
-                    defaultValue={action == 'edit' ? event.venueDetails : ''}
-                    name='venueDetails'
-                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
+                    <Form.Group className='mb-3'>
+                    <Form.Label>Venue Details</Form.Label>
+                    <Form.Control
+                      required
+                      type='text'
+                      defaultValue={action == 'edit' ? event.venueDetails : ''}
+                      name='venueDetails'
+                      style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Group>  
               </Row>
               <Row className=''>
-                <Form.Group>
+                <Form.Group className='mb-3'>
                   <Form.Label>Start Date & Time</Form.Label>
                   <div className='d-flex align-items-center'>
                     <Form.Control
@@ -368,8 +363,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   </div>
                 </Form.Group>
               </Row>
-              <Row className='mt-2'>
-                <Form.Group>
+              <Row>
+                <Form.Group className='mb-3'>
                   <Form.Label>End Date & Time</Form.Label>
                   <div className='d-flex align-items-center'>
                     <Form.Control
@@ -385,55 +380,60 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 </Form.Group>
               </Row>
               <Row>
-                <Form.Group>
-                  <Form.Label>Importance</Form.Label>
-                  <Form.Select
-                    aria-label='Default select example'
-                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    defaultValue={action == 'edit' ? event.importance : 'required'}
-                    name='importance'
-                    onChange={handleSelectChange}
-                  >
-                    <option value='required'>Required</option>
-                    <option value='optional'>Optional</option>
-                  </Form.Select>
-                </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>Importance</Form.Label>
+                <Form.Select
+                  aria-label='Default select example'
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  defaultValue={action == 'edit' ? event.importance : 'required'}
+                  name='importance'
+                  onChange={handleSelectChange}
+                >
+                  <option value='required'>Required</option>
+                  <option value='optional'>Optional</option>
+                </Form.Select>
+              </Form.Group>
               </Row>
             </Col>
           </Row>
 
-          <Row className='my-4'>
-            <Col xs={8}>
-              <Row>
-                <Form.Group>
-                  <Form.Label>Google Meet Link</Form.Label>
-                  <Form.Control
-                    required
-                    type='text'
-                    defaultValue={action == 'edit' ? event.gmeetLink : ''}
-                    name='gmeetLink'
-                    onChange={handleFormChange}
-                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  />
-                </Form.Group>
+
+
+
+          <Row>
+                  
+
+          <Col xs={8}>
+            <Row>
+            <Form.Group className='mb-3'>
+                <Form.Label>Google Meet Link</Form.Label>
+                <Form.Control
+                  required
+                  type='text'
+                  defaultValue={action == 'edit' ? event.gmeetLink : ''}
+                  name='gmeetLink'
+                  onChange={handleFormChange}
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                />
+              </Form.Group>
               </Row>
               <Row>
-                <Form.Group>
-                  <Form.Label>Post Survey Link</Form.Label>
-                  <Form.Control
-                    required
-                    type='text'
-                    defaultValue={action == 'edit' ? event.postEventSurveyURL : ''}
-                    name='postEventSurveyURL'
-                    onChange={handleFormChange}
-                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  />
-                </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>Post Survey Link</Form.Label>
+                <Form.Control
+                  required
+                  type='text'
+                  defaultValue={action == 'edit' ? event.postEventSurveyURL : ''}
+                  name='postEventSurveyURL'
+                  onChange={handleFormChange}
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                />
+              </Form.Group>
               </Row>
             </Col>
 
             <Col xs={4}>
-              <Form.Group>
+              <Form.Group className='mb-3'>
                 <Form.Label>Category</Form.Label>
                 <Form.Select
                   aria-label='Default select example'
@@ -450,7 +450,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 </Form.Select>
               </Form.Group>
 
-              <Form.Group>
+
+              <Form.Group className='mb-3'>
                 <Form.Label>Event Type</Form.Label>
                 <Form.Select
                   aria-label='Default select example'
@@ -513,7 +514,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
             </Col> */}
           </Row>
 
-          <Row className='' style={{ marginTop: '100px' }}>
+          <Row>
             <Col xs={6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
 
             <Col
@@ -526,7 +527,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 color: '#2B8000',
               }}
             >
-              <Nav.Link href='' className=''>
+              <Nav.Link href='' className='' style={{width: '-webkit-fill-available', fontSize: '14px'}}>
                 Preview
               </Nav.Link>
             </Col>
@@ -541,18 +542,18 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 color: '#2B8000',
               }}
             >
-              <Nav.Link href='' className=''>
+              <Nav.Link href='' className='' style={{width: '-webkit-fill-available', fontSize: '14px'}}>
                 Clear Fields
               </Nav.Link>
             </Col>
 
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {action == 'add' ? (
-                <Button variant='success' className='px-3' onClick={handleAddEvent}>
+                <Button variant='success' className='px-3' onClick={handleAddEvent} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
                   Add Event
                 </Button>
               ) : (
-                <Button variant='success' className='px-3' onClick={handleEventUpdate}>
+                <Button variant='success' className='px-3' onClick={handleEventUpdate} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
                   Update Event
                 </Button>
               )}
