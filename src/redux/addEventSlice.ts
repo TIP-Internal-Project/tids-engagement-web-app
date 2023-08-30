@@ -169,6 +169,7 @@ export const addEventSlice = createSlice({
         state.createdBy = action.payload.createdBy
         state.qrCodeUrl = action.payload.qrCodeUrl
         state.eventType = action.payload.eventType
+        state.imageUrl = action.payload.imageUrl
       })
       .addCase(addEvent.rejected, (state, action) => {
         state.loading = false
