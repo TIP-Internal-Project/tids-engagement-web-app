@@ -10,7 +10,7 @@ import { addEvent } from '../redux/addEventSlice'
 import { useDispatch } from 'react-redux'
 import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
-
+import Spinner from 'react-bootstrap/Spinner'
 
 
 interface EventModalProps {
@@ -101,7 +101,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
     try {
      
-
+      setCreatingEvent(true)
 
       await dispatch(
           addEvent({
@@ -129,13 +129,16 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       onChange()
       onHide()
 
-      // Wait for a brief moment before reloading (optional)
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Adjust the delay as needed
+      
+      await new Promise(resolve => setTimeout(resolve, 1000)) 
 
       reload()
   } catch (error) {
       console.error('Error adding event:', error)
-      // Handle error as needed
+     
+  }
+  finally {
+    setCreatingEvent(false) 
   }
 }
 
@@ -203,6 +206,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
 
   const [qrCodeUrl, setQrCodeUrl] = useState('')
+
+
+
+  const [creatingEvent, setCreatingEvent] = useState(false)
+
 
 
   // const generateQr = () => {
@@ -604,8 +612,21 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {action == 'add' ? (
-                <Button variant='success' className='px-4' onClick={handleAddEvent} >
-                  Add Event
+                <Button variant='success' className='px-4' onClick={handleAddEvent}  disabled={creatingEvent}>
+                  {creatingEvent ? (
+      <>
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Creating...
+      </>
+    ) : (
+      'Create Event'
+    )}
                 </Button>
               ) : (
                 <Button variant='success' className='px-4' onClick={handleEventUpdate}>
