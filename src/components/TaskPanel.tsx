@@ -11,8 +11,11 @@ import { Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AddTaskModal from './AddTaskModal'
 import UpdateTaskModal from './UpdateTaskModal'
+import { completeTask } from '../redux/taskCompletionSlice'
+import { fetchCompletedTasks } from '../redux/completedTasksSlice'
+import { fetchIncompleteTasks } from '../redux/incompleteTasksSlice'
 
-export const TaskPanel = () => {
+export const TaskPanel = (props: any) => {
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
 
   const handleToggle = (eventId: number) => {
@@ -181,6 +184,15 @@ export const TaskPanel = () => {
     paddingTop: '18px',
   }
 
+  const disabledButtons: React.CSSProperties = {
+    padding: '3px 6px',
+    fontSize: '14px',
+    background: 'none',
+    border: 'none',
+    color: '#9fa5aa',
+    paddingTop: '18px',
+  }
+
   const eventContent = {
     padding: '11px',
   }
@@ -210,10 +222,13 @@ export const TaskPanel = () => {
     importance: 'Required' | 'Optional'
   }
 
-  const tasks = useAppSelector((state) => state.tasks)
+  const tasks = useAppSelector((state) => state.incompleteTasks)
   const dispatch = useAppDispatch()
   useEffect(()=>{
-    dispatch(fetchTasks())
+    dispatch(fetchIncompleteTasks(props.variable))
+  },[dispatch])
+  useEffect(()=>{
+    dispatch(fetchCompletedTasks(props.variable))
   },[dispatch])
 
   const [showAddTaskModal, setShowAddTaskModal] = useState(false)
@@ -225,12 +240,12 @@ export const TaskPanel = () => {
 
   const handleAddedTasks = () => {
 	setShowAddTaskModal(false)
-	dispatch(fetchTasks())
+  handleRefresh(props.variable)
   }
 
   const handleUpdatedTask = () => {
 	setUpdateModalShow(false)
-	dispatch(fetchTasks())
+  handleRefresh(props.variable)
 	}
 
   const handleCloseAddTaskModal = () => {
@@ -245,6 +260,40 @@ export const TaskPanel = () => {
 	const handleCloseUpdateModal = () => {
 		setUpdateModalShow(false)
 	}
+
+  const [completedTasks, setCompletedTasks] = useState<Task[]>([])
+
+  useEffect(() => {
+    const email = props.variable
+    dispatch(fetchCompletedTasks(email)).then((data: any) => {
+      const completedTasks = Object.values(data.payload)
+      setCompletedTasks(completedTasks as Task[])
+    })
+  }, [])
+
+  const [incompleteTasks, setIncompleteTasks] = useState<Task[]>([])
+
+  useEffect(() => {
+    const email = props.variable
+    dispatch(fetchIncompleteTasks(email)).then((data: any) => {
+      const incompleteTasks = Object.values(data.payload)
+      setIncompleteTasks(incompleteTasks as Task[])
+    })
+  }, [])
+
+  const handleCompleteTask = async (taskId: any, email: any, completionDate: any) => {
+    await dispatch(completeTask({ taskId, email, completionDate }))
+    handleRefresh(email)    
+  }
+
+  const handleRefresh = async (email: any) => {
+    const incompleteTasksData = await dispatch(fetchIncompleteTasks(email))
+    const incompleteTasks = Object.values(incompleteTasksData.payload)
+    setIncompleteTasks(incompleteTasks as Task[])
+    const completedTasksData = await dispatch(fetchCompletedTasks(email))
+    const completedTasks = Object.values(completedTasksData.payload)
+    setCompletedTasks(completedTasks as Task[])
+  }
 
   const renderedTasks = Object.values(tasks.tasks).map((tasks: any, index) =>{
 	let ts = tasks.time
@@ -320,7 +369,7 @@ export const TaskPanel = () => {
               fontSize: '12px',
             }}
           >
-            <Button variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>MARK AS COMPLETED</Button>
+            <Button onClick={() => handleCompleteTask(tasks.taskId, props.variable, new Date())} variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>MARK AS COMPLETED</Button>
           </Col>
           <Collapse in={eventStates[tasks.taskId]}>
             <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
@@ -338,6 +387,191 @@ export const TaskPanel = () => {
       </ListGroup.Item>
   )})
 
+  const renderedCompletedTasks = Object.values(completedTasks).map((tasks: any, index) =>{
+    let ts = tasks.time
+      const H = +ts.substr(0, 2)
+      let h = (H % 12) || 12
+      h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
+      const ampm = H < 12 ? ' AM' : ' PM'
+      ts = h + ts.substr(2, 3) + ampm
+      console.log(tasks.link)
+      return(
+  
+        <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
+          <Row className='px-3 py-2'>
+            <Col xs={4} style={IndItemTitleDisplay}>
+        { isAdmin === true ? (
+              <p
+                 onClick={() => handleOpenUpdateModal(tasks)}
+                aria-controls={`example-collapse-text-${tasks.taskId}`}
+                aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+                className='mb-0'
+          style={{cursor:'pointer'}}
+              >
+                {tasks.title}
+              </p>
+        ) : (
+          <p
+                aria-controls={`example-collapse-text-${tasks.taskId}`}
+                aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+                className='mb-0'
+              >
+                {tasks.title}
+              </p>
+          )
+        }
+              <Button
+                style={viewDetailsButton}
+                onClick={() => handleToggle(tasks.taskId)}
+                aria-controls={`example-collapse-text-${tasks.taskId}`}
+                aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+              >
+                View details
+              </Button>
+            </Col>
+  
+            <Col xs={2} style={IndItemDueDate} className='text-center'>
+              <div style={{ display: 'inline-block', textAlign: 'left' }}>
+                <p style={IndItemDueDateDisplay} className='mb-0'>
+                  {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})}`}
+                </p>
+                <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
+              </div>
+            </Col>
+  
+            <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Badge
+                bg={
+                  tasks.importance === 'Required'
+                    ? 'danger'
+                    : tasks.importance === 'Optional'
+                    ? 'warning'
+                    : 'secondary'
+                }
+                style={IndImportanceBadge}
+              >
+                {tasks.importance}
+              </Badge>
+            </Col>
+            <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p className="mb-0" style={{ fontFamily: 'Mulish', fontWeight: '600', fontSize: '14px', lineHeight: '28px', color: 'rgb(37, 39, 51)' }}>Completed</p></Col>
+            <Col
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+              }}
+            >
+              <Button onClick={() => handleCompleteTask(tasks.taskId, props.variable, new Date())} variant='success' style={{ backgroundColor: '#9fa5aa', borderColor: '#9fa5aa', fontSize: '11px' }} disabled>MARK AS COMPLETED</Button>
+            </Col>
+            <Collapse in={eventStates[tasks.taskId]}>
+              <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
+                <h3>{tasks.title}</h3>
+                {tasks.details}
+  
+                <div>
+                  {tasks.link !== '' && (<a href={`//${tasks.link}`} target="_blank" rel="noreferrer">
+                    <Button style={eventContentButtons}>Link<img style={{ height: '20px', marginLeft: '5px', marginBottom: '5px' }} src={require('../assets/images/link.png')} /></Button>
+                  </a>)}
+                </div>
+              </div>
+            </Collapse>
+          </Row>
+        </ListGroup.Item>
+    )})
+
+    const renderedIncompleteTasks = Object.values(incompleteTasks).map((tasks: any, index) =>{
+      let ts = tasks.time
+        const H = +ts.substr(0, 2)
+        let h = (H % 12) || 12
+        h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
+        const ampm = H < 12 ? ' AM' : ' PM'
+        ts = h + ts.substr(2, 3) + ampm
+        console.log(tasks.link)
+        return(
+    
+          <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
+            <Row className='px-3 py-2'>
+              <Col xs={4} style={IndItemTitleDisplay}>
+          { isAdmin === true ? (
+                <p
+                   onClick={() => handleOpenUpdateModal(tasks)}
+                  aria-controls={`example-collapse-text-${tasks.taskId}`}
+                  aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+                  className='mb-0'
+            style={{cursor:'pointer'}}
+                >
+                  {tasks.title}
+                </p>
+          ) : (
+            <p
+                  aria-controls={`example-collapse-text-${tasks.taskId}`}
+                  aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+                  className='mb-0'
+                >
+                  {tasks.title}
+                </p>
+            )
+          }
+                <Button
+                  style={viewDetailsButton}
+                  onClick={() => handleToggle(tasks.taskId)}
+                  aria-controls={`example-collapse-text-${tasks.taskId}`}
+                  aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+                >
+                  View details
+                </Button>
+              </Col>
+    
+              <Col xs={2} style={IndItemDueDate} className='text-center'>
+                <div style={{ display: 'inline-block', textAlign: 'left' }}>
+                  <p style={IndItemDueDateDisplay} className='mb-0'>
+                    {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})}`}
+                  </p>
+                  <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
+                </div>
+              </Col>
+    
+              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Badge
+                  bg={
+                    tasks.importance === 'Required'
+                      ? 'danger'
+                      : tasks.importance === 'Optional'
+                      ? 'warning'
+                      : 'secondary'
+                  }
+                  style={IndImportanceBadge}
+                >
+                  {tasks.importance}
+                </Badge>
+              </Col>
+              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p className="mb-0" style={{ fontFamily: 'Mulish', fontWeight: '600', fontSize: '14px', lineHeight: '28px', color: 'rgb(37, 39, 51)' }}>Not Started</p></Col>
+              <Col
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                }}
+              >
+                <Button onClick={() => handleCompleteTask(tasks.taskId, props.variable, new Date())} variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>MARK AS COMPLETED</Button>
+              </Col>
+              <Collapse in={eventStates[tasks.taskId]}>
+                <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
+                  <h3>{tasks.title}</h3>
+                  {tasks.details}
+    
+                  <div>
+                    {tasks.link !== '' && (<a href={`//${tasks.link}`} target="_blank" rel="noreferrer">
+                      <Button style={eventContentButtons}>Link<img style={{ height: '20px', marginLeft: '5px', marginBottom: '5px' }} src={require('../assets/images/link.png')} /></Button>
+                    </a>)}
+                  </div>
+                </div>
+              </Collapse>
+            </Row>
+          </ListGroup.Item>
+      )})
 
   return (
       	<Container fluid style={{backgroundColor:'#f5f5f5', height:'100vh', width:'100%', padding:'32px'}} className='mx-auto'>
@@ -365,22 +599,26 @@ export const TaskPanel = () => {
 					</div>
 				</div>
 				<Row style={TitleBar} className='px-5'>
-					<Col xs={6} style={{fontSize: '14px'}}>Title</Col>
+					<Col xs={4} style={{fontSize: '14px'}}>Title</Col>
 					<Col xs={2} style={{fontSize: '14px'}} className='text-center'>Due Date</Col>
 					<Col xs={2} style={{fontSize: '14px'}} className='text-center'>Importance</Col>
+          <Col xs={2} style={{fontSize: '14px'}} className='text-center'>Status</Col>
 					<Col style={{fontSize: '14px'}} className='text-center'>Action</Col>
 				</Row>
 				<ListGroup>
 					{tasks.loading && <div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>{'Loading...'}</div>}
 					{!tasks.loading && tasks.error ? <div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>{'Error: ' + tasks.error}</div> : null}
-					{renderedTasks.length > 0 ? (
-						<div>{renderedTasks}</div>
+					{renderedIncompleteTasks.length > 0 || renderedCompletedTasks.length > 0 ? (
+						<div>
+              {renderedIncompleteTasks}
+              {renderedCompletedTasks}
+            </div>
 					) : (
 						<div style={{borderTop:'0.5px solid #9FA2B4', textAlign:'center', color:'#9FA2B4', paddingTop:'3%', paddingBottom:'4%', fontSize:'14px'}}>No Tasks</div>
 					)}
 				</ListGroup>
       		</Container>
-			<AddTaskModal show={showAddTaskModal} onHide={handleCloseAddTaskModal} addedTasks={handleAddedTasks} />
+			<AddTaskModal show={showAddTaskModal} onHide={handleCloseAddTaskModal} addedTasks={handleAddedTasks} email={props.variable} />
 			{updateModalShow && (
 				<UpdateTaskModal show={updateModalShow} onHide={handleCloseUpdateModal} modalData={modalData} updatedTasks={handleUpdatedTask}/>
 			)}
