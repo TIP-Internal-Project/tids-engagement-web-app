@@ -12,14 +12,17 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Nav from 'react-bootstrap/Nav'
 import { addTask, AddTaskState } from '../redux/addTaskSlice'
 import {fetchTasks} from '../redux/taskSlice'
+import { fetchCompletedTasks } from '../redux/completedTasksSlice'
+import { fetchIncompleteTasks } from '../redux/incompleteTasksSlice'
 
 interface EventModalProps {
   show: boolean
   onHide: () => void
   addedTasks: (orders: AddTaskState) => void
+  email: any
 }
 
-const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) => {
+const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, email }) => {
     
 	const modalStyle = {
 		border: 'none', // Add a new border style
@@ -146,9 +149,9 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks }) =
 	useEffect(() => {
 		if (buttonClicked){
 			dispatch(addTask(formValues))
-			.then(() => dispatch(fetchTasks()))
+			.then(() => dispatch(fetchIncompleteTasks(email)))
 			.then((resultAction) => {
-			if (resultAction.type === fetchTasks.fulfilled.type) {
+			if (resultAction.type === fetchIncompleteTasks.fulfilled.type) {
 				const newTasks = resultAction.payload as AddTaskState
 				addedTasks(newTasks)
 				setButtonClicked(false)
