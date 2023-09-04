@@ -295,98 +295,6 @@ export const TaskPanel = (props: any) => {
     setCompletedTasks(completedTasks as Task[])
   }
 
-  const renderedTasks = Object.values(tasks.tasks).map((tasks: any, index) =>{
-	let ts = tasks.time
-  	const H = +ts.substr(0, 2)
-  	let h = (H % 12) || 12
-  	h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
-  	const ampm = H < 12 ? ' AM' : ' PM'
-  	ts = h + ts.substr(2, 3) + ampm
-    console.log(tasks.link)
-    return(
-
-      <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
-        <Row className='px-3 py-2'>
-          <Col xs={6} style={IndItemTitleDisplay}>
-		  { isAdmin === true ? (
-            <p
-               onClick={() => handleOpenUpdateModal(tasks)}
-              aria-controls={`example-collapse-text-${tasks.taskId}`}
-              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
-              className='mb-0'
-			  style={{cursor:'pointer'}}
-            >
-              {tasks.title}
-            </p>
-			) : (
-				<p
-              aria-controls={`example-collapse-text-${tasks.taskId}`}
-              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
-              className='mb-0'
-            >
-              {tasks.title}
-            </p>
-			  )
-			}
-            <Button
-              style={viewDetailsButton}
-              onClick={() => handleToggle(tasks.taskId)}
-              aria-controls={`example-collapse-text-${tasks.taskId}`}
-              aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
-            >
-              View details
-            </Button>
-          </Col>
-
-          <Col xs={2} style={IndItemDueDate} className='text-center'>
-            <div style={{ display: 'inline-block', textAlign: 'left' }}>
-              <p style={IndItemDueDateDisplay} className='mb-0'>
-                {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString({},{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})}`}
-              </p>
-              <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
-            </div>
-          </Col>
-
-          <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Badge
-              bg={
-                tasks.importance === 'Required'
-                  ? 'danger'
-                  : tasks.importance === 'Optional'
-                  ? 'warning'
-                  : 'secondary'
-              }
-              style={IndImportanceBadge}
-            >
-              {tasks.importance}
-            </Badge>
-          </Col>
-          <Col
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '12px',
-            }}
-          >
-            <Button onClick={() => handleCompleteTask(tasks.taskId, props.variable, new Date())} variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>MARK AS COMPLETED</Button>
-          </Col>
-          <Collapse in={eventStates[tasks.taskId]}>
-            <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
-              <h3>{tasks.title}</h3>
-              {tasks.details}
-
-              <div>
-                {tasks.link !== '' && (<a href={`//${tasks.link}`} target="_blank" rel="noreferrer">
-                  <Button style={eventContentButtons}>Link<img style={{ height: '20px', marginLeft: '5px', marginBottom: '5px' }} src={require('../assets/images/link.png')} /></Button>
-                </a>)}
-              </div>
-            </div>
-          </Collapse>
-        </Row>
-      </ListGroup.Item>
-  )})
-
   const renderedCompletedTasks = Object.values(completedTasks).map((tasks: any, index) =>{
     let ts = tasks.time
       const H = +ts.substr(0, 2)
@@ -394,7 +302,16 @@ export const TaskPanel = (props: any) => {
       h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
       const ampm = H < 12 ? ' AM' : ' PM'
       ts = h + ts.substr(2, 3) + ampm
-      console.log(tasks.link)
+      function generateLink(url:any) {
+        // Check if the URL starts with "http://" or "https://"
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+          return url
+        } else {
+          // If not, assume it's a domain-only URL and add "https://"
+          return `https://${url}`
+        }
+      }
+      const link = generateLink(tasks.link)
       return(
   
         <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
@@ -470,7 +387,7 @@ export const TaskPanel = (props: any) => {
                 {tasks.details}
   
                 <div>
-                  {tasks.link !== '' && (<a href={`//${tasks.link}`} target="_blank" rel="noreferrer">
+                  {tasks.link !== '' && (<a href={`${link}`} target="_blank" rel="noreferrer">
                     <Button style={eventContentButtons}>Link<img style={{ height: '20px', marginLeft: '5px', marginBottom: '5px' }} src={require('../assets/images/link.png')} /></Button>
                   </a>)}
                 </div>
@@ -487,7 +404,20 @@ export const TaskPanel = (props: any) => {
         h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
         const ampm = H < 12 ? ' AM' : ' PM'
         ts = h + ts.substr(2, 3) + ampm
-        console.log(tasks.link)
+
+        function generateLink(url: any) {
+          // Check if the URL starts with "http://" or "https://"
+          if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url
+          } else {
+            // If not, assume it's a domain-only URL and add "https://"
+            return `https://${url}`
+          }
+        }
+        
+        // Example usage:
+        const link = generateLink(tasks.link)
+
         return(
     
           <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
@@ -563,7 +493,7 @@ export const TaskPanel = (props: any) => {
                   {tasks.details}
     
                   <div>
-                    {tasks.link !== '' && (<a href={`//${tasks.link}`} target="_blank" rel="noreferrer">
+                    {tasks.link !== '' && (<a href={`${link}`} target="_blank" rel="noreferrer">
                       <Button style={eventContentButtons}>Link<img style={{ height: '20px', marginLeft: '5px', marginBottom: '5px' }} src={require('../assets/images/link.png')} /></Button>
                     </a>)}
                   </div>
