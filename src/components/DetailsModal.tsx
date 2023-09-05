@@ -10,6 +10,7 @@ import { addEvent } from '../redux/addEventSlice'
 import { useDispatch } from 'react-redux'
 import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
+import Spinner from 'react-bootstrap/Spinner'
 
 interface EventModalProps {
   show: boolean
@@ -30,12 +31,13 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     endDate: '',
     code: '',
     category: '',
-    eventType: '',
     importance: '',
     gmeetLink: '',
     postEventSurveyURL: '',
     starsNum: '',
     regLink: '',
+    imageUrl:'',
+    eventType:''
   })
 
   useEffect(() => {
@@ -49,12 +51,13 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         endDate: '',
         code: '',
         category: '',
-        eventType: '',
         importance: '',
         gmeetLink: '',
         postEventSurveyURL: '',
         starsNum: '',
         regLink: '',
+        imageUrl:'',
+        eventType:''
       })
     }
   }, [show])
@@ -69,55 +72,81 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }))
   }
 
-  const handleAddEvent = () => {
-    const { title } = formData
+  const handleAddEvent  = async () => {
+    const { title, regLink } = formData
     if (!title) {
       alert('Please enter the event title')
       return
     }
 
+    if (selectedImage === null) {
+      // alert('Please select an image')
+      return
+    }
+    
     generateQr()
 
     const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title)}`
 
-    ;(dispatch as any)(
-      addEvent({
-        eventId: 0,
-        title: formData.title,
-        venueDetails: formData.venueDetails,
-        eventDetails: formData.eventDetails,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        code: formData.code,
-        category: formData.category,
-        eventType: formData.eventType,
-        importance: formData.importance == '' ? 'required' : formData.importance,
-        gmeetLink: formData.gmeetLink,
-        postEventSurveyURL: formData.postEventSurveyURL,
-        starsNum: parseInt(formData.starsNum),
-        regLink: formData.regLink,
-        createdDate: new Date(),
-        createdBy: '',
-        qrCodeUrl: qrCodeUrl,
-      })
-    )
-    onChange()
-    onHide()
-  }
 
-  const handleImageSelect = () => {
-    console.log('Image Changed')
-    const fileInput = document.getElementById('imageInput') as HTMLInputElement
-    let imageURL = ''
-    console.log(fileInput)
-    console.log(fileInput.files)
-    if (fileInput && fileInput.files) {
-      imageURL = URL.createObjectURL(fileInput.files[0])
-    }
+    const defaultStarsNum = 0
+
+   
+
+    try {
+     
+      setCreatingEvent(true)
+
+      await dispatch(
+          addEvent({
+              eventId: 0,
+              title: formData.title,
+              venueDetails: formData.venueDetails,
+              eventDetails: formData.eventDetails,
+              startDate: formData.startDate,
+              endDate: formData.endDate,
+              code: formData.code,
+              category: formData.category,
+              importance: formData.importance,
+              gmeetLink: formData.gmeetLink,
+              postEventSurveyURL: formData.postEventSurveyURL,
+              starsNum: parseInt(formData.starsNum) || defaultStarsNum,
+              regLink: formData.regLink,
+              createdDate: new Date(),
+             createdBy: '',
+              qrCodeUrl: qrCodeUrl,
+              imageFile: selectedImage,
+              imageUrl: formData.imageUrl,
+              eventType: formData.eventType
+          })
+      ) 
+
+      onChange()
+      onHide()
+
+      // Wait for a brief moment before reloading (optional)
+      await new Promise(resolve => setTimeout(resolve, 1000)) // Adjust the delay as needed
+
+      
+  } catch (error) {
+      console.error('Error adding event:', error)
+      // Handle error as needed
+  }
+  finally {
+    setCreatingEvent(false) // Hide the spinner
+  }
+}
+
+const [selectedImage, setSelectedImage] = useState<File | null>(null)
+
+  const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null
+    setSelectedImage(file)
+
     const imagePrev = document.getElementById('imagePreview') as HTMLImageElement
 
-    if (imagePrev) {
-      imagePrev.src = imageURL
+    if (imagePrev && file) {
+      imagePrev.src = URL.createObjectURL(file)
       imagePrev.style.height = '116px'
       imagePrev.style.borderRadius = '25px'
       imagePrev.style.width = '100%'
@@ -172,6 +201,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   }
 
   const [qrCodeUrl, setQrCodeUrl] = useState('')
+
+  const [creatingEvent, setCreatingEvent] = useState(false)
 
   // const generateQr = () => {
   //   console.log('generateQr function called')
@@ -549,9 +580,22 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {action == 'add' ? (
-                <Button variant='success' className='px-3' onClick={handleAddEvent} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
-                  Add Event
-                </Button>
+               <Button variant='success' className='px-4' onClick={handleAddEvent}  disabled={creatingEvent}>
+               {creatingEvent ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="grow"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                        Creating...
+                      </>
+                    ) : (
+                      'Create Event'
+                    )}
+             </Button>
               ) : (
                 <Button variant='success' className='px-3' onClick={handleEventUpdate} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
                   Update Event
