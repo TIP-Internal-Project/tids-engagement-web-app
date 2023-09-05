@@ -121,7 +121,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 
 			<Modal.Body className='ModalBody'>
 				
-				<div className='ModalBodyLeft' style={{width:'auto'}}> <img src ={require('../assets/images/ModalImage.png')} /> </div>
+				<div className='ModalBodyLeft' style={{width:'auto'}}> <img src={data.imageUrl} /> </div>
 				
 				<div className='ModalBodyRight' style={{width:'45%'}}>
 
