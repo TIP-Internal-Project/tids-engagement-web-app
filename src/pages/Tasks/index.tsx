@@ -19,69 +19,41 @@ import { TaskPanel } from '../../components/TaskPanel'
 import ListGroup from 'react-bootstrap/ListGroup'
 
 
-export default function TaskPage() {
+export default function TaskPage(props: any) {
 	const dispatch = useAppDispatch()
 	const { events } = useAppSelector((state) => state.events)
 	const userSession = useAppSelector((state) => state.userSession)
 
-	
-	
 	// CSS samples
-
-
-
-	
-
 	const header = {
 		height: '81px',
 		// border:'1px solid red'
 	}
-
-	
-
-
-	
 	const footerComponent = {
 		height: '210px',
 		// border:'1px solid red'
 	}
 
-
-	
-
+	const { variable } = props
 
 	useEffect(() => {
 	  dispatch(fetchEvents())
 	}, [dispatch])
 
 	return (
-		
-
 		<div>
-			
 			<Sidebar />
-
-
 			<div className='div1' >
 				<Row>
-				
 					<Col style={header}>
 						<HeaderLeft pageTitle="Tasks" />
 					</Col>
-
 					<Col style={header}> 
-
 						<HeaderRight />
-	
 					</Col>
 				</Row>
-
-				<TaskPanel/>
-                        
-			</div>
-		
-	
-			
+				<TaskPanel variable={variable}/>
+			</div>	
 		</div>
 	)
 }
