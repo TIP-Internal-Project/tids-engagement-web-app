@@ -302,16 +302,20 @@ export const TaskPanel = (props: any) => {
       h = (h < 10)?Number('0'+h):h // leading 0 at the left for 1 digit hours
       const ampm = H < 12 ? ' AM' : ' PM'
       ts = h + ts.substr(2, 3) + ampm
-      function generateLink(url:any) {
-        // Check if the URL starts with "http://" or "https://"
-        if (url.startsWith('http://') || url.startsWith('https://')) {
-          return url
+
+      function generateLink(url: any) {
+        if (url && (typeof url === 'string' || url instanceof String)) {
+          if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url
+          } else {
+            return `https://${url}`
+          }
         } else {
-          // If not, assume it's a domain-only URL and add "https://"
-          return `https://${url}`
+          return 'Invalid URL'
         }
       }
       const link = generateLink(tasks.link)
+
       return(
   
         <ListGroup.Item key={tasks.taskId} style={listGroupItem}>
@@ -406,16 +410,17 @@ export const TaskPanel = (props: any) => {
         ts = h + ts.substr(2, 3) + ampm
 
         function generateLink(url: any) {
-          // Check if the URL starts with "http://" or "https://"
-          if (url.startsWith('http://') || url.startsWith('https://')) {
-            return url
+          if (url && (typeof url === 'string' || url instanceof String)) {
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+              return url
+            } else {
+              return `https://${url}`
+            }
           } else {
-            // If not, assume it's a domain-only URL and add "https://"
-            return `https://${url}`
+            return 'Invalid URL'
           }
         }
         
-        // Example usage:
         const link = generateLink(tasks.link)
 
         return(
