@@ -313,25 +313,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
       if (!filterOption.includes('ALL')) {
         let filteredCompletedTasksArray = [...completedTasksArray]
         let filteredIncompleteTasksArray = [...incompleteTasksArray]
-        if (filterOption.includes('Due Today')) {
-          const todaysDate = new Date()
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) => 
-            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) === todaysDate.setHours(0,0,0,0)) 
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) => 
-            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) === todaysDate.setHours(0,0,0,0)) 
-          )
-        }
-        if (filterOption.includes('7 Days')) {
-          const todaysDate = new Date()
-          todaysDate.setDate(todaysDate.getDate() + 7)
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) => 
-            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) < todaysDate.setHours(0,0,0,0)) 
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) => 
-            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) < todaysDate.setHours(0,0,0,0)) 
-          )
-        }
+        
         if (filterOption.includes('30 Days')) {
           const todaysDate = new Date()
           todaysDate.setDate(todaysDate.getDate() + 30)
@@ -340,6 +322,23 @@ export const TaskPanel = (props: TaskPanelProps) => {
           )
           filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) => 
             (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) < todaysDate.setHours(0,0,0,0)) 
+          )
+        } else if (filterOption.includes('7 Days')) {
+          const todaysDate = new Date()
+          todaysDate.setDate(todaysDate.getDate() + 7)
+          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) => 
+            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) < todaysDate.setHours(0,0,0,0)) 
+          )
+          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) => 
+            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) < todaysDate.setHours(0,0,0,0)) 
+          )
+        } else if (filterOption.includes('Due Today')) {
+          const todaysDate = new Date()
+          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) => 
+            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) === todaysDate.setHours(0,0,0,0)) 
+          )
+          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) => 
+            (new (window.Date as any)(task?.dueDate).setHours(0,0,0,0) === todaysDate.setHours(0,0,0,0)) 
           )
         }
         if (filterOption.includes('Required') || filterOption.includes('Optional')) {

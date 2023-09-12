@@ -223,7 +223,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 					<Row className='mb-3'>
 						<Col xs={4}>
 							<Form.Group>
-								<Form.Label>Title</Form.Label>
+								<Form.Label>Title<span style={{color: 'red'}}>*</span></Form.Label>
 									<Form.Control
 										required
 										type="text"
@@ -239,7 +239,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 						</Col>	
 						<Col>
 							<Form.Group>
-									<Form.Label>Due Date</Form.Label>
+									<Form.Label>Due Date<span style={{color: 'red'}}>*</span></Form.Label>
 										<Form.Control
 											required
 											type="date"
@@ -256,7 +256,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 						</Col>
 						<Col>
 							<Form.Group>
-								<Form.Label>Time</Form.Label>
+								<Form.Label>Time<span style={{color: 'red'}}>*</span></Form.Label>
 								<div style={{width: '-webkit-fill-available'}}>
 									<DatePicker
 										required
@@ -280,7 +280,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 					<Row className='my-4'>
 						<Col xs={4}>
 							<Form.Group>
-								<Form.Label>Details</Form.Label>
+								<Form.Label>Details<span style={{color: 'red'}}>*</span></Form.Label>
 									<Form.Control
 											required
 											as="textarea"
@@ -315,7 +315,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 							</Col>
 							<Col>
 								<Form.Group>
-									<Form.Label>Importance</Form.Label> 
+									<Form.Label>Importance<span style={{color: 'red'}}>*</span></Form.Label> 
 									<div className="d-flex align-items-center">
 										<Form.Select aria-label="Default select example" name="importance" value={formValues.importance} onChange={handleInputChange} style={{backgroundColor:'#DEDEDE', borderRadius:'25px'}}>
 											<option value='Required'>Required</option>

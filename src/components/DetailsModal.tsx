@@ -74,16 +74,71 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
   const handleAddEvent  = async () => {
     const { title, regLink } = formData
-    if (!title) {
-      alert('Please enter the event title')
-      return
-    }
+    // if (!title) {
+    //   alert('Please enter the event title')
+    //   return
+    // }
 
-    if (selectedImage === null) {
-      // alert('Please select an image')
-      return
-    }
+    // if (selectedImage === null) {
+    //   // alert('Please select an image')
+    //   return
+    // }
     
+    setTitleError('')
+ 		setVenueError('')
+    setDetailsError('')
+    setStartDateTimeError('')
+    setEndDateTimeError('')
+    setImportanceError('')
+    setCategoryError('')
+    setEventTypeError('')
+
+  	let hasError = false
+
+		if (formData.title.trim() === '') {
+			setTitleError('Title is required.')
+			hasError = true
+		}
+
+    if (formData.venueDetails.trim() === '') {
+			setVenueError('Venue details are required.')
+			hasError = true
+		}
+
+    if (formData.eventDetails.trim() === '') {
+			setDetailsError('Details are required.')
+			hasError = true
+		}
+
+		if (formData.startDate === null || formData.startDate.trim() === '') {
+			setStartDateTimeError('Start date and time is required.')
+			hasError = true
+		}
+
+    if (formData.endDate === null || formData.endDate.trim() === '') {
+			setEndDateTimeError('End date and time is required.')
+			hasError = true
+		}
+
+    if (formData.importance === '') {
+			setImportanceError('Importance is required.')
+			hasError = true
+		}
+
+    if (formData.category.trim() === '') {
+			setCategoryError('Category is required.')
+			hasError = true
+		}
+
+    if (formData.eventType === '') {
+			setEventTypeError('Event Type is required.')
+			hasError = true
+		}
+
+		if (hasError) {
+			return
+		}
+
     generateQr()
 
     const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title)}`
@@ -153,12 +208,79 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     }
   }
 
+  const [data, setData] = useState<any>({})
+
+	useEffect(()=>{
+		setData(event)
+	}, [event])
+
+	useEffect(()=>{
+    if(action === 'edit'){
+      setFormData(data)
+    }
+	}, [data, action])
+  
   const handleEventUpdate = async () => {
-    beforeSubmit()
+    setTitleError('')
+ 		setVenueError('')
+    setDetailsError('')
+    setStartDateTimeError('')
+    setEndDateTimeError('')
+    setImportanceError('')
+    setCategoryError('')
+    setEventTypeError('')
+
+  	let hasError = false
+
+		if (formData.title.trim() === '') {
+			setTitleError('Title is required.')
+			hasError = true
+		}
+
+    if (formData.venueDetails.trim() === '') {
+			setVenueError('Venue details are required.')
+			hasError = true
+		}
+
+    if (formData.eventDetails.trim() === '') {
+			setDetailsError('Details are required.')
+			hasError = true
+		}
+
+		if (formData.startDate === null || formData.startDate.trim() === '') {
+			setStartDateTimeError('Start date and time is required.')
+			hasError = true
+		}
+
+    if (formData.endDate === null || formData.endDate.trim() === '') {
+			setEndDateTimeError('End date and time is required.')
+			hasError = true
+		}
+
+    if (formData.importance === '') {
+			setImportanceError('Importance is required.')
+			hasError = true
+		}
+
+    if (formData.category.trim() === '') {
+			setCategoryError('Category is required.')
+			hasError = true
+		}
+
+    if (formData.eventType === '') {
+			setEventTypeError('Event Type is required.')
+			hasError = true
+		}
+
+		if (hasError) {
+			return
+		}
+    
     await dispatch(updateEvent(formData))
     reload()
     onChange()
   }
+
   function beforeSubmit() {
     formData.eventId = event.eventId
     formData.title = formData.title == '' ? event.title : formData.title
@@ -201,8 +323,36 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
   }
 
   const [qrCodeUrl, setQrCodeUrl] = useState('')
+  const [titleError, setTitleError] = useState('')
+	const [venueError, setVenueError] = useState('')
+	const [detailsError, setDetailsError] = useState('')
+  const [startDateTimeError, setStartDateTimeError] = useState('')
+	const [endDateTimeError, setEndDateTimeError] = useState('')
+	const [importanceError, setImportanceError] = useState('')
+  const [categoryError, setCategoryError] = useState('')
+	const [eventTypeError, setEventTypeError] = useState('')
 
   const [creatingEvent, setCreatingEvent] = useState(false)
+
+  const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
+
+  useEffect(() => {
+    if (formData.endDate) {
+      const startDateInput = document.querySelector('input[name="startDate"]')
+      if (startDateInput) {
+        startDateInput.setAttribute('max', formatDate(formData.endDate))
+      }
+    }
+  }, [formData.endDate])
+
+  useEffect(() => {
+    if (formData.startDate) {
+      const endDateInput = document.querySelector('input[name="endDate"]')
+      if (endDateInput) {
+        endDateInput.setAttribute('min', formatDate(formData.startDate))
+      }
+    }
+  }, [formData.startDate])
 
   // const generateQr = () => {
   //   console.log('generateQr function called')
@@ -258,6 +408,11 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     paddingLeft: '11px',
   }
 
+  if (action == 'edit'){
+    console.log(event.startDate)
+    console.log(formData.endDate)
+  }
+
   return (
     <Modal
       show={show}
@@ -285,7 +440,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   value={action == 'edit' ? event.eventId : ''}
                   name='eventId'
                 />
-                <Form.Label>Event Title</Form.Label>
+                <Form.Label>Event Title<span style={{color: 'red'}}>*</span></Form.Label>
                 <Form.Control
                   required
                   type='text'
@@ -293,7 +448,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   name='title'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   onChange={handleFormChange}
-                /></Form.Group>
+                />{titleError && <div className="text-danger">{titleError}</div>}</Form.Group>
                 <Form.Group className='mb-3'>
                   <Form.Control
                     required
@@ -301,7 +456,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                     value={action == 'edit' ? event.tinyURL : ''}
                     name='eventId'
                   />
-                  <Form.Label>Tiny URL</Form.Label>
+                  {/* <Form.Label>Tiny URL</Form.Label>
                   <Form.Control
                     required
                     type='text'
@@ -309,14 +464,14 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                     name='tinyURL'
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                     onChange={handleFormChange}
-                  />
+                  /> */}
                 </Form.Group>
               {/* </Row> */}
 
               <Row>
                 <Col>
               <Form.Group className='mb-3'>
-                <Form.Label>Details</Form.Label>
+                <Form.Label>Details<span style={{color: 'red'}}>*</span></Form.Label>
                 <Form.Control
                   required
                   as='textarea'
@@ -324,7 +479,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   name='eventDetails'
                   style={{ backgroundColor: '#DEDEDE', height: '116px', borderRadius: '25px', resize:'none'}}
                   onChange={handleFormChange}
-                />
+                />{detailsError && <div className="text-danger">{detailsError}</div>}
               </Form.Group>
               </Col>
               <Col>
@@ -367,7 +522,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
             <Col>
               <Row>
                     <Form.Group className='mb-3'>
-                    <Form.Label>Venue Details</Form.Label>
+                    <Form.Label>Venue Details<span style={{color: 'red'}}>*</span></Form.Label>
                     <Form.Control
                       required
                       type='text'
@@ -375,28 +530,30 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                       name='venueDetails'
                       style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                       onChange={handleFormChange}
-                    />
+                    />{venueError && <div className="text-danger">{venueError}</div>}
                   </Form.Group>  
               </Row>
               <Row className=''>
                 <Form.Group className='mb-3'>
-                  <Form.Label>Start Date & Time</Form.Label>
+                  <Form.Label>Start Date & Time<span style={{color: 'red'}}>*</span></Form.Label>
                   <div className='d-flex align-items-center'>
                     <Form.Control
                       required
                       type='datetime-local'
                       defaultValue={action == 'edit' ? formatDate(event.startDate) : ''}
-                      max='9999-12-31 23:59'
+                      max={action == 'edit' ? formatDate(event.endDate) : formData.endDate}
+                      min={currentDateTime}
                       name='startDate'
                       style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                       onChange={handleFormChange}
                     />
                   </div>
+                  {startDateTimeError && <div className="text-danger">{startDateTimeError}</div>}
                 </Form.Group>
               </Row>
               <Row>
                 <Form.Group className='mb-3'>
-                  <Form.Label>End Date & Time</Form.Label>
+                  <Form.Label>End Date & Time<span style={{color: 'red'}}>*</span></Form.Label>
                   <div className='d-flex align-items-center'>
                     <Form.Control
                       required
@@ -404,13 +561,15 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                       defaultValue={action == 'edit' ? formatDate(event.endDate) : ''}
                       name='endDate'
                       max='9999-12-31 23:59'
+                      min={action == 'edit' ? formatDate(event.startDate) : new Date().toISOString().slice(0, 16)}
                       style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                       onChange={handleFormChange}
                     />
                   </div>
+                  {endDateTimeError && <div className="text-danger">{endDateTimeError}</div>}
                 </Form.Group>
               </Row>
-              <Row>
+              {/* <Row>
               <Form.Group className='mb-3'>
                 <Form.Label>Importance</Form.Label>
                 <Form.Select
@@ -424,7 +583,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   <option value='optional'>Optional</option>
                 </Form.Select>
               </Form.Group>
-              </Row>
+              </Row> */}
             </Col>
           </Row>
 
@@ -465,7 +624,22 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
             <Col xs={4}>
               <Form.Group className='mb-3'>
-                <Form.Label>Category</Form.Label>
+                <Form.Label>Importance<span style={{color: 'red'}}>*</span></Form.Label>
+                <Form.Select
+                  aria-label='Default select example'
+                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  defaultValue={action == 'edit' ? event.importance : ''}
+                  name='importance'
+                  onChange={handleSelectChange}
+                >
+                  <option value=''>Select importance</option>
+                  <option value='required'>Required</option>
+                  <option value='optional'>Optional</option>
+                </Form.Select>
+                {importanceError && <div className="text-danger">{importanceError}</div>}
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>Category<span style={{color: 'red'}}>*</span></Form.Label>
                 <Form.Select
                   aria-label='Default select example'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
@@ -473,17 +647,18 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   name='category'
                   onChange={handleSelectChange}
                 >
-                  <option>Select a category</option>
+                  <option value=''>Select a category</option>
                   <option value='TIDS'>TIDS</option>
                   <option value='happyhere'>#HAPPYHERE</option>
                   <option value='teamEvent'>Team Event</option>
                   <option value='COP'>COP</option>
                 </Form.Select>
+                {categoryError && <div className="text-danger">{categoryError}</div>}
               </Form.Group>
 
 
               <Form.Group className='mb-3'>
-                <Form.Label>Event Type</Form.Label>
+                <Form.Label>Event Type<span style={{color: 'red'}}>*</span></Form.Label>
                 <Form.Select
                   aria-label='Default select example'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
@@ -497,6 +672,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   <option value='teamEvent'>Team Dinner</option>
                   <option value='COP'>COP</option>
                 </Form.Select>
+                {eventTypeError && <div className="text-danger">{eventTypeError}</div>}
               </Form.Group>
             </Col>
           </Row>
@@ -558,9 +734,6 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                 color: '#2B8000',
               }}
             >
-              <Nav.Link href='' className='' style={{width: '-webkit-fill-available', fontSize: '14px'}}>
-                Preview
-              </Nav.Link>
             </Col>
 
             <Col

@@ -823,13 +823,14 @@ export const EventPanel2 = (props: any) => {
           onSortedEvents={handleSortedEvents}
           onSortedEvents1={handleSortedEvents1}
         />
+        {detailsModalShow && (
         <DetailsModal
           show={detailsModalShow}
           onHide={handleCloseDetailsModal}
           onChange={handleChangeInData}
           event={event}
           action={action}
-        />
+        /> )}
 		<DeleteEventModal
           show={deleteEventModalShow}
           onHide={handleDeleteModalClose}
