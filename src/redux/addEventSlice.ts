@@ -64,7 +64,7 @@ interface AddEventPayload {
   createdDate: Date
   createdBy: string
   qrCodeUrl: string
-  imageFile: File
+  imageFile: File | null
   imageUrl: string
 }
 
@@ -107,7 +107,9 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
   formData.append('starsNum', starsNum.toString())
   formData.append('regLink', regLink)
   formData.append('qrCodeUrl', qrCodeUrl)
-  formData.append('imgfile', imageFile)
+  if (imageFile) {
+    formData.append('imgfile', imageFile)
+  }
   formData.append('imageUrl', imageUrl)
   formData.append('eventType', eventType)
 
