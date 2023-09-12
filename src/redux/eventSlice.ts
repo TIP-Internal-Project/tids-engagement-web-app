@@ -59,10 +59,10 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     imageUrl
   } = event
 
-  // Check if imageFile is provided before making the request
+  
   const formData = new FormData()
 
-  // Add properties to requestData conditionally
+  
   if (title) formData.append('title', title)
   if (venueDetails) formData.append('venueDetails', venueDetails)
   if (eventDetails) formData.append('eventDetails', eventDetails)
@@ -78,12 +78,12 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   if (regLink) formData.append('regLink', regLink)
   if (regLink) formData.append('regLink', regLink)
 
-  // Add imageFile property conditionally
+  
    if (imageFile) {
     formData.append('imageFile', imageFile)
   }
 
-  // Append imageUrl if it exists
+ 
   if (imageUrl) {
     formData.append('imageUrl', imageUrl)
   }
