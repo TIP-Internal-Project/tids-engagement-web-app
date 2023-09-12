@@ -14,6 +14,7 @@ import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 import { register } from '../redux/eventRegistrationSlice'
 import { Email } from './profileSettingsComponents/style'
+import Form from 'react-bootstrap/Form'
 
 interface EventModalProps {
   show: boolean
@@ -32,6 +33,8 @@ export const EventPanel2 = (props: any) => {
   const [action, setAction] = useState('')
 
   const [event, setEvent] = useState(null)
+
+  // const [eventFilter, setEventFilter] = useState(['ALL'])
 
   const handleCloseEventModal = () => {
     setEventModalShow(false)
@@ -166,8 +169,8 @@ export const EventPanel2 = (props: any) => {
   const [modalData, setModalData] = useState<any[]>([])
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const [showFilterDropdown, setShowFilterDropdown] = useState(false)
-  const [sortOption, setSortOption] = useState<string>()
-  const [filterOption, setFilterOption] = useState<string>()
+  const [sortOption, setSortOption] = useState<string>('asc')
+  const [filterOption, setFilterOption] = useState<string[]>(['ALL'])
   const [sortedEvents, setSortedEvents] = useState<Event[]>([])
   const dropdownSortRef = useRef<HTMLDivElement>(null)
   const dropdownFilterRef = useRef<HTMLDivElement>(null)
@@ -233,7 +236,7 @@ export const EventPanel2 = (props: any) => {
     setSortedEvents([])
     setSortedEvents1([])
     setSortOption('asc')
-    setFilterOption('')
+    setFilterOption(['ALL'])
     await dispatch(register({ eventId, email }))
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
@@ -253,7 +256,7 @@ export const EventPanel2 = (props: any) => {
     setSortedEvents([])
     setSortedEvents1([])
     setSortOption('asc')
-    setFilterOption('')
+    setFilterOption(['ALL'])
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray
@@ -273,9 +276,8 @@ export const EventPanel2 = (props: any) => {
     setShowSortDropdown(false)
   }
 
-  const handleFilterOption = (option: string) => {
+  const handleFilterOption = (option: string[]) => {
     setFilterOption(option)
-    setShowFilterDropdown(false)
   }
 
   const handleChangeInData = () => {
@@ -293,7 +295,7 @@ export const EventPanel2 = (props: any) => {
       setSortedEvents([])
       setSortedEvents1([])
       const email = props.variable
-      if (filterOption === null || filterOption === '' || filterOption === undefined) {
+      if (filterOption.includes('ALL')) {
         if (sortOption === 'asc') {
           const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
           const registeredEventsArray = Object.values(registeredEventsData.payload)
@@ -326,11 +328,11 @@ export const EventPanel2 = (props: any) => {
           setSortedEvents(sortedUnregisteredEvents as Event[])
         }
       } else {
-        if (sortOption === 'asc' || sortOption === undefined) {
+        if (sortOption === 'asc') {
           const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
           const registeredEventsArray = Object.values(registeredEventsData.payload)
           const filteredRegisteredEvents = registeredEventsArray.filter(
-            (event: any) => event.category === filterOption
+            (event: any) => filterOption.includes(event.category)
           )
           const sortedRegisteredEvents = filteredRegisteredEvents.sort(
             (a: any, b: any) =>
@@ -340,7 +342,7 @@ export const EventPanel2 = (props: any) => {
           const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
           const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
           const filteredUnregisteredEvents = unregisteredEventsArray.filter(
-            (event: any) => event.category === filterOption
+            (event: any) => filterOption.includes(event.category)
           )
           const sortedUnregisteredEvents = filteredUnregisteredEvents.sort(
             (a: any, b: any) =>
@@ -351,7 +353,7 @@ export const EventPanel2 = (props: any) => {
           const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
           const registeredEventsArray = Object.values(registeredEventsData.payload)
           const filteredRegisteredEvents = registeredEventsArray.filter(
-            (event: any) => event.category === filterOption
+            (event: any) => filterOption.includes(event.category)
           )
           const sortedRegisteredEvents = filteredRegisteredEvents.sort(
             (a: any, b: any) =>
@@ -361,7 +363,7 @@ export const EventPanel2 = (props: any) => {
           const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
           const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
           const filteredUnregisteredEvents = unregisteredEventsArray.filter(
-            (event: any) => event.category === filterOption
+            (event: any) => filterOption.includes(event.category)
           )
           const sortedUnregisteredEvents = filteredUnregisteredEvents.sort(
             (a: any, b: any) =>
@@ -418,8 +420,8 @@ export const EventPanel2 = (props: any) => {
     return (
       <ListGroup key={event.eventId}>
         <ListGroup.Item
-          style={{ borderLeft: 'none', borderRight: 'none', borderRadius: '0px' }}
-          className='px-5'
+          // style={{ borderLeft: 'none', borderRight: 'none', borderRadius: '0px' }}
+          // className='px-5'
         >
           <Row className='py-2'>
             <Col xs={4} style={IndItemTitleDisplay}>
@@ -620,8 +622,10 @@ export const EventPanel2 = (props: any) => {
         style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
         className='px-0 py-4'
       >
+        <div className="d-flex justify-content-between" style={{ color: '#7175B', padding: '0 2%' }}>
+        <div style={{width: '250px'}}>
         {isAdmin && (
-          <Col xs={8} className='px-5' style={{ color: '#7175B' }}>
+          <Col xs={8} style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}>
             <Nav.Link
               className=''
               style={{ fontSize: '14px' }}
@@ -634,6 +638,7 @@ export const EventPanel2 = (props: any) => {
             </Nav.Link>
           </Col>
         )}
+        </div>
         <div className='d-flex flex-row-reverse px-5'>
           <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleFilterButtonClick}>
             <img
@@ -644,22 +649,38 @@ export const EventPanel2 = (props: any) => {
           </Nav.Link>
           {showFilterDropdown && (
             <div ref={dropdownFilterRef} className='floating-div2'>
-              <p className='textStyle' onClick={() => handleFilterOption('#HAPPYHERE')}>
-                <a>#HAPPYHERE</a>
-              </p>
-              <p className='textStyle' onClick={() => handleFilterOption('COP')}>
-                <a>COP</a>
-              </p>
-              <p className='textStyle' onClick={() => handleFilterOption('TEAM EVENT')}>
-                <a>TEAM EVENT</a>
-              </p>
-              <p
-                className='textStyle'
-                style={{ marginBottom: '0' }}
-                onClick={() => handleFilterOption('TIDS')}
-              >
-                <a>TIDS</a>
-              </p>
+              <Form style={{ fontSize: '14px' }}>
+                {['ALL', 'happyhere', 'COP', 'teamEvent', 'TIDS'].map((value) => {
+                  let label = value
+                  if (value === 'happyhere') {
+                    label = '#HAPPYHERE'
+                  } else if (value === 'teamEvent') {
+                    label = 'TEAM EVENT'
+                  }
+                  return <div key={`default-${value}`}>
+                    <Form.Check
+                      id={`default-${value}`}
+                      label={label}
+                      onChange={() => {
+                        const newFilterOption = [...filterOption]
+                        if (newFilterOption.includes(value)) {
+                          newFilterOption.splice(newFilterOption.indexOf(value), 1)
+                        } else {
+                          if (value === 'ALL') {
+                            newFilterOption.length = 0
+                          } else if (filterOption.includes('ALL')) {
+                            newFilterOption.splice(newFilterOption.indexOf('ALL'), 1)
+                          }
+                          newFilterOption.push(value)
+                        }
+                        setFilterOption(newFilterOption)
+                        handleFilterOption(newFilterOption)
+                      }}
+                      checked={filterOption.includes(value)}
+                    />
+                  </div>
+                })}
+              </Form>
             </div>
           )}
 
@@ -697,7 +718,7 @@ export const EventPanel2 = (props: any) => {
             Refresh
           </Nav.Link>
         </div>
-
+        </div>
         <Row style={TitleBar} className='px-5'>
           <Col style={{ fontSize: '14px' }}>Currently Registered</Col>
         </Row>

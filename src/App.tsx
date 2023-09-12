@@ -25,7 +25,7 @@ function App() {
             path='profile'
             element={<ProfileSettingsPage variable={sessionStorage.getItem('email')} />}
           />
-          <Route path='tasks' element={<Tasks variable={sessionStorage.getItem('email')} />} />
+          <Route path='tasks' element={<Tasks email={sessionStorage.getItem('email') || ''} />} />
           <Route path='atten' element={<EventAttendance />} />
           <Route
             path='OrderProcessing'

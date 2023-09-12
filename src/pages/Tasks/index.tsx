@@ -18,8 +18,11 @@ import { Subheader } from '../../components/Subheader'
 import { TaskPanel } from '../../components/TaskPanel'
 import ListGroup from 'react-bootstrap/ListGroup'
 
+interface TaskPageProps {
+    email: string
+}
 
-export default function TaskPage(props: any) {
+export default function TaskPage(props: TaskPageProps) {
 	const dispatch = useAppDispatch()
 	const { events } = useAppSelector((state) => state.events)
 	const userSession = useAppSelector((state) => state.userSession)
@@ -34,7 +37,7 @@ export default function TaskPage(props: any) {
 		// border:'1px solid red'
 	}
 
-	const { variable } = props
+	const { email } = props
 
 	useEffect(() => {
 	  dispatch(fetchEvents())
@@ -52,7 +55,7 @@ export default function TaskPage(props: any) {
 						<HeaderRight />
 					</Col>
 				</Row>
-				<TaskPanel variable={variable}/>
+				<TaskPanel email={email}/>
 			</div>	
 		</div>
 	)
