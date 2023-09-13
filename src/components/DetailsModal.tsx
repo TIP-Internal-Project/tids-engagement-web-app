@@ -690,7 +690,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   onChange={handleSelectChange}
                 >
                   <option value=''>Select an Event Type</option>
-                  <option value='TIDS'>Team Meeting</option>
+                  <option value='Team Meeting'>Team Meeting</option>
                   <option value='Team Building'>Team Building</option>
                   <option value='Team Dinner'>Team Dinner</option>
                   <option value='Team Recognition'>Team Recognition</option>
