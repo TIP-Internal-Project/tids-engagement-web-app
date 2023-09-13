@@ -16,6 +16,9 @@ type Event = {
   postSurveyLink: string
   starsNum: number
   regLink: string
+  imageFile: File
+  imageUrl: string
+  
 }
 
 type InitialState = {
@@ -52,23 +55,41 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     postSurveyLink,
     starsNum,
     regLink,
+    imageFile,
+    imageUrl
   } = event
+
+  
+  const formData = new FormData()
+
+  
+  if (title) formData.append('title', title)
+  if (venueDetails) formData.append('venueDetails', venueDetails)
+  if (eventDetails) formData.append('eventDetails', eventDetails)
+  if (startDate) formData.append('startDate', startDate)
+  if (endDate) formData.append('endDate', endDate)
+  if (code) formData.append('code', code)
+  if (category) formData.append('category', category)
+  if (eventType) formData.append('eventType', eventType)
+  if (importance) formData.append('importance', importance)
+  if (gmeetLink) formData.append('gmeetLink', gmeetLink)
+  if (postSurveyLink) formData.append('postSurveyLink', postSurveyLink)
+  if (starsNum) formData.append('starsNum', starsNum)
+  if (regLink) formData.append('regLink', regLink)
+  if (regLink) formData.append('regLink', regLink)
+
+  
+   if (imageFile) {
+    formData.append('imageFile', imageFile)
+  }
+
+ 
+  if (imageUrl) {
+    formData.append('imageUrl', imageUrl)
+  }
+
   return axios
-    .patch(`http://localhost:3001/events/updateEvent/${eventId}`, {
-      title,
-      venueDetails,
-      eventDetails,
-      startDate,
-      endDate,
-      code,
-      category,
-      eventType,
-      importance,
-      gmeetLink,
-      postSurveyLink,
-      starsNum,
-      regLink,
-    })
+    .patch(`http://localhost:3001/events/updateEvent/${eventId}`, formData)
     .then((response) => response.data)
 })
 
