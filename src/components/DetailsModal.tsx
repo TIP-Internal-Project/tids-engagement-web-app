@@ -20,7 +20,9 @@ interface EventModalProps {
   action: string
 }
 
+
 const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, action }) => {
+  const [data, setData] = useState<any>({})
   const dispatch = useDispatch<AppDispatch>()
   const [formData, setFormData] = useState({
     eventId: '',
@@ -37,7 +39,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     starsNum: '',
     regLink: '',
     imageUrl:'',
-    eventType:''
+    eventType:'',
+    imageFile: ''
   })
 
   useEffect(() => {
@@ -57,7 +60,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         starsNum: '',
         regLink: '',
         imageUrl:'',
-        eventType:''
+        eventType:'',
+        imageFile: ''
       })
     }
   }, [show])
@@ -146,7 +150,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
     const defaultStarsNum = 0
 
-   
+    const someDefaultFile = new File([''], 'engagementAppLogo.png', { type: 'image/png' })
 
     try {
      
@@ -170,7 +174,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
               createdDate: new Date(),
              createdBy: '',
               qrCodeUrl: qrCodeUrl,
-              imageFile: selectedImage,
+              imageFile: selectedImage !== null ? selectedImage : someDefaultFile,
               imageUrl: formData.imageUrl,
               eventType: formData.eventType
           })
@@ -208,7 +212,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     }
   }
 
-  const [data, setData] = useState<any>({})
+  
 
 	useEffect(()=>{
 		setData(event)
@@ -276,8 +280,16 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 			return
 		}
     
-    await dispatch(updateEvent(formData))
-    reload()
+  
+    const updatedEvent = {
+      
+      ...formData,
+      imageFile: selectedImage !== null ? selectedImage : event.imageFile,
+    }
+  
+    await dispatch(updateEvent(updatedEvent))
+  
+    
     onChange()
   }
 
@@ -297,6 +309,9 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
       formData.postEventSurveyURL == '' ? event.postEventSurveyURL : formData.postEventSurveyURL
     formData.starsNum = formData.starsNum == '' ? event.starsNum : formData.starsNum
     formData.regLink = formData.regLink == '' ? event.regLink : formData.regLink
+    formData.imageUrl = formData.imageUrl == '' ? event.imageUrl : formData.imageUrl
+    formData.imageFile = selectedImage !== null ? selectedImage : event.imageFile
+    
   }
 
   function formatDate(eventDate: string) {
@@ -484,35 +499,43 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
               </Col>
               <Col>
               <Form.Group className='mb-3'>
-                <Form.Label>Upload Photo</Form.Label>
-                <Form.Control
-                  id='imageInput'
-                  required
-                  type='file'
-                  defaultValue=''
-                  style={{ backgroundColor: '#DEDEDE', height: '116px', display: 'none' }}
-                  onChange={handleImageSelect}
-                />
-                <br />
-                <label
-                  style={{
-                    height: '116px',
-                    backgroundColor: '#DEDEDE',
-                    borderRadius: '25px',
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  htmlFor='imageInput'
-                >
+              <Form.Label>Upload Photo</Form.Label>
+              <Form.Control
+                id='imageInput'
+                required
+                type='file'
+                defaultValue=''
+                style={{ backgroundColor: '#DEDEDE', height: '116px', display: 'none' }}
+                onChange={handleImageSelect}
+              />
+              <br />
+              <label
+                style={{
+                  height: '116px',
+                  backgroundColor: '#DEDEDE',
+                  borderRadius: '25px',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                htmlFor='imageInput'
+              >
+                {formData.imageUrl ? ( 
                   <img
-                    id ='imagePreview'
+                    id='imagePreview'
+                    src={formData.imageUrl} 
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                ) : (
+                  <img
+                    id='imagePreview'
                     src={require('../assets/images/image.png')}
                     style={{ width: '40px', height: '40px' }}
                   />
-                </label>
-              </Form.Group>
+                )}
+              </label>
+            </Form.Group>
               
               </Col>
 
@@ -667,10 +690,12 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   onChange={handleSelectChange}
                 >
                   <option value=''>Select an Event Type</option>
-                  <option value='TIDS'>Team Meeting</option>
-                  <option value='happyhere'>Team Building</option>
-                  <option value='teamEvent'>Team Dinner</option>
-                  <option value='COP'>COP</option>
+                  <option value='Team Meeting'>Team Meeting</option>
+                  <option value='Team Building'>Team Building</option>
+                  <option value='Team Dinner'>Team Dinner</option>
+                  <option value='Team Recognition'>Team Recognition</option>
+                  <option value='OM/Team Event'>OM/Team Event</option>
+                  <option value='TIDS Wide'>TIDS Wide</option>
                 </Form.Select>
                 {eventTypeError && <div className="text-danger">{eventTypeError}</div>}
               </Form.Group>

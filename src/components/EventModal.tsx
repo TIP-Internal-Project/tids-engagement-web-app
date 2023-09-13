@@ -6,6 +6,13 @@ import { register } from '../redux/eventRegistrationSlice'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+
+
+
 interface EventModalProps {
   show: boolean
   onHide: () => void
@@ -99,6 +106,34 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 		
 	}
 
+	const handleDownloadClick = () => {
+		fetch(data.qrCodeUrl)
+		  .then((response) => response.blob())
+		  .then((blob) => {
+			const url = window.URL.createObjectURL(blob)
+			
+			const fileName = `${data.title}.png` 
+			const a = document.createElement('a')
+			a.href = url
+			a.download = fileName
+			a.style.display = 'none'
+	  
+			document.body.appendChild(a)
+			a.click()
+			window.URL.revokeObjectURL(url)
+		  })
+		  .catch((error) => console.error('Error downloading image:', error))
+	  }
+	  
+	  const [showMessage, setShowMessage] = useState(false)
+
+	  const handleMouseOver = () => {
+		setShowMessage(true)
+	  }
+	
+	  const handleMouseOut = () => {
+		setShowMessage(false)
+	  }
 
 	return (
 		<Modal
@@ -121,19 +156,36 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 
 			<Modal.Body className='ModalBody'>
 				
-				<div className='ModalBodyLeft' style={{width:'auto'}}> <img src={data.imageUrl} /> </div>
+			<div className='ModalBodyLeft' style={{ width: 'auto' }}>
+				<img
+					src={data.imageUrl || require('../assets/images/engagementAppLogo.png')}
+					
+				/>
+				</div>
 				
 				<div className='ModalBodyRight' style={{width:'45%'}}>
 
 					<div className='ModalBodyRightSubDiv1'>
-						<p style={{fontSize:'14px'}}>{data.eventDetails}</p>
-					</div>
+					<p style={{fontSize:'14px'}}>{data.eventDetails}</p>
+					<p style={{ fontSize: '14px' }}> {data.eventType} 
+					{data.eventType === 'Team Meeting' ? ' 0 ' :
+					data.eventType === 'Team Building' || data.eventType === 'Team Dinner' ||
+					data.eventType === 'Team Recognition' || data.eventType === 'OM/Team Event' ?
+					' 30 ' :
+					data.eventType === 'TIDS Wide' ? ' 50 ' :
+					'Unknown'}
+					
+					<FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
+					Points
+					</p>
 
+					</div>
+			
 					<div className='ModalBodyRightSubDiv'>
 						<Button style={ModalButton} disabled={disable} onClick={() => handleRegister(data.eventId, email)}>REGISTER</Button>{' '}
 						
 						{data.postEventSurveyURL && (
-						<Button style={ModalButton} href={data.postEventSurveyURL} >EVENT SURVEY</Button> 
+						<Button style={ModalButton} href={data.postEventSurveyURL} >EVENT SURVEY </Button> 
 						)}
 
 						{data.gmeetLink && (
@@ -145,17 +197,44 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
 						<a>{data.qrCodeUrl && (
 								<div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
-									{isQrCodeExpanded ? (
-									 <div>
-									 <p style={qrCodeTitle}>{data.title}</p> {/* Add the title above the QR code */}
-									 <img src={data.qrCodeUrl} alt="QR Code" style={{ width: '160px', height: '160px', border: 'groove', borderWidth: '2px' }} />
-								   </div>
-
-
-									) : (
-									<img src={data.qrCodeUrl} alt="QR Code" style={{ width: '30px', height: '30px' }} />
-									)}
+								{isQrCodeExpanded ? (
+								  <div>
+								  <img
+									onClick={handleDownloadClick}
+									onMouseOver={handleMouseOver}
+									onMouseOut={handleMouseOut}
+									src={data.qrCodeUrl}
+									alt="QR Code"
+									style={{
+									  width: '160px',
+									  height: '160px',
+									  border: 'groove',
+									  borderWidth: '2px',
+									  position: 'relative', 
+									}}
+								  />
+								  {showMessage && (
+									<div
+									  style={{
+										position: 'absolute',
+										bottom: '2px', 
+										left: '50%',
+										transform: 'translateX(-50%)',
+										backgroundColor: 'rgba(0, 0, 0, 0.8)',
+										color: 'white',
+										padding: '2px',
+										borderRadius: '5px',
+									  }}
+									>
+									  Click QR Code to download
+									</div>
+								  )}
 								</div>
+								) : (
+								  <img src={data.qrCodeUrl} alt="QR Code" style={{ width: '30px', height: '30px' }} />
+								)}
+								
+							  </div>
 						 )}
 						</a>
 						
