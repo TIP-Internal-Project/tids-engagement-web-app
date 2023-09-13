@@ -166,8 +166,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 				<div className='ModalBodyRight' style={{width:'45%'}}>
 
 					<div className='ModalBodyRightSubDiv1'>
+						
 					<p style={{fontSize:'14px'}}>{data.eventDetails}</p>
-					<p style={{ fontSize: '14px' }}> {data.eventType} 
+					<p style={{ fontSize: '14px' }}> {data.eventType} <FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
+					
 					{data.eventType === 'Team Meeting' ? ' 0 ' :
 					data.eventType === 'Team Building' || data.eventType === 'Team Dinner' ||
 					data.eventType === 'Team Recognition' || data.eventType === 'OM/Team Event' ?
@@ -175,7 +177,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					data.eventType === 'TIDS Wide' ? ' 50 ' :
 					'Unknown'}
 					
-					<FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
 					Points
 					</p>
 

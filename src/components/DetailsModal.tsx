@@ -77,7 +77,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   }
 
   const handleAddEvent  = async () => {
-    const { title, regLink } = formData
+    const { title, regLink, eventId } = formData
     // if (!title) {
     //   alert('Please enter the event title')
     //   return
@@ -143,9 +143,24 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 			return
 		}
 
+
+
+    function generateRandomString(length:number) {
+      const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      let result = ''
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length)
+        result += charset.charAt(randomIndex)
+      }
+      return result
+    }
+
+    const randomWord = generateRandomString(6)
+
+
     generateQr()
 
-    const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title)}`
+    const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title + randomWord)}`
 
 
     const defaultStarsNum = 0
