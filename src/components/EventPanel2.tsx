@@ -13,33 +13,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 import { register } from '../redux/eventRegistrationSlice'
-import { Email } from './profileSettingsComponents/style'
 import Form from 'react-bootstrap/Form'
-
-interface EventModalProps {
-  show: boolean
-  onHide: () => void
-  // addedEvents: (orders: OrderState) => void
-}
 
 export const EventPanel2 = (props: any) => {
   const dispatch = useAppDispatch()
 
-  const [eventModalShow, setEventModalShow] = useState(false)
-  const handleOpenEventModal = () => {
-    setEventModalShow(true)
-  }
-
+  // const [eventModalShow, setEventModalShow] = useState(false)
   const [action, setAction] = useState('')
-
   const [event, setEvent] = useState(null)
-
-  // const [eventFilter, setEventFilter] = useState(['ALL'])
-
-  const handleCloseEventModal = () => {
-    setEventModalShow(false)
-  }
   const [detailsModalShow, setDetailsModalShow] = useState(false)
+
   const handleOpenDetailsModal = (action: string, event: any) => {
     setDetailsModalShow(true)
     setAction(action)
@@ -53,7 +36,7 @@ export const EventPanel2 = (props: any) => {
   const [deleteEventModalShow, setDeleteEventModalShow] = useState(false)
 
   const handleDeleteModalShow = (event: any) => {
-	setModalData(event)
+    setModalData(event)
     setDeleteEventModalShow(true)
   }
 
@@ -232,7 +215,7 @@ export const EventPanel2 = (props: any) => {
     })
   }, [])
 
-  const handleRegister = async (eventId: any, email: any, status: any) => {
+  const handleRegister = async (eventId: any, email: any) => {
     setSortedEvents([])
     setSortedEvents1([])
     setSortOption('asc')
@@ -241,15 +224,15 @@ export const EventPanel2 = (props: any) => {
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray
-	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents1(sortedRegisteredEvents as Event[])
-	console.log(sortedEvents1)
+    console.log(sortedEvents1)
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
     const sortedUnregisteredEvents = unregisteredEventsArray
-	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents(sortedUnregisteredEvents as Event[])
-	console.log(sortedEvents)
+    console.log(sortedEvents)
   }
 
   const handleRefresh = async (email: any) => {
@@ -260,14 +243,14 @@ export const EventPanel2 = (props: any) => {
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray
-	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-	.filter((event: any) => event.status === 'Active')
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .filter((event: any) => event.status === 'Active')
     setSortedEvents1(sortedRegisteredEvents as Event[])
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
     const sortedUnregisteredEvents = unregisteredEventsArray
-	.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-	.filter((event: any) => event.status === 'Active')
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .filter((event: any) => event.status === 'Active')
     setSortedEvents(sortedUnregisteredEvents as Event[])
   }
 
@@ -395,8 +378,6 @@ export const EventPanel2 = (props: any) => {
     setDisableRegistration(disableButton)
   }
 
-  // export { sortedEvents, sortedEvents1 }
-
   const handleCloseModal = () => {
     setModalShow(false)
     setModalData([])
@@ -406,12 +387,12 @@ export const EventPanel2 = (props: any) => {
 
   const setTimeFormat = (aDateString: string): string => {
     const aDate = new Date(aDateString)
-    const timeString = aDate.toLocaleTimeString().slice(0,-6)
+    const timeString = aDate.toLocaleTimeString().slice(0, -6)
     const newFormat = aDate.getHours() >= 12 ? 'PM' : 'AM'
     return `${timeString} ${newFormat}`
   }
 
-  const renderedUnregisteredEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active').map((event: any, index) => {
+  const renderedUnregisteredEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active').map((event: any) => {
     const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
@@ -420,8 +401,8 @@ export const EventPanel2 = (props: any) => {
     return (
       <ListGroup key={event.eventId}>
         <ListGroup.Item
-          // style={{ borderLeft: 'none', borderRight: 'none', borderRadius: '0px' }}
-          // className='px-5'
+          style={{ borderLeft: 'none', borderRight: 'none', borderRadius: '0px' }}
+          className='px-5'
         >
           <Row className='py-2'>
             <Col xs={4} style={IndItemTitleDisplay}>
@@ -459,20 +440,20 @@ export const EventPanel2 = (props: any) => {
                   event.category === 'TIDS'
                     ? tidsBadge
                     : event.category === 'teamEvent'
-                    ? teamBadge
-                    : event.category === 'COP'
-                    ? copBadge
-                    : happyBadge
+                      ? teamBadge
+                      : event.category === 'COP'
+                        ? copBadge
+                        : happyBadge
                 }
                 className='py-2'
               >
                 {event.category == 'TIDS'
                   ? 'TIDS'
                   : event.category === 'teamEvent'
-                  ? 'TEAM EVENT'
-                  : event.category === 'COP'
-                  ? 'COP'
-                  : '#HAPPYHERE'}
+                    ? 'TEAM EVENT'
+                    : event.category === 'COP'
+                      ? 'COP'
+                      : '#HAPPYHERE'}
               </Button>
             </Col>
             <Col xs={2}
@@ -484,44 +465,39 @@ export const EventPanel2 = (props: any) => {
               }}
             >
               <Button
-                onClick={() => handleRegister(event.eventId, props.variable, event.status)}
+                onClick={() => handleRegister(event.eventId, props.variable)}
                 className='bg-success border-success'
                 style={actionBadge}
               >
                 {' '}
                 REGISTER
               </Button>
-			  {isAdmin && (
-              <Button
-                onClick={() => handleOpenDetailsModal('edit', event)}
-                className='bg-success border-success'
-                style={actionBadge}
-              >
-                {' '}
-                MODIFY
-              </Button>
-			  )}
-			  {/* <img
-				style={{ height: '20px', width: '20px', marginLeft: '10px' }}
-				src={require('../assets/images/delete-icon.png')}
-				onClick={() => handleDeleteModalShow(event)}
-				/> */}
+              {isAdmin && (
+                <Button
+                  onClick={() => handleOpenDetailsModal('edit', event)}
+                  className='bg-success border-success'
+                  style={actionBadge}
+                >
+                  {' '}
+                  MODIFY
+                </Button>
+              )}
             </Col>
-			{isAdmin && (
-			<Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-				<img
-					style={{ height: '20px', width: '20px', cursor: 'pointer' }}
-					src={require('../assets/images/delete-icon.png')}
-					onClick={() => handleDeleteModalShow(event)}
-				/>
-			</Col>)}
+            {isAdmin && (
+              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  style={{ height: '20px', width: '20px', cursor: 'pointer' }}
+                  src={require('../assets/images/delete-icon.png')}
+                  onClick={() => handleDeleteModalShow(event)}
+                />
+              </Col>)}
           </Row>
         </ListGroup.Item>
       </ListGroup>
     )
   })
 
-  const renderedRegisteredEvents = Object.values(sortedEvents1).filter((event: any) => event.status === 'Active').map((event: any, index) => {
+  const renderedRegisteredEvents = Object.values(sortedEvents1).filter((event: any) => event.status === 'Active').map((event: any) => {
     const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
@@ -568,20 +544,20 @@ export const EventPanel2 = (props: any) => {
                   event.category === 'TIDS'
                     ? tidsBadge
                     : event.category === 'teamEvent'
-                    ? teamBadge
-                    : event.category === 'COP'
-                    ? copBadge
-                    : happyBadge
+                      ? teamBadge
+                      : event.category === 'COP'
+                        ? copBadge
+                        : happyBadge
                 }
                 className='py-2'
               >
                 {event.category == 'TIDS'
                   ? 'TIDS'
                   : event.category === 'teamEvent'
-                  ? 'TEAM EVENT'
-                  : event.category === 'COP'
-                  ? 'COP'
-                  : '#HAPPYHERE'}
+                    ? 'TEAM EVENT'
+                    : event.category === 'COP'
+                      ? 'COP'
+                      : '#HAPPYHERE'}
               </Button>
             </Col>
             <Col xs={2}
@@ -596,15 +572,15 @@ export const EventPanel2 = (props: any) => {
             >
               <p>Registered</p>
             </Col>
-			{isAdmin && (
-			<Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-				<img
-					style={{ height: '20px', width: '20px', marginTop: '-10px', cursor:'pointer' }}
-					src={require('../assets/images/delete-icon.png')}
-					onClick={() => handleDeleteModalShow(event)}
-				/>
-			</Col>
-			)}
+            {isAdmin && (
+              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  style={{ height: '20px', width: '20px', marginTop: '-10px', cursor: 'pointer' }}
+                  src={require('../assets/images/delete-icon.png')}
+                  onClick={() => handleDeleteModalShow(event)}
+                />
+              </Col>
+            )}
           </Row>
         </ListGroup.Item>
       </ListGroup>
@@ -623,101 +599,101 @@ export const EventPanel2 = (props: any) => {
         className='px-0 py-4'
       >
         <div className="d-flex justify-content-between" style={{ color: '#7175B', padding: '0 2%' }}>
-        <div style={{width: '250px'}}>
-        {isAdmin && (
-          <Col xs={8} style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}>
-            <Nav.Link
-              className=''
-              style={{ fontSize: '14px' }}
-              onClick={() => handleOpenDetailsModal('add', null)}
-            >
-              <span className='mx-2' style={{ fontSize: '20px' }}>
-                +
-              </span>{' '}
-              Add new event here
+          <div style={{ width: '250px' }}>
+            {isAdmin && (
+              <Col xs={8} style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}>
+                <Nav.Link
+                  className=''
+                  style={{ fontSize: '14px' }}
+                  onClick={() => handleOpenDetailsModal('add', null)}
+                >
+                  <span className='mx-2' style={{ fontSize: '20px' }}>
+                    +
+                  </span>{' '}
+                  Add new event here
+                </Nav.Link>
+              </Col>
+            )}
+          </div>
+          <div className='d-flex flex-row-reverse px-5'>
+            <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleFilterButtonClick}>
+              <img
+                style={{ height: '15px', width: '14px', marginRight: '10px' }}
+                src={require('../assets/images/filter.png')}
+              />
+              Filter
             </Nav.Link>
-          </Col>
-        )}
-        </div>
-        <div className='d-flex flex-row-reverse px-5'>
-          <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleFilterButtonClick}>
-            <img
-              style={{ height: '15px', width: '14px', marginRight: '10px' }}
-              src={require('../assets/images/filter.png')}
-            />
-            Filter
-          </Nav.Link>
-          {showFilterDropdown && (
-            <div ref={dropdownFilterRef} className='floating-div2'>
-              <Form style={{ fontSize: '14px' }}>
-                {['ALL', 'happyhere', 'COP', 'teamEvent', 'TIDS'].map((value) => {
-                  let label = value
-                  if (value === 'happyhere') {
-                    label = '#HAPPYHERE'
-                  } else if (value === 'teamEvent') {
-                    label = 'TEAM EVENT'
-                  }
-                  return <div key={`default-${value}`}>
-                    <Form.Check
-                      id={`default-${value}`}
-                      label={label}
-                      onChange={() => {
-                        const newFilterOption = [...filterOption]
-                        if (newFilterOption.includes(value)) {
-                          newFilterOption.splice(newFilterOption.indexOf(value), 1)
-                        } else {
-                          if (value === 'ALL') {
-                            newFilterOption.length = 0
-                          } else if (filterOption.includes('ALL')) {
-                            newFilterOption.splice(newFilterOption.indexOf('ALL'), 1)
+            {showFilterDropdown && (
+              <div ref={dropdownFilterRef} className='floating-div2'>
+                <Form style={{ fontSize: '14px' }}>
+                  {['ALL', 'happyhere', 'COP', 'teamEvent', 'TIDS'].map((value) => {
+                    let label = value
+                    if (value === 'happyhere') {
+                      label = '#HAPPYHERE'
+                    } else if (value === 'teamEvent') {
+                      label = 'TEAM EVENT'
+                    }
+                    return <div key={`default-${value}`}>
+                      <Form.Check
+                        id={`default-${value}`}
+                        label={label}
+                        onChange={() => {
+                          const newFilterOption = [...filterOption]
+                          if (newFilterOption.includes(value)) {
+                            newFilterOption.splice(newFilterOption.indexOf(value), 1)
+                          } else {
+                            if (value === 'ALL') {
+                              newFilterOption.length = 0
+                            } else if (filterOption.includes('ALL')) {
+                              newFilterOption.splice(newFilterOption.indexOf('ALL'), 1)
+                            }
+                            newFilterOption.push(value)
                           }
-                          newFilterOption.push(value)
-                        }
-                        setFilterOption(newFilterOption)
-                        handleFilterOption(newFilterOption)
-                      }}
-                      checked={filterOption.includes(value)}
-                    />
-                  </div>
-                })}
-              </Form>
-            </div>
-          )}
+                          setFilterOption(newFilterOption)
+                          handleFilterOption(newFilterOption)
+                        }}
+                        checked={filterOption.includes(value)}
+                      />
+                    </div>
+                  })}
+                </Form>
+              </div>
+            )}
 
-          <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleSortButtonClick}>
-            <img
-              style={{ height: '15px', width: '15px', marginRight: '10px' }}
-              src={require('../assets/images/sort-up.png')}
-            />
-            Sort
-          </Nav.Link>
-          {showSortDropdown && (
-            <div ref={dropdownSortRef} className='floating-div'>
-              <p className='textStyle' onClick={() => handleSortOption('asc')}>
-                <a>Sort by Date Ascending</a>
-              </p>
-              <p
-                className='textStyle'
-                style={{ marginBottom: '0' }}
-                onClick={() => handleSortOption('desc')}
-              >
-                <a>Sort by Date Descending</a>
-              </p>
-            </div>
-          )}
+            <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleSortButtonClick}>
+              <img
+                style={{ height: '15px', width: '15px', marginRight: '10px' }}
+                src={require('../assets/images/sort-up.png')}
+              />
+              Sort
+            </Nav.Link>
+            {showSortDropdown && (
+              <div ref={dropdownSortRef} className='floating-div'>
+                <p className='textStyle' onClick={() => handleSortOption('asc')}>
+                  <a>Sort by Date Ascending</a>
+                </p>
+                <p
+                  className='textStyle'
+                  style={{ marginBottom: '0' }}
+                  onClick={() => handleSortOption('desc')}
+                >
+                  <a>Sort by Date Descending</a>
+                </p>
+              </div>
+            )}
 
-          <Nav.Link
-            className='mx-3'
-            style={{ fontSize: '14px' }}
-            onClick={() => handleRefresh(props.variable)}
-          >
-            <img
-              style={{ height: '22px', width: '19px', marginRight: '10px' }}
-              src={require('../assets/images/refresh.png')}
-            />
-            Refresh
-          </Nav.Link>
-        </div>
+            <Nav.Link
+              className='mx-3'
+              style={{ fontSize: '14px' }}
+              onClick={() => handleRefresh(props.variable)}
+            >
+              <img
+                style={{ height: '22px', width: '19px', marginRight: '10px' }}
+                src={require('../assets/images/refresh.png')}
+              />
+              Refresh
+            </Nav.Link>
+          </div>
         </div>
         <Row style={TitleBar} className='px-5'>
           <Col style={{ fontSize: '14px' }}>Currently Registered</Col>
@@ -824,17 +800,17 @@ export const EventPanel2 = (props: any) => {
           onSortedEvents1={handleSortedEvents1}
         />
         {detailsModalShow && (
-        <DetailsModal
-          show={detailsModalShow}
-          onHide={handleCloseDetailsModal}
-          onChange={handleChangeInData}
-          event={event}
-          action={action}
-        /> )}
-		<DeleteEventModal
+          <DetailsModal
+            show={detailsModalShow}
+            onHide={handleCloseDetailsModal}
+            onChange={handleChangeInData}
+            event={event}
+            action={action}
+          />)}
+        <DeleteEventModal
           show={deleteEventModalShow}
           onHide={handleDeleteModalClose}
-		  onChange={handleDelete}
+          onChange={handleDelete}
           modalData={modalData}
         />
       </Container>
