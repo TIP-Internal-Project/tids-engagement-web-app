@@ -73,7 +73,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
 		link: '',
 		importance: 'Required',
 		createdDate: new Date(),
-		createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+		createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
 	})
 
 	const handleInputChange = async (event: any) => {
@@ -141,7 +141,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
 			link: '',
 			importance: 'Required',
 			createdDate: new Date(),
-			createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+			createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
 		})
 		onHide()
 	}
@@ -162,7 +162,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
 					link: '',
 					importance: 'Required',
 					createdDate: new Date(),
-					createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')})
+					createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')})
 			}
 		})
 		}

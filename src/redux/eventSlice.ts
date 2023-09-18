@@ -36,7 +36,7 @@ const initialState: InitialState = {
 }
 
 export const fetchEvents = createAsyncThunk('fetchEvents', () => {
-  return axios.get('http://localhost:3001/events').then((response) => response.data)
+  return axios.get('http://localhost:3001/events/getAllEvents').then((response) => response.data)
 })
 
 export const updateEvent = createAsyncThunk('updateEvent', async (event: any) => {

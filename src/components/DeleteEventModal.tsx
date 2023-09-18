@@ -71,7 +71,7 @@ const DeleteEventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, m
 
 	const handleDeleteEvent = async () => {
 		const status = 'Archived'
-		const updatedBy = sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+		const updatedBy = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
 		const updatedAt = new Date() 
 	
 		await setEventValues((prevValues:any) => ({

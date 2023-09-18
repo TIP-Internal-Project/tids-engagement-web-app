@@ -9,7 +9,7 @@ async function getUserDetails() {
     const userDetails = lines.slice(1).filter((line) => {
       const values = line.split(',')
       const email = values[8]
-      return email === sessionStorage.getItem('email')
+      return email === localStorage.getItem('email')
     })
     return userDetails[0]
   } catch (error) {

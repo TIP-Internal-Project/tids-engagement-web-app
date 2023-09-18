@@ -196,7 +196,7 @@ body {
   text-decoration: none;
 }
 
-.sidebarContent > ul > li a:hover {
+.sidebarContent > ul > li a:focus {
   text-decoration: underline;
 }
 
@@ -391,7 +391,7 @@ height: 157.28px;
 	cursor: pointer;
 }
   
-.textStyle:hover {
+.textStyle:focus {
 	color: white;
 }
 

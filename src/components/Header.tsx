@@ -5,7 +5,7 @@ export const Header = () => {
       <div>test 2</div>
       <div className='headerContent'>
         <p>
-          {sessionStorage.getItem('familyName')}, {sessionStorage.getItem('givenName')}
+          {localStorage.getItem('familyName')}, {localStorage.getItem('givenName')}
         </p>
       </div>
     </div>
