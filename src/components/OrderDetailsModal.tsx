@@ -56,7 +56,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 		orderSize: 'XS',
 		orderCost: 1000,
 		status: 'Processing',
-		createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+		createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
 	})
 
 	const handleInputChange = (event: any) => {
@@ -110,7 +110,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 		  orderSize: 'XS',
 		  orderCost: 1000,
 		  status: 'Processing',
-		  createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+		  createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
 		})
 		onHide()
 	  }
@@ -124,7 +124,7 @@ const OrderModal: React.FC<EventModalProps> = ({ show, onHide, addedOrders }) =>
 				const newOrders = resultAction.payload as OrderState
 				addedOrders(newOrders)
 				setButtonClicked(false)
-				setFormValues({workdayId: '', name: '', orderName: 'TI Digital Solutions Jacket Hoodie', orderSize: 'XS', orderCost: 1000, status: 'Processing', createdBy: sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')})
+				setFormValues({workdayId: '', name: '', orderName: 'TI Digital Solutions Jacket Hoodie', orderSize: 'XS', orderCost: 1000, status: 'Processing', createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')})
 			}
 		})
 		}

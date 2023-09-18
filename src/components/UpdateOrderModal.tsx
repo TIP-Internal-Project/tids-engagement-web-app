@@ -78,7 +78,7 @@ const UpdateOrderModal: React.FC<EventModalProps> = ({ show, onHide, modalData, 
 	
 		let orderCost = 0
 		let orderSize = ''
-		const updatedBy = sessionStorage.getItem('givenName') + ' ' + sessionStorage.getItem('familyName')
+		const updatedBy = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
 		const updatedAt = new Date() 
 		if (orderName === 'TI Digital Solutions Jacket Hoodie') {
 			orderCost = 1000
