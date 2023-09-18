@@ -1,29 +1,33 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Container from './Container'
-import Auth from './Auth'
-import Login from './Login'
 import Events from './pages/Events/index'
 import OrderProcessing from './pages/OrderProcessing/index'
 import Overview from './pages/Overview'
 import ProfileSettingsPage from './pages/ProfileSettings'
 import Tasks from './pages/Tasks'
 import { EventAttendance } from './components/EventAttendance'
+import { setUserRole } from './components/Roles/Roles'
+import GoogleLogin, { Redirect } from './GoogleLogin'
 
 function App() {
+  setUserRole()
+  const today = new Date().toLocaleDateString()
   const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
-
-  const isUserAuthenticated = sessionStorage.getItem('email') ? true : false
-
+  const isUserAuthenticated = window.localStorage.getItem('email') ? true : false
+  const isNotExp = window.localStorage.getItem('sessDate') == today ? true : false
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
+        <Route
+          path='/'
+          element={isUserAuthenticated && isNotExp ? <Container /> : <Navigate to={'/login'} />}
+        >
           <Route path='/' element={<Overview />} />
           <Route path='overview' element={<Overview />} />
-          <Route path='events' element={<Events variable={sessionStorage.getItem('email')} />} />
+          <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />
           <Route
             path='profile'
-            element={<ProfileSettingsPage variable={sessionStorage.getItem('email')} />}
+            element={<ProfileSettingsPage variable={localStorage.getItem('email')} />}
           />
           <Route path='tasks' element={<Tasks email={sessionStorage.getItem('email') || ''} />} />
           <Route path='atten' element={<EventAttendance />} />
@@ -32,8 +36,8 @@ function App() {
             element={isAdmin ? <OrderProcessing /> : <Navigate to={'/overview'} />}
           />
         </Route>
-        <Route path='/login' element={<Login />} />
-        <Route path='/auth' element={<Auth />} />
+        <Route path='/login' element={<GoogleLogin />} />
+        <Route path='/redirect' element={<Redirect />} />
         <Route
           path='*'
           element={
