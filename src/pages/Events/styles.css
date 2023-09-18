@@ -151,7 +151,7 @@ td {
     color: #2B8000;
 }
 
-button:hover {
+button:focus {
     background-color: #61a83d;
     color: #ffffffd3;
 }

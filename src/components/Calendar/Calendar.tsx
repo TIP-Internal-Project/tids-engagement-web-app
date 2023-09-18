@@ -306,7 +306,7 @@ const Calendar = () => {
 													><p>
 															{date && (
 																<OverlayTrigger
-																	trigger="hover"
+																	trigger="focus"
 																	placement="top"
 																	overlay={renderPopoverContent(eventForDate)}
 																>

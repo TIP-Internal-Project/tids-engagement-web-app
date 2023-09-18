@@ -107,7 +107,7 @@ td.date-cells {
   width: calc(100% / 7);
 }
 
-    .date-cells div:not(.current-date):hover {
+    .date-cells div:not(.current-date):focus {
         border: .5px solid #4B286D;
         cursor: pointer;
         
@@ -117,7 +117,7 @@ td.date-cells {
         background-color: #69785b;
         color: #FFFFFF;
     }
-    .current-date:hover {
+    .current-date:focus {
         background-color: #69785b;
         box-shadow: inset;
     }
