@@ -22,7 +22,6 @@ interface EventModalProps {
 }
 
 const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, updatedTasks }) => {
-	console.log(modalData.at(0))
     
 	const modalStyle = {
 		border: 'none', // Add a new border style
