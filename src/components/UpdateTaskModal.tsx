@@ -67,7 +67,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 	const [data, setData] = useState<any>({})
 
 	useEffect(()=>{
-		setData(modalData)
+		setData(modalData.at(0))
 	}, [modalData])
 
 	const [formValues, setFormValues] = useState<any>({})
