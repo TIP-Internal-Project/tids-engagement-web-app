@@ -22,6 +22,7 @@ interface EventModalProps {
 }
 
 const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, updatedTasks }) => {
+	console.log(modalData.at(0))
     
 	const modalStyle = {
 		border: 'none', // Add a new border style
@@ -67,7 +68,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 	const [data, setData] = useState<any>({})
 
 	useEffect(()=>{
-		setData(modalData)
+		setData(modalData.at(0))
 	}, [modalData])
 
 	const [formValues, setFormValues] = useState<any>({})
