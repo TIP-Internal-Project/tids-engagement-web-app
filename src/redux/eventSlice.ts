@@ -18,6 +18,7 @@ type Event = {
   regLink: string
   imageFile: File
   imageUrl: string
+  status: string
   
 }
 
@@ -56,7 +57,8 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     starsNum,
     regLink,
     imageFile,
-    imageUrl
+    imageUrl,
+    status
   } = event
 
   
@@ -76,7 +78,7 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   if (postSurveyLink) formData.append('postSurveyLink', postSurveyLink)
   if (starsNum) formData.append('starsNum', starsNum)
   if (regLink) formData.append('regLink', regLink)
-  if (regLink) formData.append('regLink', regLink)
+  if (status) formData.append('status', status)
 
   
    if (imageFile) {

@@ -12,6 +12,7 @@ import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
 import Spinner from 'react-bootstrap/Spinner'
 
+
 interface EventModalProps {
   show: boolean
   onHide: () => void
@@ -24,6 +25,8 @@ interface EventModalProps {
 const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, action }) => {
   const [data, setData] = useState<any>({})
   const dispatch = useDispatch<AppDispatch>()
+const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || false)
+
   const [formData, setFormData] = useState({
     eventId: '',
     title: '',
@@ -40,7 +43,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     regLink: '',
     imageUrl:'',
     eventType:'',
-    imageFile: ''
+    imageFile: '',
+    status: ''
   })
 
   useEffect(() => {
@@ -61,7 +65,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
         regLink: '',
         imageUrl:'',
         eventType:'',
-        imageFile: ''
+        imageFile: '',
+        status: ''
       })
     }
   }, [show])
@@ -75,6 +80,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       [name]: value,
     }))
   }
+  
 
   const handleAddEvent  = async () => {
     const { title, regLink, eventId } = formData
@@ -300,6 +306,8 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
       
       ...formData,
       imageFile: selectedImage !== null ? selectedImage : event.imageFile,
+      status: toggleStatus ? 'Active' : 'Inactive'
+      
     }
   
     await dispatch(updateEvent(updatedEvent))
@@ -326,6 +334,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     formData.regLink = formData.regLink == '' ? event.regLink : formData.regLink
     formData.imageUrl = formData.imageUrl == '' ? event.imageUrl : formData.imageUrl
     formData.imageFile = selectedImage !== null ? selectedImage : event.imageFile
+    formData.status = formData.status == '' ? event.status: formData.status
     
   }
 
@@ -413,6 +422,8 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     const url = `https://quickchart.io/qr?text=${encodeURIComponent(formData.title)}`
     setQrCodeUrl(url)
   }
+
+  const updatedEventStatus = toggleStatus ? 'Active' : 'Inactive'
 
   const modalStyle = {
     border: 'none', // Add a new border style
@@ -776,6 +787,9 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
             >
             </Col>
 
+              
+
+              
             <Col
               xs={2}
               className='text-center'
@@ -789,6 +803,20 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
               <Nav.Link href='' className='' style={{width: '-webkit-fill-available', fontSize: '14px'}}>
                 Clear Fields
               </Nav.Link>
+
+              
+              {action === 'edit' && (
+  <Form>
+    <Form.Check
+      type="switch"
+      id="custom-switch"
+      label=""
+      checked={toggleStatus}
+      onChange={() => setToggleStatus(!toggleStatus)}
+      defaultValue={event?.status || ''}
+    />
+  </Form>
+)}
             </Col>
 
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
