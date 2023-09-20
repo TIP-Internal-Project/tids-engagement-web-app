@@ -456,7 +456,7 @@ export const EventPanel2 = (props: any) => {
                       : '#HAPPYHERE'}
               </Button>
             </Col>
-            {isAdmin && <Col xs={2}
+            <Col xs={2}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -484,7 +484,7 @@ export const EventPanel2 = (props: any) => {
                   MODIFY
                 </Button>
               )}
-            </Col>}
+            </Col>
             {isAdmin && (
               <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
