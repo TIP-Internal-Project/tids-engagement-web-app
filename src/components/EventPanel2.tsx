@@ -392,7 +392,7 @@ export const EventPanel2 = (props: any) => {
     return `${timeString} ${newFormat}`
   }
 
-  const renderedUnregisteredEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active').map((event: any) => {
+  const renderedUnregisteredEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive').map((event: any) => {
     const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
@@ -466,8 +466,10 @@ export const EventPanel2 = (props: any) => {
             >
               <Button
                 onClick={() => handleRegister(event.eventId, props.variable)}
-                className='bg-success border-success'
+                className={`bg-success border-success ${event.status === 'Inactive' ? 'disabled' : ''}`}
+  
                 style={actionBadge}
+                disabled={event.status === 'Inactive'}
               >
                 {' '}
                 REGISTER
