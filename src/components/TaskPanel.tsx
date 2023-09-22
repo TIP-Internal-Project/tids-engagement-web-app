@@ -179,64 +179,83 @@ export const TaskPanel = (props: TaskPanelProps) => {
   const [completedTasks, setCompletedTasks] = useState<Task[]>([])
   const [incompleteTasks, setIncompleteTasks] = useState<Task[]>([])
 
+  type SortKey = 'dueDate' | 'title' | 'importance'
+  type SortBy = 'asc' | 'desc'
+
+  const getSortKey = (sortOption: string): SortKey => {
+    let sortKey: SortKey = 'dueDate'
+    if (sortOption.includes('Title')) {
+      sortKey = 'title'
+    } else if (sortOption.includes('Importance')) {
+      sortKey = 'importance'
+    }
+    return sortKey
+  }
+
+  const getSortBy = (sortOption: string): SortBy => {
+    let sortBy: SortBy = 'asc' 
+    if (sortOption.includes('Descending')) {
+      sortBy = 'desc'
+    }
+    return sortBy
+  }
+
+  const getSortedTasks = (taskArray: Task[], sortKey: SortKey, sortBy: SortBy): Task[] => {
+    if (taskArray.length === 0) {
+      return []
+    }
+    if (sortKey === 'dueDate') {
+      if (sortBy === 'asc') {
+        return [...taskArray].sort((t1: Task, t2: Task) => +new Date(t1.dueDate) - +new Date(t2.dueDate))
+      } else if (sortBy === 'desc') {
+        return [...taskArray].sort((t1: Task, t2: Task) => +new Date(t2.dueDate) - +new Date(t1.dueDate))
+      }
+    } else if (sortKey === 'title') {
+      if (sortBy === 'asc') {
+        return [...taskArray].sort((t1: Task, t2: Task) => t1.title.localeCompare(t2.title))
+      } else if (sortBy === 'desc') {
+        return [...taskArray].sort((t1: Task, t2: Task) => t2.title.localeCompare(t1.title))
+      }
+    } else if (sortKey === 'importance') {
+      if (sortBy === 'asc') {
+        return [...taskArray].sort((t1: Task, t2: Task) => t2.importance.localeCompare(t1.importance))
+      } else if (sortBy === 'desc') {
+        return [...taskArray].sort((t1: Task, t2: Task) => t1.importance.localeCompare(t2.importance))
+      }
+    }
+    return taskArray
+  }
+
   useEffect(() => {
     const refresh = async () => {
       const email = props.email
       const completedTasksData = await dispatch(fetchCompletedTasks(email))
-      const completedTasksArray = Object.values(completedTasksData.payload)
       const incompleteTasksData = await dispatch(fetchIncompleteTasks(email))
-      const incompleteTasksArray = Object.values(incompleteTasksData.payload)
+      let completedTasksArray: Task[] = Object.values(completedTasksData.payload)
+      let incompleteTasksArray: Task[] = Object.values(incompleteTasksData.payload)
 
-      if (sortOption === 'Sort by Date Ascending') {
-        completedTasksArray.sort((a: any, b: any) => new (window.Date as any)(a.dueDate) - new (window.Date as any)(b.dueDate))
-        incompleteTasksArray.sort((a: any, b: any) => new (window.Date as any)(a.dueDate) - new (window.Date as any)(b.dueDate))
-      } else if (sortOption === 'Sort by Date Descending') {
-        completedTasksArray.sort((a: any, b: any) => new (window.Date as any)(b.dueDate) - new (window.Date as any)(a.dueDate))
-        incompleteTasksArray.sort((a: any, b: any) => new (window.Date as any)(b.dueDate) - new (window.Date as any)(a.dueDate))
-      } else if (sortOption === 'Sort by Title Ascending') {
-        completedTasksArray.sort((a: any, b: any) => a.title.localeCompare(b.title))
-        incompleteTasksArray.sort((a: any, b: any) => a.title.localeCompare(b.title))
-      } else if (sortOption === 'Sort by Title Descending') {
-        completedTasksArray.sort((a: any, b: any) => b.title.localeCompare(a.title))
-        incompleteTasksArray.sort((a: any, b: any) => b.title.localeCompare(a.title))
-      } else if (sortOption === 'Sort by Importance Ascending') {
-        completedTasksArray.sort((a: any, b: any) => a.importance.localeCompare(b.importance))
-        incompleteTasksArray.sort((a: any, b: any) => a.importance.localeCompare(b.importance))
-      } else if (sortOption === 'Sort by Importance Descending') {
-        completedTasksArray.sort((a: any, b: any) => b.importance.localeCompare(a.importance))
-        incompleteTasksArray.sort((a: any, b: any) => b.importance.localeCompare(a.importance))
-      }
+      const sortKey: SortKey = getSortKey(sortOption)
+      const sortBy: SortBy = getSortBy(sortOption)
+
+      completedTasksArray = getSortedTasks(completedTasksArray, sortKey, sortBy)
+      incompleteTasksArray = getSortedTasks(incompleteTasksArray, sortKey, sortBy)
 
       if (!filterOption.includes('ALL')) {
         let filteredCompletedTasksArray = [...completedTasksArray]
         let filteredIncompleteTasksArray = [...incompleteTasksArray]
 
+        const dateToday = new Date()
         if (filterOption.includes('30 Days')) {
-          const todaysDate = new Date()
-          todaysDate.setDate(todaysDate.getDate() + 30)
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) =>
-            (new (window.Date as any)(task?.dueDate).setHours(0, 0, 0, 0) < todaysDate.setHours(0, 0, 0, 0))
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) =>
-            (new (window.Date as any)(task?.dueDate).setHours(0, 0, 0, 0) < todaysDate.setHours(0, 0, 0, 0))
-          )
+          dateToday.setDate(dateToday.getDate() + 30)
+          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0))
+          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: Task) =>+new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0))
         } else if (filterOption.includes('7 Days')) {
-          const todaysDate = new Date()
-          todaysDate.setDate(todaysDate.getDate() + 7)
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) =>
-            (new (window.Date as any)(task?.dueDate).setHours(0, 0, 0, 0) < todaysDate.setHours(0, 0, 0, 0))
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) =>
-            (new (window.Date as any)(task?.dueDate).setHours(0, 0, 0, 0) < todaysDate.setHours(0, 0, 0, 0))
-          )
+          dateToday.setDate(dateToday.getDate() + 7)
+          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0))
+          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0))
         } else if (filterOption.includes('Due Today')) {
-          const todaysDate = new Date()
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) =>
-            (new (window.Date as any)(task?.dueDate).setHours(0, 0, 0, 0) === todaysDate.setHours(0, 0, 0, 0))
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) =>
-            (new (window.Date as any)(task?.dueDate).setHours(0, 0, 0, 0) === todaysDate.setHours(0, 0, 0, 0))
-          )
+          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) === dateToday.setHours(0, 0, 0, 0))
+          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) === dateToday.setHours(0, 0, 0, 0))
         }
         if (filterOption.includes('Required') || filterOption.includes('Optional')) {
           filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) => filterOption.includes(task?.importance))
