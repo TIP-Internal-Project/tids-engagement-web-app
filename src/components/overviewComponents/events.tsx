@@ -12,7 +12,7 @@ const EventsPanel = () => {
 		dispatch(fetchEvents())
 	}, [])
 
-	const renderedEvents = Object.values(overviewEvents.events).map((event: any, index) => {
+	const renderedEvents = Object.values(overviewEvents.events).filter((event: any) => event.status === 'Active').map((event: any, index) => {
 		const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString({},
 			{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})
 			
