@@ -158,7 +158,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 				
 			<div className='ModalBodyLeft' style={{ width: 'auto' }}>
 				<img
-					src={data.imageUrl || require('../assets/images/engagementAppLogo.png')}
+					src={data.imageUrl}
 					
 				/>
 				</div>

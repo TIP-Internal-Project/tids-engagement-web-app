@@ -195,7 +195,7 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
               createdDate: new Date(),
              createdBy: '',
               qrCodeUrl: qrCodeUrl,
-              imageFile: selectedImage !== null ? selectedImage : someDefaultFile,
+              imageFile: selectedImage,
               imageUrl: formData.imageUrl,
               eventType: formData.eventType
           })
