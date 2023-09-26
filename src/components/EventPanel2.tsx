@@ -425,7 +425,7 @@ export const EventPanel2 = (props: any) => {
               </Button>
             </Col>
 
-            <Col xs={2} style={IndItemDueDate} className='text-center'>
+            <Col xs={isAdmin ? 2 : 3} style={IndItemDueDate} className='text-center'>
               <div style={{ display: 'inline-block', textAlign: 'left' }}>
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
@@ -434,7 +434,7 @@ export const EventPanel2 = (props: any) => {
               </div>
             </Col>
 
-            <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Col xs={isAdmin ? 2 : 3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Button
                 style={
                   event.category === 'TIDS'
@@ -531,7 +531,7 @@ export const EventPanel2 = (props: any) => {
               </Button>
             </Col>
 
-            <Col xs={2} style={IndItemDueDate} className='text-center'>
+            <Col xs={isAdmin ? 2 : 3} style={IndItemDueDate} className='text-center'>
               <div style={{ display: 'inline-block', textAlign: 'left' }}>
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
@@ -540,7 +540,7 @@ export const EventPanel2 = (props: any) => {
               </div>
             </Col>
 
-            <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Col xs={isAdmin ? 2 : 3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Button
                 style={
                   event.category === 'TIDS'
@@ -752,15 +752,16 @@ export const EventPanel2 = (props: any) => {
             <Col xs={4} style={{ fontSize: '14px' }}>
               Title
             </Col>
-            <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
               Date
             </Col>
-            <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
               Category
             </Col>
+            {isAdmin &&
             <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>
               Action
-            </Col>
+            </Col>}
           </Row>
         ) : null}
         {unregisteredEvents.loading && (
