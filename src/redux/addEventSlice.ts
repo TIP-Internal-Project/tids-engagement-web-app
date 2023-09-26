@@ -8,6 +8,7 @@ export interface AddEventState {
   title: string
   startDate: Date
   endDate: Date
+  updatedAt: Date
   detail: string
   category: string
   eventType: string
@@ -41,6 +42,7 @@ const initialState: AddEventState = {
   category: '',
   eventType: '',
   createdDate: new Date(),
+  updatedAt: new Date(),
   error: '',
   qrCodeUrl: '',
   imageUrl: ''
