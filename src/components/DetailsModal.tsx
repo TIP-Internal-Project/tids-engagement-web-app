@@ -21,6 +21,11 @@ interface EventModalProps {
   action: string
 }
 
+const currentDateTime = new Date()
+
+const timestamp = currentDateTime.getTime()
+
+const updatedAtDate = new Date(timestamp)
 
 const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, action }) => {
   const [data, setData] = useState<any>({})
@@ -34,6 +39,7 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
     eventDetails: '',
     startDate: '',
     endDate: '',
+    updatedAt: new Date,
     code: '',
     category: '',
     importance: '',
@@ -56,6 +62,7 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
         eventDetails: '',
         startDate: '',
         endDate: '',
+        updatedAt: new Date,
         code: '',
         category: '',
         importance: '',
@@ -84,15 +91,7 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
 
   const handleAddEvent  = async () => {
     const { title, regLink, eventId } = formData
-    // if (!title) {
-    //   alert('Please enter the event title')
-    //   return
-    // }
-
-    // if (selectedImage === null) {
-    //   // alert('Please select an image')
-    //   return
-    // }
+   
     
     setTitleError('')
  		setVenueError('')
@@ -193,7 +192,8 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
               starsNum: parseInt(formData.starsNum) || defaultStarsNum,
               regLink: formData.regLink,
               createdDate: new Date(),
-             createdBy: '',
+             
+              createdBy: '',
               qrCodeUrl: qrCodeUrl,
               imageFile: selectedImage !== null ? selectedImage : someDefaultFile,
               imageUrl: formData.imageUrl,
@@ -316,6 +316,8 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     onChange()
   }
 
+
+
   function beforeSubmit() {
     formData.eventId = event.eventId
     formData.title = formData.title == '' ? event.title : formData.title
@@ -323,13 +325,13 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     formData.eventDetails = formData.eventDetails == '' ? event.eventDetails : formData.eventDetails
     formData.startDate = formData.startDate == '' ? event.startDate : formData.startDate
     formData.endDate = formData.endDate == '' ? event.endDate : formData.endDate
+    formData.updatedAt = updatedAtDate
     formData.code = formData.code == '' ? event.code : formData.code
     formData.category = formData.category == '' ? event.category : formData.category
     formData.eventType = formData.eventType == '' ? event.eventType : formData.eventType
     formData.importance = formData.importance == '' ? event.importance : formData.importance
     formData.gmeetLink = formData.gmeetLink == '' ? event.gmeetLink : formData.gmeetLink
-    formData.postEventSurveyURL =
-      formData.postEventSurveyURL == '' ? event.postEventSurveyURL : formData.postEventSurveyURL
+    formData.postEventSurveyURL == '' ? event.postEventSurveyURL : formData.postEventSurveyURL
     formData.starsNum = formData.starsNum == '' ? event.starsNum : formData.starsNum
     formData.regLink = formData.regLink == '' ? event.regLink : formData.regLink
     formData.imageUrl = formData.imageUrl == '' ? event.imageUrl : formData.imageUrl

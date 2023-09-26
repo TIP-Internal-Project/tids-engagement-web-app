@@ -179,7 +179,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					
 					Points
 					</p>
-
+				
 					</div>
 					
 			
