@@ -19,6 +19,7 @@ import deleteEventReducer from './deleteEventSlice'
 import taskCompletionReducer from './taskCompletionSlice'
 import completedTasksReducer from './completedTasksSlice'
 import incompleteTasksReducer from './incompleteTasksSlice'
+import teamMemberInfoReducer from './teamMemberInfoSlice'
 
 export const store = configureStore({
   reducer: {
@@ -40,6 +41,7 @@ export const store = configureStore({
     taskCompletion: taskCompletionReducer,
     completedTasks: completedTasksReducer,
     incompleteTasks: incompleteTasksReducer,
+    teamMemberInfo: teamMemberInfoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
