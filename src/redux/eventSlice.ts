@@ -8,12 +8,13 @@ type Event = {
   eventDetails: string
   startDate: Date
   endDate: Date
+  updatedAt: Date | null;
   code: string
   category: string
   eventType: string
   importance: string
   gmeetLink: string
-  postSurveyLink: string
+  postEventSurveyURL: string
   starsNum: number
   regLink: string
   imageFile: File
@@ -48,12 +49,13 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     eventDetails,
     startDate,
     endDate,
+   
     code,
     category,
     eventType,
     importance,
     gmeetLink,
-    postSurveyLink,
+    postEventSurveyURL,
     starsNum,
     regLink,
     imageFile,
@@ -61,21 +63,36 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     status
   } = event
 
-  
-  const formData = new FormData()
+ 
+  function addZero(number: number) {
+    return number < 10 ? '0' + number.toString() : number
+  }
 
+  const newEventDate = new Date()
+  const utcOffset = 8 * 60
+  const localTime = new Date(newEventDate.getTime() + (utcOffset * 60000))
+  
+  const year = localTime.getFullYear()
+  const month = addZero(localTime.getMonth() + 1)
+  const date = addZero(localTime.getDate())
+  const hour = addZero(localTime.getHours())
+  const minute = addZero(localTime.getMinutes())
+  
+  const updatedAt = `${year}-${month}-${date} ${hour}:${minute}`
+  const formData = new FormData()
   
   if (title) formData.append('title', title)
   if (venueDetails) formData.append('venueDetails', venueDetails)
   if (eventDetails) formData.append('eventDetails', eventDetails)
   if (startDate) formData.append('startDate', startDate)
   if (endDate) formData.append('endDate', endDate)
+  formData.append('updatedAt', updatedAt)
   if (code) formData.append('code', code)
   if (category) formData.append('category', category)
   if (eventType) formData.append('eventType', eventType)
   if (importance) formData.append('importance', importance)
   if (gmeetLink) formData.append('gmeetLink', gmeetLink)
-  if (postSurveyLink) formData.append('postSurveyLink', postSurveyLink)
+  if (postEventSurveyURL) formData.append('postEventSurveyURL', postEventSurveyURL)
   if (starsNum) formData.append('starsNum', starsNum)
   if (regLink) formData.append('regLink', regLink)
   if (status) formData.append('status', status)
