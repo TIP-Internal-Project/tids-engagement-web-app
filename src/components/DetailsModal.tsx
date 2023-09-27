@@ -27,6 +27,45 @@ const timestamp = currentDateTime.getTime()
 
 const updatedAtDate = new Date(timestamp)
 
+type category = {
+  label: string
+  eventTypeSelectOptions: string[]
+}
+
+const categorySelectOptions: {[index: string]: category} = {
+  '': {
+    label: 'Select a category',
+    eventTypeSelectOptions: []
+  },
+  'TIDS': {
+    label: 'TIDS Wide Event (5 stars/50 Points)',
+    eventTypeSelectOptions: []
+  },
+  'happyhere': {
+    label: '#HAPPYHERE',
+    eventTypeSelectOptions: []
+  },
+  'teamEvent': {
+    label: 'Team Event',
+    eventTypeSelectOptions: [
+      'Select an Event Type',
+      'Practice Event',
+      'OM Event',
+      'Offsite Team building',
+      'Recognition',
+      'Engagement Activity'
+    ]
+  },
+  'COP': {
+    label: 'COP',
+    eventTypeSelectOptions: [
+      'Select an Event Type',
+      'Brown Bag Sessions',
+      'Practice Community Event'
+    ]
+  }
+}
+
 const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, action }) => {
   const [data, setData] = useState<any>({})
   const dispatch = useDispatch<AppDispatch>()
@@ -357,9 +396,21 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target
+
+    const nextFormData = {
+      [name]: value
+    }
+    if (name === 'category') {
+      if (value === 'TIDS' || value === 'happyhere') {
+        nextFormData['eventType'] = 'na'
+      } else {
+        nextFormData['eventType'] = ''
+      }
+    }
+
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      ...nextFormData
     }))
   }
 
@@ -698,11 +749,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   name='category'
                   onChange={handleSelectChange}
                 >
-                  <option value=''>Select a category</option>
-                  <option value='TIDS'>TIDS</option>
-                  <option value='happyhere'>#HAPPYHERE</option>
-                  <option value='teamEvent'>Team Event</option>
-                  <option value='COP'>COP</option>
+                  {Object.keys(categorySelectOptions).map((o, index) => <option key={index} value={o}>{categorySelectOptions[o].label}</option>)}
                 </Form.Select>
                 {categoryError && <div className="text-danger">{categoryError}</div>}
               </Form.Group>
@@ -717,13 +764,9 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   name='eventType'
                   onChange={handleSelectChange}
                 >
-                  <option value=''>Select an Event Type</option>
-                  <option value='Team Meeting'>Team Meeting</option>
-                  <option value='Team Building'>Team Building</option>
-                  <option value='Team Dinner'>Team Dinner</option>
-                  <option value='Team Recognition'>Team Recognition</option>
-                  <option value='OM/Team Event'>OM/Team Event</option>
-                  <option value='TIDS Wide'>TIDS Wide</option>
+                  {categorySelectOptions[formData.category]?.eventTypeSelectOptions.map((o, index) =>
+                    <option key={index} selected={o === formData.eventType} value={index === 0 ? '' : o}>{o}</option>
+                  )}
                 </Form.Select>
                 {eventTypeError && <div className="text-danger">{eventTypeError}</div>}
               </Form.Group>
