@@ -46,7 +46,7 @@ const categorySelectOptions: {[index: string]: category} = {
     eventTypeSelectOptions: []
   },
   'teamEvent': {
-    label: 'Team Event',
+    label: 'Team Level Event (3 stars/30 Points)',
     eventTypeSelectOptions: [
       'Select an Event Type',
       'Practice Event',
