@@ -38,15 +38,11 @@ const categorySelectOptions: {[index: string]: category} = {
     eventTypeSelectOptions: []
   },
   'TIDS': {
-    label: 'TIDS Wide Event (5 stars/50 Points)',
-    eventTypeSelectOptions: []
-  },
-  'happyhere': {
-    label: '#HAPPYHERE',
+    label: 'TIDS',
     eventTypeSelectOptions: []
   },
   'teamEvent': {
-    label: 'Team Level Event (3 stars/30 Points)',
+    label: 'Team Event',
     eventTypeSelectOptions: [
       'Select an Event Type',
       'Practice Event',
@@ -756,13 +752,14 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
 
               <Form.Group className='mb-3'>
-                <Form.Label>Event Type<span style={{color: 'red'}}>*</span></Form.Label>
+                <Form.Label>Event Type<span style={{color: 'red'}}>{categorySelectOptions[formData.category]?.eventTypeSelectOptions?.length === 0 ? '' : '*'}</span></Form.Label>
                 <Form.Select
                   aria-label='Default select example'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   defaultValue={action == 'edit' ? event.eventType : ''}
                   name='eventType'
                   onChange={handleSelectChange}
+                  disabled={categorySelectOptions[formData.category]?.eventTypeSelectOptions?.length === 0}
                 >
                   {categorySelectOptions[formData.category]?.eventTypeSelectOptions.map((o, index) =>
                     <option key={index} selected={o === formData.eventType} value={index === 0 ? '' : o}>{o}</option>
