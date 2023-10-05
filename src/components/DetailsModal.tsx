@@ -38,11 +38,11 @@ const categorySelectOptions: {[index: string]: category} = {
     eventTypeSelectOptions: []
   },
   'TIDS': {
-    label: 'TIDS',
+    label: 'TIDS Wide Event',
     eventTypeSelectOptions: []
   },
   'teamEvent': {
-    label: 'Team Event',
+    label: 'Team Level Event',
     eventTypeSelectOptions: [
       'Select an Event Type',
       'Practice Event',
