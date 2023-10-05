@@ -12,21 +12,16 @@ const EventsPanel = () => {
 		dispatch(fetchEvents())
 	}, [])
 
+	const setTimeFormat = (aDateString: string): string => {
+      const aDate = new window.Date(aDateString)
+      const timeString = aDate.toLocaleTimeString().slice(0, -6)
+      const newFormat = aDate.getHours() >= 12 ? 'PM' : 'AM'
+      return `${timeString} ${newFormat}`
+    }
+
 	const renderedEvents = Object.values(overviewEvents.events).map((event: any, index) => {
 		const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString({},
 			{timeZone:'UTC',month:'short', day:'2-digit', year:'numeric'})
-			
-		const time = new (window.Date as any)(event.startDate)
-		const timeString = time.toLocaleTimeString().slice(0,-3)
-	
-		// Convert 24 Clock to 12 Hour Clock
-		const newformat = time.getHours() >= 12 ? 'PM' : 'AM'
-		const hours = parseInt(timeString.slice(0,3))
-		const finalHour = newformat === 'PM' && timeString.slice(0,2) != '12' ? '0' + (hours-12).toString() : hours
-		let formattedTime = timeString + ' ' + newformat
-	
-	
-		formattedTime = finalHour + formattedTime.slice(2,)
 
 		return (
 			<RowDiv key={event.eventId}>
@@ -56,7 +51,7 @@ const EventsPanel = () => {
 					<Time>
 						<TimeIcon><img src={require('../../assets/images/Time.png')} alt="" /></TimeIcon>
 						<DateTime>
-							{formattedTime + ' Manila Time'}
+							{setTimeFormat(event.startDate) + ' Manila Time'}
 						</DateTime>
 					</Time>
 				</DateAndTime>
