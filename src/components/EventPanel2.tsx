@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 import { register } from '../redux/eventRegistrationSlice'
+import { addStarPoints } from '../redux/addStarPointsSlice'
 import Form from 'react-bootstrap/Form'
 
 export const EventPanel2 = (props: any) => {
@@ -215,12 +216,14 @@ export const EventPanel2 = (props: any) => {
     })
   }, [])
 
-  const handleRegister = async (eventId: any, email: any) => {
+  const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
     setSortedEvents([])
     setSortedEvents1([])
     setSortOption('asc')
     setFilterOption(['ALL'])
     await dispatch(register({ eventId, email }))
+    const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
+    await dispatch(addStarPoints({ employeeName, pointsToAdd }))
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray
@@ -465,7 +468,7 @@ export const EventPanel2 = (props: any) => {
               }}
             >
               <Button
-                onClick={() => handleRegister(event.eventId, props.variable)}
+                onClick={() => handleRegister(event.eventId, props.variable, event.starsNum)}
                 className={`bg-success border-success ${event.status === 'Inactive' ? 'disabled' : ''}`}
   
                 style={actionBadge}

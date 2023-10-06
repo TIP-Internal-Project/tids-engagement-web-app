@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../redux/store'
 import { register } from '../redux/eventRegistrationSlice'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
-
+import { addStarPoints } from '../redux/addStarPointsSlice'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -47,8 +47,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 
 	
 
-	const handleRegister = async (eventId: any, email: any) => {
+	const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
 		await dispatch(register({ eventId, email }))
+		const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
+    	await dispatch(addStarPoints({ employeeName, pointsToAdd }))
 		const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
 		const registeredEventsArray = Object.values(registeredEventsData.payload)
 		const sortedRegisteredEvents = registeredEventsArray.sort(
@@ -184,7 +186,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					
 			
 					<div className='ModalBodyRightSubDiv'>
-						<Button style={ModalButton} disabled={data.status === 'Inactive'} onClick={() => handleRegister(data.eventId, email)}>REGISTER</Button>{' '}
+						<Button style={ModalButton} disabled={data.status === 'Inactive'} onClick={() => handleRegister(data.eventId, email, data.starsNum)}>REGISTER</Button>{' '}
 						
 						{data.postEventSurveyURL && (
 						<Button style={ModalButton} href={data.postEventSurveyURL} >EVENT SURVEY </Button> 
