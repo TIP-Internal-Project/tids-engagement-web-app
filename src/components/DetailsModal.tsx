@@ -53,7 +53,7 @@ const categorySelectOptions: {[index: string]: category} = {
     ]
   },
   'COP': {
-    label: 'COP',
+    label: 'COP Event',
     eventTypeSelectOptions: [
       'Select an Event Type',
       'Brown Bag Sessions',
