@@ -1,7 +1,8 @@
 import React, { useEffect, useState  }  from 'react'
 import { StyledStarDiv,StyledEventDiv,StyledTaskDiv,StyledCOPDiv, TitleDiv, IconDiv, ValueDiv } from '../components/Div/Div.styles'
 import { useAppDispatch, useAppSelector } from '../redux/store'
-import { TeamMemberInfoState, fetchTeamMemberInfo } from '../redux/teamMemberInfoSlice'
+import { fetchTeamMemberInfo } from '../redux/teamMemberInfoSlice'
+import { fetchUpcomingEventsCount } from '../redux/upcomingEventsCountSlice'
 
 export const Subheader = () => {
 
@@ -25,9 +26,9 @@ export const Subheader = () => {
 		copPointsDeducted: number
 	  }
 
-	const teamMember = useAppSelector((state: any) => state.teamMemberInfoSlice)
   	const dispatch = useAppDispatch()
 	const [teamMemberInfo, setTeamMemberInfo] = useState<TeamMember[]>([])
+	const [upcomingEventsCount, setUpcomingEventsCount] = useState(0)
 
 	useEffect(() => {
 		dispatch(fetchTeamMemberInfo(name)).then((data: any) => {
@@ -35,6 +36,16 @@ export const Subheader = () => {
 		  setTeamMemberInfo(teamMemberInfoArray as TeamMember[])
 		})
 	  }, [])
+
+	const events = useAppSelector((state) => state.eventsCount)
+
+	useEffect(() => {
+		dispatch(fetchUpcomingEventsCount()).then((data: any) => {
+		  setUpcomingEventsCount(data.payload)
+		})
+	}, [])
+
+	console.log(events.eventsCount)
 	
 	return (
 		
@@ -48,7 +59,7 @@ export const Subheader = () => {
 			<StyledEventDiv>
 				<TitleDiv>Upcoming Events</TitleDiv>
 				<IconDiv><img src={require('../assets/images/Calendar.png')} /></IconDiv>
-				<ValueDiv>10</ValueDiv>
+				<ValueDiv>{upcomingEventsCount}</ValueDiv>
 			</StyledEventDiv>
 
 			<StyledTaskDiv>
