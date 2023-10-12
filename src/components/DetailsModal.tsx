@@ -351,7 +351,15 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     onChange()
   }
 
-
+  const handleEventComplete = async () => {
+    const completedEvent = {
+      ...formData,
+      imageFile: selectedImage !== null ? selectedImage : event.imageFile,
+      status: 'Completed'
+    }
+    await dispatch(updateEvent(completedEvent))
+    onChange()
+  }
 
   function beforeSubmit() {
     formData.eventId = event.eventId
@@ -815,7 +823,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
           </Row>
 
           <Row>
-            <Col xs={6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
+            <Col xs={event?.status === 'Active' ? 4 : 6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
 
             <Col
               xs={2}
@@ -842,17 +850,12 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                 color: '#2B8000',
               }}
             >
-              <Nav.Link href='' className='' style={{width: '-webkit-fill-available', fontSize: '14px'}}>
-                Clear Fields
-              </Nav.Link>
-
-              
               {action === 'edit' && (
   <Form>
     <Form.Check
       type="switch"
       id="custom-switch"
-      label=""
+      label="Registration"
       checked={toggleStatus}
       onChange={() => setToggleStatus(!toggleStatus)}
       defaultValue={event?.status || ''}
@@ -885,6 +888,13 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                 </Button>
               )}
             </Col>
+
+            {event?.status === 'Active' ?(
+            <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Button variant='success' className='px-3' onClick={handleEventComplete} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
+                Complete Event
+              </Button>
+            </Col>) : null}
           </Row>
         </Container>
       </Modal.Body>
