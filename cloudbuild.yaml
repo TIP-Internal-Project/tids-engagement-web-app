@@ -5,4 +5,4 @@ steps:
     args: ['push', 'gcr.io/engagement-app-288317/sit-engagement-app-frontend']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'sit-engagement-app-frontend', '--image', 'gcr.io/engagement-app-288317/sit-engagement-app-frontend', '--region', 'asia-east1']
+    args: ['run', 'deploy', 'sit-engagement-app-frontend', '--image', 'gcr.io/engagement-app-288317/sit-engagement-app-frontend', '--region', 'asia-southeast1-a']
