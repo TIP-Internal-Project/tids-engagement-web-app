@@ -11,7 +11,7 @@ export default function GoogleLogin() {
 
 export function Redirect() {
   Login()
-  setTimeout(() => window.location.replace('http://localhost:3000/overview'), 2000)
+  setTimeout(() => window.location.replace(window.location.hostname + '/overview'), 2000)
   return null
 }
 
