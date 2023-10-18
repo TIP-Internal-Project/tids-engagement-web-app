@@ -511,7 +511,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
   })
 
   return (
-    <Container fluid style={{ backgroundColor: '#f5f5f5', height: '100vh', width: '100%', padding: '32px' }} className='mx-auto'>
+    <Container fluid style={{ backgroundColor: '#f5f5f5', width: '100%', padding: '32px' }} className='mx-auto'>
       <Container fluid style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }} className='px-0 py-4'>
         <div className="d-flex justify-content-between" style={{ color: '#7175B', padding: '0 2%' }}>
           <div style={{ width: '250px' }}>
