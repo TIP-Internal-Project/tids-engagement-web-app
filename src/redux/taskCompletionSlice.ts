@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface TaskCompletionState {
   loading: boolean;
@@ -26,7 +29,7 @@ interface CompletePayload {
 
 export const completeTask = createAsyncThunk('completeTask', async (payload: CompletePayload) => {
 	const { taskId, email, completionDate } = payload
-	const response = await axios.post(`http://localhost:3001/task/completeTask/${taskId}/${email}`, { taskId, email, completionDate })
+	const response = await axios.post(`${API_ROOT}/task/completeTask/${taskId}/${email}`, { taskId, email, completionDate })
 	return response.data
 })
 

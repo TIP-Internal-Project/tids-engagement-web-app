@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface eventsCountState {
     loading: boolean,
@@ -16,7 +19,7 @@ const initialState: eventsCountState = {
 
 export const fetchUpcomingEventsCount = createAsyncThunk('getUpcomingEventsCount', () => {
 	return axios
-	  .get('http://localhost:3001/overview/getUpcomingEventsCount')
+	  .get(API_ROOT + '/overview/getUpcomingEventsCount')
 	  .then(response => response.data)
 })
 

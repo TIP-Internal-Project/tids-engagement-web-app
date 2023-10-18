@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface IncompleteTasksState {
     loading: boolean,
@@ -16,7 +19,7 @@ const initialState: IncompleteTasksState = {
 
 export const fetchIncompleteTasks = createAsyncThunk('getIncompleteTasks', async (email: string) => {
 	return axios
-	  .get(`http://localhost:3001/task/getIncompleteTasks/${email}`)
+	  .get(`${API_ROOT}/task/getIncompleteTasks/${email}`)
 	  .then(response => response.data)
 })
 

@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface AddStarPointsState {
     loading: boolean;
@@ -23,7 +26,7 @@ interface AddStarPointsPayload {
 
 export const addStarPoints = createAsyncThunk('addStarPoints', async (payload: AddStarPointsPayload) => {
     const { employeeName, pointsToAdd } = payload
-    const response = await axios.post('http://localhost:3001/teamMember/addStarPoints', { employeeName, pointsToAdd })
+    const response = await axios.post(API_ROOT + '/teamMember/addStarPoints', { employeeName, pointsToAdd })
     return response.data
 })
 

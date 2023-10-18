@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface TeamMemberInfoState {
     loading: boolean,
@@ -16,7 +19,7 @@ const initialState: TeamMemberInfoState = {
 
 export const fetchTeamMemberInfo = createAsyncThunk('getTeamMemberInfoByName', async (name: string) => {
 	return axios
-	  .get(`http://localhost:3001/teamMember/getTeamMemberInfoByName/${name}`)
+	  .get(`${API_ROOT}/teamMember/getTeamMemberInfoByName/${name}`)
 	  .then(response => response.data)
 })
 

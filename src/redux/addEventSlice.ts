@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface AddEventState {
   loading: boolean
@@ -117,7 +120,7 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
 
   try {
     // Upload the image and create the event using axios
-    const response = await axios.post('http://localhost:3001/createEvent', formData, {
+    const response = await axios.post(API_ROOT + '/createEvent', formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // Important for file upload
       },

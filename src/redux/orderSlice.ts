@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface OrderState {
     loading: boolean,
@@ -17,7 +20,7 @@ const initialState: OrderState = {
 // Generates pending, fulfilled and rejected action types
 export const fetchOrders = createAsyncThunk('getAllOrders', () => {
 	return axios
-	  .get('http://localhost:3001/order/getAllOrders')
+	  .get(API_ROOT + '/order/getAllOrders')
 	  .then(response => response.data)
 })
 
