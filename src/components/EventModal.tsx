@@ -181,7 +181,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					
 			
 					<div className='ModalBodyRightSubDiv'>
-						<Button style={ModalButton} disabled={disable || data.status === 'Inactive'} onClick={() => handleRegister(data.eventId, email, data.starsNum)}>REGISTER</Button>{' '}
+						<Button style={ModalButton} disabled={disable || data.status === 'Inactive' || data.status === 'Completed'} onClick={() => handleRegister(data.eventId, email, data.starsNum)}>REGISTER</Button>{' '}
 						
 						{data.postEventSurveyURL && (
 						<Button style={ModalButton} href={data.postEventSurveyURL} >EVENT SURVEY </Button> 
