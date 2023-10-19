@@ -751,7 +751,7 @@ export const EventPanel2 = (props: any) => {
           </div>
         )}
 
-        {sortedEvents.filter((event: any) => event.status === 'Active').length > 0 ? (
+        {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
           <Row style={TitleBar} className='px-5'>
             <Col xs={4} style={{ fontSize: '14px' }}>
               Title
