@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface AddTaskState {
 	loading: boolean;
@@ -41,7 +44,7 @@ interface AddTaskPayload {
 
 export const addTask = createAsyncThunk('addTask', async (payload: AddTaskPayload) => {
 	const { title, dueDate, time, details, link, importance, createdDate, createdBy } = payload
-	const response = await axios.post('http://localhost:3001/task/addTask', { title, dueDate, time, details, link, importance, createdDate, createdBy })
+	const response = await axios.post(API_ROOT + '/task/addTask', { title, dueDate, time, details, link, importance, createdDate, createdBy })
 	return response.data
 })
 

@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface EventRegistrationState {
   loading: boolean;
@@ -23,7 +26,7 @@ interface RegisterPayload {
 
 export const register = createAsyncThunk('register', async (payload: RegisterPayload) => {
 	const { eventId, email } = payload
-	const response = await axios.post('http://localhost:3001/events/register', { eventId, email })
+	const response = await axios.post(API_ROOT + '/events/register', { eventId, email })
 	return response.data
 })
 

@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface DeleteEventState {
 	loading: boolean;
@@ -29,7 +32,7 @@ interface DeleteEventPayload {
 
 export const deleteEvent = createAsyncThunk('deleteEvent', async (payload: DeleteEventPayload) => {
 	const { eventId, status, updatedBy, updatedAt } = payload
-	const response = await axios.put(`http://localhost:3001/events/deleteEvent/${eventId}`, { eventId, status, updatedBy, updatedAt })
+	const response = await axios.put(`${API_ROOT}/events/deleteEvent/${eventId}`, { eventId, status, updatedBy, updatedAt })
 	return response.data
 })
 

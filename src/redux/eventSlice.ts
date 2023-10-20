@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 type Event = {
   eventId: number
@@ -38,7 +41,7 @@ const initialState: InitialState = {
 }
 
 export const fetchEvents = createAsyncThunk('fetchEvents', () => {
-  return axios.get('http://localhost:3001/events/getAllEvents').then((response) => response.data)
+  return axios.get(API_ROOT + '/events/getAllEvents').then((response) => response.data)
 })
 
 export const updateEvent = createAsyncThunk('updateEvent', async (event: any) => {
@@ -108,7 +111,7 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   }
 
   return axios
-    .patch(`http://localhost:3001/events/updateEvent/${eventId}`, formData)
+    .patch(`${API_ROOT}/events/updateEvent/${eventId}`, formData)
     .then((response) => response.data)
 })
 

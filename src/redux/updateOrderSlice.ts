@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface UpdateOrderState {
 	loading: boolean;
@@ -44,7 +47,7 @@ interface UpdateOrderPayload {
 
 export const updateOrder = createAsyncThunk('updateOrder', async (payload: UpdateOrderPayload) => {
 	const { orderId, workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt } = payload
-	const response = await axios.put(`http://localhost:3001/order/updateOrderById/${orderId}`, { workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt })
+	const response = await axios.put(`${API_ROOT}/order/updateOrderById/${orderId}`, { workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt })
 	return response.data
 })
 

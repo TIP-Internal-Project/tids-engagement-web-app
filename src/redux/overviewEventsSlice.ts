@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
+import api from '../api.json'
+
+const API_ROOT = api.ROOT
 
 export interface OverviewEventsState {
     loading: boolean,
@@ -17,7 +20,7 @@ const initialState: OverviewEventsState = {
 // Generates pending, fulfilled and rejected action types
 export const fetchEvents = createAsyncThunk('getEvents', () => {
 	return axios
-	  .get('http://localhost:3001/overview/getEvents')
+	  .get(API_ROOT + '/overview/getEvents')
 	  .then(response => response.data)
 })
 
