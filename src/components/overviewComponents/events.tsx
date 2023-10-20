@@ -26,7 +26,7 @@ const EventsPanel = () => {
 		return (
 			<RowDiv key={event.eventId}>
 				<Category>
-					<Rectangle1 style={{ display: event.category === 'TEAM EVENT' ? 'block' : 'none' }}></Rectangle1>
+					<Rectangle1 style={{ display: event.category === 'teamEvent' ? 'block' : 'none' }}></Rectangle1>
 					<Rectangle2 style={{ display: event.category === 'TIDS' ? 'block' : 'none' }}></Rectangle2>
 					<Rectangle3 style={{ display: event.category === '#HAPPYHERE' ? 'block' : 'none' }}></Rectangle3>
 					<Rectangle4 style={{ display: event.category === 'COP' ? 'block' : 'none' }}></Rectangle4>
@@ -72,7 +72,11 @@ const EventsPanel = () => {
 			</EventsHeading1>
 			{overviewEvents.loading && <Headings><Title>{'Loading...'}</Title></Headings>}
       		{!overviewEvents.loading && overviewEvents.error ? <Headings><Title>{'Error: ' + overviewEvents.error}</Title></Headings> : null}
-			{renderedEvents}
+			{renderedEvents.length > 0 ? (renderedEvents) : (
+				<Headings>
+				<div style={{textAlign: 'center', color: 'rgb(159, 162, 180)', paddingTop: '3%', paddingBottom: '4%', fontSize: '14px'}}>No Events</div>
+				</Headings>
+			)}
 		</Events>
 		<TaskPanel />
 	</Components>

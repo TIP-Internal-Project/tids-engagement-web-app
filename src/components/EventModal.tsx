@@ -170,14 +170,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					<div className='ModalBodyRightSubDiv1'>
 						
 					<p style={{fontSize:'14px'}}>{data.eventDetails}</p>
-					<p style={{ fontSize: '14px' }}> {data.eventType} <FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
+					<p style={{ fontSize: '14px' }}> {data.eventType === 'na' ? '' : data.eventType} <FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
 					
-					{data.eventType === 'Team Meeting' ? ' 0 ' :
-					data.eventType === 'Team Building' || data.eventType === 'Team Dinner' ||
-					data.eventType === 'Team Recognition' || data.eventType === 'OM/Team Event' ?
-					' 30 ' :
-					data.eventType === 'TIDS Wide' ? ' 50 ' :
-					'Unknown'}
+					{data.starsNum + ' '}
 					
 					Points
 					</p>
@@ -186,7 +181,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					
 			
 					<div className='ModalBodyRightSubDiv'>
-						<Button style={ModalButton} disabled={data.status === 'Inactive'} onClick={() => handleRegister(data.eventId, email, data.starsNum)}>REGISTER</Button>{' '}
+						<Button style={ModalButton} disabled={disable || data.status === 'Inactive' || data.status === 'Completed'} onClick={() => handleRegister(data.eventId, email, data.starsNum)}>REGISTER</Button>{' '}
 						
 						{data.postEventSurveyURL && (
 						<Button style={ModalButton} href={data.postEventSurveyURL} >EVENT SURVEY </Button> 
