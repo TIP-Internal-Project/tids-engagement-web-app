@@ -3,6 +3,7 @@ import axios from 'axios'
 import api from './api.json'
 
 const API_ROOT = api.ROOT
+const REDIRECT_LINK = api.REDIRECT_LINK
 
 export default function GoogleLogin() {
   axios.get(API_ROOT + '/google/auth').then((response) => (window.location.href = response.data))
@@ -11,7 +12,7 @@ export default function GoogleLogin() {
 
 export function Redirect() {
   Login()
-  setTimeout(() => window.location.replace('http://qa-engagement-app.com:3000/overview'), 2000)
+  setTimeout(() => window.location.replace(REDIRECT_LINK), 2000)
   return null
 }
 
@@ -39,6 +40,5 @@ function setLoginDetails(userInfo: any) {
   window.localStorage.setItem('givenName', userInfo.given_name)
 }
 
-window.addEventListener('storage', () => {
-  setUserRole()
-})
+// Uncomment for PROD build
+// window.addEventListener('storage', () => { setUserRole() })
