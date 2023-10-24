@@ -24,3 +24,4 @@ yarn-error.log*
 package-lock.json
 .gitignore
 .eslintrc.json
+src/api.json
