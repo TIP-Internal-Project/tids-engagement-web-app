@@ -194,49 +194,49 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 						)}
 						
 						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
-						<a>{data.qrCodeUrl && (
-								<div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
-								{isQrCodeExpanded ? (
-								  <div>
-								  <img
-									onClick={handleDownloadClick}
-									onMouseOver={handleMouseOver}
-									onMouseOut={handleMouseOut}
-									src={data.qrCodeUrl}
-									alt="QR Code"
-									style={{
-									  width: '160px',
-									  height: '160px',
-									  border: 'groove',
-									  borderWidth: '2px',
-									  position: 'relative', 
-									}}
-								  />
-								  {showMessage && (
-									<div
-									  style={{
-										position: 'absolute',
-										bottom: '2px', 
-										left: '50%',
-										transform: 'translateX(-50%)',
-										backgroundColor: 'rgba(0, 0, 0, 0.8)',
-										color: 'white',
-										padding: '2px',
-										borderRadius: '5px',
-									  }}
-									>
-									  Click QR Code to download
-									</div>
-								  )}
-								</div>
-								) : (
-								  <img src={data.qrCodeUrl} alt="QR Code" style={{ width: '30px', height: '30px' }} />
-								)}
-								
-							  </div>
-						 )}
-						</a>
 						
+{data.status !== 'Inactive' && (
+  <a href="https://calendar.google.com/">
+    <div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
+      {isQrCodeExpanded ? (
+        <div>
+          <img
+            onClick={handleDownloadClick}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+            src={data.qrCodeUrl}
+            alt="QR Code"
+            style={{
+              width: '160px',
+              height: '160px',
+              border: 'groove',
+              borderWidth: '2px',
+              position: 'relative',
+            }}
+          />
+          {showMessage && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '2px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                color: 'white',
+                padding: '2px',
+                borderRadius: '5px',
+              }}
+            >
+              Click QR Code to download
+            </div>
+          )}
+        </div>
+      ) : (
+        <img src={data.qrCodeUrl} alt="QR Code" style={{ width: '30px', height: '30px' }} />
+      )}
+    </div>
+  </a>
+)}
 						
           				</div>
 						 
