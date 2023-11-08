@@ -410,3 +410,7 @@ height: 157.28px;
 .react-datepicker-wrapper {
 	width: -webkit-fill-available !important;
 }
+
+.back-to-top-circle:hover {
+  filter: drop-shadow(3px 3px 3px gray);
+}
