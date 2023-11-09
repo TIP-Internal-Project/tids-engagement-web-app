@@ -47,6 +47,27 @@ const Events = (props: any) => {
 
 	const { variable } = props
 
+	const [visible, setVisible] = useState(false) 
+  
+	const toggleVisible = () => { 
+		const scrolled = document.documentElement.scrollTop
+		if (scrolled > 100){ 
+			setVisible(true) 
+		}  
+		else if (scrolled <= 100){ 
+			setVisible(false) 
+		} 
+	}
+	
+	const scrollToTop = () =>{ 
+		window.scrollTo({ 
+		top: 0,  
+		behavior: 'smooth'
+		})
+	}
+	
+	window.addEventListener('scroll', toggleVisible)
+
 	return (
 		<div>
 			
@@ -55,10 +76,7 @@ const Events = (props: any) => {
 				<img src={require('../../assets/images/white circle.png')} className='circle-for-back-option'/>
 				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
 			</div> */}
-			<div className='back-to-top-button'>
-				<p style={{fontFamily: 'Mulish'}}>Back to Top</p>
-				<img style={{width: '42.5px', height: '42.5px', marginLeft: '1.5%' }} src={require('../../assets/images/BackToTop.png')} className='back-to-top-circle'/>
-			</div>
+			
 			<div className='div1'>
 				<Row>
 					<Col style={header}>
@@ -72,6 +90,9 @@ const Events = (props: any) => {
 				<EventPanel2 variable={variable}/>
 				
 			</div>
+			<button className='back-to-top-button'>
+				<img onClick={scrollToTop} style={{display: visible ? 'inline' : 'none', width: '42.5px', height: '42.5px', marginLeft: '82%', borderRadius: '50%'  }} src={require('../../assets/images/BackToTop.png')} className='back-to-top-circle' title='Back to top'/>
+			</button>
 			{/* <EventModal show={modalShow} onHide={handleCloseModal}/> */}
 		</div>
 	)
