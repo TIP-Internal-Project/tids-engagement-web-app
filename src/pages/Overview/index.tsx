@@ -44,7 +44,7 @@ export default function OverviewPage() {
   return (
     <div>
       <Sidebar />
-      <div className='div1'>
+      <div className='overviewDiv1'>
         <Row>
           <Col className='admin' style={header}>
             <HeaderLeft pageTitle='Overview' />

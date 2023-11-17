@@ -22,6 +22,7 @@ import incompleteTasksReducer from './incompleteTasksSlice'
 import teamMemberInfoReducer from './teamMemberInfoSlice'
 import addStartPointsReducer from './addStarPointsSlice'
 import eventsCountReducer from './upcomingEventsCountSlice'
+import deleteTaskReducer from './deleteTaskSlice'
 
 export const store = configureStore({
   reducer: {
@@ -46,6 +47,7 @@ export const store = configureStore({
     teamMemberInfo: teamMemberInfoReducer,
     addStarPoints: addStartPointsReducer,
     eventsCount: eventsCountReducer,
+    deleteTask: deleteTaskReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -10,6 +10,7 @@ import { Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AddTaskModal from './AddTaskModal'
 import UpdateTaskModal from './UpdateTaskModal'
+import DeleteTaskModal from './DeleteTaskModal'
 import { completeTask } from '../redux/taskCompletionSlice'
 import { fetchCompletedTasks } from '../redux/completedTasksSlice'
 import { fetchIncompleteTasks } from '../redux/incompleteTasksSlice'
@@ -176,6 +177,22 @@ export const TaskPanel = (props: TaskPanelProps) => {
     setShowSortDropdown((prevShowSortDropdown) => !prevShowSortDropdown)
   }
 
+  const [deleteTaskModalShow, setDeleteTaskModalShow] = useState(false)
+
+  const handleDeleteModalShow = (task: any) => {
+    setModalData(task)
+    setDeleteTaskModalShow(true)
+  }
+
+  const handleDeleteModalClose = () => {
+    setDeleteTaskModalShow(false)
+  }
+
+  const handleDelete = () => {
+    setDeleteTaskModalShow(false)
+    handleRefresh(props.email)
+  }
+
   const [completedTasks, setCompletedTasks] = useState<Task[]>([])
   const [incompleteTasks, setIncompleteTasks] = useState<Task[]>([])
 
@@ -295,7 +312,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
     setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
   }
 
-  const renderedCompletedTasks = Object.values(completedTasks).map((tasks: any, index) => {
+  const renderedCompletedTasks = Object.values(completedTasks).filter((tasks: any) => tasks.status != 'Archived').map((tasks: any, index) => {
     let ts = tasks.time
     const H = +ts.substr(0, 2)
     let h = (H % 12) || 12
@@ -360,7 +377,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
             </div>
           </Col>
 
-          <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Col xs={isAdmin ? 1 : 2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Badge
               bg={
                 tasks.importance === 'Required'
@@ -383,8 +400,18 @@ export const TaskPanel = (props: TaskPanelProps) => {
               fontSize: '12px',
             }}
           >
-            <Button onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())} variant='success' style={{ backgroundColor: '#9fa5aa', borderColor: '#9fa5aa', fontSize: '11px' }} disabled>MARK AS COMPLETED</Button>
+            <Button onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())} variant='success' style={{ backgroundColor: '#9fa5aa', borderColor: '#9fa5aa', fontSize: '11px' }} disabled>COMPLETE</Button>
           </Col>
+          {isAdmin && (<Col
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'left',
+              fontSize: '12px',
+            }}
+          >
+            <Button onClick={() => handleDeleteModalShow(tasks)} variant='success' style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' }}>ARCHIVE</Button>
+          </Col>)}
           <Collapse in={eventStates[tasks.taskId]}>
             <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
               <h3>{tasks.title}</h3>
@@ -402,7 +429,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
     )
   })
 
-  const renderedIncompleteTasks = Object.values(incompleteTasks).map((tasks: any, index) => {
+  const renderedIncompleteTasks = Object.values(incompleteTasks).filter((tasks: any) => tasks.status != 'Archived').map((tasks: any, index) => {
     let ts = tasks.time
     const H = +ts.substr(0, 2)
     let h = (H % 12) || 12
@@ -468,7 +495,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
             </div>
           </Col>
 
-          <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Col xs={isAdmin ? 1 : 2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Badge
               bg={
                 tasks.importance === 'Required'
@@ -491,8 +518,18 @@ export const TaskPanel = (props: TaskPanelProps) => {
               fontSize: '12px',
             }}
           >
-            <Button onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())} variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>MARK AS COMPLETED</Button>
+            <Button onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())} variant='success' style={{ backgroundColor: '#2B8000', fontSize: '11px' }}>COMPLETE</Button>
           </Col>
+          {isAdmin && (<Col
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'left',
+              fontSize: '12px',
+            }}
+          >
+            <Button onClick={() => handleDeleteModalShow(tasks)} variant='success' style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' }}>ARCHIVE</Button>
+          </Col>)}
           <Collapse in={eventStates[tasks.taskId]}>
             <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
               <h3>{tasks.title}</h3>
@@ -598,7 +635,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
         <Row style={TitleBar} className='px-5'>
           <Col xs={4} style={{ fontSize: '14px' }}>Title</Col>
           <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>Due Date</Col>
-          <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>Importance</Col>
+          <Col xs={isAdmin ? 1 : 2} style={{ fontSize: '14px' }} className='text-center'>Importance</Col>
           <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>Status</Col>
           <Col style={{ fontSize: '14px' }} className='text-center'>Action</Col>
         </Row>
@@ -619,6 +656,12 @@ export const TaskPanel = (props: TaskPanelProps) => {
       {updateModalShow && (
         <UpdateTaskModal show={updateModalShow} onHide={handleCloseUpdateModal} modalData={modalData} updatedTasks={handleUpdatedTask} />
       )}
+      <DeleteTaskModal
+          show={deleteTaskModalShow}
+          onHide={handleDeleteModalClose}
+          onChange={handleDelete}
+          modalData={modalData}
+        />
     </Container>
   )
 }
