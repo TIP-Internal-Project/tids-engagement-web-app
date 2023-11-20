@@ -31,10 +31,7 @@ function App() {
           />
           <Route path='tasks' element={<Tasks email={localStorage.getItem('email') || ''} />} />
           <Route path='atten' element={<EventAttendance />} />
-          <Route
-            path='OrderProcessing'
-            element={isAdmin ? <OrderProcessing /> : <Navigate to={'/overview'} />}
-          />
+          <Route path='OrderProcessing' element={<OrderProcessing />} />
         </Route>
         <Route path='/login' element={<GoogleLogin />} />
         <Route path='/redirect' element={<Redirect />} />

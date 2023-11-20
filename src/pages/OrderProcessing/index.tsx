@@ -3,7 +3,8 @@ import { Sidebar } from '../../components/Sidebar'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../App.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import HeaderLeft from '../../components/HeaderLeft'
 import { EventPanel2 } from '../../components/EventPanel2'
@@ -33,6 +34,8 @@ const categoryBadge = {
 
 const Orders = () => {
 	const [modalShow, setModalShow] = useState(false)
+	const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
+	const navigate = useNavigate()
   
 	const handleOpenModal = () => {
 	  setModalShow(true)
@@ -41,6 +44,13 @@ const Orders = () => {
 	const handleCloseModal = () => {
 	  setModalShow(false)
 	}
+
+	useEffect(() => {
+		// If the user is not an admin, redirect to the '/overview' route
+		if (!isAdmin) {
+		  navigate('/overview')
+		}
+	  }, [isAdmin, navigate])
 
 	return (
 		<div>
