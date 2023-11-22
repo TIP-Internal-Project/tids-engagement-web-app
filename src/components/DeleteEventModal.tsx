@@ -103,7 +103,7 @@ const DeleteEventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, m
 		>
 			
 			<Modal.Header closeButton style={modalStyle}>
-				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>Confirm Delete
+				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>Confirm Archive
 				</Modal.Title>
 				
 			</Modal.Header>
@@ -111,16 +111,16 @@ const DeleteEventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, m
 			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
 
 			<Modal.Body className='ModalBody'>
-				<Container fluid className='px-5'>Are you sure you want to delete this event?
+				<Container fluid className='px-5'>Are you sure you want to archive this event?
 				<Row className='justify-content-end' style={{marginTop:'30px'}}>
-					<Col xs={3}  style={{display:'flex', alignItems:'center', justifyContent:'end', color:'#2B8000'}}>
+					<Col xs={3}  style={{display:'flex', alignItems:'center', justifyContent:'end', color:'#2B8000', marginRight: '2%'}}>
 						<Button variant="primary" className='px-4' onClick={onHide} style={{backgroundColor:'rgb(43, 128, 0)', borderColor:'rgb(43, 128, 0)'}}>
 							Cancel
 						</Button>
 					</Col>
 					<Col xs={3} style={{display:'flex', alignItems:'center', justifyContent:'end', marginLeft: '2%'}} >
 						<Button variant="danger" className='px-4' onClick={handleDeleteEvent} style={{backgroundColor:'#c12335', borderColor:'#c12335'}}>
-							Delete
+							Archive
 						</Button>
 					</Col>
 				</Row>

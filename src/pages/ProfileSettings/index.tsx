@@ -52,7 +52,7 @@ export default function ProfileSettingsPage(props: any) {
 	return (
 		<div>
 			<Sidebar />
-			<div className='div1' >
+			<div className='overviewDiv1' >
 				<Row>
 					<Col style={header}>
 						<HeaderLeft/>
