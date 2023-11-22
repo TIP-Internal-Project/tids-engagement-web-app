@@ -471,6 +471,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
   // }
 
   const generateQr = () => {
+    console.log('generateQr function called')
     if (formData.regLink === '') {
       return
     }
@@ -503,6 +504,11 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const ModalStatus = {
     marginTop: '6px',
     paddingLeft: '11px',
+  }
+
+  if (action == 'edit'){
+    console.log(event.startDate)
+    console.log(formData.endDate)
   }
 
   return (
@@ -817,7 +823,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
           </Row>
 
           <Row>
-            <Col xs={6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
+            <Col xs={event?.status === 'Active' ? 4 : 6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
 
             <Col
               xs={2}
@@ -883,12 +889,12 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
               )}
             </Col>
 
-            {/* {event?.status === 'Active' ?(
+            {event?.status === 'Active' ?(
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Button variant='success' className='px-3' onClick={handleEventComplete} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
                 Complete Event
               </Button>
-            </Col>) : null} */}
+            </Col>) : null}
           </Row>
         </Container>
       </Modal.Body>
