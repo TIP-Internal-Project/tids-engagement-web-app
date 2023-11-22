@@ -130,7 +130,7 @@ export const EventPanel2 = (props: any) => {
   }
 
   const actionBadge = {
-    width: '115px',
+    width: '100px',
     height: '30px',
     margin: '3px',
     borderRadius: '8px',
@@ -138,6 +138,7 @@ export const EventPanel2 = (props: any) => {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '12px',
+    borderColor: '#198754'
   }
 
   const viewDetailsButton = {
@@ -247,13 +248,13 @@ export const EventPanel2 = (props: any) => {
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray
       .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-      .filter((event: any) => event.status === 'Active')
+      .filter((event: any) => event.status != 'Archived')
     setSortedEvents1(sortedRegisteredEvents as Event[])
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
     const sortedUnregisteredEvents = unregisteredEventsArray
       .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-      .filter((event: any) => event.status === 'Active')
+      .filter((event: any) => event.status != 'Archived')
     setSortedEvents(sortedUnregisteredEvents as Event[])
   }
 
@@ -459,7 +460,7 @@ export const EventPanel2 = (props: any) => {
                       : '#HAPPYHERE'}
               </Button>
             </Col>
-            <Col xs={2}
+            <Col xs={isAdmin ? 4 : 2}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -467,43 +468,36 @@ export const EventPanel2 = (props: any) => {
                 fontSize: '12px',
               }}
             >
-              {event?.status !== 'Completed' && (
                 <Button
                   onClick={() => handleRegister(event.eventId, props.variable, event.starsNum)}
-                  className={`bg-success border-success ${event.status === 'Inactive' ? 'disabled' : ''}`}
+                  className={`bg-success border-success ${event.status === 'Inactive' || event.status === 'Completed' ? 'disabled' : ''}`}
                   style={actionBadge}
                   disabled={event.status === 'Inactive'}
                 >
                   {' '}
                   REGISTER
                 </Button>
-              )}
-              {isAdmin &&  event?.status !== 'Completed' && (
+              {isAdmin && (
                 <Button
                   onClick={() => handleOpenDetailsModal('edit', event)}
-                  className='bg-success border-success'
+                  className={`bg-success border-success' ${event.status === 'Completed' ? 'disabled' : ''}`}
                   style={actionBadge}
                 >
                   {' '}
                   MODIFY
                 </Button>
               )}
+              {isAdmin && (
+                <Button onClick={() => handleDeleteModalShow(event)} variant='success' style={{ width: '100px', backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' }}>ARCHIVE</Button>
+              )}
             </Col>
-            {isAdmin && (
-              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  style={{ height: '20px', width: '20px', cursor: 'pointer' }}
-                  src={require('../assets/images/delete-icon.png')}
-                  onClick={() => handleDeleteModalShow(event)}
-                />
-              </Col>)}
           </Row>
         </ListGroup.Item>
       </ListGroup>
     )
   })
 
-  const renderedRegisteredEvents = Object.values(sortedEvents1).filter((event: any) => event.status === 'Active' || event.status === 'Completed').map((event: any) => {
+  const renderedRegisteredEvents = Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').map((event: any) => {
     const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
@@ -566,27 +560,38 @@ export const EventPanel2 = (props: any) => {
                       : '#HAPPYHERE'}
               </Button>
             </Col>
-            <Col xs={2}
+            <Col xs={isAdmin ? 1 : 2}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '14px',
-                paddingTop: '1%',
                 fontWeight: 'bold',
               }}
             >
-              <p>Registered</p>
+              <div style={{paddingRight: '5%'}}>
+                Registered
+              </div>
             </Col>
             {isAdmin && (
-              <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  style={{ height: '20px', width: '20px', marginTop: '-10px', cursor: 'pointer' }}
-                  src={require('../assets/images/delete-icon.png')}
-                  onClick={() => handleDeleteModalShow(event)}
-                />
-              </Col>
-            )}
+            <Col xs={3}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '14px',
+              }}
+            >
+                <Button
+                  onClick={() => handleOpenDetailsModal('edit', event)}
+                  className={`bg-success border-success' ${event.status === 'Completed' ? 'disabled' : ''}`}
+                  style={actionBadge}
+                >
+                  {' '}
+                  MODIFY
+                </Button>
+                <Button onClick={() => handleDeleteModalShow(event)} variant='success' style={{ width: '100px', backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ARCHIVE</Button>
+            </Col>)}
           </Row>
         </ListGroup.Item>
       </ListGroup>
@@ -734,7 +739,7 @@ export const EventPanel2 = (props: any) => {
           </div>
         ) : null}
 
-        {sortedEvents1.filter((event: any) => event.status === 'Active').length > 0 ? (
+        {sortedEvents1.filter((event: any) => event.status != 'Archived').length > 0 ? (
           <div style={{ paddingBottom: '3%' }}>{renderedRegisteredEvents}</div>
         ) : (
           <div
@@ -762,10 +767,9 @@ export const EventPanel2 = (props: any) => {
             <Col xs={isAdmin? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
               Category
             </Col>
-            {isAdmin &&
-            <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin ? 4 : 2} style={{ fontSize: '14px' }} className='text-center'>
               Action
-            </Col>}
+            </Col>
           </Row>
         ) : null}
         {unregisteredEvents.loading && (
