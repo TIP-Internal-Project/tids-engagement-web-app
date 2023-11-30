@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col'
 import EventModal from './EventModal'
 import DetailsModal from './DetailsModal'
 import DeleteEventModal from './DeleteEventModal'
+import FileUploadModal from './FileUploadModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
@@ -43,6 +44,16 @@ export const EventPanel2 = (props: any) => {
 
   const handleDeleteModalClose = () => {
     setDeleteEventModalShow(false)
+  }
+
+  const [fileUploadModalShow, setFileUploadModalShow] = useState(false)
+
+  const handleFileUploadModalClose = () => {
+    setFileUploadModalShow(false)
+  }
+
+  const handleFileUploadModalShow = () => {
+    setFileUploadModalShow(true)
   }
 
   const tidsBadge = {
@@ -710,6 +721,18 @@ export const EventPanel2 = (props: any) => {
               />
               Refresh
             </Nav.Link>
+            {isAdmin && (
+            <Nav.Link
+              className='mx-3'
+              style={{ fontSize: '14px' }}
+              onClick={handleFileUploadModalShow}
+            >
+              <img
+                style={{ height: '15px', width: '15px', marginRight: '10px' , filter: 'opacity(0.4)'}}
+                src={require('../assets/images/upload.png')}
+              />
+              Upload
+            </Nav.Link>)}
           </div>
         </div>
         <Row style={TitleBar} className='px-5'>
@@ -829,6 +852,10 @@ export const EventPanel2 = (props: any) => {
           onHide={handleDeleteModalClose}
           onChange={handleDelete}
           modalData={modalData}
+        />
+        <FileUploadModal
+          show={fileUploadModalShow}
+          onHide={handleFileUploadModalClose}
         />
       </Container>
     </Container>
