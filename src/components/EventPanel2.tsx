@@ -721,6 +721,7 @@ export const EventPanel2 = (props: any) => {
               />
               Refresh
             </Nav.Link>
+            {isAdmin && (
             <Nav.Link
               className='mx-3'
               style={{ fontSize: '14px' }}
@@ -731,7 +732,7 @@ export const EventPanel2 = (props: any) => {
                 src={require('../assets/images/upload.png')}
               />
               Upload
-            </Nav.Link>
+            </Nav.Link>)}
           </div>
         </div>
         <Row style={TitleBar} className='px-5'>
