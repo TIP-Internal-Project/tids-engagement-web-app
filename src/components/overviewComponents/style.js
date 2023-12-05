@@ -491,13 +491,12 @@ export const Task = styled.div`
 	display: flex;
 	position: absolute;
 	isolation: isolate;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-start;
 	padding: 40px;
 	box-sizing: border-box;
 	width: 48%;
-	height: 697px;
 	right: 2.5%;
 	top: 0px;
 `
@@ -577,11 +576,11 @@ export const Priority = styled.div`
 export const Rectangle20 = styled.div`
 	background-color: rgba(216, 216, 216, 1);
 	border-radius: 28px;
-	width: 84px;
+	width: -webkit-fill-available;
 	height: 28px;
 	position: absolute;
 	left: 0px;
-	top: 0px;
+	top: 8px;
 `
 
 export const Low = styled.div`
@@ -649,18 +648,17 @@ export const Rectangle17 = styled.div`
 	width: -webkit-fill-available;
 `
 
-export const Row1 = styled.div`
+export const Row = styled.div`
 	display: flex;
-	position: absolute;
+	position: relative;
 	isolation: isolate;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-start;
 	padding: 0px;
 	box-sizing: border-box;
-	left: 41px;
-	top: 320px;
-	width: 87%;
+	margin: 24px 0px 0px 0px;
+	width: -webkit-fill-available;
 `
 
 export const Heading2 = styled.div`
@@ -868,11 +866,11 @@ export const Priority2 = styled.div`
 export const Rectangle202 = styled.div`
 	background-color: rgba(193, 35, 53, 1);
 	border-radius: 28px;
-	width: 84px;
+	width: -webkit-fill-available;
 	height: 28px;
 	position: absolute;
 	left: 0px;
-	top: 0px;
+	top: 8px;
 `
 
 export const High = styled.div`
@@ -983,7 +981,7 @@ export const Rectangle172 = styled.div`
 
 export const EventsHeading = styled.div`
 	display: flex;
-	position: absolute;
+	position: relative;
 	isolation: isolate;
 	flex-direction: row;
 	justify-content: flex-start;
@@ -992,8 +990,7 @@ export const EventsHeading = styled.div`
 	box-sizing: border-box;
 	width: -webkit-fill-available;
 	height: 38px;
-	left: 41px;
-	top: 40px;
+	margin: 0px;
 `
 
 export const Task1 = styled.div`
