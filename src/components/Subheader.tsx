@@ -3,10 +3,12 @@ import { StyledStarDiv,StyledEventDiv,StyledTaskDiv,StyledCOPDiv, TitleDiv, Icon
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { fetchTeamMemberInfo } from '../redux/teamMemberInfoSlice'
 import { fetchUpcomingEventsCount } from '../redux/upcomingEventsCountSlice'
+import { fetchPendingTasksCount } from '../redux/pendingTasksCountSlice'
 
 export const Subheader = () => {
 
 	const name = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
+	const email = localStorage.getItem('email')
 
 	type TeamMember = {
 		workdayId: number
@@ -29,6 +31,7 @@ export const Subheader = () => {
   	const dispatch = useAppDispatch()
 	const [teamMemberInfo, setTeamMemberInfo] = useState<TeamMember[]>([])
 	const [upcomingEventsCount, setUpcomingEventsCount] = useState(0)
+	const [pendingTasksCount, setPendingTasksCount] = useState(0)
 
 	useEffect(() => {
 		dispatch(fetchTeamMemberInfo(name)).then((data: any) => {
@@ -45,7 +48,15 @@ export const Subheader = () => {
 		})
 	}, [])
 
-	console.log(events.eventsCount)
+	const tasks = useAppSelector((state) => state.tasksCount)
+
+	useEffect(() => {
+		dispatch(fetchPendingTasksCount(email)).then((data: any) => {
+		  setPendingTasksCount(data.payload)
+		})
+	}, [])
+
+	console.log(pendingTasksCount)
 	
 	return (
 		
@@ -65,7 +76,7 @@ export const Subheader = () => {
 			<StyledTaskDiv>
 				<TitleDiv>Pending Tasks</TitleDiv>
 				<IconDiv><img src={require('../assets/images/PendingTasks.png')} /></IconDiv>
-				<ValueDiv>10</ValueDiv>
+				<ValueDiv>{pendingTasksCount}</ValueDiv>
 			</StyledTaskDiv>
 
 			<StyledCOPDiv>
