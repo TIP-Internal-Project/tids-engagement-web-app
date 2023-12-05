@@ -434,7 +434,7 @@ export const EventPanel2 = (props: any) => {
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate)}</p>
+                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate.slice(0, -1))}</p>
               </div>
             </Col>
 
