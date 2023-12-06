@@ -241,11 +241,13 @@ export const EventPanel2 = (props: any) => {
     const sortedRegisteredEvents = registeredEventsArray
       .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents1(sortedRegisteredEvents as Event[])
+    console.log(sortedEvents1)
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
     const sortedUnregisteredEvents = unregisteredEventsArray
       .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents(sortedUnregisteredEvents as Event[])
+    console.log(sortedEvents)
   }
 
   const handleRefresh = async (email: any) => {
@@ -372,14 +374,6 @@ export const EventPanel2 = (props: any) => {
     sort()
   }, [sortOption, filterOption])
 
-  useEffect(() => { setInterval(() => {
-      const date = new Date()
-      if((date.getMinutes() % 5) === 0){
-          handleRefresh(props.variable)
-      }
-    }, 60000)
-  }, [])
-
   const [modalShow, setModalShow] = useState(false)
   const [disableRegistration, setDisableRegistration] = useState(false)
 
@@ -451,7 +445,7 @@ export const EventPanel2 = (props: any) => {
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate)}</p>
+                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate.slice(0, -1))}</p>
               </div>
             </Col>
 
@@ -618,7 +612,7 @@ export const EventPanel2 = (props: any) => {
   return (
     <Container
       fluid
-      style={{ backgroundColor: '#f5f5f5', width: '100%', padding: '32px' }}
+      style={{ backgroundColor: '#f5f5f5', height: '100vh', width: '100%', padding: '32px' }}
       className='mx-auto'
     >
       <Container

@@ -1,4 +1,4 @@
 {
-    "ROOT" : "http://localhost:3001",
-    "REDIRECT_LINK" : "http://localhost:3000/overview"
+    "ROOT" : "http://35.247.169.232:3000",
+    "REDIRECT_LINK" : "http://qa-engagement-app.com:3000/overview"
 }
