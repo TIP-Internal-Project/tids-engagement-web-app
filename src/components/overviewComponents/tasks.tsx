@@ -10,8 +10,9 @@ import { Task, Row3, Heading1, Date3, Divider, Border, Priority, Rectangle20,
 const TaskPanel = () => {
 	const overviewTasks = useAppSelector((state) => state.overviewTasks)
 	const dispatch = useAppDispatch()
+	const email = localStorage.getItem('email')
 	useEffect(() => {
-		dispatch(fetchTasks())
+		dispatch(fetchTasks(email))
 	}, [])
 	
 	const renderedTasks = Object.values(overviewTasks.tasks).map((task: any, index) => {
