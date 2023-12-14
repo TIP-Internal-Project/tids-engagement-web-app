@@ -18,9 +18,9 @@ const initialState: OverviewTasksState = {
 }
 
 // Generates pending, fulfilled and rejected action types
-export const fetchTasks = createAsyncThunk('getTasks', () => {
+export const fetchTasks = createAsyncThunk('getTasks', async (email: string | null)  => {
 	return axios
-	  .get(API_ROOT + '/overview/getTasks')
+	  .get(API_ROOT + `/overview/getTasks/${email}`)
 	  .then(response => response.data)
 })
 
