@@ -5,6 +5,8 @@ import Col from 'react-bootstrap/Col'
 import Modal from 'react-bootstrap/Modal'
 import Container from 'react-bootstrap/Container'
 import { useAppDispatch, useAppSelector } from '../redux/store'
+import { register } from '../redux/eventRegistrationSlice'
+import { addStarPoints } from '../redux/addStarPointsSlice'
 
 interface FileUploadModalProps {
   show: boolean
@@ -49,17 +51,65 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
 		padding: '11px',
 		borderStyle: 'ridge',
 		marginBottom: '1px'
-		
+
 	}
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         setSelectedFile(file)
     }
-    
-    const handleUpload = () => {
-        // Handle file upload logic here using the selectedFile
-        console.log('Uploading file:', selectedFile)
+
+    const dispatch = useAppDispatch()
+    const handleRegister = async (eventId: any, email: any, employeeName:any, pointsToAdd:any) => {
+        await dispatch(register({ eventId, email }))
+        await dispatch(addStarPoints({ employeeName, pointsToAdd }))
+    }
+
+    const handleUpload = async () => {
+        // check if file exists
+        if (selectedFile){
+            const reader = new FileReader()
+            reader.onload = (e) => {
+            // contains all of the text in the csv file
+            const csvText:any = e.target!.result
+            // splits data into rows, using \n
+            const lines:any[] = csvText.split('\n')
+            // separates data by comma
+            const csvDataLine:any[] = lines.map((line)=>line.split(','))
+            // removes the header (first row of the csv file) and gets the actual data (second row onwards)
+            const sliced = csvDataLine.slice(1)
+
+            sliced.forEach((line:any) => {
+              // splices to only get the starPoints, eventID, email, first name, and last name
+              line.splice(0,2)
+              line.splice(5,1)
+            })
+
+            // loop to get eventId and email for each row in the file
+            let starPoints = 0
+            let eventId = 0
+            let email:any, givenName:any, familyName:any, employeeName:any = ''
+
+            sliced.forEach((line:any, index) => {
+                // Gets the the event id of the first row only
+                if(starPoints == 0 && eventId == 0){
+                    starPoints = parseInt(sliced[index][0])
+                    eventId = sliced[index][1]
+                }
+                // const [starPoints,eventId,email] = sliced[index]
+                email = sliced[index][2]
+                givenName = sliced[index][3]
+                familyName = sliced[index][4]
+                employeeName = givenName + ' ' + familyName
+                // for each row, insert data into database and add star points
+                handleRegister(eventId,email,employeeName,starPoints)
+            })
+        }
+            reader.readAsText(selectedFile)
+            // Shows a pop up upon success and hides Upload modal
+            onHide()
+            alert('Successfully uploaded file')
+        }
      }
 
 	return (
@@ -69,13 +119,13 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
 		>
-			
+
 			<Modal.Header closeButton style={modalStyle}>
 				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>File Upload
 				</Modal.Title>
-				
+
 			</Modal.Header>
-				
+
 			<hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
 
 			<Modal.Body className="ModalBody">
