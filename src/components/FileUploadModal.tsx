@@ -65,6 +65,11 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
         await dispatch(addStarPoints({ employeeName, pointsToAdd }))
     }
 
+    const handleCancel = () => {
+        onHide()
+        setSelectedFile(undefined)
+    }
+
     const handleUpload = async () => {
         // check if file exists
         if (selectedFile){
@@ -109,6 +114,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
             // Shows a pop up upon success and hides Upload modal
             onHide()
             alert('Successfully uploaded file')
+            setSelectedFile(undefined)
         }
      }
 
@@ -116,11 +122,12 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
 		<Modal
 			show={show}
 			onHide={onHide}
+			backdrop='static'
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
 		>
 
-			<Modal.Header closeButton style={modalStyle}>
+			<Modal.Header closeButton style={modalStyle} onClick={handleCancel}>
 				<Modal.Title id="contained-modal-title-vcenter" style={ModalTitleDiv}>File Upload
 				</Modal.Title>
 
@@ -141,7 +148,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
 
                 <Row className="justify-content-end" style={{ marginTop: '30px' }}>
                     <Col xs={3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'end', color: '#2B8000', marginRight: '2%' }}>
-                    <Button variant="primary" className="px-4" onClick={onHide} style={{ backgroundColor: '#c12335', borderColor: '#c12335' }} >
+                    <Button variant="primary" className="px-4" onClick={handleCancel} style={{ backgroundColor: '#c12335', borderColor: '#c12335' }} >
                         Cancel
                     </Button>
                     </Col>
@@ -151,7 +158,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
                         className="px-4"
                         onClick={handleUpload}
                         style={{ backgroundColor: 'rgb(43, 128, 0)', borderColor: 'rgb(43, 128, 0)' }}
-                        disabled={!selectedFile}
+                        disabled={!selectedFile || undefined}
                     >
                         Upload
                     </Button>
