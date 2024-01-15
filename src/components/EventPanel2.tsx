@@ -420,7 +420,14 @@ export const EventPanel2 = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            <Col xs={4} style={IndItemTitleDisplay}>
+            {isAdmin && (
+            <Col xs={1} style={IndItemTitleDisplay}>
+              <p className='mb-0'>
+                {event.eventId}
+              </p>
+            </Col>)}
+
+            <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
               <p
                 onClick={() => handleOpenModal(event, false)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -521,7 +528,14 @@ export const EventPanel2 = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            <Col xs={4} style={IndItemTitleDisplay}>
+            {isAdmin && (
+            <Col xs={1} style={IndItemTitleDisplay}>
+              <p className='mb-0'>
+                {event.eventId}
+              </p>
+            </Col>)}
+
+            <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
               <p
                 onClick={() => handleOpenModal(event, true)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -781,7 +795,12 @@ export const EventPanel2 = (props: any) => {
 
         {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
           <Row style={TitleBar} className='px-5'>
-            <Col xs={4} style={{ fontSize: '14px' }}>
+            {isAdmin && (
+              <Col xs={1} style={{ fontSize: '14px' }}>
+              Event ID
+            </Col>
+            )}
+            <Col xs={isAdmin? 3 : 4} style={{ fontSize: '14px' }}>
               Title
             </Col>
             <Col xs={isAdmin? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
