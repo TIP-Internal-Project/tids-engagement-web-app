@@ -855,7 +855,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     <Form.Check
       type="switch"
       id="custom-switch"
-      label="Registration"
+      label="Open Registration"
       checked={toggleStatus}
       onChange={() => setToggleStatus(!toggleStatus)}
       defaultValue={event?.status || ''}

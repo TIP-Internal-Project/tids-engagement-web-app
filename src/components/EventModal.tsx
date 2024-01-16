@@ -196,7 +196,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
 						
 {data.status !== 'Inactive' && (
-  <a href="https://calendar.google.com/">
+  <a href="#">
     <div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
       {isQrCodeExpanded ? (
         <div>

@@ -4,6 +4,9 @@ import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { loaderOn } from './redux/pageStatusSlice'
 import { extractSessionDetails } from './helpers/session'
 import OIDCResponse from './interfaces/OIDCResponse'
+import { getUserSession } from './redux/userSessionSlice'
+import { setUserRole } from './components/Roles/Roles'
+import Login from './Login'
 
 export default function Auth() {
   const dispatch = useAppDispatch()
@@ -16,8 +19,21 @@ export default function Auth() {
   if (hash && hash.indexOf('#id_token=') === 0) {
     const response = parse(hash) as object
     extractSessionDetails(response as OIDCResponse)
+    storeUser()
     redirectPath = '/overview'
   }
 
   return <Navigate to={redirectPath} />
 }
+
+export function storeUser() {
+  setUserRole()
+  const userSession = useAppSelector(getUserSession)
+  localStorage.setItem('email', userSession.email)
+  localStorage.setItem('familyName', userSession.familyName)
+  localStorage.setItem('givenName', userSession.givenName)
+}
+
+window.addEventListener('storage', () => {
+  Login()
+})
