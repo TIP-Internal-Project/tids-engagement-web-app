@@ -135,6 +135,17 @@ td.date-cells {
       
      }
 
+     .selected-date div{
+        background-color: #FFFFFF;
+        color: #4b286d;
+        border-radius: 50%;
+        border: 1px solid #4b286d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+     }
+
      .eventsReportHeader {
 
         display: grid;
