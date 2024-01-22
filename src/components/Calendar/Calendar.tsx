@@ -41,23 +41,23 @@ export const events: Event[] = [
 		title: 'Join the Kape and Kame hybrid activity',
 		attendees: 40,
 		registered: 300,
-		didNotAttend: 200,
+		didNotAttend: 260,
 		totalInvites: 400,
-		date: 'June 5, 2023',
+		date: 'January 10, 2024',
 	},
 	{
 		id: 2,
 		title: 'What is Data Scientist by Raymond Zano1',
-		attendees: 100,
+		attendees: 200,
 		registered: 600,
-		didNotAttend: 200,
-		totalInvites: 421,
-		date: 'June 5, 2023',
+		didNotAttend: 400,
+		totalInvites: 621,
+		date: 'January 10, 2024',
 	},
 	{
 		id: 3,
 		title: 'TELUS Wellness Webinar | Boost Your Wellbeing',
-		attendees: 50,
+		attendees: 100,
 		registered: 300,
 		didNotAttend: 200,
 		totalInvites: 311,
@@ -156,6 +156,20 @@ const options = {
 	}
 }
 
+const defaultOptions = {
+	responsive: true,
+	aspectRatio: 1,
+	plugins: {
+		legend: {
+			display: false, // Set this to false to remove the legend
+		},
+		tooltip: {
+			enabled: false,
+		}
+	}
+}
+
+
 const total = dummyData.datasets[0].data[0] + dummyData.datasets[0].data[1] + dummyData.datasets[0].data[2]
 const attendees = dummyData.datasets[0].data[0] / total * 100
 const nonAttend = dummyData.datasets[0].data[1] / total * 100
@@ -203,7 +217,7 @@ const Calendar = () => {
 				(eventItem) => eventItem.date === event.date
 		  )
 		  return (
-				<Popover id={`popover-${event.id}`}>
+			<Popover id={`popover-${event.id}`}>
 			  <Popover.Header as="h3">{event.date}</Popover.Header>
 			  <Popover.Body>
 						{eventsWithSameDay.map((eventItem) => (
@@ -212,24 +226,75 @@ const Calendar = () => {
 				  </div>
 						))}
 			  </Popover.Body>
-				</Popover>
+			</Popover>
 		  )
 		} else {
-		  return <Popover id={'popover-empty'} />
+		  // Render content for an empty popover
+		  return (
+			<Popover id={'popover-empty'}>
+			  <Popover.Header as="h3">No Events</Popover.Header>
+			  <Popover.Body>No events for this date.</Popover.Body>
+			</Popover>
+		  )
 		}
 	  }
 
+	const [eventsday, setEvents] = useState<Event[]>([])
 	const [clickedDate, setClickedDate] = useState<string | null>(null)
+	const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+	const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
+	const [selectedEvent, setSelectedEvent] = useState<string | number | undefined>(undefined)
 
-	const handleClickDate = (date: Date) => {
+	const handleClickDate = (date: Date, event: Event | undefined) => {
+	    setSelectedEvent(undefined)
+		setEvents([])
 		const formattedDate = date.toLocaleDateString()
 		setClickedDate(formattedDate)
+
+		// Set the events for the selected date
+		const eventsForSelectedDate = events.filter((eventItem) => {
+			const eventDate = new Date(eventItem.date)
+			return (
+			eventDate.getDate() === date.getDate() &&
+			eventDate.getMonth() === date.getMonth() &&
+			eventDate.getFullYear() === date.getFullYear()
+			)
+		})
+
+		// Check if the clicked date is the currently selected date
+		if (selectedDate && date.getTime() === selectedDate.getTime()) {
+			// Reset the background color if it's the same date
+			setClickedDate(null)
+			setSelectedDate(null)
+		  } else {
+			// Change the background color for the clicked date
+			setSelectedDate(date)
+
+			// Set the events for the selected date
+			setEvents(eventsForSelectedDate)
+		  }
+
 	}
+
+	const defaultDataset = {
+		data: [100, 100, 100],
+		backgroundColor: ['#f0f0f0', '#f0f0f0', '#f0f0f0'],
+	}
+
+	const handleHoverDate = (date: Date | null) => {
+		setHoveredDate(date)
+	}
+
+	const handleDropdownChange = (event: any | null) => {
+		// Update the selected event when dropdown changes
+		setSelectedEvent(event.target.value)
+	}
+	
 
 	const eventForClickedDate = events.find((eventItem) => {
 		const eventDate = new Date(eventItem.date)
 		return (
-			eventDate.getDate() === currentDate.getDate() &&
+	  eventDate.getDate() === currentDate.getDate() &&
       eventDate.getMonth() === currentDate.getMonth() &&
       eventDate.getFullYear() === currentDate.getFullYear()
 		)
@@ -286,9 +351,9 @@ const Calendar = () => {
 												const isCurrentDate =
                       date &&
                       date.getDate() === new Date().getDate() &&
-                      date.getMonth() === currentMonth &&
-                      date.getFullYear() === currentYear
-
+                      date.getMonth() === new Date().getMonth() &&
+                      date.getFullYear() === new Date().getFullYear()
+					  
 												const eventForDate = events.find((eventItem) => {
 													const eventDate = new Date(eventItem.date)
 													return (
@@ -298,25 +363,34 @@ const Calendar = () => {
 													)
 												})
 
-												return (
-													<td
-														className={`date-cells ${eventForDate ? 'date-with-events' : ''}`}
-														key={dateIndex}
-														onClick={() => handleClickDate(date as Date)}
-													><p>
+												const isSelectedDate =
+													selectedDate &&
+													date &&
+													date.getTime() === selectedDate.getTime()
+
+													return (
+														<td
+														  className={`date-cells ${eventForDate ? 'date-with-events' : ''} ${isSelectedDate ? 'selected-date' : ''}`}
+														  key={dateIndex}
+														  onClick={() => handleClickDate(date as Date, eventForDate)}
+														  onMouseOver={() => handleHoverDate(date as Date)}
+														  onMouseLeave={() => handleHoverDate(null)}
+														>
+														  <p>
 															{date && (
-																<OverlayTrigger
-																	trigger="focus"
-																	placement="top"
-																	overlay={renderPopoverContent(eventForDate)}
-																>
-																	<div className={isCurrentDate ? 'current-date' : ''}>
-																		{date.getDate()}
-																	</div>
-																</OverlayTrigger>
-															)}</p>
-													</td>
-												)
+															  <OverlayTrigger
+																trigger={['hover', 'focus']}
+																placement="top"
+																overlay={renderPopoverContent(eventForDate)}
+															  >
+																<div className={`${isCurrentDate ? 'current-date' : ''}`}>
+																  {date.getDate()}
+																</div>
+															  </OverlayTrigger>
+															)}
+														  </p>
+														</td>
+													  )
 											})}
 										</tr>
 									))}
@@ -331,12 +405,55 @@ const Calendar = () => {
 				{/* Events Attendance */}
 				<Col xs={7} >
 					<div className='EventsAttendanceCol'>
-						<Container fluid style={{maxWidth:'656px', maxHeight: '412px', borderRadius: '20px'}} className='px-5 py-5'>
+						{/* Dropdown to select events for the day */}
+						{eventsday.length > 0 ? 
+							<div className="mt-3 px-5">
+								<label htmlFor="eventDropdown" style={{ marginRight: '10px' }}>
+								Select Event:
+								</label>
+								<select
+								id="eventDropdown"
+								onChange={handleDropdownChange}
+								value={selectedEvent}
+								>
+								<option value={''}>Select an event</option>
+								{/* Map through eventsday to populate dropdown options */}
+								
+								{eventsday.map((event) => (
+									<option key={event.id} value={event.title}>
+									{event.title}
+									</option>
+								))}
+								</select>
+							</div>
+							: <div className="mt-3 px-5"><label htmlFor="eventDropdown" style={{ marginRight: '10px' }}></label></div>
+						}
+						<Container fluid style={{maxWidth:'710px', maxHeight: '412px', borderRadius: '20px'}} className='px-5 py-3'>
 							<Row >
 								<Col xs={6} >
 									<p style={{fontFamily:'Mulish', fontSize:'20px'}}>Overall Events Attendance</p>
 									<div style={{height: '200px', width:'200px'}}>
-										<Pie data={dummyData} options={options}></Pie>
+										{eventsday.length > 0 ? (
+											<Pie
+												data={{
+													labels: ['Attendees', 'Didn\'t Attend', 'No Response'],
+													datasets: [ selectedEvent ?
+													{
+														data: [
+														Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees) : 0), 0)),
+														Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend) : 0), 0)),
+														Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.totalInvites - e.registered)) : 0), 0)),
+														],
+														backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB'],
+													} : defaultDataset,
+													],
+												}}
+												options={ selectedEvent ? options : defaultOptions}
+											/>
+										) : (
+											<Pie data={{ labels: [], datasets: [defaultDataset] }} options={defaultOptions} />
+										)}
+										
 									</div>
                     
 								</Col>
@@ -349,15 +466,15 @@ const Calendar = () => {
 									<Container fluid className='mt-5 px-1 py-2' >
 										<Row className='pt-4' style={{alignItems:'center'}}>
 											<div style={legendCircle1}></div>
-											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Attendees <span style={{color:'lightgrey'}}>_____________</span>  {attendees}%</p>
+											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Attendees <span style={{color:'lightgrey'}}>_____________</span>  {Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees/e.totalInvites)*100 : 0), 0))}%</p>
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle2}></div>
-											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{nonAttend}% </p>
+											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend/e.totalInvites)*100 : 0), 0))}% </p>
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle3}></div>
-											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>No Response <span style={{color:'lightgrey'}}>___________</span>{nonResponse}% </p>
+											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>No Response <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.totalInvites - e.registered)/e.totalInvites)*100 : 0), 0))}% </p>
 										</Row>
 
 										<Row className='mt-5' style={{alignItems:'center', paddingLeft:'10%'}}>
@@ -473,6 +590,8 @@ const Calendar = () => {
 		  </Row>
 		</div>
 	)
+	
 }
+
 
 export default Calendar
