@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { register } from '../redux/eventRegistrationSlice'
 import { addStarPoints } from '../redux/addStarPointsSlice'
+import { checkDuplicates } from '../redux/checkDuplicatesSlice'
 
 interface FileUploadModalProps {
   show: boolean
@@ -61,8 +62,11 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
 
     const dispatch = useAppDispatch()
     const handleRegister = async (eventId: any, email: any, employeeName:any, pointsToAdd:any) => {
-        await dispatch(register({ eventId, email }))
-        await dispatch(addStarPoints({ employeeName, pointsToAdd }))
+        const isDuplicate = await dispatch(checkDuplicates({ email, eventId })).unwrap()
+        if(!isDuplicate){
+            await dispatch(register({ eventId, email }))
+            await dispatch(addStarPoints({ employeeName, pointsToAdd }))
+        }
     }
 
     const handleCancel = () => {

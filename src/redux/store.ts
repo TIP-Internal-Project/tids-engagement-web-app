@@ -25,6 +25,7 @@ import eventsCountReducer from './upcomingEventsCountSlice'
 import deleteTaskReducer from './deleteTaskSlice'
 import overviewTasksReducer from './overviewTasksSlice'
 import tasksCountReducer from './pendingTasksCountSlice'
+import checkDuplicatesReducer from './checkDuplicatesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -48,6 +49,7 @@ export const store = configureStore({
     incompleteTasks: incompleteTasksReducer,
     teamMemberInfo: teamMemberInfoReducer,
     addStarPoints: addStartPointsReducer,
+    checkDuplicates: checkDuplicatesReducer,
     eventsCount: eventsCountReducer,
     deleteTask: deleteTaskReducer,
     overviewTasks: overviewTasksReducer,
