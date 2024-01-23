@@ -49,10 +49,10 @@ export const store = configureStore({
     incompleteTasks: incompleteTasksReducer,
     teamMemberInfo: teamMemberInfoReducer,
     addStarPoints: addStartPointsReducer,
-    checkDuplicates: checkDuplicatesReducer,
     eventsCount: eventsCountReducer,
     deleteTask: deleteTaskReducer,
     overviewTasks: overviewTasksReducer,
+    checkDuplicates: checkDuplicatesReducer,
     tasksCount: tasksCountReducer
   },
   middleware: (getDefaultMiddleware) =>
