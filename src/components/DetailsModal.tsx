@@ -471,6 +471,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
   // }
 
   const generateQr = () => {
+    console.log('generateQr function called')
     if (formData.regLink === '') {
       return
     }
@@ -503,6 +504,11 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const ModalStatus = {
     marginTop: '6px',
     paddingLeft: '11px',
+  }
+
+  if (action == 'edit'){
+    console.log(event.startDate)
+    console.log(formData.endDate)
   }
 
   return (
@@ -640,13 +646,13 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                     <Form.Control
                       required
                       type='datetime-local'
-                      defaultValue={action == 'edit' ? formatDate(event.startDate) : ''}
-                      max={action == 'edit' ? formatDate(event.endDate) : formData.endDate}
-                      min={currentDateTime}
-                      name='startDate'
-                      style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                      onChange={handleFormChange}
-                    />
+                defaultValue={action === 'edit' ? event.startDate.slice(0, -1) : ''}
+                max={action === 'edit' ? formatDate(event.endDate) : formData.endDate}
+                min={currentDateTime}
+                name='startDate'
+                style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                onChange={handleFormChange}
+                                  />
                   </div>
                   {startDateTimeError && <div className="text-danger">{startDateTimeError}</div>}
                 </Form.Group>
@@ -656,14 +662,14 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   <Form.Label>End Date & Time<span style={{color: 'red'}}>*</span></Form.Label>
                   <div className='d-flex align-items-center'>
                     <Form.Control
-                      required
-                      type='datetime-local'
-                      defaultValue={action == 'edit' ? formatDate(event.endDate) : ''}
-                      name='endDate'
-                      max='9999-12-31 23:59'
-                      min={action == 'edit' ? formatDate(event.startDate) : new Date().toISOString().slice(0, 16)}
-                      style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                      onChange={handleFormChange}
+                       required
+                       type='datetime-local'
+                       defaultValue={action === 'edit' ? event.endDate.slice(0, -1) : ''}
+                       name='endDate'
+                       max='9999-12-31T23:59'
+                       min={action === 'edit' ? event.startDate.slice(0, -1) : new Date().toISOString().slice(0, 16)}
+                       style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                       onChange={handleFormChange}
                     />
                   </div>
                   {endDateTimeError && <div className="text-danger">{endDateTimeError}</div>}
@@ -817,7 +823,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
           </Row>
 
           <Row>
-            <Col xs={6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
+            <Col xs={event?.status === 'Active' ? 4 : 6} className='px-5' style={{ color: '#9FA2B4' }}></Col>
 
             <Col
               xs={2}
@@ -883,12 +889,12 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
               )}
             </Col>
 
-            {/* {event?.status === 'Active' ?(
+            {event?.status === 'Active' ?(
             <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Button variant='success' className='px-3' onClick={handleEventComplete} style={{width: '-webkit-fill-available', borderColor: '#2B8000', backgroundColor: '#2B8000', fontSize: '11px'}}>
                 Complete Event
               </Button>
-            </Col>) : null} */}
+            </Col>) : null}
           </Row>
         </Container>
       </Modal.Body>

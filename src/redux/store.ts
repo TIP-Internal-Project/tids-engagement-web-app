@@ -24,6 +24,8 @@ import addStartPointsReducer from './addStarPointsSlice'
 import eventsCountReducer from './upcomingEventsCountSlice'
 import deleteTaskReducer from './deleteTaskSlice'
 import checkDuplicatesReducer from './checkDuplicatesSlice'
+import overviewTasksReducer from './overviewTasksSlice'
+import tasksCountReducer from './pendingTasksCountSlice'
 
 export const store = configureStore({
   reducer: {
@@ -50,6 +52,8 @@ export const store = configureStore({
     checkDuplicates: checkDuplicatesReducer,
     eventsCount: eventsCountReducer,
     deleteTask: deleteTaskReducer,
+    overviewTasks: overviewTasksReducer,
+    tasksCount: tasksCountReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

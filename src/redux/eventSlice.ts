@@ -72,7 +72,7 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   }
 
   const newEventDate = new Date()
-  const utcOffset = 8 * 60
+  const utcOffset = -8 * 60
   const localTime = new Date(newEventDate.getTime() + (utcOffset * 60000))
   
   const year = localTime.getFullYear()

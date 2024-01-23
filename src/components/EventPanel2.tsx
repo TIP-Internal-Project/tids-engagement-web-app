@@ -241,11 +241,13 @@ export const EventPanel2 = (props: any) => {
     const sortedRegisteredEvents = registeredEventsArray
       .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents1(sortedRegisteredEvents as Event[])
+    console.log(sortedEvents1)
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
     const sortedUnregisteredEvents = unregisteredEventsArray
       .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents(sortedUnregisteredEvents as Event[])
+    console.log(sortedEvents)
   }
 
   const handleRefresh = async (email: any) => {
@@ -372,14 +374,6 @@ export const EventPanel2 = (props: any) => {
     sort()
   }, [sortOption, filterOption])
 
-  useEffect(() => { setInterval(() => {
-      const date = new Date()
-      if((date.getMinutes() % 5) === 0){
-          handleRefresh(props.variable)
-      }
-    }, 60000)
-  }, [])
-
   const [modalShow, setModalShow] = useState(false)
   const [disableRegistration, setDisableRegistration] = useState(false)
 
@@ -426,7 +420,14 @@ export const EventPanel2 = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            <Col xs={4} style={IndItemTitleDisplay}>
+            {isAdmin && (
+            <Col xs={1} style={IndItemTitleDisplay}>
+              <p className='mb-0'>
+                {event.eventId}
+              </p>
+            </Col>)}
+
+            <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
               <p
                 onClick={() => handleOpenModal(event, false)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -451,7 +452,7 @@ export const EventPanel2 = (props: any) => {
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate)}</p>
+                <p style={IndItemDueTimeDisplay}>{setTimeFormat(event.startDate.slice(0, -1))}</p>
               </div>
             </Col>
 
@@ -527,7 +528,14 @@ export const EventPanel2 = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            <Col xs={4} style={IndItemTitleDisplay}>
+            {isAdmin && (
+            <Col xs={1} style={IndItemTitleDisplay}>
+              <p className='mb-0'>
+                {event.eventId}
+              </p>
+            </Col>)}
+
+            <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
               <p
                 onClick={() => handleOpenModal(event, true)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -618,7 +626,7 @@ export const EventPanel2 = (props: any) => {
   return (
     <Container
       fluid
-      style={{ backgroundColor: '#f5f5f5', width: '100%', padding: '32px' }}
+      style={{ backgroundColor: '#f5f5f5', height: '100vh', width: '100%', padding: '32px' }}
       className='mx-auto'
     >
       <Container
@@ -721,6 +729,7 @@ export const EventPanel2 = (props: any) => {
               />
               Refresh
             </Nav.Link>
+            {isAdmin && (
             <Nav.Link
               className='mx-3'
               style={{ fontSize: '14px' }}
@@ -731,7 +740,7 @@ export const EventPanel2 = (props: any) => {
                 src={require('../assets/images/upload.png')}
               />
               Upload
-            </Nav.Link>
+            </Nav.Link>)}
           </div>
         </div>
         <Row style={TitleBar} className='px-5'>
@@ -786,7 +795,12 @@ export const EventPanel2 = (props: any) => {
 
         {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
           <Row style={TitleBar} className='px-5'>
-            <Col xs={4} style={{ fontSize: '14px' }}>
+            {isAdmin && (
+              <Col xs={1} style={{ fontSize: '14px' }}>
+              Event ID
+            </Col>
+            )}
+            <Col xs={isAdmin? 3 : 4} style={{ fontSize: '14px' }}>
               Title
             </Col>
             <Col xs={isAdmin? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
