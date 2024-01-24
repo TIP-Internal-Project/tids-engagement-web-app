@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { register } from '../redux/eventRegistrationSlice'
 import { addStarPoints } from '../redux/addStarPointsSlice'
+import { fetchGeolocation } from '../redux/geolocationSlice'
 import { checkDuplicates } from '../redux/checkDuplicatesSlice'
 
 interface FileUploadModalProps {
@@ -64,7 +65,9 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
     const handleRegister = async (eventId: any, email: any, employeeName:any, pointsToAdd:any) => {
         const isDuplicate = await dispatch(checkDuplicates({ email, eventId })).unwrap()
         if(!isDuplicate){
-            await dispatch(register({ eventId, email }))
+            const location = await dispatch(fetchGeolocation())
+            const address = location.payload
+            await dispatch(register({ eventId, email, address }))
             await dispatch(addStarPoints({ employeeName, pointsToAdd }))
         }
     }

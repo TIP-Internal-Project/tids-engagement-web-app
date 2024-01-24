@@ -16,6 +16,7 @@ import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 import { register } from '../redux/eventRegistrationSlice'
 import { addStarPoints } from '../redux/addStarPointsSlice'
 import Form from 'react-bootstrap/Form'
+import { fetchGeolocation } from '../redux/geolocationSlice'
 
 export const EventPanel2 = (props: any) => {
   const dispatch = useAppDispatch()
@@ -233,7 +234,10 @@ export const EventPanel2 = (props: any) => {
     setSortedEvents1([])
     setSortOption('asc')
     setFilterOption(['ALL'])
-    await dispatch(register({ eventId, email }))
+    const location = await dispatch(fetchGeolocation())
+    console.log(location.payload)
+    const address = location.payload
+    await dispatch(register({ eventId, email, address }))
     const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
     await dispatch(addStarPoints({ employeeName, pointsToAdd }))
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
@@ -247,7 +251,8 @@ export const EventPanel2 = (props: any) => {
     const sortedUnregisteredEvents = unregisteredEventsArray
       .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
     setSortedEvents(sortedUnregisteredEvents as Event[])
-    console.log(sortedEvents)
+    console.log(sortedEvents) 
+
   }
 
   const handleRefresh = async (email: any) => {

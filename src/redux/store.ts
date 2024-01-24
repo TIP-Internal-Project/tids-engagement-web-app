@@ -25,6 +25,7 @@ import eventsCountReducer from './upcomingEventsCountSlice'
 import deleteTaskReducer from './deleteTaskSlice'
 import overviewTasksReducer from './overviewTasksSlice'
 import tasksCountReducer from './pendingTasksCountSlice'
+import geolocationReducer from './geolocationSlice'
 import checkDuplicatesReducer from './checkDuplicatesSlice'
 
 export const store = configureStore({
@@ -53,7 +54,8 @@ export const store = configureStore({
     deleteTask: deleteTaskReducer,
     overviewTasks: overviewTasksReducer,
     checkDuplicates: checkDuplicatesReducer,
-    tasksCount: tasksCountReducer
+    tasksCount: tasksCountReducer,
+    geolocation: geolocationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
