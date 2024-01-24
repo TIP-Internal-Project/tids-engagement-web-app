@@ -26,6 +26,7 @@ import deleteTaskReducer from './deleteTaskSlice'
 import overviewTasksReducer from './overviewTasksSlice'
 import tasksCountReducer from './pendingTasksCountSlice'
 import geolocationReducer from './geolocationSlice'
+import checkDuplicatesReducer from './checkDuplicatesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -52,6 +53,7 @@ export const store = configureStore({
     eventsCount: eventsCountReducer,
     deleteTask: deleteTaskReducer,
     overviewTasks: overviewTasksReducer,
+    checkDuplicates: checkDuplicatesReducer,
     tasksCount: tasksCountReducer,
     geolocation: geolocationReducer,
   },
