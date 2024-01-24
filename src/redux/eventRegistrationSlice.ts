@@ -9,6 +9,7 @@ export interface EventRegistrationState {
   loading: boolean;
   eventId: string;
   email: string;
+  address: string;
   error: string;
 }
 
@@ -16,17 +17,19 @@ const initialState: EventRegistrationState = {
   loading: false,
   eventId: '',
   email: '',
+  address: '',
   error: '',
 }
 
 interface RegisterPayload {
 	eventId: string;
 	email: string;
+  address: string;
 }
 
 export const register = createAsyncThunk('register', async (payload: RegisterPayload) => {
-	const { eventId, email } = payload
-	const response = await axios.post(API_ROOT + '/events/register', { eventId, email })
+	const { eventId, email, address } = payload
+	const response = await axios.post(API_ROOT + '/events/register', { eventId, email, address })
 	return response.data
 })
 
@@ -38,6 +41,7 @@ export const eventRegistrationSlice = createSlice({
 		state.loading = false
      	state.eventId = action.payload.eventId
       	state.email = action.payload.email
+        state.address = action.payload.address
     },
   },
   extraReducers: (builder) => {
@@ -50,6 +54,7 @@ export const eventRegistrationSlice = createSlice({
         state.loading = false
         state.eventId = action.payload.eventId
         state.email = action.payload.email
+        state.address = action.payload.location
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false

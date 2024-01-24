@@ -25,6 +25,7 @@ import eventsCountReducer from './upcomingEventsCountSlice'
 import deleteTaskReducer from './deleteTaskSlice'
 import overviewTasksReducer from './overviewTasksSlice'
 import tasksCountReducer from './pendingTasksCountSlice'
+import geolocationReducer from './geolocationSlice'
 
 export const store = configureStore({
   reducer: {
@@ -51,7 +52,8 @@ export const store = configureStore({
     eventsCount: eventsCountReducer,
     deleteTask: deleteTaskReducer,
     overviewTasks: overviewTasksReducer,
-    tasksCount: tasksCountReducer
+    tasksCount: tasksCountReducer,
+    geolocation: geolocationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
