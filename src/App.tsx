@@ -8,6 +8,8 @@ import Tasks from './pages/Tasks'
 import { EventAttendance } from './components/EventAttendance'
 import { setUserRole } from './components/Roles/Roles'
 import GoogleLogin, { Redirect } from './GoogleLogin'
+import Reports from './pages/Reports/index'
+
 
 function App() {
   setUserRole()
@@ -25,6 +27,7 @@ function App() {
           <Route path='/' element={<Overview />} />
           <Route path='overview' element={<Overview />} />
           <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />
+          <Route path='reports' element={<Reports variable={localStorage.getItem('email')} />} />
           <Route
             path='profile'
             element={<ProfileSettingsPage variable={localStorage.getItem('email')} />}
