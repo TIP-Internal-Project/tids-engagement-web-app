@@ -9,6 +9,7 @@ import { addStarPoints } from '../redux/addStarPointsSlice'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { fetchGeolocation } from '../redux/geolocationSlice'
 
 
 
@@ -48,7 +49,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 	
 
 	const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
-		await dispatch(register({ eventId, email }))
+		const location = await dispatch(fetchGeolocation())
+	    const address = location.payload
+		await dispatch(register({ eventId, email, address }))
 		const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
     	await dispatch(addStarPoints({ employeeName, pointsToAdd }))
 		const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
