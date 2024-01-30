@@ -1,83 +1,69 @@
-import React, { useEffect, useState  } from 'react'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { fetchEvents } from '../../redux/eventSlice'
-import { Event } from '../../interfaces/adminFeatureApi/Event'
-import '../../App.css'
-import { useSelector } from 'react-redux'
-import Container from 'react-bootstrap/Container'
+import { HeaderRight } from '../../components/HeaderRight'
+import { Sidebar } from '../../components/Sidebar'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { Sidebar } from '../../components/Sidebar'
-import { StyledStarDiv,StyledEventDiv,StyledTaskDiv,StyledCOPDiv, TitleDiv, IconDiv, ValueDiv } from '../../components/Div/Div.styles'
-import EventsPanel from '../../components/overviewComponents/events'
-import { HeaderRight } from '../../components/HeaderRight'
+import '../../App.css'
+import './styles.css'
+import React, { useState } from 'react'
 import HeaderLeft from '../../components/HeaderLeft'
-import { EventPanel } from '../../components/EventPanel'
-import { Subheader } from '../../components/Subheader'
-import { TaskPanel } from '../../components/TaskPanel'
-import ListGroup from 'react-bootstrap/ListGroup'
+import { ReportPanel } from '../../components/ReportPanel'
 import { ReportsTable } from '../../components/ReportsTable'
 
-
-export default function ReportsPage() {
-
-
-
-    const dispatch = useAppDispatch()
-    const { events } = useAppSelector((state) => state.events)
-    const userSession = useAppSelector((state) => state.userSession)
-
-
-
-    const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
-
-
-    const header = {
-        height: '81px',
-        // border:'1px solid red'
-      }
-    
-      const header2 = {
-        height: 'auto',
-        // border:'1px solid red'
-      }
-    
-      const footerComponent = {
-        height: '210px',
-        // border:'1px solid red'
-      }
-    
-      useEffect(() => {
-        dispatch(fetchEvents())
-      }, [dispatch])
-
-    return (
-        <div>
-          <Sidebar />
-          <div className='overviewDiv1'>
-            <Row>
-              <Col className='admin' style={header}>
-                <HeaderLeft pageTitle='Reports' />
-              </Col>
-    
-              <Col className='admin' style={header}>
-                <HeaderRight />
-              </Col>
-            </Row>
-    
-            
-            <Col> <ReportsTable/></Col>
-    
-           
-    
-            <Row>
-              <Col style={footerComponent}></Col>
-            </Row>
-          </div>
-        </div>
-      )
-
-
-
+const header = {
+	height: '81px',
+	// border:'1px solid red'
 }
+
+
+const Events = (props: any) => {
+
+	const { variable } = props
+
+	const [visible, setVisible] = useState(false) 
+  
+	const toggleVisible = () => { 
+		const scrolled = document.documentElement.scrollTop
+		if (scrolled > 100){ 
+			setVisible(true) 
+		}  
+		else if (scrolled <= 100){ 
+			setVisible(false) 
+		} 
+	}
+	
+	const scrollToTop = () =>{ 
+		window.scrollTo({ 
+		top: 0,  
+		behavior: 'smooth'
+		})
+	}
+	
+	window.addEventListener('scroll', toggleVisible)
+
+	return (
+		<div>
+			
+			<Sidebar />
+			{/* <div>
+				<img src={require('../../assets/images/white circle.png')} className='circle-for-back-option'/>
+				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
+			</div> */}
+			
+			<div className='div1'>
+				<Row>
+					<Col style={header}>
+						<HeaderLeft pageTitle="Reports" />
+					</Col>
+					<Col style={header}> 
+						<HeaderRight />
+					</Col>
+				</Row>
+
+				<ReportPanel variable={variable}/>
+				
+			</div>
+		</div>
+	)
+}
+
+export default Events

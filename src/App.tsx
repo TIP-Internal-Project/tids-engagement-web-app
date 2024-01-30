@@ -10,6 +10,8 @@ import { EventAttendance } from './components/EventAttendance'
 import { setUserRole } from './components/Roles/Roles'
 import GoogleLogin, { Redirect } from './GoogleLogin'
 
+
+
 function App() {
   setUserRole()
   const today = new Date().toLocaleDateString()
@@ -26,6 +28,7 @@ function App() {
           <Route path='/' element={<Overview />} />
           <Route path='overview' element={<Overview />} />
           <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />
+          <Route path='reports' element={<Reports variable={localStorage.getItem('email')} />} />
           <Route
             path='profile'
             element={<ProfileSettingsPage variable={localStorage.getItem('email')} />}
