@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Form from 'react-bootstrap/Form'
 import { Pie } from 'react-chartjs-2'
+import { Chart, Plugin } from 'chart.js'
 
 export const ReportPanel = (props: any) => {
   const dispatch = useAppDispatch()
@@ -32,14 +33,46 @@ export const ReportPanel = (props: any) => {
     ]
 }
 
+const renderDataLabels: Plugin<'pie'> = {
+  id: 'renderDataLabels',
+  afterDraw: (chart : any) => {
+    const { ctx, chartArea } = chart
+    const datasets = chart.data.datasets
+
+    ctx.save()
+
+    datasets.forEach((dataset: any) => {
+      const meta = chart.getDatasetMeta(0)
+      const total = meta.total
+
+      meta.data.forEach((element: any, index: number) => {
+        const data = dataset.data[index] + '%'
+
+        ctx.fillStyle = '#000000'
+        ctx.font = '14px Arial'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+
+        const position = element.tooltipPosition()
+        const x = position.x + (chartArea.left - position.x) * 0.0001
+        const y = position.y + (chartArea.top - position.y) * 0.0001
+
+        ctx.fillText(data, x, y)
+      })
+    })
+
+    ctx.restore()
+  },
+}
+
 const options = {
-	responsive: true,
-	aspectRatio: 1,
-	plugins: {
-		legend: {
-			display: false, // Set this to false to remove the legend
-		},
-	}
+  responsive: true,
+  aspectRatio: 1,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
 }
 
   const [showSortDropdown, setShowSortDropdown] = useState(false)
@@ -198,9 +231,9 @@ const options = {
                     <Container fluid style={{maxWidth:'656px', maxHeight: '412px', borderRadius: '20px'}} className='px-5 py-5'>
                             <Col xs={6} >
                                 
-                                <div style={{height: '200px', width:'200px'}}>
-                                    <Pie data={dummyData} options={options}></Pie>
-                                </div>
+                            <div style={{ height: '200px', width: '200px' }}>
+                              <Pie data={dummyData} options={options} plugins={[renderDataLabels]} />
+                            </div>
                                 <p style={{fontFamily:'Mulish', fontSize:'18px', paddingTop :'18px', paddingLeft : '20px', width : '180px' }}>Target Compliance</p>
                             </Col>
                     </Container>

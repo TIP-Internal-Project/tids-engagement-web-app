@@ -4,7 +4,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../App.css'
 import './styles.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import HeaderLeft from '../../components/HeaderLeft'
 import { ReportPanel } from '../../components/ReportPanel'
 
@@ -18,8 +19,9 @@ const header = {
 const Events = (props: any) => {
 
 	const { variable } = props
-
+	const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
 	const [visible, setVisible] = useState(false) 
+	const navigate = useNavigate()
   
 	const toggleVisible = () => { 
 		const scrolled = document.documentElement.scrollTop
@@ -40,6 +42,12 @@ const Events = (props: any) => {
 	
 	window.addEventListener('scroll', toggleVisible)
 
+	useEffect(() => {
+		// If the user is not an admin, redirect to the '/overview' route
+		if (!isAdmin) {
+		  navigate('/overview')
+		}
+	  }, [isAdmin, navigate])
 	return (
 		<div>
 			
