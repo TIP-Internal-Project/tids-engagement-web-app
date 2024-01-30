@@ -53,7 +53,7 @@ td {
 .invites-container {
     display: flex;
     justify-content: space-between;
-    padding: 0% 17.8%;
+    padding: 0% 19.8%;
     margin: 0% 1%;
     margin-top: 50px;
 }
@@ -61,7 +61,7 @@ td {
 .attendees-container {
     display: flex;
     justify-content: space-between;
-    padding: 0% 17.8%;
+    padding: 0% 19.8%;
     margin: 0% 1%;
     margin-top: 40px;
 }
