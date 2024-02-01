@@ -28,12 +28,14 @@ import tasksCountReducer from './pendingTasksCountSlice'
 import geolocationReducer from './geolocationSlice'
 import checkDuplicatesReducer from './checkDuplicatesSlice'
 
+
 export const store = configureStore({
   reducer: {
     pageStatus: pageStatusReducer,
     userSession: userSessionReducer,
     events: eventsReducer,
     overviewEvents: overviewEventsReducer,
+ 
     unregisteredEvents: unregisteredEventsReducer,
     registeredEvents: registeredEventsReducer,
     eventRegistration: eventRegistrationReducer,

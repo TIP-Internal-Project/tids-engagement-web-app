@@ -23,7 +23,8 @@ type Event = {
   imageFile: File
   imageUrl: string
   status: string
-  
+  attendees:number
+  targetCompliance:number
 }
 
 type InitialState = {
@@ -52,7 +53,8 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     eventDetails,
     startDate,
     endDate,
-   
+    attendees,
+    targetCompliance,
     code,
     category,
     eventType,

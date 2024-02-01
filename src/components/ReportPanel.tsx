@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Form from 'react-bootstrap/Form'
 import { Pie } from 'react-chartjs-2'
+import { ReportsTable } from './ReportsTable'
+
 import { Chart, Plugin } from 'chart.js'
 
 export const ReportPanel = (props: any) => {
@@ -17,7 +19,7 @@ export const ReportPanel = (props: any) => {
         labels:['Attendees', 'Didn\'t Attend', 'No Response'],
         datasets:[
             {
-                data: [70, 20, 10],
+                data: [80, 20, 10],
                 backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB']
             }
         ]
@@ -253,6 +255,9 @@ const options = {
                     </Container>
                 </div>
             </Col>
+        </Row>
+        <Row>
+          <ReportsTable/>
         </Row>
         
       </Container>

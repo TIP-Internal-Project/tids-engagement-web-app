@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HeaderLeft from '../../components/HeaderLeft'
 import { ReportPanel } from '../../components/ReportPanel'
-
+import { ReportsTable } from '../../components/ReportsTable'
 
 const header = {
 	height: '81px',
