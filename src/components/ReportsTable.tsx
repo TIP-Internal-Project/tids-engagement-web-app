@@ -223,16 +223,16 @@ export const ReportsTable = () => {
                 </p>
                 <p style={IndItemDueTimeDisplay}>{formatDateTime(event.startDate).time}</p>
               </Col>
-            <Col style={IndIAttendace}>
-              <p>{event.attendees}%</p>
-            </Col>
-            <Col style={IndCompliance}>
-              <p>{event.targetCompliance}%</p>
-            </Col>
+              <Col style={IndIAttendace}>
+                {event.attendees ? <p>{event.attendees}%</p> : null}
+              </Col>
+              <Col style={IndCompliance}>
+                {event.targetCompliance ? <p>{event.targetCompliance}%</p> : null}
+              </Col>
             <Col style={IndCompliance}>
                  <div style={{ display: 'flex' }}>
                   <Button  style={actionBadge} className='bg-success border-success'>PDF</Button>
-                  <Button style={actionBadge} className='bg-success border-success'>Google Sheet</Button>
+                  <Button style={actionBadge} className='bg-success border-success'>Sheet</Button>
                 </div>
             </Col>
           </Row>
