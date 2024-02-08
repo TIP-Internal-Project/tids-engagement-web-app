@@ -204,3 +204,23 @@ color: black;
 text-decoration: none;
 
 }
+
+
+.tooltip-inner {
+    background-color: #9FA2B4;
+    color: black;
+}
+
+#estimatedBudgetTooltip .tooltip-inner {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+#estimatedBudgetTooltip .tooltip-arrow {
+    display: none
+ }
+
+
+
+
+
