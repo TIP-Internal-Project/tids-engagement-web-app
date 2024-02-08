@@ -20,11 +20,12 @@ interface EventModalProps {
   modalData: any[]
   disableRegistration: boolean
   email: any
+  showButtons: boolean
   onSortedEvents: (events: Event[]) => void
   onSortedEvents1: (events: Event[]) => void
 }
 
-const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disableRegistration, email, onSortedEvents, onSortedEvents1 }) => {
+const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disableRegistration, email, showButtons, onSortedEvents, onSortedEvents1 }) => {
 
 	const [data, setData] = useState<any>({})
 	const [disable, setDisable] = useState<any>()
@@ -140,6 +141,13 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 		setShowMessage(false)
 	  }
 
+	  const setTimeFormat = (aDateString: string): string => {
+		const aDate = new Date(aDateString)
+		const timeString = aDate.toLocaleTimeString().slice(0, -6)
+		const newFormat = aDate.getHours() >= 12 ? 'PM' : 'AM'
+		return `${timeString} ${newFormat}`
+	  }
+
 	return (
 		<Modal
 			show={show}
@@ -173,7 +181,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					<div className='ModalBodyRightSubDiv1'>
 						
 					<p style={{fontSize:'14px'}}>{data.eventDetails}</p>
-					<p style={{ fontSize: '14px' }}> {data.eventType === 'na' ? '' : data.eventType} <FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
+					<p style={{ fontSize: '14px', marginTop: '10px' }}> {data.eventType === 'na' ? '' : data.eventType} <FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
 					
 					{data.starsNum + ' '}
 					
@@ -183,7 +191,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					</div>
 					
 			
-					<div className='ModalBodyRightSubDiv'>
+					{showButtons && (<div className='ModalBodyRightSubDiv'>
 						<Button style={ModalButton} disabled={disable || data.status === 'Inactive' || data.status === 'Completed'} onClick={() => handleRegister(data.eventId, email, data.starsNum)}>REGISTER</Button>{' '}
 						
 						{data.postEventSurveyURL && (
@@ -198,50 +206,72 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 						
 						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
 						
-{data.status !== 'Inactive' && (
-  <a href="https://calendar.google.com/">
-    <div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
-      {isQrCodeExpanded ? (
-        <div>
-          <img
-            onClick={handleDownloadClick}
-            onMouseOver={handleMouseOver}
-            onMouseOut={handleMouseOut}
-            src={data.qrCodeUrl}
-            alt="QR Code"
-            style={{
-              width: '160px',
-              height: '160px',
-              border: 'groove',
-              borderWidth: '2px',
-              position: 'relative',
-            }}
-          />
-          {showMessage && (
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '2px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                color: 'white',
-                padding: '2px',
-                borderRadius: '5px',
-              }}
-            >
-              Click QR Code to download
-            </div>
-          )}
-        </div>
-      ) : (
-        <img src={data.qrCodeUrl} alt="QR Code" style={{ width: '30px', height: '30px' }} />
-      )}
-    </div>
-  </a>
-)}
-						
-          				</div>
+							{data.status !== 'Inactive' && (
+							<a href="https://calendar.google.com/">
+								<div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
+								{isQrCodeExpanded ? (
+									<div>
+									<img
+										onClick={handleDownloadClick}
+										onMouseOver={handleMouseOver}
+										onMouseOut={handleMouseOut}
+										src={data.qrCodeUrl}
+										alt="QR Code"
+										style={{
+										width: '160px',
+										height: '160px',
+										border: 'groove',
+										borderWidth: '2px',
+										position: 'relative',
+										}}
+									/>
+									{showMessage && (
+										<div
+										style={{
+											position: 'absolute',
+											bottom: '2px',
+											left: '50%',
+											transform: 'translateX(-50%)',
+											backgroundColor: 'rgba(0, 0, 0, 0.8)',
+											color: 'white',
+											padding: '2px',
+											borderRadius: '5px',
+										}}
+										>
+										Click QR Code to download
+										</div>
+									)}
+									</div>
+								) : (
+									<img src={data.qrCodeUrl} alt="QR Code" style={{ width: '30px', height: '30px' }} />
+								)}
+								</div>
+							</a>
+							)}
+													
+          				</div>)}
+					{!showButtons && (<div>
+						{data.startDate && (
+						<div>
+							<hr></hr>
+							<p style={{ fontSize: '14px' }}>
+								{new (window.Date as any)(data.startDate).toLocaleDateString({},{ timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' })}
+							</p><hr></hr>
+							<div className='tags'>
+								<a className='color5' style={{ fontSize: '14px' }}>
+									{(data.importance)[0].toUpperCase() + (data.importance).slice(1).toLowerCase() + ' Event'}
+								</a>{' '}
+								<a className='color2' style={{ fontSize: '14px' }}>
+									{data.category == 'TIDS' ? 'TIDS' : data.category === 'teamEvent' ? 'TEAM EVENT' : data.category === 'COP' ? 'COP' : '#HAPPYHERE'}
+								</a>{' '}
+								{data.eventType != 'na' && (
+									<a className='color4' style={{ fontSize: '14px' }}>
+										{data.eventType}
+									</a>
+								)}
+							</div>
+						</div>)}
+					</div>)}
 						 
 				</div>
 			</Modal.Body>

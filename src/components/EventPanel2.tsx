@@ -854,6 +854,7 @@ export const EventPanel2 = (props: any) => {
           modalData={modalData}
           disableRegistration={disableRegistration}
           email={props.variable}
+          showButtons={true}
           onSortedEvents={handleSortedEvents}
           onSortedEvents1={handleSortedEvents1}
         />
