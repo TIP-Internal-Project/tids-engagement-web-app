@@ -11,9 +11,6 @@ import { useDispatch } from 'react-redux'
 import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
 import Spinner from 'react-bootstrap/Spinner'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import {OverlayTrigger, Tooltip} from 'react-bootstrap'
 
 
 
@@ -191,12 +188,12 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
 		}
 
     if (isNaN(Number(formData.estimatedBudget))) {
-      setEstimatedBudgetError('Estimated Budget should be a number.')
+      setEstimatedBudgetError('Estimated Budget must be a number.')
       hasError = true
     }
 
     if (isNaN(Number(formData.numberOfInviteSent))) {
-      setNumberOfInviteSentError('Number of Invite Sent should be a number.')
+      setNumberOfInviteSentError('Number of Invite Sent must be a number.')
       hasError = true
     }
 
@@ -363,12 +360,12 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 		}
 
     if (isNaN(Number(formData.estimatedBudget))) {
-      setEstimatedBudgetError('Estimated Budget should be a number.')
+      setEstimatedBudgetError('Estimated Budget must be a number.')
       hasError = true
     }
 
     if (isNaN(Number(formData.numberOfInviteSent))) {
-      setNumberOfInviteSentError('Number of Invite Sent should be a number.')
+      setNumberOfInviteSentError('Number of Invite Sent must be a number.')
       hasError = true
     }
 
@@ -782,20 +779,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
               <Row>
                 <Col>
                 <Form.Group className='mb-3'>
-                  <Form.Label style={{ marginRight: '10px' }}>
-                    Estimated Budget{' '}
-                    <OverlayTrigger
-                      placement="bottom"
-                      overlay={<Tooltip id="estimatedBudgetTooltip">The Estimated Budget Details will show here.</Tooltip>}
-                    >
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        style={{ marginLeft: '5px', cursor: 'pointer', color: '#888888' }}
-                        onMouseEnter={toggleTooltip}
-                        onMouseLeave={toggleTooltip}
-                      />
-                    </OverlayTrigger>
-                  </Form.Label>
+                  <Form.Label>Estimated Budget</Form.Label>
                   <Form.Control
                     required
                     type='text'
@@ -809,20 +793,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                 </Col>
                 <Col>
                 <Form.Group className='mb-3'>
-                  <Form.Label style={{ marginRight: '10px' }}>
-                    Number of Invite Sent<span style={{color: 'red'}}>*</span>{' '}
-                    <OverlayTrigger
-                      placement="bottom"
-                      overlay={<Tooltip id="estimatedBudgetTooltip">The Number of Invite Sent Details will show here.</Tooltip>}
-                    >
-                      <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        style={{ marginLeft: '5px', cursor: 'pointer', color: '#888888' }}
-                        onMouseEnter={toggleTooltip}
-                        onMouseLeave={toggleTooltip}
-                      />
-                    </OverlayTrigger>
-                  </Form.Label>
+                  <Form.Label>Number of Invite Sent<span style={{color: 'red'}}>*</span></Form.Label>
                   <Form.Control
                     required
                     type='text'
