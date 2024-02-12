@@ -22,6 +22,8 @@ export interface AddEventState {
   googleMeetLink: string
   starsNum: number
   postEventSurveyURL: string
+  estimatedBudget: number
+  numberOfInviteSent: number
   createdBy: string
   error: string
   qrCodeUrl: string
@@ -40,6 +42,8 @@ const initialState: AddEventState = {
   googleMeetLink: '',
   starsNum: 0,
   postEventSurveyURL: '',
+  estimatedBudget: 0,
+  numberOfInviteSent: 0,
   createdBy: '',
   detail: '',
   category: '',
@@ -64,6 +68,8 @@ interface AddEventPayload {
   importance: string
   gmeetLink: string
   postEventSurveyURL: string
+  estimatedBudget: number
+  numberOfInviteSent: number
   starsNum: number
   regLink: string
   createdDate: Date
@@ -87,6 +93,8 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     importance,
     gmeetLink,
     postEventSurveyURL,
+    estimatedBudget,
+    numberOfInviteSent,
     starsNum,
     regLink,
     qrCodeUrl,
@@ -109,6 +117,8 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
   formData.append('importance', importance)
   formData.append('gmeetLink', gmeetLink)
   formData.append('postEventSurveyURL', postEventSurveyURL)
+  formData.append('estimatedBudget', estimatedBudget.toString())
+  formData.append('numberOfInviteSent', numberOfInviteSent.toString())
   formData.append('starsNum', starsNum.toString())
   formData.append('regLink', regLink)
   formData.append('qrCodeUrl', qrCodeUrl)
@@ -148,6 +158,8 @@ export const addEventSlice = createSlice({
       state.googleMeetLink = action.payload.googleMeetLink
       state.starsNum = action.payload.starsNum
       state.postEventSurveyURL = action.payload.postEventSurveyURL
+      state.estimatedBudget = action.payload.estimatedBudget
+      state.numberOfInviteSent = action.payload.numberOfInviteSent
       state.createdBy = action.payload.createdBy
       state.qrCodeUrl = action.payload.qrCodeUrl
       state.imageUrl = action.payload.imageUrl
@@ -173,6 +185,8 @@ export const addEventSlice = createSlice({
         state.googleMeetLink = action.payload.googleMeetLink
         state.starsNum = action.payload.starsNum
         state.postEventSurveyURL = action.payload.postEventSurveyURL
+        state.estimatedBudget = action.payload.estimatedBudget
+        state.numberOfInviteSent = action.payload.numberOfInviteSent
         state.createdBy = action.payload.createdBy
         state.qrCodeUrl = action.payload.qrCodeUrl
         state.eventType = action.payload.eventType

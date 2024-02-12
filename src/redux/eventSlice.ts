@@ -18,6 +18,8 @@ type Event = {
   importance: string
   gmeetLink: string
   postEventSurveyURL: string
+  estimatedBudget: number
+  numberOfInviteSent: number
   starsNum: number
   regLink: string
   imageFile: File
@@ -61,6 +63,8 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     importance,
     gmeetLink,
     postEventSurveyURL,
+    estimatedBudget,
+    numberOfInviteSent,
     starsNum,
     regLink,
     imageFile,
@@ -98,6 +102,8 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   if (importance) formData.append('importance', importance)
   formData.append('gmeetLink', gmeetLink)
   formData.append('postEventSurveyURL', postEventSurveyURL)
+  formData.append('estimatedBudget', estimatedBudget)
+  formData.append('numberOfInviteSent', numberOfInviteSent)
   if (starsNum) formData.append('starsNum', starsNum)
   if (regLink) formData.append('regLink', regLink)
   if (status) formData.append('status', status)
