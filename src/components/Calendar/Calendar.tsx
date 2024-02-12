@@ -283,7 +283,8 @@ const Calendar = () => {
 		setCurrentDate(nextMonth)
 	}
 
-	const renderPopoverContent = (event: Event | undefined) => {
+	const renderPopoverContent = (date: Date, event: Event | undefined) => {
+		const dayOfMonth = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
 		if (event) {
 		  const eventsWithSameDay = events.filter(
 				(eventItem) => eventItem.date === event.date
@@ -304,7 +305,7 @@ const Calendar = () => {
 		  // Render content for an empty popover
 		  return (
 			<Popover id={'popover-empty'}>
-			  <Popover.Header as="h3">No Events</Popover.Header>
+			  <Popover.Header as="h3">{date.toLocaleString('default', { month: 'long' })} {dayOfMonth}, {date.getFullYear()}   </Popover.Header>
 			  <Popover.Body>No events for this date.</Popover.Body>
 			</Popover>
 		  )
@@ -442,18 +443,19 @@ const Calendar = () => {
 
 													return (
 														<td
-														  className={`date-cells ${eventForDate ? 'date-with-events' : ''} ${isSelectedDate ? 'selected-date' : ''}`}
+														  className={`date-cells ${eventForDate ? 'date-with-events' : ''} ${isSelectedDate ? 'selected-date' : ''} ${isSelectedDate && eventForDate ? 'selected-date-with-events': ''}  ${isCurrentDate && isSelectedDate ? 'selected-current-date' : ''}`}
 														  key={dateIndex}
 														  onClick={() => handleClickDate(date as Date, eventForDate)}
 														  onMouseOver={() => handleHoverDate(date as Date)}
 														  onMouseLeave={() => handleHoverDate(null)}
+														  style={{ cursor:  eventForDate ? 'pointer' : 'default' }}
 														>
 														  <p>
 															{date && (
 															  <OverlayTrigger
 																trigger={['hover', 'focus']}
 																placement="top"
-																overlay={renderPopoverContent(eventForDate)}
+																overlay={renderPopoverContent(date as Date, eventForDate)}
 															  >
 																<div className={`${isCurrentDate ? 'current-date' : ''}`}>
 																  {date.getDate()}
