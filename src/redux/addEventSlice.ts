@@ -26,6 +26,8 @@ export interface AddEventState {
   error: string
   qrCodeUrl: string
   imageUrl: string
+  tinyUrl: string
+  modalUrl: string
 }
 
 const initialState: AddEventState = {
@@ -48,7 +50,9 @@ const initialState: AddEventState = {
   updatedAt: new Date(),
   error: '',
   qrCodeUrl: '',
-  imageUrl: ''
+  imageUrl: '',
+  tinyUrl: '',
+  modalUrl: ''
 }
 
 interface AddEventPayload {
@@ -71,6 +75,8 @@ interface AddEventPayload {
   qrCodeUrl: string
   imageFile: File | null
   imageUrl: string
+  tinyUrl: string
+  modalUrl: string
 }
 
 export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPayload) => {
@@ -91,7 +97,9 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     regLink,
     qrCodeUrl,
     imageFile,
-    imageUrl
+    imageUrl,
+    tinyUrl,
+    modalUrl
   
   } = payload
   
@@ -116,6 +124,8 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     formData.append('imgfile', imageFile)
   }
   formData.append('imageUrl', imageUrl)
+  formData.append('tinyUrl', tinyUrl)
+  formData.append('modalUrl', modalUrl)
   formData.append('eventType', eventType)
 
   try {
@@ -151,7 +161,10 @@ export const addEventSlice = createSlice({
       state.createdBy = action.payload.createdBy
       state.qrCodeUrl = action.payload.qrCodeUrl
       state.imageUrl = action.payload.imageUrl
+      state.tinyUrl = action.payload.tinyUrl
+      state.modalUrl = action.payload.modalUrl
       state.eventType = action.payload.eventType
+      
     },
   },
 
@@ -177,6 +190,8 @@ export const addEventSlice = createSlice({
         state.qrCodeUrl = action.payload.qrCodeUrl
         state.eventType = action.payload.eventType
         state.imageUrl = action.payload.imageUrl
+        state.tinyUrl = action.payload.tinyUrl
+        state.modalUrl = action.payload.modalUrl
       })
       .addCase(addEvent.rejected, (state, action) => {
         state.loading = false
