@@ -88,7 +88,9 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
     imageUrl:'',
     eventType:'',
     imageFile: '',
-    status: ''
+    status: '',
+    tinyUrl: '',
+    modalUrl:''
   })
 
   useEffect(() => {
@@ -113,7 +115,9 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
         imageUrl:'',
         eventType:'',
         imageFile: '',
-        status: ''
+        status: '',
+        tinyUrl: '',
+        modalUrl:''
       })
     }
   }, [show])
@@ -257,7 +261,10 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
               qrCodeUrl: qrCodeUrl,
               imageFile: selectedImage,
               imageUrl: formData.imageUrl,
-              eventType: formData.eventType
+              eventType: formData.eventType,
+              tinyUrl: formData.tinyUrl,
+              modalUrl: modalUrl
+
           })
       ) 
 
@@ -424,6 +431,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     formData.imageUrl = formData.imageUrl == '' ? event.imageUrl : formData.imageUrl
     formData.imageFile = selectedImage !== null ? selectedImage : event.imageFile
     formData.status = formData.status == '' ? event.status: formData.status
+    formData.modalUrl = formData.modalUrl == '' ? event.modalUrl: formData.modalUrl
     
   }
 
@@ -515,6 +523,48 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
   //     setQrCodeUrl(url)
   //   }
   // }
+
+
+
+
+// const generateTinyUrl = () => {
+
+
+
+// }
+
+
+const generateModalUrl = (eventTitle: string) => {
+  if (!eventTitle) {
+    return ''
+  }
+
+  // Split the title into words and take the first letter of each word
+  const words = eventTitle.split(' ')
+  const initials = words.map(word => word.charAt(0)).join('').toUpperCase()
+
+  // Get the current year in YYYY format
+  const year = new Date().getFullYear()
+
+  // Generate a unique identifier, e.g., a short random string or number
+  const uniqueId = generateUniqueId()
+
+  // Concatenate the initials, the year, and the unique identifier to form the modalUrl
+  const modalUrl = `http://localhost:3000/events/${initials}${year}${uniqueId}`
+
+  return modalUrl
+}
+
+// Function to generate a unique identifier (e.g., a random string or number)
+const generateUniqueId = () => {
+  // This is a simple example; adjust according to your needs for uniqueness
+  return Math.random().toString(36).substring(2, 8)
+
+
+}
+
+const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
+
 
   const generateQr = () => {
     console.log('generateQr function called')

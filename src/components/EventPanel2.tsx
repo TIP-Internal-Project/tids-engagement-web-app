@@ -17,20 +17,32 @@ import { register } from '../redux/eventRegistrationSlice'
 import { addStarPoints } from '../redux/addStarPointsSlice'
 import Form from 'react-bootstrap/Form'
 import { fetchGeolocation } from '../redux/geolocationSlice'
+import axios from 'axios'
+import { useLocation,useParams  } from 'react-router-dom'
+import api from '../api.json'
+
 
 export const EventPanel2 = (props: any) => {
   const dispatch = useAppDispatch()
 
   // const [eventModalShow, setEventModalShow] = useState(false)
   const [action, setAction] = useState('')
-  const [event, setEvent] = useState(null)
+  const [event, setEvent] = useState<any[]>([])
   const [detailsModalShow, setDetailsModalShow] = useState(false)
+  const [eventToShow, setEventToShow] = useState(null)
+  const location = useLocation()
+  const [modalUrlParam, setModalUrlParam] = useState<string | null>(null)
 
   const handleOpenDetailsModal = (action: string, event: any) => {
     setDetailsModalShow(true)
     setAction(action)
     setEvent(event)
   }
+
+ 
+    const  { modalUrl } = useParams()
+  
+  
 
   const handleCloseDetailsModal = () => {
     setDetailsModalShow(false)
@@ -56,6 +68,10 @@ export const EventPanel2 = (props: any) => {
   const handleFileUploadModalShow = () => {
     setFileUploadModalShow(true)
   }
+
+
+  const API_ROOT = api.ROOT
+
 
   const tidsBadge = {
     background: '#2A66FF',
@@ -188,6 +204,39 @@ export const EventPanel2 = (props: any) => {
   const handleFilterButtonClick = () => {
     setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
   }
+
+
+  useEffect(() => {
+    
+    axios.get(API_ROOT + '/events/getAllEvents')
+      .then(response => {
+        setEvent(response.data)
+      })
+      .catch(error => {
+        console.error('Error fetching events:', error)
+      })
+    
+    
+    const urlParams = new URLSearchParams(location.search)
+    const modalUrl = urlParams.get('modalUrl')
+    if (modalUrl) {
+      setModalUrlParam(modalUrl)
+    }
+  }, [location])
+
+
+  useEffect(() => {
+    if (modalUrl && event.length > 0) {
+      
+      const fullUrl = `http://localhost:3000/events/${modalUrl}`
+      const eventToShow = event.find(e => e.modalUrl === fullUrl)
+      if (eventToShow) {
+        handleOpenModal(eventToShow, false) 
+      } else {
+        console.log('No matching event found for URL:', fullUrl)
+      }
+    }
+  }, [modalUrl, event])
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick)
