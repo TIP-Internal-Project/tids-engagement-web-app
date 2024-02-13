@@ -23,6 +23,10 @@ type Event = {
   imageFile: File
   imageUrl: string
   status: string
+  attendees: number
+  registered: number
+  didNotAttend: number
+  totalInvites: number
   
 }
 

@@ -343,6 +343,9 @@ const Calendar = () => {
 		  })
 		  
 
+
+		  
+
 		// const eventTitles = []
 		// for (const event of flattenedArray) {
   		// const title = event.title
