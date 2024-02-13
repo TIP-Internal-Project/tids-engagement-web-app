@@ -18,15 +18,12 @@ type Event = {
   importance: string
   gmeetLink: string
   postEventSurveyURL: string
-  estimatedBudget: number
-  numberOfInviteSent: number
   starsNum: number
   regLink: string
   imageFile: File
   imageUrl: string
   status: string
-  attendees:number
-  targetCompliance:number
+  
 }
 
 type InitialState = {
@@ -43,8 +40,23 @@ const initialState: InitialState = {
   userName: '',
 }
 
+interface EventPayload {
+	eventDate: string;
+}
+
+
 export const fetchEvents = createAsyncThunk('fetchEvents', () => {
   return axios.get(API_ROOT + '/events/getAllEvents').then((response) => response.data)
+})
+
+export const getAllEvents = createAsyncThunk('getAllEvents', async () => {
+  const response = await axios.get(API_ROOT + '/events/getAllEvents')
+  return response.data
+})
+
+export const getEventDetailsByDate = createAsyncThunk('getEventDetailsByDate', async (eventDate: string) => {
+	const response = await axios.post(API_ROOT + '/events/getEventDetailsByDate', { eventDate })
+	return response.data
 })
 
 export const updateEvent = createAsyncThunk('updateEvent', async (event: any) => {
@@ -55,16 +67,13 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     eventDetails,
     startDate,
     endDate,
-    attendees,
-    targetCompliance,
+   
     code,
     category,
     eventType,
     importance,
     gmeetLink,
     postEventSurveyURL,
-    estimatedBudget,
-    numberOfInviteSent,
     starsNum,
     regLink,
     imageFile,
@@ -102,8 +111,6 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   if (importance) formData.append('importance', importance)
   formData.append('gmeetLink', gmeetLink)
   formData.append('postEventSurveyURL', postEventSurveyURL)
-  formData.append('estimatedBudget', estimatedBudget)
-  formData.append('numberOfInviteSent', numberOfInviteSent)
   if (starsNum) formData.append('starsNum', starsNum)
   if (regLink) formData.append('regLink', regLink)
   if (status) formData.append('status', status)
