@@ -51,7 +51,7 @@ export const ReportsTable = () => {
     FontStyle: 'normal',
     marginBottom: '0',
     color: '#C5C7CD',
-    marginLeft: '42px'
+    marginLeft: '55px'
     
   }
   const IndItemDueDateDisplay = {
@@ -223,7 +223,7 @@ export const ReportsTable = () => {
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formatDateTime(event.endDate).date}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{formatDateTime(event.startDate).time}</p>
+                <p style={IndItemDueTimeDisplay}>{formatDateTime(event.endDate).time}</p>
               </Col>
               <Col style={IndIAttendace}>
                 {event.attendees ? <p>{event.attendees}%</p> : null}
