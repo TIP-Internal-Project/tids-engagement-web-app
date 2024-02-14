@@ -107,6 +107,7 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   if (starsNum) formData.append('starsNum', starsNum)
   if (regLink) formData.append('regLink', regLink)
   if (status) formData.append('status', status)
+  if (targetCompliance) formData.append('targetCompliance', targetCompliance)
 
   
    if (imageFile) {

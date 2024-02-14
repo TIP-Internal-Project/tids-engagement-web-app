@@ -90,7 +90,8 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
     imageFile: '',
     status: '',
     tinyUrl: '',
-    modalUrl:''
+    modalUrl:'',
+    targetCompliance: 0,
   })
 
   useEffect(() => {
@@ -117,7 +118,8 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
         imageFile: '',
         status: '',
         tinyUrl: '',
-        modalUrl:''
+        modalUrl:'',
+        targetCompliance: 0,
       })
     }
   }, [show])
@@ -147,6 +149,7 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
     setEventTypeError('')
     setEstimatedBudgetError('')
     setNumberOfInviteSentError('')
+    setTargetComplianceError('')
     
 
   	let hasError = false
@@ -203,6 +206,16 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
 
     if(formData.numberOfInviteSent === null || Number(formData.numberOfInviteSent) === 0){
       setNumberOfInviteSentError('Number of Invite Sent is required.')
+      hasError = true
+    }
+
+    if(formData.targetCompliance === null || Number(formData.targetCompliance) === 0){
+      setTargetComplianceError('Target Compliance is required.')
+      hasError = true
+    }
+
+    if (!percentageRegex.test(Number(formData.targetCompliance).toString())) {
+      setTargetComplianceError('Please enter a valid percentage (1-100)')
       hasError = true
     }
 
@@ -263,8 +276,8 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
               imageUrl: formData.imageUrl,
               eventType: formData.eventType,
               tinyUrl: formData.tinyUrl,
-              modalUrl: modalUrl
-
+              modalUrl: modalUrl,
+              targetCompliance: formData.targetCompliance,
           })
       ) 
 
@@ -323,6 +336,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     setEventTypeError('')
     setEstimatedBudgetError('')
     setNumberOfInviteSentError('')
+    setTargetComplianceError('')
 
   	let hasError = false
 
@@ -381,6 +395,16 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
       hasError = true
     }
 
+    if(formData.targetCompliance === null || Number(formData.targetCompliance) === 0){
+      setTargetComplianceError('Target Compliance is required.')
+      hasError = true
+    }
+
+    if (!percentageRegex.test(Number(formData.targetCompliance).toString())) {
+      setTargetComplianceError('Please enter a valid percentage (1-100)')
+      hasError = true
+    }
+
 		if (hasError) {
 			return
 		}
@@ -432,7 +456,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     formData.imageFile = selectedImage !== null ? selectedImage : event.imageFile
     formData.status = formData.status == '' ? event.status: formData.status
     formData.modalUrl = formData.modalUrl == '' ? event.modalUrl: formData.modalUrl
-    
+    formData.targetCompliance = formData.targetCompliance == 0 ? event.targetCompliance: formData.targetCompliance
   }
 
   function formatDate(eventDate: string) {
@@ -481,10 +505,13 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 	const [eventTypeError, setEventTypeError] = useState('')
   const [estimatedBudgetError, setEstimatedBudgetError] = useState('')
   const [numberOfInviteSentError, setNumberOfInviteSentError] = useState('')
+  const [targetComplianceError, setTargetComplianceError] = useState('')
 
   const [creatingEvent, setCreatingEvent] = useState(false)
 
   const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
+
+  const percentageRegex = /^(100|\d{1,2})$/
 
   useEffect(() => {
     if (formData.endDate) {
@@ -858,6 +885,21 @@ const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
             </Col>
 
             <Col xs={4}>
+            <Form.Group className='mb-3'>
+                  <Form.Label>Target Compliance<span style={{color: 'red'}}>*</span></Form.Label>
+                  <div className='d-flex align-items-center' style={{ position: 'relative' }}>
+                    <Form.Control
+                       required
+                       type='text'
+                       defaultValue={action === 'edit' ? event.targetCompliance : ''}
+                       name='targetCompliance'
+                       style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                       onChange={handleFormChange}
+                    />
+                    <span style={{ position: 'absolute', right: '5%', top: '50%', transform: 'translateY(-50%)' }}>%</span>
+                  </div>
+                  {targetComplianceError && <div className="text-danger">{targetComplianceError}</div>}
+                </Form.Group>
               <Form.Group className='mb-3'>
                 <Form.Label>Importance<span style={{color: 'red'}}>*</span></Form.Label>
                 <Form.Select

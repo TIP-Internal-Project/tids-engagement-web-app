@@ -30,6 +30,7 @@ export interface AddEventState {
   imageUrl: string
   tinyUrl: string
   modalUrl: string
+  targetCompliance: number
 }
 
 const initialState: AddEventState = {
@@ -56,7 +57,8 @@ const initialState: AddEventState = {
   qrCodeUrl: '',
   imageUrl: '',
   tinyUrl: '',
-  modalUrl: ''
+  modalUrl: '',
+  targetCompliance: 0,
 }
 
 interface AddEventPayload {
@@ -83,6 +85,7 @@ interface AddEventPayload {
   imageUrl: string
   tinyUrl: string
   modalUrl: string
+  targetCompliance: number
 }
 
 export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPayload) => {
@@ -107,7 +110,8 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     imageFile,
     imageUrl,
     tinyUrl,
-    modalUrl
+    modalUrl,
+    targetCompliance
   
   } = payload
   
@@ -137,6 +141,7 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
   formData.append('tinyUrl', tinyUrl)
   formData.append('modalUrl', modalUrl)
   formData.append('eventType', eventType)
+  formData.append('targetCompliance', targetCompliance.toString())
 
   try {
     // Upload the image and create the event using axios
@@ -176,7 +181,7 @@ export const addEventSlice = createSlice({
       state.tinyUrl = action.payload.tinyUrl
       state.modalUrl = action.payload.modalUrl
       state.eventType = action.payload.eventType
-      
+      state.targetCompliance = action.payload.targetCompliance
     },
   },
 
@@ -206,6 +211,7 @@ export const addEventSlice = createSlice({
         state.imageUrl = action.payload.imageUrl
         state.tinyUrl = action.payload.tinyUrl
         state.modalUrl = action.payload.modalUrl
+        state.targetCompliance = action.payload.targetCompiance
       })
       .addCase(addEvent.rejected, (state, action) => {
         state.loading = false
