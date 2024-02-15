@@ -121,6 +121,7 @@ td.date-cells {
         background-color: #69785b;
         box-shadow: inset;
     }
+    
 
 
 
@@ -145,6 +146,27 @@ td.date-cells {
         justify-content: center;
       
      }
+
+     .selected-date-with-events div{
+        background-color: #66CC00;
+        color: #FFFFFF;
+        border-radius: 50%;
+        border: 1px solid #4b286d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+     }
+
+     .selected-current-date div{
+        background-color: #69785b;
+        color: #FFFFFF;
+        border-radius: 50%;
+        border: 1px solid #4b286d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
      .eventsReportHeader {
 
