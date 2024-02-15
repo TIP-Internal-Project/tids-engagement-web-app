@@ -7,10 +7,10 @@ import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
 import { addStarPoints } from '../redux/addStarPointsSlice'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faLink, faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchGeolocation } from '../redux/geolocationSlice'
-
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 
 
@@ -32,6 +32,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 	const dispatch = useAppDispatch()
 	const [qrCodeUrl, setQrCodeUrl] = useState<string>('')
 	const [isQrCodeExpanded, setIsQrCodeExpanded] = useState(false)
+
+	const [tooltipMessage, setTooltipMessage] = useState('Click to copy link')
+  	const [isButtonPressed, setIsButtonPressed] = useState(false)
+
 
 	useEffect(()=>{
 		setData(modalData)
@@ -140,6 +144,34 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 	  const handleMouseOut = () => {
 		setShowMessage(false)
 	  }
+	  
+
+	  const copyToClipboard = async (text: string) => {
+		try {
+		  await navigator.clipboard.writeText(text)
+		  setTooltipMessage('Link copied')
+		  setTimeout(() => setTooltipMessage('Click to copy link'), 2000)
+		} catch (err) {
+		  console.error('Failed to copy: ', err)
+		}
+	  }
+
+	  
+
+	  const handleMouseLeave = () => {
+		setTooltipMessage('Click to copy link')
+		setIsButtonPressed(false)
+	  }
+
+	  const smallButtonStyle = {
+		padding: '0.25rem 0.5rem', 
+		fontSize: '0.875rem', 
+		lineHeight: 1,
+		borderRadius: '0.1rem', 
+		backgroundColor: isButtonPressed ? '#333' : 'black', 
+		color: 'white',
+		border: 'none', 
+	  }
 
 	  const setTimeFormat = (aDateString: string): string => {
 		const aDate = new Date(aDateString)
@@ -207,7 +239,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 						<a href="https://calendar.google.com/"><img style={{width:'37px', height: '37px'}} src ={require('../assets/images/GoogleCalendarLogo.png')} /></a>
 						
 							{data.status !== 'Inactive' && (
-							<a href="https://calendar.google.com/">
+							<a >
 								<div onClick={() => setIsQrCodeExpanded(!isQrCodeExpanded)} style={{ cursor: 'pointer' }}>
 								{isQrCodeExpanded ? (
 									<div>
@@ -248,8 +280,23 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 								</div>
 							</a>
 							)}
-													
-          				</div>)}
+						
+						<div>
+						<OverlayTrigger
+						overlay={<Tooltip id="button-tooltip">{tooltipMessage}</Tooltip>}
+						placement="top"
+						>
+						<Button
+							style={smallButtonStyle}
+							onClick={() => copyToClipboard(data.modalUrl)}
+							onMouseLeave={handleMouseLeave}
+						>
+							<FontAwesomeIcon icon={faLink} />
+						</Button>
+    					</OverlayTrigger>
+							
+						</div>
+						</div>)}
 					{!showButtons && (<div>
 						{data.startDate && (
 						<div>

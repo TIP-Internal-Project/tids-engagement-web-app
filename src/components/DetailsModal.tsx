@@ -13,6 +13,7 @@ import { AppDispatch } from '../redux/store'
 import Spinner from 'react-bootstrap/Spinner'
 
 
+
 interface EventModalProps {
   show: boolean
   onHide: () => void
@@ -80,12 +81,16 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
     importance: '',
     gmeetLink: '',
     postEventSurveyURL: '',
+    estimatedBudget: 0,
+    numberOfInviteSent: 0,
     starsNum: '',
     regLink: '',
     imageUrl:'',
     eventType:'',
     imageFile: '',
-    status: ''
+    status: '',
+    tinyUrl: '',
+    modalUrl:''
   })
 
   useEffect(() => {
@@ -103,12 +108,16 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
         importance: '',
         gmeetLink: '',
         postEventSurveyURL: '',
+        estimatedBudget: 0,
+        numberOfInviteSent: 0,
         starsNum: '',
         regLink: '',
         imageUrl:'',
         eventType:'',
         imageFile: '',
-        status: ''
+        status: '',
+        tinyUrl: '',
+        modalUrl:''
       })
     }
   }, [show])
@@ -136,6 +145,9 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
     setImportanceError('')
     setCategoryError('')
     setEventTypeError('')
+    setEstimatedBudgetError('')
+    setNumberOfInviteSentError('')
+    
 
   	let hasError = false
 
@@ -178,6 +190,21 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
 			setEventTypeError('Event Type is required.')
 			hasError = true
 		}
+
+    if (isNaN(Number(formData.estimatedBudget))) {
+      setEstimatedBudgetError('Estimated Budget must be a number.')
+      hasError = true
+    }
+
+    if (isNaN(Number(formData.numberOfInviteSent))) {
+      setNumberOfInviteSentError('Number of Invite Sent must be a number.')
+      hasError = true
+    }
+
+    if(formData.numberOfInviteSent === null || Number(formData.numberOfInviteSent) === 0){
+      setNumberOfInviteSentError('Number of Invite Sent is required.')
+      hasError = true
+    }
 
 		if (hasError) {
 			return
@@ -224,6 +251,8 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
               importance: formData.importance,
               gmeetLink: formData.gmeetLink,
               postEventSurveyURL: formData.postEventSurveyURL,
+              estimatedBudget: formData.estimatedBudget,
+              numberOfInviteSent: formData.numberOfInviteSent,
               starsNum: parseInt(formData.starsNum) || defaultStarsNum,
               regLink: formData.regLink,
               createdDate: new Date(),
@@ -232,7 +261,10 @@ const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || f
               qrCodeUrl: qrCodeUrl,
               imageFile: selectedImage,
               imageUrl: formData.imageUrl,
-              eventType: formData.eventType
+              eventType: formData.eventType,
+              tinyUrl: formData.tinyUrl,
+              modalUrl: modalUrl
+
           })
       ) 
 
@@ -289,6 +321,8 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     setImportanceError('')
     setCategoryError('')
     setEventTypeError('')
+    setEstimatedBudgetError('')
+    setNumberOfInviteSentError('')
 
   	let hasError = false
 
@@ -331,6 +365,21 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 			setEventTypeError('Event Type is required.')
 			hasError = true
 		}
+
+    if (isNaN(Number(formData.estimatedBudget))) {
+      setEstimatedBudgetError('Estimated Budget must be a number.')
+      hasError = true
+    }
+
+    if (isNaN(Number(formData.numberOfInviteSent))) {
+      setNumberOfInviteSentError('Number of Invite Sent must be a number.')
+      hasError = true
+    }
+
+    if(formData.numberOfInviteSent === null || Number(formData.numberOfInviteSent) === 0){
+      setNumberOfInviteSentError('Number of invite sent is required.')
+      hasError = true
+    }
 
 		if (hasError) {
 			return
@@ -375,11 +424,14 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     formData.importance = formData.importance == '' ? event.importance : formData.importance
     formData.gmeetLink = formData.gmeetLink == '' ? event.gmeetLink : formData.gmeetLink
     formData.postEventSurveyURL == '' ? event.postEventSurveyURL : formData.postEventSurveyURL
+    formData.estimatedBudget == 0 ? event.estimatedBudget : formData.estimatedBudget
+    formData.numberOfInviteSent == 0 ? event.numberOfInviteSent : formData.numberOfInviteSent
     formData.starsNum = formData.starsNum == '' ? event.starsNum : formData.starsNum
     formData.regLink = formData.regLink == '' ? event.regLink : formData.regLink
     formData.imageUrl = formData.imageUrl == '' ? event.imageUrl : formData.imageUrl
     formData.imageFile = selectedImage !== null ? selectedImage : event.imageFile
     formData.status = formData.status == '' ? event.status: formData.status
+    formData.modalUrl = formData.modalUrl == '' ? event.modalUrl: formData.modalUrl
     
   }
 
@@ -427,6 +479,8 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
 	const [importanceError, setImportanceError] = useState('')
   const [categoryError, setCategoryError] = useState('')
 	const [eventTypeError, setEventTypeError] = useState('')
+  const [estimatedBudgetError, setEstimatedBudgetError] = useState('')
+  const [numberOfInviteSentError, setNumberOfInviteSentError] = useState('')
 
   const [creatingEvent, setCreatingEvent] = useState(false)
 
@@ -470,6 +524,48 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
   //   }
   // }
 
+
+
+
+// const generateTinyUrl = () => {
+
+
+
+// }
+
+
+const generateModalUrl = (eventTitle: string) => {
+  if (!eventTitle) {
+    return ''
+  }
+
+  // Split the title into words and take the first letter of each word
+  const words = eventTitle.split(' ')
+  const initials = words.map(word => word.charAt(0)).join('').toUpperCase()
+
+  // Get the current year in YYYY format
+  const year = new Date().getFullYear()
+
+  // Generate a unique identifier, e.g., a short random string or number
+  const uniqueId = generateUniqueId()
+
+  // Concatenate the initials, the year, and the unique identifier to form the modalUrl
+  const modalUrl = `http://localhost:3000/events/${initials}${year}${uniqueId}`
+
+  return modalUrl
+}
+
+// Function to generate a unique identifier (e.g., a random string or number)
+const generateUniqueId = () => {
+  // This is a simple example; adjust according to your needs for uniqueness
+  return Math.random().toString(36).substring(2, 8)
+
+
+}
+
+const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
+
+
   const generateQr = () => {
     console.log('generateQr function called')
     if (formData.regLink === '') {
@@ -510,6 +606,10 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
     console.log(event.startDate)
     console.log(formData.endDate)
   }
+
+  const [tooltipOpen, setTooltipOpen] = useState(false)
+
+  const toggleTooltip = () => setTooltipOpen(!tooltipOpen)
 
   return (
     <Modal
@@ -725,6 +825,35 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null)
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                 />
               </Form.Group>
+              </Row>
+              <Row>
+                <Col>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Estimated Budget</Form.Label>
+                  <Form.Control
+                    required
+                    type='text'
+                    defaultValue={action == 'edit' ? event.estimatedBudget : ''}
+                    name='estimatedBudget'
+                    onChange={handleFormChange}
+                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  />
+                  {estimatedBudgetError && <div className="text-danger">{estimatedBudgetError}</div>}
+                </Form.Group>
+                </Col>
+                <Col>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Number of Invite Sent<span style={{color: 'red'}}>*</span></Form.Label>
+                  <Form.Control
+                    required
+                    type='text'
+                    defaultValue={action == 'edit' ? event.numberOfInviteSent : ''}
+                    name='numberOfInviteSent'
+                    onChange={handleFormChange}
+                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                  />{numberOfInviteSentError && <div className="text-danger">{numberOfInviteSentError}</div>}
+                </Form.Group>
+                </Col>
               </Row>
             </Col>
 

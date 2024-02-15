@@ -22,10 +22,14 @@ export interface AddEventState {
   googleMeetLink: string
   starsNum: number
   postEventSurveyURL: string
+  estimatedBudget: number
+  numberOfInviteSent: number
   createdBy: string
   error: string
   qrCodeUrl: string
   imageUrl: string
+  tinyUrl: string
+  modalUrl: string
 }
 
 const initialState: AddEventState = {
@@ -40,6 +44,8 @@ const initialState: AddEventState = {
   googleMeetLink: '',
   starsNum: 0,
   postEventSurveyURL: '',
+  estimatedBudget: 0,
+  numberOfInviteSent: 0,
   createdBy: '',
   detail: '',
   category: '',
@@ -48,7 +54,9 @@ const initialState: AddEventState = {
   updatedAt: new Date(),
   error: '',
   qrCodeUrl: '',
-  imageUrl: ''
+  imageUrl: '',
+  tinyUrl: '',
+  modalUrl: ''
 }
 
 interface AddEventPayload {
@@ -64,6 +72,8 @@ interface AddEventPayload {
   importance: string
   gmeetLink: string
   postEventSurveyURL: string
+  estimatedBudget: number
+  numberOfInviteSent: number
   starsNum: number
   regLink: string
   createdDate: Date
@@ -71,6 +81,8 @@ interface AddEventPayload {
   qrCodeUrl: string
   imageFile: File | null
   imageUrl: string
+  tinyUrl: string
+  modalUrl: string
 }
 
 export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPayload) => {
@@ -87,11 +99,15 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     importance,
     gmeetLink,
     postEventSurveyURL,
+    estimatedBudget,
+    numberOfInviteSent,
     starsNum,
     regLink,
     qrCodeUrl,
     imageFile,
-    imageUrl
+    imageUrl,
+    tinyUrl,
+    modalUrl
   
   } = payload
   
@@ -109,6 +125,8 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
   formData.append('importance', importance)
   formData.append('gmeetLink', gmeetLink)
   formData.append('postEventSurveyURL', postEventSurveyURL)
+  formData.append('estimatedBudget', estimatedBudget.toString())
+  formData.append('numberOfInviteSent', numberOfInviteSent.toString())
   formData.append('starsNum', starsNum.toString())
   formData.append('regLink', regLink)
   formData.append('qrCodeUrl', qrCodeUrl)
@@ -116,6 +134,8 @@ export const addEvent = createAsyncThunk('addEvent', async (payload: AddEventPay
     formData.append('imgfile', imageFile)
   }
   formData.append('imageUrl', imageUrl)
+  formData.append('tinyUrl', tinyUrl)
+  formData.append('modalUrl', modalUrl)
   formData.append('eventType', eventType)
 
   try {
@@ -148,10 +168,15 @@ export const addEventSlice = createSlice({
       state.googleMeetLink = action.payload.googleMeetLink
       state.starsNum = action.payload.starsNum
       state.postEventSurveyURL = action.payload.postEventSurveyURL
+      state.estimatedBudget = action.payload.estimatedBudget
+      state.numberOfInviteSent = action.payload.numberOfInviteSent
       state.createdBy = action.payload.createdBy
       state.qrCodeUrl = action.payload.qrCodeUrl
       state.imageUrl = action.payload.imageUrl
+      state.tinyUrl = action.payload.tinyUrl
+      state.modalUrl = action.payload.modalUrl
       state.eventType = action.payload.eventType
+      
     },
   },
 
@@ -173,10 +198,14 @@ export const addEventSlice = createSlice({
         state.googleMeetLink = action.payload.googleMeetLink
         state.starsNum = action.payload.starsNum
         state.postEventSurveyURL = action.payload.postEventSurveyURL
+        state.estimatedBudget = action.payload.estimatedBudget
+        state.numberOfInviteSent = action.payload.numberOfInviteSent
         state.createdBy = action.payload.createdBy
         state.qrCodeUrl = action.payload.qrCodeUrl
         state.eventType = action.payload.eventType
         state.imageUrl = action.payload.imageUrl
+        state.tinyUrl = action.payload.tinyUrl
+        state.modalUrl = action.payload.modalUrl
       })
       .addCase(addEvent.rejected, (state, action) => {
         state.loading = false

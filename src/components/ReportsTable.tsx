@@ -42,7 +42,7 @@ export const ReportsTable = () => {
     FontStyle: 'normal',
     marginBottom: '0',
     color: '#C5C7CD',
-    marginLeft: '42px'
+    marginLeft: '55px'
     
   }
   const IndItemDueDateDisplay = {
@@ -182,7 +182,9 @@ export const ReportsTable = () => {
 
    
 
-  const filteredEvents = eventsState.events.filter((event: any) => event.status !== 'Archived')
+  const filteredAndSortedEvents = eventsState.events
+  .filter((event) => event.status !== 'Archived')
+  .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime())
 
   return (
     
@@ -210,7 +212,7 @@ export const ReportsTable = () => {
       </Col>
     </Row>
 
-    {filteredEvents.map((event: any) => (
+    {filteredAndSortedEvents.map((event: any) => (
       <ListGroup key={event.eventId} style={GroupListBorder}>
         <ListGroup.Item style={tableBordersIndiv}>
           <Row>
@@ -238,9 +240,9 @@ export const ReportsTable = () => {
             )}
             <Col style={tableBordersIndiv}>
                 <p style={IndItemDueDateDisplay} className='mb-0'>
-                  {formatDateTime(event.startDate).date}
+                  {formatDateTime(event.endDate).date}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{formatDateTime(event.startDate).time}</p>
+                <p style={IndItemDueTimeDisplay}>{formatDateTime(event.endDate).time}</p>
               </Col>
               <Col style={IndIAttendace}>
                 {event.attendees ? <p>{event.attendees}%</p> : null}
