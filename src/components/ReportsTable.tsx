@@ -1,4 +1,4 @@
-import React, { useEffect,CSSProperties  } from 'react'
+import React, { useState, useEffect,CSSProperties  } from 'react'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import Form from 'react-bootstrap/Form'
 import { fetchEvents } from '../redux/eventSlice'
@@ -6,6 +6,7 @@ import { ListGroup } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
+import EventModal from './EventModal'
 
 
 export const ReportsTable = () => {
@@ -16,16 +17,6 @@ export const ReportsTable = () => {
    
     dispatch(fetchEvents())
   }, [dispatch])
-
-
-  if (eventsState.loading) {
-    return <p>Loading...</p>
-  }
-
-  if (eventsState.error) {
-    return <p>Error: {eventsState.error}</p>
-  }
-
 
 // Styles
 
@@ -147,6 +138,26 @@ export const ReportsTable = () => {
     
   }
 
+  const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
+  const [modalShow, setModalShow] = useState(false)
+  const [modalData, setModalData] = useState<any[]>([])
+  const [showButtons, setShowButtons] = useState(false)
+  
+  const events: (events: Event[]) => void = (events: Event[]) => {
+    // 
+  }
+
+  const handleOpenModal = (event: any, hide: boolean) => {
+    setModalShow(true)
+    setModalData(event)
+    setShowButtons(hide)
+  }
+
+  const handleCloseModal = () => {
+    setModalShow(false)
+    setModalData([])
+  }
+
 
   const setTimeFormat = (aDateString: string): string => {
     const aDate = new Date(aDateString)
@@ -214,7 +225,15 @@ export const ReportsTable = () => {
                 </div>
                 <div style={{ marginLeft: '10px' }}>
                   <p>{event.title}</p>
-                  <Button style={viewDetailsButton}> View details </Button>
+                  <Button
+                    onClick={() => handleOpenModal(event, false)}
+                    style={viewDetailsButton}
+                    aria-controls={`example-collapse-text-${event.eventId}`}
+                    aria-expanded={eventStates[event.eventId] ? 'true' : 'false'}
+                    className='ms-0'
+                  >
+                    View details
+                  </Button>
                 </div>
               </Col>
               </>
@@ -241,6 +260,16 @@ export const ReportsTable = () => {
         </ListGroup.Item>
       </ListGroup>
     ))}
+    <EventModal
+          show={modalShow}
+          onHide={handleCloseModal}
+          modalData={modalData}
+          disableRegistration={true}
+          email={localStorage.getItem('email')}
+          showButtons={false}
+          onSortedEvents={events}
+          onSortedEvents1={events}
+        />
   </div>
   )
 }
