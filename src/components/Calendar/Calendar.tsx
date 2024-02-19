@@ -33,7 +33,7 @@ type Event = {
   attendees: number;
   registered: number;
   didNotAttend: number;
-  totalInvites: number;
+  numberOfInviteSent: number;
   date: string;
 };
 
@@ -45,7 +45,7 @@ export const events: Event[] = [
 		attendees: 40,
 		registered: 300,
 		didNotAttend: 260,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'January 10, 2024',
 	},
 	{
@@ -54,7 +54,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 600,
 		didNotAttend: 400,
-		totalInvites: 621,
+		numberOfInviteSent: 621,
 		date: 'January 10, 2024',
 	},
 	{
@@ -63,7 +63,7 @@ export const events: Event[] = [
 		attendees: 100,
 		registered: 300,
 		didNotAttend: 200,
-		totalInvites: 311,
+		numberOfInviteSent: 311,
 		date: 'June 2, 2023',
 	},
 	{
@@ -72,7 +72,7 @@ export const events: Event[] = [
 		attendees: 61,
 		registered: 300,
 		didNotAttend: 120,
-		totalInvites: 231,
+		numberOfInviteSent: 231,
 		date: 'June 2, 2023',
 	},
 	{
@@ -81,7 +81,7 @@ export const events: Event[] = [
 		attendees: 43,
 		registered: 300,
 		didNotAttend: 80,
-		totalInvites: 170,
+		numberOfInviteSent: 170,
 		date: 'June 2, 2023',
 	},
 	{
@@ -90,7 +90,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'January 01, 2024',
 	},
 	{
@@ -99,7 +99,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'February 01, 2024',
 	},
 	{
@@ -108,7 +108,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'March 01, 2024',
 	},
 	{
@@ -117,7 +117,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'April 01, 2024',
 	},
 	{
@@ -126,7 +126,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'Feb 14, 2024',
 	},
 	{
@@ -135,7 +135,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'January 24, 2024',
 	},
 	{
@@ -144,7 +144,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'January 24, 2024',
 	},
 	{
@@ -153,7 +153,7 @@ export const events: Event[] = [
 		attendees: 200,
 		registered: 300,
 		didNotAttend: 100,
-		totalInvites: 400,
+		numberOfInviteSent: 400,
 		date: 'January 24, 2024',
 	}
 ]
@@ -338,8 +338,8 @@ const Calendar = () => {
 			const attendees = event.attendees
 			const registered = event.registrants
 			const didNotAttend = event.didNotAttend
-			const totalInvites = event.totalInvites
-			return { id, title, attendees, registered, didNotAttend, totalInvites }
+			const numberOfInviteSent = event.numberOfInviteSent
+			return { id, title, attendees, registered, didNotAttend, numberOfInviteSent }
 		  })
 		  
 
@@ -555,7 +555,7 @@ const Calendar = () => {
 														data: [
 															Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees) : 0), 0)),
 															Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend) : 0), 0)),
-															Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.totalInvites - e.registered)) : 0), 0)),
+															Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.numberOfInviteSent - e.registered)) : 0), 0)),
 														],
 														backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB'],
 													} : defaultDataset,
@@ -579,15 +579,15 @@ const Calendar = () => {
 									<Container fluid className='mt-5 px-1 py-2' >
 										<Row className='pt-4' style={{alignItems:'center'}}>
 											<div style={legendCircle1}></div>
-											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Attendees <span style={{color:'lightgrey'}}>_____________</span>  {Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees/e.totalInvites)*100 : 0), 0))}%</p> }
+											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Attendees <span style={{color:'lightgrey'}}>_____________</span>  {Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees/e.numberOfInviteSent)*100 : 0), 0))}%</p> }
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle2}></div>
-											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend/e.totalInvites)*100 : 0), 0))}% </p> }
+											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend/e.numberOfInviteSent)*100 : 0), 0))}% </p> }
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle3}></div>
-											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>No Response <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.totalInvites - e.registered)/e.totalInvites)*100 : 0), 0))}% </p> }
+											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>No Response <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.numberOfInviteSent - e.registered)/e.numberOfInviteSent)*100 : 0), 0))}% </p> }
 										</Row>
 
 										<Row className='mt-5' style={{alignItems:'center', paddingLeft:'10%'}}>
@@ -665,7 +665,7 @@ const Calendar = () => {
 													<Row>
 														<div>
 															<div className='EventItemRightDivTotalInvites'>
-															Total Invites: {event.totalInvites}
+															Total Invites: {event.numberOfInviteSent}
 															</div>
 															<div  className='EventItemRightDivIcons'> <img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} /> {event.didNotAttend}</div>
 															<div  className='EventItemRightDivIcons'> <img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} /> {event.attendees} </div>
@@ -679,7 +679,7 @@ const Calendar = () => {
 														<div className='ProgressBar'>
 														<ProgressBar
 																		style={ProgressBarDiv}
-																		now={(event.attendees / event.totalInvites) * 100}
+																		now={(event.attendees / event.numberOfInviteSent) * 100}
 																		label={<span style={{backgroundColor:'#66CC00'}}>&nbsp;</span>}
 																		className="custom-progress-bar custom-progress-bar-success"
 																		/>
