@@ -58,8 +58,8 @@ export const getAllEvents = createAsyncThunk('getAllEvents', async () => {
   return response.data
 })
 
-export const getEventDetailsByDate = createAsyncThunk('getEventDetailsByDate', async (eventDate: string) => {
-	const response = await axios.post(API_ROOT + '/events/getEventDetailsByDate', { eventDate })
+export const getEventDetailsByDate = createAsyncThunk('getEventDetailsByDate', async (startDate: string) => {
+	const response = await axios.post(API_ROOT + '/events/getEventDetailsByDate', { startDate })
 	return response.data
 })
 
