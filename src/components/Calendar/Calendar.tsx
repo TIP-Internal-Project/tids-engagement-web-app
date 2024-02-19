@@ -215,7 +215,7 @@ const dummyData = {
 	labels:['Attendees', 'Didn\'t Attend', 'No Response'],
 	datasets:[
 		{
-			data: [70, 20, 10],
+			data: [20, 30, 50],
 			backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB']
 		}
 	]
@@ -259,6 +259,7 @@ const Calendar = () => {
 	const [currentDate, setCurrentDate] = useState(new Date())
 	const currentYear = currentDate.getFullYear()
 	const currentMonth = currentDate.getMonth()
+
 
 	const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -328,6 +329,7 @@ const Calendar = () => {
 		setClickedDate(formattedDate)
 
 		const eventDetails = await dispatch(getEventDetailsByDate(formattedDate))
+		// console.log(eventDetails.payload)
 
 		const flattenedArray = eventDetails.payload.flatMap((array: any) => array)
 
@@ -340,10 +342,23 @@ const Calendar = () => {
 			const numberOfInviteSent = event.numberOfInviteSent
 			return { id, title, attendees, registered, didNotAttend, numberOfInviteSent }
 		  })
+		  
 
+
+		  
+
+		// const eventTitles = []
+		// for (const event of flattenedArray) {
+  		// const title = event.title
+		// eventTitles.push(title)
+
+		// setSelectedEvent((prevSelectedEvent: any) => [...prevSelectedEvent, title])
+  		// console.log(title)
+		// }
+		
 
 		// Set the events for the selected date
-		// const eventsForSelectedDate = events.filter((eventItem) => {
+		// const eventsForSelectedDate = events.filter((eventItem: { date: string | number | Date }) => {
 		// 	const eventDate = new Date(eventItem.date)
 		// 	return (
 		// 	eventDate.getDate() === date.getDate() &&
@@ -364,6 +379,9 @@ const Calendar = () => {
 			// Set the events for the selected date
 			setEvents(eventDetailsArray)
 		  }
+		  
+
+		  
 
 	}
 
@@ -494,7 +512,11 @@ const Calendar = () => {
 
 
 
+
+
 				{/* Events Attendance */}
+
+				
 				<Col xs={7} >
 					<div className='EventsAttendanceCol'>
 						{/* Dropdown to select events for the day */}
@@ -532,9 +554,10 @@ const Calendar = () => {
 													datasets: [ selectedEvent ?
 													{
 														data: [
-														Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees) : 0), 0)),
-														Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend) : 0), 0)),
-														Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.numberOfInviteSent - e.registered)) : 0), 0)),
+
+															Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees) : 0), 0)),
+															Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend) : 0), 0)),
+															Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.numberOfInviteSent - e.registered)) : 0), 0)),
 														],
 														backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB'],
 													} : defaultDataset,
@@ -558,15 +581,15 @@ const Calendar = () => {
 									<Container fluid className='mt-5 px-1 py-2' >
 										<Row className='pt-4' style={{alignItems:'center'}}>
 											<div style={legendCircle1}></div>
-											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Attendees <span style={{color:'lightgrey'}}>_____________</span>  {Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees/e.numberOfInviteSent)*100 : 0), 0))}%</p>
+											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Attendees <span style={{color:'lightgrey'}}>_____________</span>  {Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.attendees/e.numberOfInviteSent)*100 : 0), 0))}%</p> }
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle2}></div>
-											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend/e.numberOfInviteSent)*100 : 0), 0))}% </p>
+											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>Didn't Attend <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? (e.didNotAttend/e.numberOfInviteSent)*100 : 0), 0))}% </p> }
 										</Row>
 										<Row className='mt-3' style={{alignItems:'center'}}>
 											<div style={legendCircle3}></div>
-											<p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>No Response <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.numberOfInviteSent - e.registered)/e.numberOfInviteSent)*100 : 0), 0))}% </p>
+											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>No Response <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.numberOfInviteSent - e.registered)/e.numberOfInviteSent)*100 : 0), 0))}% </p> }
 										</Row>
 
 										<Row className='mt-5' style={{alignItems:'center', paddingLeft:'10%'}}>
