@@ -1,0 +1,93 @@
+/* .events-details {
+    background-color: #F5F5F5;
+    width: 100vw;
+    height: 100vh;
+    border: solid 1.5px #DFE0EB;
+    border-radius: 18px;
+    font-size: 100%;
+    background-color: #FFFFFF;
+    position: relative;
+  } */
+
+/* nav-list styles */
+
+.nav-options {
+    position: relative;
+    top: 3%;
+}
+
+.refresh {
+    position: absolute;
+    left: 80%;
+}
+
+.sort {
+    position: absolute;
+    left: 89%;
+}
+
+.filter {
+    position: absolute;
+    left: 95%;
+}
+
+.refresh-icon {
+    height: 22px;
+    width: 22px;
+    margin: 0;
+    position: absolute;
+    right: 110%;
+}
+.sort-icon {
+    height: 15px;
+    width: 20px;
+    margin: 0;
+    position: absolute;
+    right: 119%;
+    top: 20%;
+}
+.filter-icon {
+    height: 13px;
+    width: 13px;
+    margin: 0;
+    position: absolute;
+    right: 120%;
+    top: 20%;
+}
+
+button:focus {
+    background-color: #61a83d;
+    color: #ffffffd3;
+}
+button:active {
+    background-color: #1a330e;
+    color: #DFE0EB;
+}
+
+.back-to-top-button > p {
+    position: fixed;
+	bottom: 0;
+	left: 5%;
+    color: #000000;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+.back-to-top-circle {
+    position: fixed;
+	bottom: 1%;
+	left: 9%;
+}
+.back-to-top-arrow {
+    position: absolute;
+    top: 94.7%;
+    left: 10.16%;
+    height: 16px;
+}
+
+
+
+
+
+
