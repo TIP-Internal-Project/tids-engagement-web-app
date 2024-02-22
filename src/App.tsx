@@ -10,6 +10,7 @@ import { EventAttendance } from './components/EventAttendance'
 import { setUserRole } from './components/Roles/Roles'
 import GoogleLogin, { Redirect } from './GoogleLogin'
 import { EventPanel2 } from './components/EventPanel2'
+import Expense from './pages/Expense'
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />
           <Route path='/events/:modalUrl' element={<EventPanel2 />} />
           <Route path='reports' element={<Reports variable={localStorage.getItem('email')} />} />
+          <Route path='expense' element={<Expense variable={localStorage.getItem('email')} />} />
           <Route
             path='profile'
             element={<ProfileSettingsPage variable={localStorage.getItem('email')} />}

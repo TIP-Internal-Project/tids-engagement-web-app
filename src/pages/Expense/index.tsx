@@ -7,20 +7,22 @@ import './styles.css'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HeaderLeft from '../../components/HeaderLeft'
-import { ReportPanel } from '../../components/ReportPanel'
-import { ReportsTable } from '../../components/ReportsTable'
+import { ExpensePanel } from '../../components/ExpensePanel'
+
 
 const header = {
 	height: '81px',
 	// border:'1px solid red'
 }
 
-
-const Reports = (props: any) => {
+const Expense = (props: any) => {
 
 	const { variable } = props
+
 	const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
+
 	const [visible, setVisible] = useState(false) 
+
 	const navigate = useNavigate()
   
 	const toggleVisible = () => { 
@@ -52,26 +54,26 @@ const Reports = (props: any) => {
 		<div>
 			
 			<Sidebar />
-			{/* <div>
-				<img src={require('../../assets/images/white circle.png')} className='circle-for-back-option'/>
-				<img src={require('../../assets/images/less-than-symbol.png')} className='arrow-for-back-option'/>
-			</div> */}
 			
 			<div className='div1'>
 				<Row>
 					<Col style={header}>
-						<HeaderLeft pageTitle="Reports" />
+						<HeaderLeft pageTitle="Expense" />
 					</Col>
 					<Col style={header}> 
 						<HeaderRight />
 					</Col>
 				</Row>
 
-				<ReportPanel variable={variable}/>
+				<ExpensePanel variable={variable}/>
 				
 			</div>
+			<button className='back-to-top-button'>
+				<img onClick={scrollToTop} style={{display: visible ? 'inline' : 'none', width: '42.5px', height: '42.5px', marginLeft: '82%', borderRadius: '50%'  }} src={require('../../assets/images/BackToTop.png')} className='back-to-top-circle' title='Back to top'/>
+			</button>
+			{/* <EventModal show={modalShow} onHide={handleCloseModal}/> */}
 		</div>
 	)
 }
 
-export default Reports
+export default Expense

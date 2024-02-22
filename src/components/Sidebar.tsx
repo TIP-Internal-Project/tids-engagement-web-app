@@ -16,6 +16,7 @@ export const Sidebar = () => {
 					<li><img src ={require('../assets/images/events.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/events'>Events</Link></a></li>
 					<li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/tasks'>Tasks</Link></a></li>
 					{isAdmin && <li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/reports'>Reports</Link></a></li> }
+					{isAdmin && <li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/expense'>Expense</Link></a></li> }
 					{isAdmin && <li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="#">Team Roster</a></li> }
 					{isAdmin && <li><img src ={require('../assets/images/tasks.png')} style={{height:'20px',width:'18px'}}/> <a href="url"><Link to='/OrderProcessing'>Orders</Link></a></li> }
 				</ul> 
