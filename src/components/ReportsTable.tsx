@@ -183,7 +183,7 @@ export const ReportsTable = () => {
    
 
   const filteredAndSortedEvents = eventsState.events
-  .filter((event) => event.status !== 'Archived')
+  .filter((event) => event.status !== 'Archived' && event.status === 'Completed')
   .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime())
 
   return (

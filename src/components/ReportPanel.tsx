@@ -47,67 +47,67 @@ export const ReportPanel = (props: any) => {
   }
 
 
-  const dummyData = {
-        labels:['Attendees', 'Didn\'t Attend', 'No Response'],
-        datasets:[
-            {
-                data: [80, 20, 10],
-                backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB']
-            }
-        ]
-  }
+//   const dummyData = {
+//         labels:['Attendees', 'Didn\'t Attend', 'No Response'],
+//         datasets:[
+//             {
+//                 data: [80, 20, 10],
+//                 backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB']
+//             }
+//         ]
+//   }
 
-  const dummyData2 = {
-    labels:['TIDS', 'Team Mau', 'Team Lodi', 'Team Oj'],
-    datasets:[
-        {
-            data: [70, 10, 10, 10],
-            backgroundColor: ['#5E3FBE', '#F27300', '#9F55B1', '#5484B2']
-        }
-    ]
-}
+//   const dummyData2 = {
+//     labels:['TIDS', 'Team Mau', 'Team Lodi', 'Team Oj'],
+//     datasets:[
+//         {
+//             data: [70, 10, 10, 10],
+//             backgroundColor: ['#5E3FBE', '#F27300', '#9F55B1', '#5484B2']
+//         }
+//     ]
+// }
 
-const renderDataLabels: Plugin<'pie'> = {
-  id: 'renderDataLabels',
-  afterDraw: (chart : any) => {
-    const { ctx, chartArea } = chart
-    const datasets = chart.data.datasets
+// const renderDataLabels: Plugin<'pie'> = {
+//   id: 'renderDataLabels',
+//   afterDraw: (chart : any) => {
+//     const { ctx, chartArea } = chart
+//     const datasets = chart.data.datasets
 
-    ctx.save()
+//     ctx.save()
 
-    datasets.forEach((dataset: any) => {
-      const meta = chart.getDatasetMeta(0)
-      const total = meta.total
+//     datasets.forEach((dataset: any) => {
+//       const meta = chart.getDatasetMeta(0)
+//       const total = meta.total
 
-      meta.data.forEach((element: any, index: number) => {
-        const data = dataset.data[index] + '%'
+//       meta.data.forEach((element: any, index: number) => {
+//         const data = dataset.data[index] + '%'
 
-        ctx.fillStyle = '#000000'
-        ctx.font = '14px Arial'
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
+//         ctx.fillStyle = '#000000'
+//         ctx.font = '14px Arial'
+//         ctx.textAlign = 'center'
+//         ctx.textBaseline = 'middle'
 
-        const position = element.tooltipPosition()
-        const x = position.x + (chartArea.left - position.x) * 0.0001
-        const y = position.y + (chartArea.top - position.y) * 0.0001
+//         const position = element.tooltipPosition()
+//         const x = position.x + (chartArea.left - position.x) * 0.0001
+//         const y = position.y + (chartArea.top - position.y) * 0.0001
 
-        ctx.fillText(data, x, y)
-      })
-    })
+//         ctx.fillText(data, x, y)
+//       })
+//     })
 
-    ctx.restore()
-  },
-}
+//     ctx.restore()
+//   },
+// }
 
-const options = {
-  responsive: true,
-  aspectRatio: 1,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-}
+// const options = {
+//   responsive: true,
+//   aspectRatio: 1,
+//   plugins: {
+//     legend: {
+//       display: false,
+//     },
+//   },
+// }
 
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const [showFilterDropdown, setShowFilterDropdown] = useState(false)
@@ -302,8 +302,7 @@ const options = {
          <Row>{isVisible && <AttendanceReportChart />}
          </Row>
         <Row>
-        {isVisible && <ReportsTable />}
-          {/* <ReportsTable/> */}
+          <ReportsTable/>
         </Row>
         
       </Container>
