@@ -11,7 +11,7 @@ import { faLink, faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchGeolocation } from '../redux/geolocationSlice'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
-
+import RegistrationModal from './RegistrationModal'
 
 
 interface EventModalProps {
@@ -49,30 +49,17 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 		setQrCodeUrl(qrCodeUrlFromDatabase)
 	}, [modalData, disableRegistration])
 
+	const [showModal, setShowModal] = useState(false)
+	const [registrationModalData, setRegistrationModalData] = useState<any[]>([])
 	
-
-	
-
-	const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
-		const location = await dispatch(fetchGeolocation())
-	    const address = location.payload
-		await dispatch(register({ eventId, email, address }))
-		const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
-    	await dispatch(addStarPoints({ employeeName, pointsToAdd }))
-		const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-		const registeredEventsArray = Object.values(registeredEventsData.payload)
-		const sortedRegisteredEvents = registeredEventsArray.sort(
-			(a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-		)
-		onSortedEvents1(sortedRegisteredEvents as Event[])
-		const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-		const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-		const sortedUnregisteredEvents = unregisteredEventsArray.sort(
-			(a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-		)
-		onSortedEvents(sortedUnregisteredEvents as Event[])
+	const handleRegisterClick = (event: any) => {
+		setShowModal(true)
+		setRegistrationModalData(event)
 	}
 
+	const handleCloseRegistrationModal = () => {
+		setShowModal(false)
+	}
 
 	const handleCloseModal = () => {
 		setIsQrCodeExpanded(false) // Reset the state to false when the modal is closed
@@ -224,7 +211,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 					
 			
 					{showButtons && (<div className='ModalBodyRightSubDiv'>
-						<Button style={ModalButton} disabled={disable || data.status === 'Inactive' || data.status === 'Completed'} onClick={() => handleRegister(data.eventId, email, data.starsNum)}>REGISTER</Button>{' '}
+						<Button style={ModalButton} disabled={disable || data.status === 'Inactive' || data.status === 'Completed'} onClick={() => handleRegisterClick(data)}>REGISTER</Button>{' '}
 						
 						{data.postEventSurveyURL && (
 						<Button style={ModalButton} href={data.postEventSurveyURL} >EVENT SURVEY </Button> 
@@ -322,7 +309,15 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, modalData, disabl
 						 
 				</div>
 			</Modal.Body>
-			
+			{showModal && 
+          <RegistrationModal 
+            show={showModal} 
+            onHide={handleCloseRegistrationModal} 
+            modalData={registrationModalData}
+            email={email} 
+            onSortedEvents={onSortedEvents} 
+            onSortedEvents1={onSortedEvents1}/>
+          }
 		</Modal>
 	)
 }

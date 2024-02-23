@@ -62,12 +62,13 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
     }
 
     const dispatch = useAppDispatch()
-    const handleRegister = async (eventId: any, email: any, employeeName:any, pointsToAdd:any) => {
+    const handleRegister = async (eventId: any, email: any, employeeName:any, pointsToAdd:any, attendanceType: any, registrationDate: any) => {
         const isDuplicate = await dispatch(checkDuplicates({ email, eventId })).unwrap()
         if(!isDuplicate){
-            const location = await dispatch(fetchGeolocation())
-            const address = location.payload
-            await dispatch(register({ eventId, email, address }))
+            const geoLocation = await dispatch(fetchGeolocation())
+            const location = geoLocation.payload
+            const formattedRegistrationDate = new Date(registrationDate)
+            await dispatch(register({ eventId, email, location, attendanceType, registrationDate: formattedRegistrationDate }))
             await dispatch(addStarPoints({ employeeName, pointsToAdd }))
         }
     }
@@ -101,6 +102,8 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
             let starPoints = 0
             let eventId = 0
             let email:any, givenName:any, familyName:any, employeeName:any = ''
+            let attendanceType = ''
+            let registrationDate = ''
 
             sliced.forEach((line:any, index) => {
                 // Gets the the event id of the first row only
@@ -113,8 +116,10 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
                 givenName = sliced[index][3]
                 familyName = sliced[index][4]
                 employeeName = givenName + ' ' + familyName
+                attendanceType = sliced[index][5]
+                registrationDate = sliced[index][6]
                 // for each row, insert data into database and add star points
-                handleRegister(eventId,email,employeeName,starPoints)
+                handleRegister(eventId,email,employeeName,starPoints,attendanceType,registrationDate)
             })
         }
             reader.readAsText(selectedFile)

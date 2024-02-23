@@ -10,6 +10,7 @@ import EventModal from './EventModal'
 import DetailsModal from './DetailsModal'
 import DeleteEventModal from './DeleteEventModal'
 import FileUploadModal from './FileUploadModal'
+import RegistrationModal from './RegistrationModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
@@ -46,6 +47,10 @@ export const EventPanel2 = (props: any) => {
 
   const handleCloseDetailsModal = () => {
     setDetailsModalShow(false)
+  }
+
+  const handleCloseRegistrationModal = () => {
+    setShowModal(false)
   }
 
   const [deleteEventModalShow, setDeleteEventModalShow] = useState(false)
@@ -185,6 +190,7 @@ export const EventPanel2 = (props: any) => {
   const [sortOption, setSortOption] = useState<string>('asc')
   const [filterOption, setFilterOption] = useState<string[]>(['ALL'])
   const [sortedEvents, setSortedEvents] = useState<Event[]>([])
+  const [showModal, setShowModal] = useState(false)
   const dropdownSortRef = useRef<HTMLDivElement>(null)
   const dropdownFilterRef = useRef<HTMLDivElement>(null)
 
@@ -278,30 +284,9 @@ export const EventPanel2 = (props: any) => {
     })
   }, [])
 
-  const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
-    setSortedEvents([])
-    setSortedEvents1([])
-    setSortOption('asc')
-    setFilterOption(['ALL'])
-    const location = await dispatch(fetchGeolocation())
-    console.log(location.payload)
-    const address = location.payload
-    await dispatch(register({ eventId, email, address }))
-    const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
-    await dispatch(addStarPoints({ employeeName, pointsToAdd }))
-    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-    const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-    setSortedEvents1(sortedRegisteredEvents as Event[])
-    console.log(sortedEvents1)
-    const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-    const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-    setSortedEvents(sortedUnregisteredEvents as Event[])
-    console.log(sortedEvents) 
-
+  const handleRegisterClick = (event: any) => {
+    setShowModal(true)
+    setModalData(event)
   }
 
   const handleRefresh = async (email: any) => {
@@ -541,7 +526,7 @@ export const EventPanel2 = (props: any) => {
               }}
             >
                 <Button
-                  onClick={() => handleRegister(event.eventId, props.variable, event.starsNum)}
+                  onClick={() => handleRegisterClick(event)}
                   className={`bg-success border-success ${event.status === 'Inactive' || event.status === 'Completed' ? 'disabled' : ''}`}
                   style={actionBadge}
                   disabled={event.status === 'Inactive'}
@@ -925,6 +910,15 @@ export const EventPanel2 = (props: any) => {
           show={fileUploadModalShow}
           onHide={handleFileUploadModalClose}
         />
+        {showModal && 
+          <RegistrationModal 
+            show={showModal} 
+            onHide={handleCloseRegistrationModal} 
+            modalData={modalData}
+            email={props.variable} 
+            onSortedEvents={handleSortedEvents} 
+            onSortedEvents1={handleSortedEvents1}/>
+          }
       </Container>
     </Container>
   )

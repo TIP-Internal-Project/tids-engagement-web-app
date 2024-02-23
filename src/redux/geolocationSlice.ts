@@ -22,8 +22,7 @@ export const fetchGeolocation = createAsyncThunk('geolocation/fetchGeolocation',
     const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`)
     const data = await response.json()
 
-    const address = data.results[0]?.formatted || 'Unknown Address'
-    console.log(address)
+    const address = data.results[0]?.components.city  || 'Unknown City'
 
     return address
 })
