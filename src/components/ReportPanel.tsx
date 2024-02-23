@@ -170,7 +170,6 @@ export const ReportPanel = (props: any) => {
     toggleVisibility(event.target.value === 'Attendance Report' || event.target.value === '')
   }}
 >
-								<option value={''}>Select a Report</option>
                 <option value="Attendance Report">Attendance Report</option>
                 <option value="Comparative Report">Comparative Report</option>
                 <option value="Expense Report">Expense Report</option>
