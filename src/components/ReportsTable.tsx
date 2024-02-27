@@ -292,32 +292,33 @@ const currentEvents = filteredAndSortedEvents.slice(indexOfFirstEvent, indexOfLa
 
 
                     
-                <div className="d-flex justify-content-center align-items-center">
-                  <div style={paginationStyle}>
-                  <Pagination>
-                    <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-                    {[...Array(totalPages)].map((_, index) => (
-                      <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
-                        {index + 1}
-                      </Pagination.Item>
-                    ))}
-                    <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
-                  </Pagination>
-                  </div>
+<div className="d-flex justify-content-center align-items-center">
+      <div style={paginationStyle}>
+        <Pagination>
+          <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
+          <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
+          {[...Array(totalPages)].map((_, index) => (
+            <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
+              {index + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+          <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
+        </Pagination>
+      </div>
 
-                  <div>
-                    <Dropdown className="mx-2">
-                      <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
-                        {eventsPerPage}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => handleEventsPerPageChange(10)}>10</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleEventsPerPageChange(20)}>20</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                </div>
-
+      <div>
+        <Dropdown className="mx-2">
+          <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
+            {eventsPerPage}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleEventsPerPageChange(10)}>10</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleEventsPerPageChange(20)}>20</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+    </div>
 
     <EventModal
           show={modalShow}
