@@ -11,71 +11,103 @@ import { Pie } from 'react-chartjs-2'
 import { ReportsTable } from './ReportsTable'
 
 import { Chart, Plugin } from 'chart.js'
+import AttendanceReportChart from './AttendanceReportChart'
 
 export const ReportPanel = (props: any) => {
   const dispatch = useAppDispatch()
 
-  const dummyData = {
-        labels:['Attendees', 'Didn\'t Attend', 'No Response'],
-        datasets:[
-            {
-                data: [80, 20, 10],
-                backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB']
-            }
-        ]
+  const [reportType, setReportType] = useState('')
+  const [isVisible, setIsVisible] = useState(true)
+  
+  const toggleVisibility = (value: boolean) => {
+    setIsVisible(value)
   }
 
-  const dummyData2 = {
-    labels:['TIDS', 'Team Mau', 'Team Lodi', 'Team Oj'],
-    datasets:[
-        {
-            data: [70, 10, 10, 10],
-            backgroundColor: ['#5E3FBE', '#F27300', '#9F55B1', '#5484B2']
-        }
-    ]
-}
 
-const renderDataLabels: Plugin<'pie'> = {
-  id: 'renderDataLabels',
-  afterDraw: (chart : any) => {
-    const { ctx, chartArea } = chart
-    const datasets = chart.data.datasets
+  const handleReportTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setReportType(event.target.value)
+  }
 
-    ctx.save()
 
-    datasets.forEach((dataset: any) => {
-      const meta = chart.getDatasetMeta(0)
-      const total = meta.total
 
-      meta.data.forEach((element: any, index: number) => {
-        const data = dataset.data[index] + '%'
+  const renderReportPage = () => {
+    if (reportType === 'Attendance Report') {
+     
 
-        ctx.fillStyle = '#000000'
-        ctx.font = '14px Arial'
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
+      return (
+        <div>
+        </div>
+      )
+    } else if (reportType === 'Comparative Report') {
+      return null
+    } else if (reportType === 'Expense Report') {
+      return null
+      
+    }
+  }
 
-        const position = element.tooltipPosition()
-        const x = position.x + (chartArea.left - position.x) * 0.0001
-        const y = position.y + (chartArea.top - position.y) * 0.0001
 
-        ctx.fillText(data, x, y)
-      })
-    })
+//   const dummyData = {
+//         labels:['Attendees', 'Didn\'t Attend', 'No Response'],
+//         datasets:[
+//             {
+//                 data: [80, 20, 10],
+//                 backgroundColor: ['#4B286D', '#F4F0FD', '#E5DAFB']
+//             }
+//         ]
+//   }
 
-    ctx.restore()
-  },
-}
+//   const dummyData2 = {
+//     labels:['TIDS', 'Team Mau', 'Team Lodi', 'Team Oj'],
+//     datasets:[
+//         {
+//             data: [70, 10, 10, 10],
+//             backgroundColor: ['#5E3FBE', '#F27300', '#9F55B1', '#5484B2']
+//         }
+//     ]
+// }
 
-const options = {
-  responsive: true,
-  aspectRatio: 1,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-}
+// const renderDataLabels: Plugin<'pie'> = {
+//   id: 'renderDataLabels',
+//   afterDraw: (chart : any) => {
+//     const { ctx, chartArea } = chart
+//     const datasets = chart.data.datasets
+
+//     ctx.save()
+
+//     datasets.forEach((dataset: any) => {
+//       const meta = chart.getDatasetMeta(0)
+//       const total = meta.total
+
+//       meta.data.forEach((element: any, index: number) => {
+//         const data = dataset.data[index] + '%'
+
+//         ctx.fillStyle = '#000000'
+//         ctx.font = '14px Arial'
+//         ctx.textAlign = 'center'
+//         ctx.textBaseline = 'middle'
+
+//         const position = element.tooltipPosition()
+//         const x = position.x + (chartArea.left - position.x) * 0.0001
+//         const y = position.y + (chartArea.top - position.y) * 0.0001
+
+//         ctx.fillText(data, x, y)
+//       })
+//     })
+
+//     ctx.restore()
+//   },
+// }
+
+// const options = {
+//   responsive: true,
+//   aspectRatio: 1,
+//   plugins: {
+//     legend: {
+//       display: false,
+//     },
+//   },
+// }
 
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const [showFilterDropdown, setShowFilterDropdown] = useState(false)
@@ -131,16 +163,22 @@ const options = {
 								Select a Report:
 								</label>
 								<select
-								id="eventDropdown"
-								>
-								<option value={''}>Select a Report</option>
-                <option value={''}>Pie Chart</option>
-                <option value={''}>Bar Graph</option>
+  id="eventDropdown"
+  value={reportType}
+  onChange={(event) => {
+    handleReportTypeChange(event)
+    toggleVisibility(event.target.value === 'Attendance Report' || event.target.value === '')
+  }}
+>
+                <option value="Attendance Report">Attendance Report</option>
+                <option value="Comparative Report">Comparative Report</option>
+                <option value="Expense Report">Expense Report</option>
 
 								{/* Map through eventsday to populate dropdown options */}
 								
 								
 								</select>
+                {renderReportPage()}
 							</div>
           </div>
           <div className='d-flex flex-row-reverse px-5'>
@@ -151,6 +189,7 @@ const options = {
               />
               Filter
             </Nav.Link>
+            
             {showFilterDropdown && (
               <div ref={dropdownFilterRef} className='floating-div2'>
                 <Form style={{ fontSize: '14px' }}>
@@ -210,7 +249,7 @@ const options = {
             )}
           </div>
         </div>
-        <Row>
+        {/* <Row>
             <Col xs={4} >
                 <div className='AttendeesCol'>
                     <div className="invites-container">
@@ -255,7 +294,12 @@ const options = {
                     </Container>
                 </div>
             </Col>
-        </Row>
+        </Row> */}
+         {/* <Row><AttendanceReportChart/></Row> */}
+         <Row><div><center> <h2>{reportType === '' ? 'Attendance Report' : reportType}</h2></center></div>
+</Row>
+         <Row>{isVisible && <AttendanceReportChart />}
+         </Row>
         <Row>
           <ReportsTable/>
         </Row>
