@@ -2,11 +2,12 @@ import React, { useState, useEffect,CSSProperties  } from 'react'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import Form from 'react-bootstrap/Form'
 import { fetchEvents } from '../redux/eventSlice'
-import { ListGroup } from 'react-bootstrap'
+import { ListGroup,Dropdown } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import EventModal from './EventModal'
+import Pagination from 'react-bootstrap/Pagination'
 
 
 export const ReportsTable = () => {
@@ -91,6 +92,9 @@ export const ReportsTable = () => {
     
   }
   
+  const paginationStyle = {
+    marginTop: '16px'
+  }
 
   const tableBorders: CSSProperties = {
     borderLeft: 'none',
@@ -138,14 +142,41 @@ export const ReportsTable = () => {
     
   }
 
-  const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
-  const [modalShow, setModalShow] = useState(false)
-  const [modalData, setModalData] = useState<any[]>([])
-  const [showButtons, setShowButtons] = useState(false)
   
   const events: (events: Event[]) => void = (events: Event[]) => {
     // 
   }
+
+
+  const [eventsPerPage, setEventsPerPage] = useState(5)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
+  const [modalShow, setModalShow] = useState(false)
+  const [modalData, setModalData] = useState<any[]>([])
+  const [showButtons, setShowButtons] = useState(false)
+
+
+
+
+  const filteredAndSortedEvents = eventsState.events
+  .filter((event) => event.status !== 'Archived' && event.status === 'Completed')
+  .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime())
+
+
+  const indexOfLastEvent = currentPage * eventsPerPage
+const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+const currentEvents = filteredAndSortedEvents.slice(indexOfFirstEvent, indexOfLastEvent)
+  const totalPages = Math.ceil(eventsState.events.length / eventsPerPage)
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
+
+  const handleEventsPerPageChange = (value: number) => {
+    setEventsPerPage(value)
+    setCurrentPage(1)
+  }
+
 
   const handleOpenModal = (event: any, hide: boolean) => {
     setModalShow(true)
@@ -182,10 +213,7 @@ export const ReportsTable = () => {
 
    
 
-  const filteredAndSortedEvents = eventsState.events
-  .filter((event) => event.status !== 'Archived' && event.status === 'Completed')
-  .sort((a, b) => new Date(b.endDate).getTime() - new Date(a.endDate).getTime())
-
+ 
   return (
     
     <div>
@@ -212,7 +240,7 @@ export const ReportsTable = () => {
       </Col>
     </Row>
 
-    {filteredAndSortedEvents.map((event: any) => (
+    {currentEvents.map((event: any) => (
       <ListGroup key={event.eventId} style={GroupListBorder}>
         <ListGroup.Item style={tableBordersIndiv}>
           <Row>
@@ -260,6 +288,37 @@ export const ReportsTable = () => {
         </ListGroup.Item>
       </ListGroup>
     ))}
+
+
+                    
+<div className="d-flex justify-content-center align-items-center">
+      <div style={paginationStyle}>
+        <Pagination>
+          <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
+          <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
+          {[...Array(totalPages)].map((_, index) => (
+            <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
+              {index + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+          <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
+        </Pagination>
+      </div>
+
+      <div>
+        <Dropdown className="mx-2">
+          <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
+            {eventsPerPage}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleEventsPerPageChange(10)}>10</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleEventsPerPageChange(20)}>20</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+    </div>
+
     <EventModal
           show={modalShow}
           onHide={handleCloseModal}
@@ -271,5 +330,6 @@ export const ReportsTable = () => {
           onSortedEvents1={events}
         />
   </div>
+
   )
 }
