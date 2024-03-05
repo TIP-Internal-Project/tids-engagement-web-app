@@ -9,6 +9,7 @@ import { register } from '../redux/eventRegistrationSlice'
 import { addStarPoints } from '../redux/addStarPointsSlice'
 import { fetchGeolocation } from '../redux/geolocationSlice'
 import { checkDuplicates } from '../redux/checkDuplicatesSlice'
+import { Toast } from './Toast'
 
 interface FileUploadModalProps {
   show: boolean
@@ -120,7 +121,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({ show, onHide }) => {
             reader.readAsText(selectedFile)
             // Shows a pop up upon success and hides Upload modal
             onHide()
-            alert('Successfully uploaded file')
+            Toast('File Upload', 'Successfully uploaded file!', 'success')
             setSelectedFile(undefined)
         }
      }
