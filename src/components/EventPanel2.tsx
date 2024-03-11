@@ -20,7 +20,6 @@ import { fetchGeolocation } from '../redux/geolocationSlice'
 import axios from 'axios'
 import { useLocation,useParams  } from 'react-router-dom'
 import api from '../api.json'
-import { Toast } from './Toast'
 
 
 export const EventPanel2 = (props: any) => {
