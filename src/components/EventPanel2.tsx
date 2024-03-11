@@ -776,10 +776,7 @@ export const EventPanel2 = (props: any) => {
             <Nav.Link
               className='mx-3'
               style={{ fontSize: '14px' }}
-              onClick={() => {
-                handleRefresh(props.variable)
-                Toast('File Upload', 'Successfully uploaded file!', 'success')
-              }}
+              onClick={() => handleRefresh(props.variable)}
             >
               <img
                 style={{ height: '22px', width: '19px', marginRight: '10px' }}
