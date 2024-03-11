@@ -20,6 +20,7 @@ import { fetchGeolocation } from '../redux/geolocationSlice'
 import axios from 'axios'
 import { useLocation,useParams  } from 'react-router-dom'
 import api from '../api.json'
+import { Toast } from './Toast'
 
 
 export const EventPanel2 = (props: any) => {
@@ -775,7 +776,10 @@ export const EventPanel2 = (props: any) => {
             <Nav.Link
               className='mx-3'
               style={{ fontSize: '14px' }}
-              onClick={() => handleRefresh(props.variable)}
+              onClick={() => {
+                handleRefresh(props.variable)
+                Toast('File Upload', 'Successfully uploaded file!', 'success')
+              }}
             >
               <img
                 style={{ height: '22px', width: '19px', marginRight: '10px' }}
