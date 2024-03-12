@@ -1,218 +1,83 @@
 import Nav from 'react-bootstrap/Nav'
 import ListGroup from 'react-bootstrap/ListGroup'
 import React, { useState, useEffect, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from '../redux/store'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import EventModal from './EventModal'
-import DetailsModal from './DetailsModal'
-import DeleteEventModal from './DeleteEventModal'
-import FileUploadModal from './FileUploadModal'
+import EventModal from '../EventModal'
+import DetailsModal from '../DetailsModal'
+import DeleteEventModal from '../DeleteEventModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
-import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
-import { register } from '../redux/eventRegistrationSlice'
-import { addStarPoints } from '../redux/addStarPointsSlice'
+import { fetchUnregisteredEvents } from '../../redux/unregisteredEventsSlice'
+import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
+import { register } from '../../redux/eventRegistrationSlice'
+import { addStarPoints } from '../../redux/addStarPointsSlice'
 import Form from 'react-bootstrap/Form'
-import { fetchGeolocation } from '../redux/geolocationSlice'
+import { fetchGeolocation } from '../../redux/geolocationSlice'
 import axios from 'axios'
 import { useLocation,useParams  } from 'react-router-dom'
-import api from '../api.json'
+import api from '../../api.json'
 import { Dropdown, Pagination } from 'react-bootstrap'
+import { IndItemTitleDisplay, tidsBadge, teamBadge, copBadge, happyBadge, 
+  TitleBar, IndItemDueDateDisplay, IndItemDueTimeDisplay, actionBadge, 
+  paginationStyle, viewDetailsButton } from './style'
+import { setTimeFormat } from './utils'
+import FileUploadModal from '../FileUploadModal'
 
 export const EventPanel2 = (props: any) => {
   const dispatch = useAppDispatch()
+  const  { modalUrl } = useParams()
+  const location = useLocation()
 
-  // const [eventModalShow, setEventModalShow] = useState(false)
   const [action, setAction] = useState('')
   const [event, setEvent] = useState<any[]>([])
   const [detailsModalShow, setDetailsModalShow] = useState(false)
-  const [eventToShow, setEventToShow] = useState(null)
-  const location = useLocation()
+  
   const [modalUrlParam, setModalUrlParam] = useState<string | null>(null)
-   
-  
-
-  const handleOpenDetailsModal = (action: string, event: any) => {
-    setDetailsModalShow(true)
-    setAction(action)
-    setEvent(event)
-  }
-
- 
-  const  { modalUrl } = useParams()
-  
-  
-
-  const handleCloseDetailsModal = () => {
-    setDetailsModalShow(false)
-  }
-
   const [deleteEventModalShow, setDeleteEventModalShow] = useState(false)
-
-  const handleDeleteModalShow = (event: any) => {
-    setModalData(event)
-    setDeleteEventModalShow(true)
-  }
-
-  const handleDeleteModalClose = () => {
-    setDeleteEventModalShow(false)
-  }
-
   const [fileUploadModalShow, setFileUploadModalShow] = useState(false)
-
-  const handleFileUploadModalClose = () => {
-    setFileUploadModalShow(false)
-  }
-
-  const handleFileUploadModalShow = () => {
-    setFileUploadModalShow(true)
-  }
-
-
-  const API_ROOT = api.ROOT
-
-
-  const tidsBadge = {
-    background: '#2A66FF',
-    border: '#2A66FF',
-    width: '115px',
-    height: '30px',
-    borderRadius: '8px',
-    fontSize: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-
-  const happyBadge = {
-    backgroundColor: '#4B286D',
-    border: '#4B286D',
-    width: '115px',
-    height: '30px',
-    borderRadius: '8px',
-    fontSize: '12px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-
-  const copBadge = {
-    backgroundColor: '#FF0AE6',
-    border: '#FF0AE6',
-    width: '115px',
-    height: '30px',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '12px',
-  }
-
-  const teamBadge = {
-    backgroundColor: '#66CC00',
-    border: '#66CC00',
-    width: '115px',
-    height: '30px',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '12px',
-  }
-
-  const TitleBar = {
-    paddingTop: '24px',
-    color: '#9FA2B4',
-  }
-
-  const IndItemTitleDisplay = {
-    fontFamily: 'Mulish',
-    color: '#2A2C2E',
-    fontWeight: '700',
-    fontSize: '16px',
-    lineHeight: '24px',
-    FontStyle: 'normal',
-    marginBottom: '0',
-  }
-
-  const IndItemDueDate: React.CSSProperties = {}
-
-  const IndItemDueDateDisplay = {
-    fontFamily: 'Mulish',
-    fontWeight: '600',
-    fontSize: '14px',
-    lineHeight: '28px',
-    FontStyle: 'normal',
-    color: '#252733',
-  }
-
-  const IndItemDueTimeDisplay = {
-    fontFamily: 'Mulish',
-    fontWeight: '600',
-    fontSize: '14px',
-    lineHeight: '28px',
-    FontStyle: 'normal',
-    marginBottom: '0',
-    color: '#C5C7CD',
-  }
-
-  const actionBadge = {
-    width: '100px',
-    height: '30px',
-    margin: '3px',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '12px',
-    borderColor: '#198754'
-  }
-
-  const viewDetailsButton = {
-    padding: '1px 2px',
-    fontSize: '11px',
-    background: 'none',
-    border: 'none',
-    color: 'green',
-  }
-
-  const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
-
   const [modalData, setModalData] = useState<any[]>([])
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const [showFilterDropdown, setShowFilterDropdown] = useState(false)
   const [sortOption, setSortOption] = useState<string>('asc')
   const [filterOption, setFilterOption] = useState<string[]>(['ALL'])
   const [sortedEvents, setSortedEvents] = useState<Event[]>([])
+  const [sortedEvents1, setSortedEvents1] = useState<Event[]>([])
+  const [modalShow, setModalShow] = useState(false)
+  const [disableRegistration, setDisableRegistration] = useState(false)
+
+  // Registered Events Pagination
+  const [regEventsPerPage, setRegEventsPerPage] = useState(5)
+  const [currentRegPage, setCurrentRegPage] = useState(1)
+
+  // Unregistered Events Pagination
+  const [unregEventsPerPage, setUnregEventsPerPage] = useState(5)
+  const [currentUnregPage, setCurrentUnregPage] = useState(1)
+
+  const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
+
+  const unregisteredEvents = useAppSelector((state) => state.unregisteredEvents)
+  const registeredEvents = useAppSelector((state) => state.registeredEvents)
+
+  const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
+  const API_ROOT = api.ROOT
+  const IndItemDueDate: React.CSSProperties = {}
   const dropdownSortRef = useRef<HTMLDivElement>(null)
   const dropdownFilterRef = useRef<HTMLDivElement>(null)
 
+  const indexOfLastRegEvent = currentRegPage * regEventsPerPage
+  const indexOfFirstRegEvent = indexOfLastRegEvent - regEventsPerPage
+  const currentRegEvents =  Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').slice(indexOfFirstRegEvent, indexOfLastRegEvent)
+  const totalRegEventsPages = Math.ceil(Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').length / regEventsPerPage)
 
-  
-
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (dropdownSortRef.current && !dropdownSortRef.current.contains(event.target as Node)) {
-      setShowSortDropdown(false)
-    }
-    if (dropdownFilterRef.current && !dropdownFilterRef.current.contains(event.target as Node)) {
-      setShowFilterDropdown(false)
-    }
-  }
-
-  const handleSortButtonClick = () => {
-    setShowSortDropdown((prevShowSortDropdown) => !prevShowSortDropdown)
-  }
-
-  const handleFilterButtonClick = () => {
-    setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
-  }
-
+  const indexOfLastUnregEvent = currentUnregPage * unregEventsPerPage
+  const indexOfFirstUnregEvent = indexOfLastUnregEvent - unregEventsPerPage
+  const currentUnRegEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').slice(indexOfFirstUnregEvent, indexOfLastUnregEvent)
+  const totalUnregEventsPages = Math.ceil(Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').length / unregEventsPerPage)
 
   useEffect(() => {
-    
     axios.get(API_ROOT + '/events/getAllEvents')
       .then(response => {
         setEvent(response.data)
@@ -228,7 +93,6 @@ export const EventPanel2 = (props: any) => {
       setModalUrlParam(modalUrl)
     }
   }, [location])
-
 
   useEffect(() => {
     if (modalUrl && event.length > 0) {
@@ -250,8 +114,6 @@ export const EventPanel2 = (props: any) => {
     }
   }, [])
 
-  const unregisteredEvents = useAppSelector((state) => state.unregisteredEvents)
-
   useEffect(() => {
     const email = props.variable
     dispatch(fetchUnregisteredEvents(email)).then((data: any) => {
@@ -266,9 +128,6 @@ export const EventPanel2 = (props: any) => {
     })
   }, [])
 
-  const [sortedEvents1, setSortedEvents1] = useState<Event[]>([])
-
-  const registeredEvents = useAppSelector((state) => state.registeredEvents)
   useEffect(() => {
     const email = props.variable
     dispatch(fetchRegisteredEvents(email)).then((data: any) => {
@@ -282,122 +141,6 @@ export const EventPanel2 = (props: any) => {
       setSortedEvents1(events as Event[])
     })
   }, [])
-
-
-  const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
-    setSortedEvents([])
-    setSortedEvents1([])
-    setSortOption('asc')
-    setFilterOption(['ALL'])
-    const location = await dispatch(fetchGeolocation())
-    console.log(location.payload)
-    const address = location.payload
-    await dispatch(register({ eventId, email, address }))
-    const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
-    await dispatch(addStarPoints({ employeeName, pointsToAdd }))
-    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-    const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-    setSortedEvents1(sortedRegisteredEvents as Event[])
-    console.log(sortedEvents1)
-    const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-    const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-    setSortedEvents(sortedUnregisteredEvents as Event[])
-    console.log(sortedEvents) 
-
-
-    
-  }
-
-
-  
-
-  const handleRefresh = async (email: any) => {
-    setSortedEvents([])
-    setSortedEvents1([])
-    setSortOption('asc')
-    setFilterOption(['ALL'])
-    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-    const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-      .filter((event: any) => event.status != 'Archived')
-    setSortedEvents1(sortedRegisteredEvents as Event[])
-    const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-    const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
-      .filter((event: any) => event.status != 'Archived')
-    setSortedEvents(sortedUnregisteredEvents as Event[])
-  }
-
-  const handleSortOption = (option: string) => {
-    setSortOption(option)
-    setShowSortDropdown(false)
-  }
-
-  const handleFilterOption = (option: string[]) => {
-    setFilterOption(option)
-  }
-
-  const handleChangeInData = () => {
-    setDetailsModalShow(false)
-    handleRefresh(props.variable)
-  }
-
-  const handleDelete = () => {
-    setDeleteEventModalShow(false)
-    handleRefresh(props.variable)
-  }
-
-  
-  const paginationStyle = {
-    marginTop: '16px'
-  }
-  
-    // Registered Events Pagination
-  const [regEventsPerPage, setRegEventsPerPage] = useState(5)
-  const [currentRegPage, setCurrentRegPage] = useState(1)
-
-  const handleRegPageChange = (pageNumber: number) => {
-    setCurrentRegPage(pageNumber)
-  }
-
-  const handleRegEventsPerPageChange = (value: number) => {
-    setRegEventsPerPage(value)
-    setCurrentRegPage(1)
-  }
-
-
-  const indexOfLastRegEvent = currentRegPage * regEventsPerPage
-  const indexOfFirstRegEvent = indexOfLastRegEvent - regEventsPerPage
-  const currentRegEvents =  Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').slice(indexOfFirstRegEvent, indexOfLastRegEvent)
-  const totalRegEventsPages = Math.ceil(Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').length / regEventsPerPage)
-
-
-   // Unregistered Events Pagination
-   const [unregEventsPerPage, setUnregEventsPerPage] = useState(5)
-   const [currentUnregPage, setCurrentUnregPage] = useState(1)
- 
-   const handleUnregPageChange = (pageNumber: number) => {
-     setCurrentUnregPage(pageNumber)
-   }
- 
-   const handleUnregEventsPerPageChange = (value: number) => {
-     setUnregEventsPerPage(value)
-     setCurrentUnregPage(1)
-   }
- 
- 
-   const indexOfLastUnregEvent = currentUnregPage * unregEventsPerPage
-   const indexOfFirstUnregEvent = indexOfLastUnregEvent - unregEventsPerPage
-   const currentUnRegEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').slice(indexOfFirstUnregEvent, indexOfLastUnregEvent)
-   const totalUnregEventsPages = Math.ceil(Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').length / unregEventsPerPage)
- 
-
 
   useEffect(() => {
     const sort = async () => {
@@ -485,8 +228,133 @@ export const EventPanel2 = (props: any) => {
     sort()
   }, [sortOption, filterOption])
 
-  const [modalShow, setModalShow] = useState(false)
-  const [disableRegistration, setDisableRegistration] = useState(false)
+  const handleOpenDetailsModal = (action: string, event: any) => {
+    setDetailsModalShow(true)
+    setAction(action)
+    setEvent(event)
+  }
+
+  const handleCloseDetailsModal = () => {
+    setDetailsModalShow(false)
+  }
+
+  const handleDeleteModalShow = (event: any) => {
+    setModalData(event)
+    setDeleteEventModalShow(true)
+  }
+
+  const handleDeleteModalClose = () => {
+    setDeleteEventModalShow(false)
+  }
+
+  const handleFileUploadModalClose = () => {
+    setFileUploadModalShow(false)
+  }
+
+  const handleFileUploadModalShow = () => {
+    setFileUploadModalShow(true)
+  }
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (dropdownSortRef.current && !dropdownSortRef.current.contains(event.target as Node)) {
+      setShowSortDropdown(false)
+    }
+    if (dropdownFilterRef.current && !dropdownFilterRef.current.contains(event.target as Node)) {
+      setShowFilterDropdown(false)
+    }
+  }
+
+  const handleSortButtonClick = () => {
+    setShowSortDropdown((prevShowSortDropdown) => !prevShowSortDropdown)
+  }
+
+  const handleFilterButtonClick = () => {
+    setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
+  }
+
+  const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
+    setSortedEvents([])
+    setSortedEvents1([])
+    setSortOption('asc')
+    setFilterOption(['ALL'])
+    const location = await dispatch(fetchGeolocation())
+    console.log(location.payload)
+    const address = location.payload
+    await dispatch(register({ eventId, email, address }))
+    const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
+    await dispatch(addStarPoints({ employeeName, pointsToAdd }))
+    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
+    const registeredEventsArray = Object.values(registeredEventsData.payload)
+    const sortedRegisteredEvents = registeredEventsArray
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+    setSortedEvents1(sortedRegisteredEvents as Event[])
+    console.log(sortedEvents1)
+    const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
+    const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
+    const sortedUnregisteredEvents = unregisteredEventsArray
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+    setSortedEvents(sortedUnregisteredEvents as Event[])
+    console.log(sortedEvents) 
+
+
+    
+  }
+
+  const handleRefresh = async (email: any) => {
+    setSortedEvents([])
+    setSortedEvents1([])
+    setSortOption('asc')
+    setFilterOption(['ALL'])
+    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
+    const registeredEventsArray = Object.values(registeredEventsData.payload)
+    const sortedRegisteredEvents = registeredEventsArray
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .filter((event: any) => event.status != 'Archived')
+    setSortedEvents1(sortedRegisteredEvents as Event[])
+    const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
+    const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
+    const sortedUnregisteredEvents = unregisteredEventsArray
+      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .filter((event: any) => event.status != 'Archived')
+    setSortedEvents(sortedUnregisteredEvents as Event[])
+  }
+
+  const handleSortOption = (option: string) => {
+    setSortOption(option)
+    setShowSortDropdown(false)
+  }
+
+  const handleFilterOption = (option: string[]) => {
+    setFilterOption(option)
+  }
+
+  const handleChangeInData = () => {
+    setDetailsModalShow(false)
+    handleRefresh(props.variable)
+  }
+
+  const handleDelete = () => {
+    setDeleteEventModalShow(false)
+    handleRefresh(props.variable)
+  }
+
+  const handleRegPageChange = (pageNumber: number) => {
+    setCurrentRegPage(pageNumber)
+  }
+
+  const handleRegEventsPerPageChange = (value: number) => {
+    setRegEventsPerPage(value)
+    setCurrentRegPage(1)
+  }
+
+  const handleUnregPageChange = (pageNumber: number) => {
+    setCurrentUnregPage(pageNumber)
+  }
+
+  const handleUnregEventsPerPageChange = (value: number) => {
+    setUnregEventsPerPage(value)
+    setCurrentUnregPage(1)
+  }
 
   const handleSortedEvents = (events: Event[]) => {
     setSortedEvents(events)
@@ -507,18 +375,6 @@ export const EventPanel2 = (props: any) => {
   const handleCloseModal = () => {
     setModalShow(false)
     setModalData([])
-  }
-
-
-
-
-  const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
-
-  const setTimeFormat = (aDateString: string): string => {
-    const aDate = new Date(aDateString)
-    const timeString = aDate.toLocaleTimeString().slice(0, -6)
-    const newFormat = aDate.getHours() >= 12 ? 'PM' : 'AM'
-    return `${timeString} ${newFormat}`
   }
 
   const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
@@ -735,7 +591,6 @@ export const EventPanel2 = (props: any) => {
     )
   })
 
-  
   return (
     <Container
       fluid
@@ -768,7 +623,7 @@ export const EventPanel2 = (props: any) => {
             <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleFilterButtonClick}>
               <img
                 style={{ height: '15px', width: '14px', marginRight: '10px' }}
-                src={require('../assets/images/filter.png')}
+                src={require('../../assets/images/filter.png')}
               />
               Filter
             </Nav.Link>
@@ -808,11 +663,10 @@ export const EventPanel2 = (props: any) => {
                 </Form>
               </div>
             )}
-
             <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleSortButtonClick}>
               <img
                 style={{ height: '15px', width: '15px', marginRight: '10px' }}
-                src={require('../assets/images/sort-up.png')}
+                src={require('../../assets/images/sort-up.png')}
               />
               Sort
             </Nav.Link>
@@ -830,7 +684,6 @@ export const EventPanel2 = (props: any) => {
                 </p>
               </div>
             )}
-
             <Nav.Link
               className='mx-3'
               style={{ fontSize: '14px' }}
@@ -838,7 +691,7 @@ export const EventPanel2 = (props: any) => {
             >
               <img
                 style={{ height: '22px', width: '19px', marginRight: '10px' }}
-                src={require('../assets/images/refresh.png')}
+                src={require('../../assets/images/refresh.png')}
               />
               Refresh
             </Nav.Link>
@@ -850,7 +703,7 @@ export const EventPanel2 = (props: any) => {
             >
               <img
                 style={{ height: '15px', width: '15px', marginRight: '10px' , filter: 'opacity(0.4)'}}
-                src={require('../assets/images/upload.png')}
+                src={require('../../assets/images/upload.png')}
               />
               Upload
             </Nav.Link>)}
@@ -906,7 +759,7 @@ export const EventPanel2 = (props: any) => {
           </div>
         )}
 
-<div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
               <div style={paginationStyle}>
                 <Pagination>
                   <Pagination.First onClick={() => handleRegPageChange(1)} disabled={currentRegPage === 1} />
@@ -933,9 +786,9 @@ export const EventPanel2 = (props: any) => {
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
-              </div>
+        </div>
               
-  {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
+        {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
           <Row style={TitleBar} className='px-5'>
             {isAdmin && (
               <Col xs={1} style={{ fontSize: '14px' }}>
@@ -955,8 +808,6 @@ export const EventPanel2 = (props: any) => {
               Action
             </Col>
           </Row>
-        
-        
         ) : null}
 
         {unregisteredEvents.loading && (
@@ -983,8 +834,6 @@ export const EventPanel2 = (props: any) => {
               paddingBottom: '4%',
               fontSize: '14px',
             }}
-
-            
           >
             {'Error: ' + unregisteredEvents.error}
           </div>
@@ -1010,7 +859,7 @@ export const EventPanel2 = (props: any) => {
             action={action}
           />)}
 
-<div className="d-flex justify-content-center align-items-center">
+      <div className="d-flex justify-content-center align-items-center">
         <div style={paginationStyle}>
           <Pagination>
             <Pagination.First onClick={() => handleUnregPageChange(1)} disabled={currentUnregPage === 1} />
@@ -1037,7 +886,8 @@ export const EventPanel2 = (props: any) => {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-		    </div>
+
+        </div>
         <DeleteEventModal
           show={deleteEventModalShow}
           onHide={handleDeleteModalClose}
@@ -1050,9 +900,5 @@ export const EventPanel2 = (props: any) => {
         />
       </Container>
     </Container>
-    
-
-    
-    
   )
 }
