@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux'
 import { updateEvent } from '../redux/eventSlice'
 import { AppDispatch } from '../redux/store'
 import Spinner from 'react-bootstrap/Spinner'
+import TidsModal from './Modal'
 
 
 
@@ -638,24 +639,19 @@ const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen)
 
-  return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      size='xl'
-      aria-labelledby='contained-modal-title-vcenter'
-      centered
-    >
-      <Modal.Header closeButton style={modalStyle}>
+  const HeaderContent = () => {
+    return (
+    <>
         <Modal.Title id='contained-modal-title-vcenter' className='mx-3' style={ModalTitleDiv}>
           {action == 'add' ? 'Add' : 'Edit'} Event
         </Modal.Title>
-      </Modal.Header>
+    </> )
+  }
 
-      <hr style={{ width: '87%', margin: '1rem auto', borderWidth: '2px', marginTop: '-5px' }} />
-
-      <Modal.Body>
-        <Container fluid className='px-5 pb-4'>
+  const BodyContent = () => {
+    return (
+  <>
+      <Container fluid className='px-5 pb-4'>
           <Row>
             <Col xs={8}>
               <Form.Group className='mb-3'>
@@ -820,9 +816,6 @@ const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
             </Col>
           </Row>
 
-
-
-
           <Row>
                   
 
@@ -949,30 +942,6 @@ const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
             </Col>
           </Row>
 
-          {/* <Row>
-            <Col xs={4}>
-              <Form.Group>
-                <Form.Label>Event Code</Form.Label>
-                <Form.Control
-                  required
-                  type='text'
-                  defaultValue={action == 'edit' ? event.code : ''}
-                  name='code'
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-            </Col>
-
-            <Col xs={4}>
-             
-            </Col>
-
-            <Col xs={4}>
-              
-            </Col>
-          </Row> */}
-
           <Row className='mt-4 mb-4'>
             {/* <Col xs={4}>
               <Form.Group>
@@ -1068,8 +1037,28 @@ const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
             </Col>) : null}
           </Row>
         </Container>
-      </Modal.Body>
-    </Modal>
+  </>
+    )
+  }
+
+  return (
+   <>
+   <TidsModal
+      show={show}
+      onHide={onHide}
+      size='xl'
+      ariaLabelBy='contained-modal-title-vcenter'
+      centered
+      customHeaderStyle={modalStyle}
+      hasHeader={true}
+      headerContent={<HeaderContent />}
+      hasBody={true}
+      bodyContent={<BodyContent />}
+      hasCloseBtn={true}
+   />
+
+   {/* </TidsModal> */}
+   </>
   )
 }
 
