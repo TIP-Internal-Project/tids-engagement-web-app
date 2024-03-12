@@ -15,7 +15,6 @@ import { useLocation,useParams  } from 'react-router-dom'
 import api from '../../api.json'
 import './styles.css'
 
-
 export const ExpensePanel = (props: any) => {
   const dispatch = useAppDispatch()
   const [action, setAction] = useState('')

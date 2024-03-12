@@ -7,8 +7,6 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import ImageModal from '../ImageModal'
 
-
-
 interface ExpenseModalProps {
   show: boolean
   onHide: () => void
@@ -23,7 +21,6 @@ interface Expense {
     receipt: File | null
 }
 
-
 // Function to calculate the total expense amount
 const calculateTotalExpense = (expenses: Expense[]) => {
     let total = 0
@@ -34,7 +31,6 @@ const calculateTotalExpense = (expenses: Expense[]) => {
   }
 
 const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action }) => {
-
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [newExpenseName, setNewExpenseName] = useState('')
@@ -122,13 +118,10 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
         if (decimalCount > 1 || (decimalCount === 1 && amount.split('.')[1].length > 2)) {
             amount = newExpenseAmount
         }
-       
 
         while (exist) {
             const idExists = expenses.filter((expense) => expense.id === `${event.eventId}-${expenses.length + count}`).length > 0
 
-        
-            
             if (!idExists) {
                 exist = false
             }
@@ -143,8 +136,6 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
             setExpenses([...expenses, newExpense])
             count++
         }
-        
-
     }
 
     // Clear input fields after adding expense
@@ -153,15 +144,12 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
     setNewExpenseAmount('')
     setSelectedImage(null)
     setExpenseIdToModify('')
-    
 
     if (imagePrev) {
         imagePrev.src = require('../../assets/images/image.png')
         imagePrev.style.height = '40px'
         imagePrev.style.width = '40px'
     }
-
-    
   }
 
   // Delete Expense
@@ -186,13 +174,10 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
         imagePrev.style.width = '100%'
     }
 
-  
     // You may need to store the ID of the expense being modified for updating later
     setExpenseIdToModify(expense.id)
   }
-
   
-
   const handleImageClick = ( selectedExpense : File | null) => {
       setShowImageModal(true)
       setImageReceiptURL(selectedExpense)
