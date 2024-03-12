@@ -6,8 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import EventModal from './EventModal'
-import DetailsModal from './DetailsModal'
+import ExpenseModal from './ExpenseModal'
 import DeleteEventModal from './DeleteEventModal'
 import FileUploadModal from './FileUploadModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -27,8 +26,18 @@ export const ExpensePanel = (props: any) => {
   // const [eventModalShow, setEventModalShow] = useState(false)
   const [action, setAction] = useState('')
   const [event, setEvent] = useState<any[]>([])
-  const [detailsModalShow, setDetailsModalShow] = useState(false)
+  const [addExpenseModalShow, setAddExpenseModalShow] = useState(false)
   const location = useLocation()
+
+  const handleOpenAddExpenseModal = (action: string, event: any) => {
+    setAddExpenseModalShow(true)
+    setAction(action)
+    setEvent(event)
+  }
+
+  const handleCloseDetailsModal = () => {
+    setAddExpenseModalShow(false)
+  }
 
   const API_ROOT = api.ROOT
 
@@ -68,7 +77,7 @@ export const ExpensePanel = (props: any) => {
     borderColor: '#198754'
   }
 
-
+  const [modalData, setModalData] = useState<any[]>([])
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const [showFilterDropdown, setShowFilterDropdown] = useState(false)
   const [sortOption, setSortOption] = useState<string>('desc')
@@ -150,6 +159,12 @@ export const ExpensePanel = (props: any) => {
   const handleFilterOption = (option: string[]) => {
     setFilterOption(option)
   }
+
+  const handleChangeInData = () => {
+    setAddExpenseModalShow(false)
+    handleRefresh(props.variable)
+  }
+
   useEffect(() => {
     console.log('Sorting..')
     const sort = async () => {
@@ -203,6 +218,16 @@ export const ExpensePanel = (props: any) => {
 
   const [modalShow, setModalShow] = useState(false)
   const [disableRegistration, setDisableRegistration] = useState(false)
+
+  const handleSortedEvents = (events: Event[]) => {
+    setSortedEvents(events)
+    setModalShow(false)
+  }
+
+  const handleCloseModal = () => {
+    setModalShow(false)
+    setModalData([])
+  }
 
 
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
@@ -260,6 +285,7 @@ export const ExpensePanel = (props: any) => {
                 <Button
                   variant='success'
                   style={actionBadge}
+                  onClick={() => handleOpenAddExpenseModal('add', event)}
                 >
                   {' '}
                   ADD EXPENSE
@@ -431,7 +457,14 @@ export const ExpensePanel = (props: any) => {
           >
             No Events
           </div>
-        )}
+        )} 
+        {addExpenseModalShow && (
+          <ExpenseModal
+            show={addExpenseModalShow}
+            onHide={handleCloseDetailsModal}
+            event={event}
+            action={action}
+          />)}
       </Container>
     </Container>
   )
