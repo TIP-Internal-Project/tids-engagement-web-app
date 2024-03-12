@@ -20,7 +20,7 @@ import { fetchGeolocation } from '../redux/geolocationSlice'
 import axios from 'axios'
 import { useLocation,useParams  } from 'react-router-dom'
 import api from '../api.json'
-
+import { Dropdown, Pagination } from 'react-bootstrap'
 
 export const EventPanel2 = (props: any) => {
   const dispatch = useAppDispatch()
@@ -32,6 +32,8 @@ export const EventPanel2 = (props: any) => {
   const [eventToShow, setEventToShow] = useState(null)
   const location = useLocation()
   const [modalUrlParam, setModalUrlParam] = useState<string | null>(null)
+   
+  
 
   const handleOpenDetailsModal = (action: string, event: any) => {
     setDetailsModalShow(true)
@@ -40,7 +42,7 @@ export const EventPanel2 = (props: any) => {
   }
 
  
-    const  { modalUrl } = useParams()
+  const  { modalUrl } = useParams()
   
   
 
@@ -188,6 +190,9 @@ export const EventPanel2 = (props: any) => {
   const dropdownSortRef = useRef<HTMLDivElement>(null)
   const dropdownFilterRef = useRef<HTMLDivElement>(null)
 
+
+  
+
   const handleOutsideClick = (event: MouseEvent) => {
     if (dropdownSortRef.current && !dropdownSortRef.current.contains(event.target as Node)) {
       setShowSortDropdown(false)
@@ -278,6 +283,7 @@ export const EventPanel2 = (props: any) => {
     })
   }, [])
 
+
   const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
     setSortedEvents([])
     setSortedEvents1([])
@@ -302,7 +308,12 @@ export const EventPanel2 = (props: any) => {
     setSortedEvents(sortedUnregisteredEvents as Event[])
     console.log(sortedEvents) 
 
+
+    
   }
+
+
+  
 
   const handleRefresh = async (email: any) => {
     setSortedEvents([])
@@ -341,6 +352,52 @@ export const EventPanel2 = (props: any) => {
     setDeleteEventModalShow(false)
     handleRefresh(props.variable)
   }
+
+  
+  const paginationStyle = {
+    marginTop: '16px'
+  }
+  
+    // Registered Events Pagination
+  const [regEventsPerPage, setRegEventsPerPage] = useState(5)
+  const [currentRegPage, setCurrentRegPage] = useState(1)
+
+  const handleRegPageChange = (pageNumber: number) => {
+    setCurrentRegPage(pageNumber)
+  }
+
+  const handleRegEventsPerPageChange = (value: number) => {
+    setRegEventsPerPage(value)
+    setCurrentRegPage(1)
+  }
+
+
+  const indexOfLastRegEvent = currentRegPage * regEventsPerPage
+  const indexOfFirstRegEvent = indexOfLastRegEvent - regEventsPerPage
+  const currentRegEvents =  Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').slice(indexOfFirstRegEvent, indexOfLastRegEvent)
+  const totalRegEventsPages = Math.ceil(Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').length / regEventsPerPage)
+
+
+   // Unregistered Events Pagination
+   const [unregEventsPerPage, setUnregEventsPerPage] = useState(5)
+   const [currentUnregPage, setCurrentUnregPage] = useState(1)
+ 
+   const handleUnregPageChange = (pageNumber: number) => {
+     setCurrentUnregPage(pageNumber)
+   }
+ 
+   const handleUnregEventsPerPageChange = (value: number) => {
+     setUnregEventsPerPage(value)
+     setCurrentUnregPage(1)
+   }
+ 
+ 
+   const indexOfLastUnregEvent = currentUnregPage * unregEventsPerPage
+   const indexOfFirstUnregEvent = indexOfLastUnregEvent - unregEventsPerPage
+   const currentUnRegEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').slice(indexOfFirstUnregEvent, indexOfLastUnregEvent)
+   const totalUnregEventsPages = Math.ceil(Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').length / unregEventsPerPage)
+ 
+
 
   useEffect(() => {
     const sort = async () => {
@@ -452,6 +509,9 @@ export const EventPanel2 = (props: any) => {
     setModalData([])
   }
 
+
+
+
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
 
   const setTimeFormat = (aDateString: string): string => {
@@ -461,8 +521,7 @@ export const EventPanel2 = (props: any) => {
     return `${timeString} ${newFormat}`
   }
 
-  const renderedUnregisteredEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').map((event: any) => {
-    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
+  const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
@@ -569,8 +628,7 @@ export const EventPanel2 = (props: any) => {
     )
   })
 
-  const renderedRegisteredEvents = Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').map((event: any) => {
-    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
+  const renderedRegisteredEvents = currentRegEvents.map((event: any) => {    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
@@ -677,6 +735,7 @@ export const EventPanel2 = (props: any) => {
     )
   })
 
+  
   return (
     <Container
       fluid
@@ -847,7 +906,36 @@ export const EventPanel2 = (props: any) => {
           </div>
         )}
 
-        {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
+<div className="d-flex justify-content-center align-items-center">
+              <div style={paginationStyle}>
+                <Pagination>
+                  <Pagination.First onClick={() => handleRegPageChange(1)} disabled={currentRegPage === 1} />
+                  <Pagination.Prev onClick={() => handleRegPageChange(currentRegPage - 1)} disabled={currentRegPage === 1} />
+                  {[...Array(totalRegEventsPages)].map((_, index) => (
+                    <Pagination.Item key={index + 1} active={index + 1 === currentRegPage} onClick={() => handleRegPageChange(index + 1)}>
+                      {index + 1}
+                    </Pagination.Item>
+                  ))}
+                  <Pagination.Next onClick={() => handleRegPageChange(currentRegPage + 1)} disabled={currentRegPage === totalRegEventsPages} />
+                  <Pagination.Last onClick={() => handleRegPageChange(totalRegEventsPages)} disabled={currentRegPage === totalRegEventsPages} />
+                </Pagination>
+              </div>
+
+              <div>
+                <Dropdown className="mx-2">
+                  <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
+                    {regEventsPerPage}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => handleRegEventsPerPageChange(5)}>5</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleRegEventsPerPageChange(10)}>10</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleRegEventsPerPageChange(20)}>20</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+              </div>
+              
+  {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
           <Row style={TitleBar} className='px-5'>
             {isAdmin && (
               <Col xs={1} style={{ fontSize: '14px' }}>
@@ -867,7 +955,10 @@ export const EventPanel2 = (props: any) => {
               Action
             </Col>
           </Row>
+        
+        
         ) : null}
+
         {unregisteredEvents.loading && (
           <div
             style={{
@@ -892,10 +983,13 @@ export const EventPanel2 = (props: any) => {
               paddingBottom: '4%',
               fontSize: '14px',
             }}
+
+            
           >
             {'Error: ' + unregisteredEvents.error}
           </div>
         ) : null}
+        
         {renderedUnregisteredEvents}
         <EventModal
           show={modalShow}
@@ -915,6 +1009,35 @@ export const EventPanel2 = (props: any) => {
             event={event}
             action={action}
           />)}
+
+<div className="d-flex justify-content-center align-items-center">
+        <div style={paginationStyle}>
+          <Pagination>
+            <Pagination.First onClick={() => handleUnregPageChange(1)} disabled={currentUnregPage === 1} />
+            <Pagination.Prev onClick={() => handleUnregPageChange(currentUnregPage - 1)} disabled={currentUnregPage === 1} />
+            {[...Array(totalUnregEventsPages)].map((_, index) => (
+              <Pagination.Item key={index + 1} active={index + 1 === currentUnregPage} onClick={() => handleUnregPageChange(index + 1)}>
+                {index + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={() => handleUnregPageChange(currentUnregPage + 1)} disabled={currentUnregPage === totalUnregEventsPages} />
+            <Pagination.Last onClick={() => handleUnregPageChange(totalUnregEventsPages)} disabled={currentUnregPage === totalUnregEventsPages} />
+          </Pagination>
+        </div>
+
+        <div>
+          <Dropdown className="mx-2">
+            <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
+              {unregEventsPerPage}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(20)}>20</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+		    </div>
         <DeleteEventModal
           show={deleteEventModalShow}
           onHide={handleDeleteModalClose}
@@ -927,5 +1050,9 @@ export const EventPanel2 = (props: any) => {
         />
       </Container>
     </Container>
+    
+
+    
+    
   )
 }
