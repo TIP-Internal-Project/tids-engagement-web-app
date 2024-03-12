@@ -9,7 +9,7 @@ import Tasks from './pages/Tasks'
 import { EventAttendance } from './components/EventAttendance'
 import { setUserRole } from './components/Roles/Roles'
 import GoogleLogin, { Redirect } from './GoogleLogin'
-import { EventPanel2 } from './components/EventPanel2'
+import { EventPanel2 } from './components/EventsPanel2/EventPanel2'
 import Expense from './pages/Expense'
 
 

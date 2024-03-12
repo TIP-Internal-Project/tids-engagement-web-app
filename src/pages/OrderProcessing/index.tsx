@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import HeaderLeft from '../../components/HeaderLeft'
-import { EventPanel2 } from '../../components/EventPanel2'
+import { EventPanel2 } from '../../components/EventsPanel2/EventPanel2'
 import {OrderPanel} from '../../components/OrderPanel'
 
 
