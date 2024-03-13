@@ -1,114 +1,41 @@
 import Nav from 'react-bootstrap/Nav'
 import ListGroup from 'react-bootstrap/ListGroup'
 import React, { useState, useEffect, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from '../redux/store'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ExpenseModal from './ExpenseModal'
-import DeleteEventModal from './DeleteEventModal'
-import FileUploadModal from './FileUploadModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { register } from '../redux/eventRegistrationSlice'
-import { addStarPoints } from '../redux/addStarPointsSlice'
-import { fetchEvents } from '../redux/eventSlice'
+import { fetchEvents } from '../../redux/eventSlice'
 import Form from 'react-bootstrap/Form'
-import { fetchGeolocation } from '../redux/geolocationSlice'
 import axios from 'axios'
 import { useLocation,useParams  } from 'react-router-dom'
-import api from '../api.json'
-
+import api from '../../api.json'
+import './styles.css'
 
 export const ExpensePanel = (props: any) => {
   const dispatch = useAppDispatch()
-
-  // const [eventModalShow, setEventModalShow] = useState(false)
   const [action, setAction] = useState('')
   const [event, setEvent] = useState<any[]>([])
   const [addExpenseModalShow, setAddExpenseModalShow] = useState(false)
   const location = useLocation()
-
-  const handleOpenAddExpenseModal = (action: string, event: any) => {
-    setAddExpenseModalShow(true)
-    setAction(action)
-    setEvent(event)
-  }
-
-  const handleCloseDetailsModal = () => {
-    setAddExpenseModalShow(false)
-  }
-
-  const API_ROOT = api.ROOT
-
-  const TitleBar = {
-    paddingTop: '24px',
-    color: '#9FA2B4',
-  }
-
-  const IndItemTitleDisplay = {
-    fontFamily: 'Mulish',
-    color: '#2A2C2E',
-    fontWeight: '700',
-    fontSize: '16px',
-    lineHeight: '24px',
-    FontStyle: 'normal',
-    marginBottom: '0',
-  }
-
-  const amountDisplay = {
-    fontFamily: 'Mulish',
-    fontWeight: '600',
-    fontSize: '14px',
-    lineHeight: '28px',
-    FontStyle: 'normal',
-    color: '#252733',
-  }
-
-  const actionBadge = {
-    width: '150px',
-    height: '30px',
-    margin: '3px',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '12px',
-    borderColor: '#198754'
-  }
-
   const [modalData, setModalData] = useState<any[]>([])
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const [showFilterDropdown, setShowFilterDropdown] = useState(false)
   const [sortOption, setSortOption] = useState<string>('desc')
   const [filterOption, setFilterOption] = useState<string[]>(['ALL'])
   const [sortedEvents, setSortedEvents] = useState<Event[]>([])
+  const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
   const dropdownSortRef = useRef<HTMLDivElement>(null)
   const dropdownFilterRef = useRef<HTMLDivElement>(null)
-
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (dropdownSortRef.current && !dropdownSortRef.current.contains(event.target as Node)) {
-      setShowSortDropdown(false)
-    }
-    if (dropdownFilterRef.current && !dropdownFilterRef.current.contains(event.target as Node)) {
-      setShowFilterDropdown(false)
-    }
-  }
-
-  const handleSortButtonClick = () => {
-    setShowSortDropdown((prevShowSortDropdown) => !prevShowSortDropdown)
-  }
-
-  const handleFilterButtonClick = () => {
-    setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
-  }
-
+  const API_ROOT = api.ROOT
+  const events = useAppSelector((state) => state.events)
 
   useEffect(() => {
-    console.log('on load..')
     axios.get(API_ROOT + '/events/getAllEvents')
       .then(response => {
-        console.log('get data..')
         setEvent(response.data)
       })
       .catch(error => {
@@ -137,36 +64,7 @@ export const ExpensePanel = (props: any) => {
     })
   }, [])
 
-
-  const events = useAppSelector((state) => state.events)
-
-
-  const handleRefresh = async (email: any) => {
-    setSortedEvents([])
-    setSortOption('desc')
-    setFilterOption(['ALL'])
-    const sortedEvents = event
-      .sort((a: any, b: any) => new (window.Date as any)(b.startDate) - new (window.Date as any)(a.startDate))
-      .filter((event: any) => event.status != 'Archived')
-    setSortedEvents(sortedEvents as Event[])
-  }
-
-  const handleSortOption = (option: string) => {
-    setSortOption(option)
-    setShowSortDropdown(false)
-  }
-
-  const handleFilterOption = (option: string[]) => {
-    setFilterOption(option)
-  }
-
-  const handleChangeInData = () => {
-    setAddExpenseModalShow(false)
-    handleRefresh(props.variable)
-  }
-
   useEffect(() => {
-    console.log('Sorting..')
     const sort = async () => {
       setSortedEvents([])
       if (filterOption.includes('ALL')) {
@@ -216,44 +114,62 @@ export const ExpensePanel = (props: any) => {
     sort()
   }, [sortOption, filterOption])
 
-  const [modalShow, setModalShow] = useState(false)
-  const [disableRegistration, setDisableRegistration] = useState(false)
-
-  const handleSortedEvents = (events: Event[]) => {
-    setSortedEvents(events)
-    setModalShow(false)
+  const handleOpenAddExpenseModal = (action: string, event: any) => {
+    setAddExpenseModalShow(true)
+    setAction(action)
+    setEvent(event)
   }
 
-  const handleCloseModal = () => {
-    setModalShow(false)
-    setModalData([])
+  const handleCloseDetailsModal = () => {
+    setAddExpenseModalShow(false)
   }
 
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (dropdownSortRef.current && !dropdownSortRef.current.contains(event.target as Node)) {
+      setShowSortDropdown(false)
+    }
+    if (dropdownFilterRef.current && !dropdownFilterRef.current.contains(event.target as Node)) {
+      setShowFilterDropdown(false)
+    }
+  }
 
-  const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
+  const handleSortButtonClick = () => {
+    setShowSortDropdown((prevShowSortDropdown) => !prevShowSortDropdown)
+  }
 
-  const setTimeFormat = (aDateString: string): string => {
-    const aDate = new Date(aDateString)
-    const timeString = aDate.toLocaleTimeString().slice(0, -6)
-    const newFormat = aDate.getHours() >= 12 ? 'PM' : 'AM'
-    return `${timeString} ${newFormat}`
+  const handleFilterButtonClick = () => {
+    setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
+  }
+
+  const handleRefresh = async (email: any) => {
+    setSortedEvents([])
+    setSortOption('desc')
+    setFilterOption(['ALL'])
+    const sortedEvents = event
+      .sort((a: any, b: any) => new (window.Date as any)(b.startDate) - new (window.Date as any)(a.startDate))
+      .filter((event: any) => event.status != 'Archived')
+    setSortedEvents(sortedEvents as Event[])
+  }
+
+  const handleSortOption = (option: string) => {
+    setSortOption(option)
+    setShowSortDropdown(false)
+  }
+
+  const handleFilterOption = (option: string[]) => {
+    setFilterOption(option)
   }
 
   const renderedEvents = Object.values(sortedEvents).filter((event: any) =>  event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').map((event: any) => {
-    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
-      {},
-      { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
-    )
 
     return (
       <ListGroup key={event.eventId}>
         <ListGroup.Item
-          style={{ borderLeft: 'none', borderRight: 'none', borderRadius: '0px' }}
-          className='px-5'
+          className='px-5 event-item-list'
         >
           <Row className='py-2'>
 
-            <Col xs={3} style={IndItemTitleDisplay}>
+            <Col xs={3} className='ind-item-title-display'>
               <p
                 aria-controls={`example-collapse-text-${event.eventId}`}
                 aria-expanded={eventStates[event.eventId] ? 'true' : 'false'}
@@ -264,8 +180,8 @@ export const ExpensePanel = (props: any) => {
             </Col>
 
             <Col xs={3} className='text-center'>
-              <div style={{ display: 'inline-block', textAlign: 'left' }}>
-                <p style={amountDisplay} className='mb-0'>
+              <div className='estimated-budget-display'>
+                <p className='mb-0 amount-display'>
                   {event.estimatedBudget}
                 </p>
               </div>
@@ -275,16 +191,11 @@ export const ExpensePanel = (props: any) => {
               
             </Col>
             <Col xs={3}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '14px',
-              }}
+              className='action-buttons-display'
             >
                 <Button
                   variant='success'
-                  style={actionBadge}
+                  className='action-badge'
                   onClick={() => handleOpenAddExpenseModal('add', event)}
                 >
                   {' '}
@@ -292,7 +203,7 @@ export const ExpensePanel = (props: any) => {
                 </Button>
                 <Button 
                   variant='success' 
-                  style={actionBadge}
+                  className='action-badge'
                 >
                   MODIFY EXPENSE
                 </Button>
@@ -306,28 +217,26 @@ export const ExpensePanel = (props: any) => {
   return (
     <Container
       fluid
-      style={{ backgroundColor: '#f5f5f5', height: '100vh', width: '100%', padding: '32px' }}
-      className='mx-auto'
+      className='mx-auto expense-container'
     >
       <Container
         fluid
-        style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
-        className='px-0 py-4'
+        className='px-0 py-4 expense-container-inner'
       >
-        <div className="d-flex justify-content-between" style={{ color: '#7175B', padding: '0 2%' }}>
-          <div style={{ width: '250px' }}>
+        <div className="d-flex justify-content-between nav-link-container">
+          <div className='div-space'>
           </div>
           <div className='d-flex flex-row-reverse px-5'>
-            <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleFilterButtonClick}>
+            <Nav.Link className='mx-3 nav-link-font-size' onClick={handleFilterButtonClick}>
               <img
-                style={{ height: '15px', width: '14px', marginRight: '10px' }}
-                src={require('../assets/images/filter.png')}
+                className='nav-link-filter-icon'
+                src={require('../../assets/images/filter.png')}
               />
               Filter
             </Nav.Link>
             {showFilterDropdown && (
               <div ref={dropdownFilterRef} className='floating-div2'>
-                <Form style={{ fontSize: '14px' }}>
+                <Form className='nav-link-font-size'>
                   {['ALL', 'happyhere', 'COP', 'teamEvent', 'TIDS'].map((value) => {
                     let label = value
                     if (value === 'happyhere') {
@@ -362,10 +271,10 @@ export const ExpensePanel = (props: any) => {
               </div>
             )}
 
-            <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleSortButtonClick}>
+            <Nav.Link className='mx-3 nav-link-font-size' onClick={handleSortButtonClick}>
               <img
-                style={{ height: '15px', width: '15px', marginRight: '10px' }}
-                src={require('../assets/images/sort-up.png')}
+                className='nav-link-sort-icon'
+                src={require('../../assets/images/sort-up.png')}
               />
               Sort
             </Nav.Link>
@@ -376,7 +285,6 @@ export const ExpensePanel = (props: any) => {
                 </p>
                 <p
                   className='textStyle'
-                  style={{ marginBottom: '0' }}
                   onClick={() => handleSortOption('desc')}
                 >
                   <a>Sort by Date Descending</a>
@@ -385,13 +293,12 @@ export const ExpensePanel = (props: any) => {
             )}
 
             <Nav.Link
-              className='mx-3'
-              style={{ fontSize: '14px' }}
+              className='mx-3 nav-link-font-size'
               onClick={() => handleRefresh(props.variable)}
             >
               <img
-                style={{ height: '22px', width: '19px', marginRight: '10px' }}
-                src={require('../assets/images/refresh.png')}
+                className='nav-link-refresh-icon'
+                src={require('../../assets/images/refresh.png')}
               />
               Refresh
             </Nav.Link>
@@ -399,61 +306,37 @@ export const ExpensePanel = (props: any) => {
         </div>
 
         {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
-          <Row style={TitleBar} className='px-5'>
-            <Col xs={3} style={{ fontSize: '14px' }}>
+          <Row className='px-5 title-bar'>
+            <Col xs={3} className='nav-link-font-size'>
               Title
             </Col>
-            <Col xs={3} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={3} className='text-center nav-link-font-size'>
               Estimated Budget
             </Col>
-            <Col xs={3} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={3} className='text-center nav-link-font-size'>
               Actual Budget
             </Col>
-            <Col xs={3} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={3} className='text-center nav-link-font-size'>
               Action
             </Col>
           </Row>
         ) : null}
         {events.loading && (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
+          <div className='event-loading-style'
           >
             {'Loading...'}
           </div>
         )}
         {!events.loading && events.error ? (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
+          <div className='event-loading-style'
           >
             {'Error: ' + events.error}
           </div>
         ) : null}
         {sortedEvents.filter((event: any) => event.status != 'Archived').length > 0 ? (
-          <div style={{ paddingBottom: '3%' }}>{renderedEvents}</div>
+          <div className='pb-3per'>{renderedEvents}</div>
         ) : (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
+          <div  className='event-loading-style'
           >
             No Events
           </div>
