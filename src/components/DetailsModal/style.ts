@@ -3,6 +3,7 @@ export const modalStyle = {
   margin: '4%',
   marginBottom: '0',
 }
+
 export const modalTitleDiv = {
   display: 'inline-flex',
 }
