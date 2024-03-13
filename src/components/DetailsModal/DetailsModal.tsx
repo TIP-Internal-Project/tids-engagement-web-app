@@ -5,12 +5,14 @@ import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import { addEvent } from '../redux/addEventSlice'
+import { addEvent } from '../../redux/addEventSlice'
 import { useDispatch } from 'react-redux'
-import { updateEvent } from '../redux/eventSlice'
-import { AppDispatch } from '../redux/store'
+import { updateEvent } from '../../redux/eventSlice'
+import { AppDispatch } from '../../redux/store'
 import Spinner from 'react-bootstrap/Spinner'
-import TidsModal from './Modal'
+import TidsModal from '../Modal'
+import { modalTitleDiv, modalStyle } from './style'
+import { formatDate, generateModalUrl } from './utils'
 
 interface EventModalProps {
   show: boolean
@@ -19,10 +21,6 @@ interface EventModalProps {
   event: any
   action: string
 }
-
-const currentDateTime = new Date()
-const timestamp = currentDateTime.getTime()
-const updatedAtDate = new Date(timestamp)
 
 type category = {
   label: string
@@ -56,9 +54,25 @@ const categorySelectOptions: { [index: string]: category } = {
 }
 
 const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, action }) => {
-  const [data, setData] = useState<any>({})
   const dispatch = useDispatch<AppDispatch>()
+
+  const [data, setData] = useState<any>({})
   const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || false)
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [qrCodeUrl, setQrCodeUrl] = useState('')
+  const [titleError, setTitleError] = useState('')
+  const [venueError, setVenueError] = useState('')
+  const [detailsError, setDetailsError] = useState('')
+  const [startDateTimeError, setStartDateTimeError] = useState('')
+  const [endDateTimeError, setEndDateTimeError] = useState('')
+  const [importanceError, setImportanceError] = useState('')
+  const [categoryError, setCategoryError] = useState('')
+  const [eventTypeError, setEventTypeError] = useState('')
+  const [estimatedBudgetError, setEstimatedBudgetError] = useState('')
+  const [numberOfInviteSentError, setNumberOfInviteSentError] = useState('')
+  const [targetComplianceError, setTargetComplianceError] = useState('')
+  const [creatingEvent, setCreatingEvent] = useState(false)
+  const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
 
   const [formData, setFormData] = useState({
     eventId: '',
@@ -116,6 +130,34 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }
   }, [show])
 
+  useEffect(() => {
+    setData(event)
+  }, [event])
+
+  useEffect(() => {
+    if (action === 'edit') {
+      setFormData(data)
+    }
+  }, [data, action])
+
+  useEffect(() => {
+    if (formData.endDate) {
+      const startDateInput = document.querySelector('input[name="startDate"]')
+      if (startDateInput) {
+        startDateInput.setAttribute('max', formatDate(formData.endDate))
+      }
+    }
+  }, [formData.endDate])
+
+  useEffect(() => {
+    if (formData.startDate) {
+      const endDateInput = document.querySelector('input[name="endDate"]')
+      if (endDateInput) {
+        endDateInput.setAttribute('min', formatDate(formData.startDate))
+      }
+    }
+  }, [formData.startDate])
+
   const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setFormData((prevFormData) => ({
@@ -126,7 +168,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
   const handleAddEvent = async () => {
     const { title } = formData
-
     setTitleError('')
     setVenueError('')
     setDetailsError('')
@@ -221,16 +262,12 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }
 
     const randomWord = generateRandomString(6)
-
     generateQr()
-
     const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title + randomWord)}`
-
     const defaultStarsNum = 0
 
     try {
       setCreatingEvent(true)
-
       await dispatch(
         addEvent({
           eventId: 0,
@@ -274,8 +311,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }
   }
 
-  const [selectedImage, setSelectedImage] = useState<File | null>(null)
-
   const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null
     setSelectedImage(file)
@@ -289,16 +324,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       imagePrev.style.width = '100%'
     }
   }
-
-  useEffect(() => {
-    setData(event)
-  }, [event])
-
-  useEffect(() => {
-    if (action === 'edit') {
-      setFormData(data)
-    }
-  }, [data, action])
 
   const handleEventUpdate = async () => {
     setTitleError('')
@@ -405,21 +430,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     onChange()
   }
 
-  function formatDate(eventDate: string) {
-    const newEventDate = new Date(eventDate)
-    const year = newEventDate.getFullYear()
-    const month = addZero(newEventDate.getMonth() + 1)
-    const date = addZero(newEventDate.getDate())
-    const hour = addZero(newEventDate.getHours())
-    const minute = addZero(newEventDate.getMinutes())
-    const formattedDate = year + '-' + month + '-' + date + ' ' + hour + ':' + minute
-    return formattedDate
-  }
-
-  function addZero(number: number) {
-    return number < 10 ? '0' + number.toString() : number
-  }
-
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target
     const nextFormData = {
@@ -439,73 +449,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }))
   }
 
-  const [qrCodeUrl, setQrCodeUrl] = useState('')
-  const [titleError, setTitleError] = useState('')
-  const [venueError, setVenueError] = useState('')
-  const [detailsError, setDetailsError] = useState('')
-  const [startDateTimeError, setStartDateTimeError] = useState('')
-  const [endDateTimeError, setEndDateTimeError] = useState('')
-  const [importanceError, setImportanceError] = useState('')
-  const [categoryError, setCategoryError] = useState('')
-  const [eventTypeError, setEventTypeError] = useState('')
-  const [estimatedBudgetError, setEstimatedBudgetError] = useState('')
-  const [numberOfInviteSentError, setNumberOfInviteSentError] = useState('')
-  const [targetComplianceError, setTargetComplianceError] = useState('')
-
-  const [creatingEvent, setCreatingEvent] = useState(false)
-
-  const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
-
   const percentageRegex = /^(100|\d{1,2})$/
-
-  useEffect(() => {
-    if (formData.endDate) {
-      const startDateInput = document.querySelector('input[name="startDate"]')
-      if (startDateInput) {
-        startDateInput.setAttribute('max', formatDate(formData.endDate))
-      }
-    }
-  }, [formData.endDate])
-
-  useEffect(() => {
-    if (formData.startDate) {
-      const endDateInput = document.querySelector('input[name="endDate"]')
-      if (endDateInput) {
-        endDateInput.setAttribute('min', formatDate(formData.startDate))
-      }
-    }
-  }, [formData.startDate])
-
-  const generateModalUrl = (eventTitle: string) => {
-    if (!eventTitle) {
-      return ''
-    }
-
-    // Split the title into words and take the first letter of each word
-    const words = eventTitle.split(' ')
-    const initials = words
-      .map((word) => word.charAt(0))
-      .join('')
-      .toUpperCase()
-
-    // Get the current year in YYYY format
-    const year = new Date().getFullYear()
-
-    // Generate a unique identifier, e.g., a short random string or number
-    const uniqueId = generateUniqueId()
-
-    // Concatenate the initials, the year, and the unique identifier to form the modalUrl
-    const modalUrl = `http://localhost:3000/events/${initials}${year}${uniqueId}`
-
-    return modalUrl
-  }
-
-  // Function to generate a unique identifier (e.g., a random string or number)
-  const generateUniqueId = () => {
-    // This is a simple example; adjust according to your needs for uniqueness
-    return Math.random().toString(36).substring(2, 8)
-  }
-
   const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
 
   const generateQr = () => {
@@ -518,23 +462,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     setQrCodeUrl(url)
   }
 
-  const modalStyle = {
-    border: 'none', // Add a new border style
-    margin: '4%',
-    marginBottom: '0',
-  }
-  const ModalTitleDiv = {
-    display: 'inline-flex',
-  }
-
-  if (action == 'edit') {
-    console.log(event.startDate)
-    console.log(formData.endDate)
-  }
-
   const headerContent = (
     <>
-      <Modal.Title id='contained-modal-title-vcenter' className='mx-3' style={ModalTitleDiv}>
+      <Modal.Title id='contained-modal-title-vcenter' className='mx-3' style={modalTitleDiv}>
         {action == 'add' ? 'Add' : 'Edit'} Event
       </Modal.Title>
     </>
@@ -572,17 +502,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 value={action == 'edit' ? event.tinyURL : ''}
                 name='eventId'
               />
-              {/* <Form.Label>Tiny URL</Form.Label>
-                  <Form.Control
-                    required
-                    type='text'
-                    defaultValue={action == 'edit' ? event.tinyURL : ''}
-                    name='tinyURL'
-                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    onChange={handleFormChange}
-                  /> */}
             </Form.Group>
-            {/* </Row> */}
 
             <Row>
               <Col>
@@ -639,7 +559,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                     ) : (
                       <img
                         id='imagePreview'
-                        src={require('../assets/images/image.png')}
+                        src={require('../../assets/images/image.png')}
                         style={{ width: '40px', height: '40px' }}
                       />
                     )}
@@ -710,21 +630,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 {endDateTimeError && <div className='text-danger'>{endDateTimeError}</div>}
               </Form.Group>
             </Row>
-            {/* <Row>
-              <Form.Group className='mb-3'>
-                <Form.Label>Importance</Form.Label>
-                <Form.Select
-                  aria-label='Default select example'
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  defaultValue={action == 'edit' ? event.importance : 'required'}
-                  name='importance'
-                  onChange={handleSelectChange}
-                >
-                  <option value='required'>Required</option>
-                  <option value='optional'>Optional</option>
-                </Form.Select>
-              </Form.Group>
-              </Row> */}
           </Col>
         </Row>
 
@@ -882,26 +787,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
               {eventTypeError && <div className='text-danger'>{eventTypeError}</div>}
             </Form.Group>
           </Col>
-        </Row>
-
-        <Row className='mt-4 mb-4'>
-          {/* <Col xs={4}>
-              <Form.Group>
-                <Form.Label># of Stars to earn</Form.Label>
-                <Form.Control
-                  required
-                  type='number'
-                  min='1'
-                  defaultValue={action == 'edit' ? event.starsNum : ''}
-                  name='starsNum'
-                  onChange={handleFormChange}
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  onKeyDown={(evt) =>
-                    ['e', 'E', '+', '-', '.'].includes(evt.key) && evt.preventDefault()
-                  }
-                />
-              </Form.Group>
-            </Col> */}
         </Row>
 
         <Row>

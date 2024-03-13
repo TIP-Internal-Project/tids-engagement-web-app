@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { fetchTasks } from '../../redux/overviewTasksSlice'
-import { Task, Row3, Heading1, Date3, Divider, Border, Priority, Rectangle20, 
-	Low, ShsAppImageryUpdates, Rectangle17, Row, Heading2, Priority1, Rectangle201, Medium, MyCareRefreshLaunchA, Date1, DateText1, Divider1,
-	Border1, Rectangle171, Row2, Heading3, Priority2, Rectangle202, High, HealthQuebecClinicsP, Date2, DateText2, Divider2, Border2,
-	Rectangle172, EventsHeading, Task1, DateText3, DateIcon, ViewAll, ViewAll1, Arrow, Headings, Title, RowDiv, Line, Category, Rectangle1, Rectangle2, EventCategory,
+import { Task, Divider, Border, Priority, Rectangle20, 
+	
+	Rectangle202, 
+	EventsHeading, Task1, DateIcon, ViewAll, ViewAll1, Arrow, Headings, Title, RowDiv, Line, 
 	DateAndTime, Date, DateTime } from './style.js'
 
 const TaskPanel = () => {
