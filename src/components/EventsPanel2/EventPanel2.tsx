@@ -17,24 +17,34 @@ import { addStarPoints } from '../../redux/addStarPointsSlice'
 import Form from 'react-bootstrap/Form'
 import { fetchGeolocation } from '../../redux/geolocationSlice'
 import axios from 'axios'
-import { useLocation,useParams  } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import api from '../../api.json'
 import { Dropdown, Pagination } from 'react-bootstrap'
-import { IndItemTitleDisplay, tidsBadge, teamBadge, copBadge, happyBadge, 
-  TitleBar, IndItemDueDateDisplay, IndItemDueTimeDisplay, actionBadge, 
-  paginationStyle, viewDetailsButton } from './style'
+import {
+  IndItemTitleDisplay,
+  tidsBadge,
+  teamBadge,
+  copBadge,
+  happyBadge,
+  TitleBar,
+  IndItemDueDateDisplay,
+  IndItemDueTimeDisplay,
+  actionBadge,
+  paginationStyle,
+  viewDetailsButton,
+} from './style'
 import { setTimeFormat } from './utils'
 import FileUploadModal from '../FileUploadModal'
 
 export const EventPanel2 = (props: any) => {
   const dispatch = useAppDispatch()
-  const  { modalUrl } = useParams()
+  const { modalUrl } = useParams()
   const location = useLocation()
 
   const [action, setAction] = useState('')
   const [event, setEvent] = useState<any[]>([])
   const [detailsModalShow, setDetailsModalShow] = useState(false)
-  
+
   const [modalUrlParam, setModalUrlParam] = useState<string | null>(null)
   const [deleteEventModalShow, setDeleteEventModalShow] = useState(false)
   const [fileUploadModalShow, setFileUploadModalShow] = useState(false)
@@ -69,24 +79,44 @@ export const EventPanel2 = (props: any) => {
 
   const indexOfLastRegEvent = currentRegPage * regEventsPerPage
   const indexOfFirstRegEvent = indexOfLastRegEvent - regEventsPerPage
-  const currentRegEvents =  Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').slice(indexOfFirstRegEvent, indexOfLastRegEvent)
-  const totalRegEventsPages = Math.ceil(Object.values(sortedEvents1).filter((event: any) => event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed').length / regEventsPerPage)
+  const currentRegEvents = Object.values(sortedEvents1)
+    .filter(
+      (event: any) =>
+        event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed'
+    )
+    .slice(indexOfFirstRegEvent, indexOfLastRegEvent)
+  const totalRegEventsPages = Math.ceil(
+    Object.values(sortedEvents1).filter(
+      (event: any) =>
+        event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed'
+    ).length / regEventsPerPage
+  )
 
   const indexOfLastUnregEvent = currentUnregPage * unregEventsPerPage
   const indexOfFirstUnregEvent = indexOfLastUnregEvent - unregEventsPerPage
-  const currentUnRegEvents = Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').slice(indexOfFirstUnregEvent, indexOfLastUnregEvent)
-  const totalUnregEventsPages = Math.ceil(Object.values(sortedEvents).filter((event: any) => event.status === 'Active'|| event.status === 'Inactive' || event.status === 'Completed').length / unregEventsPerPage)
+  const currentUnRegEvents = Object.values(sortedEvents)
+    .filter(
+      (event: any) =>
+        event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed'
+    )
+    .slice(indexOfFirstUnregEvent, indexOfLastUnregEvent)
+  const totalUnregEventsPages = Math.ceil(
+    Object.values(sortedEvents).filter(
+      (event: any) =>
+        event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed'
+    ).length / unregEventsPerPage
+  )
 
   useEffect(() => {
-    axios.get(API_ROOT + '/events/getAllEvents')
-      .then(response => {
+    axios
+      .get(API_ROOT + '/events/getAllEvents')
+      .then((response) => {
         setEvent(response.data)
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching events:', error)
       })
-    
-    
+
     const urlParams = new URLSearchParams(location.search)
     const modalUrl = urlParams.get('modalUrl')
     if (modalUrl) {
@@ -96,11 +126,10 @@ export const EventPanel2 = (props: any) => {
 
   useEffect(() => {
     if (modalUrl && event.length > 0) {
-      
       const fullUrl = `http://localhost:3000/events/${modalUrl}`
-      const eventToShow = event.find(e => e.modalUrl === fullUrl)
+      const eventToShow = event.find((e) => e.modalUrl === fullUrl)
       if (eventToShow) {
-        handleOpenModal(eventToShow, false) 
+        handleOpenModal(eventToShow, false)
       } else {
         console.log('No matching event found for URL:', fullUrl)
       }
@@ -183,8 +212,8 @@ export const EventPanel2 = (props: any) => {
         if (sortOption === 'asc') {
           const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
           const registeredEventsArray = Object.values(registeredEventsData.payload)
-          const filteredRegisteredEvents = registeredEventsArray.filter(
-            (event: any) => filterOption.includes(event.category)
+          const filteredRegisteredEvents = registeredEventsArray.filter((event: any) =>
+            filterOption.includes(event.category)
           )
           const sortedRegisteredEvents = filteredRegisteredEvents.sort(
             (a: any, b: any) =>
@@ -193,8 +222,8 @@ export const EventPanel2 = (props: any) => {
           setSortedEvents1(sortedRegisteredEvents as Event[])
           const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
           const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-          const filteredUnregisteredEvents = unregisteredEventsArray.filter(
-            (event: any) => filterOption.includes(event.category)
+          const filteredUnregisteredEvents = unregisteredEventsArray.filter((event: any) =>
+            filterOption.includes(event.category)
           )
           const sortedUnregisteredEvents = filteredUnregisteredEvents.sort(
             (a: any, b: any) =>
@@ -204,8 +233,8 @@ export const EventPanel2 = (props: any) => {
         } else if (sortOption === 'desc') {
           const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
           const registeredEventsArray = Object.values(registeredEventsData.payload)
-          const filteredRegisteredEvents = registeredEventsArray.filter(
-            (event: any) => filterOption.includes(event.category)
+          const filteredRegisteredEvents = registeredEventsArray.filter((event: any) =>
+            filterOption.includes(event.category)
           )
           const sortedRegisteredEvents = filteredRegisteredEvents.sort(
             (a: any, b: any) =>
@@ -214,8 +243,8 @@ export const EventPanel2 = (props: any) => {
           setSortedEvents1(sortedRegisteredEvents as Event[])
           const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
           const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-          const filteredUnregisteredEvents = unregisteredEventsArray.filter(
-            (event: any) => filterOption.includes(event.category)
+          const filteredUnregisteredEvents = unregisteredEventsArray.filter((event: any) =>
+            filterOption.includes(event.category)
           )
           const sortedUnregisteredEvents = filteredUnregisteredEvents.sort(
             (a: any, b: any) =>
@@ -285,19 +314,18 @@ export const EventPanel2 = (props: any) => {
     await dispatch(addStarPoints({ employeeName, pointsToAdd }))
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+    const sortedRegisteredEvents = registeredEventsArray.sort(
+      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
+    )
     setSortedEvents1(sortedRegisteredEvents as Event[])
     console.log(sortedEvents1)
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+    const sortedUnregisteredEvents = unregisteredEventsArray.sort(
+      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
+    )
     setSortedEvents(sortedUnregisteredEvents as Event[])
-    console.log(sortedEvents) 
-
-
-    
+    console.log(sortedEvents)
   }
 
   const handleRefresh = async (email: any) => {
@@ -308,13 +336,17 @@ export const EventPanel2 = (props: any) => {
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .sort(
+        (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
+      )
       .filter((event: any) => event.status != 'Archived')
     setSortedEvents1(sortedRegisteredEvents as Event[])
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
     const sortedUnregisteredEvents = unregisteredEventsArray
-      .sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate))
+      .sort(
+        (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
+      )
       .filter((event: any) => event.status != 'Archived')
     setSortedEvents(sortedUnregisteredEvents as Event[])
   }
@@ -377,7 +409,8 @@ export const EventPanel2 = (props: any) => {
     setModalData([])
   }
 
-  const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
+  const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {
+    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
@@ -390,11 +423,10 @@ export const EventPanel2 = (props: any) => {
         >
           <Row className='py-2'>
             {isAdmin && (
-            <Col xs={1} style={IndItemTitleDisplay}>
-              <p className='mb-0'>
-                {event.eventId}
-              </p>
-            </Col>)}
+              <Col xs={1} style={IndItemTitleDisplay}>
+                <p className='mb-0'>{event.eventId}</p>
+              </Col>
+            )}
 
             <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
               <p
@@ -425,29 +457,33 @@ export const EventPanel2 = (props: any) => {
               </div>
             </Col>
 
-            <Col xs={isAdmin ? 2 : 3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Col
+              xs={isAdmin ? 2 : 3}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
               <Button
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
                     : event.category === 'teamEvent'
-                      ? teamBadge
-                      : event.category === 'COP'
-                        ? copBadge
-                        : happyBadge
+                    ? teamBadge
+                    : event.category === 'COP'
+                    ? copBadge
+                    : happyBadge
                 }
                 className='py-2'
               >
                 {event.category == 'TIDS'
                   ? 'TIDS'
                   : event.category === 'teamEvent'
-                    ? 'TEAM EVENT'
-                    : event.category === 'COP'
-                      ? 'COP'
-                      : '#HAPPYHERE'}
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}
               </Button>
             </Col>
-            <Col xs={isAdmin ? 4 : 2}
+            <Col
+              xs={isAdmin ? 4 : 2}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -455,19 +491,23 @@ export const EventPanel2 = (props: any) => {
                 fontSize: '12px',
               }}
             >
-                <Button
-                  onClick={() => handleRegister(event.eventId, props.variable, event.starsNum)}
-                  className={`bg-success border-success ${event.status === 'Inactive' || event.status === 'Completed' ? 'disabled' : ''}`}
-                  style={actionBadge}
-                  disabled={event.status === 'Inactive'}
-                >
-                  {' '}
-                  REGISTER
-                </Button>
+              <Button
+                onClick={() => handleRegister(event.eventId, props.variable, event.starsNum)}
+                className={`bg-success border-success ${
+                  event.status === 'Inactive' || event.status === 'Completed' ? 'disabled' : ''
+                }`}
+                style={actionBadge}
+                disabled={event.status === 'Inactive'}
+              >
+                {' '}
+                REGISTER
+              </Button>
               {isAdmin && (
                 <Button
                   onClick={() => handleOpenDetailsModal('edit', event)}
-                  className={`bg-success border-success' ${event.status === 'Completed' ? 'disabled' : ''}`}
+                  className={`bg-success border-success' ${
+                    event.status === 'Completed' ? 'disabled' : ''
+                  }`}
                   style={actionBadge}
                 >
                   {' '}
@@ -475,7 +515,18 @@ export const EventPanel2 = (props: any) => {
                 </Button>
               )}
               {isAdmin && (
-                <Button onClick={() => handleDeleteModalShow(event)} variant='success' style={{ width: '100px', backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' }}>ARCHIVE</Button>
+                <Button
+                  onClick={() => handleDeleteModalShow(event)}
+                  variant='success'
+                  style={{
+                    width: '100px',
+                    backgroundColor: '#DC3545',
+                    fontSize: '11px',
+                    borderColor: '#DC3545',
+                  }}
+                >
+                  ARCHIVE
+                </Button>
               )}
             </Col>
           </Row>
@@ -484,7 +535,8 @@ export const EventPanel2 = (props: any) => {
     )
   })
 
-  const renderedRegisteredEvents = currentRegEvents.map((event: any) => {    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
+  const renderedRegisteredEvents = currentRegEvents.map((event: any) => {
+    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
@@ -497,11 +549,10 @@ export const EventPanel2 = (props: any) => {
         >
           <Row className='py-2'>
             {isAdmin && (
-            <Col xs={1} style={IndItemTitleDisplay}>
-              <p className='mb-0'>
-                {event.eventId}
-              </p>
-            </Col>)}
+              <Col xs={1} style={IndItemTitleDisplay}>
+                <p className='mb-0'>{event.eventId}</p>
+              </Col>
+            )}
 
             <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
               <p
@@ -531,29 +582,33 @@ export const EventPanel2 = (props: any) => {
               </div>
             </Col>
 
-            <Col xs={isAdmin ? 2 : 3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Col
+              xs={isAdmin ? 2 : 3}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
               <Button
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
                     : event.category === 'teamEvent'
-                      ? teamBadge
-                      : event.category === 'COP'
-                        ? copBadge
-                        : happyBadge
+                    ? teamBadge
+                    : event.category === 'COP'
+                    ? copBadge
+                    : happyBadge
                 }
                 className='py-2'
               >
                 {event.category == 'TIDS'
                   ? 'TIDS'
                   : event.category === 'teamEvent'
-                    ? 'TEAM EVENT'
-                    : event.category === 'COP'
-                      ? 'COP'
-                      : '#HAPPYHERE'}
+                  ? 'TEAM EVENT'
+                  : event.category === 'COP'
+                  ? 'COP'
+                  : '#HAPPYHERE'}
               </Button>
             </Col>
-            <Col xs={isAdmin ? 1 : 2}
+            <Col
+              xs={isAdmin ? 1 : 2}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -562,29 +617,45 @@ export const EventPanel2 = (props: any) => {
                 fontWeight: 'bold',
               }}
             >
-              <div style={{paddingRight: '5%'}}>
-                Registered
-              </div>
+              <div style={{ paddingRight: '5%' }}>Registered</div>
             </Col>
             {isAdmin && (
-            <Col xs={3}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '14px',
-              }}
-            >
+              <Col
+                xs={3}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                }}
+              >
                 <Button
                   onClick={() => handleOpenDetailsModal('edit', event)}
-                  className={`bg-success border-success' ${event.status === 'Completed' ? 'disabled' : ''}`}
+                  className={`bg-success border-success' ${
+                    event.status === 'Completed' ? 'disabled' : ''
+                  }`}
                   style={actionBadge}
                 >
                   {' '}
                   MODIFY
                 </Button>
-                <Button onClick={() => handleDeleteModalShow(event)} variant='success' style={{ width: '100px', backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ARCHIVE</Button>
-            </Col>)}
+                <Button
+                  onClick={() => handleDeleteModalShow(event)}
+                  variant='success'
+                  style={{
+                    width: '100px',
+                    backgroundColor: '#DC3545',
+                    fontSize: '11px',
+                    borderColor: '#DC3545',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  ARCHIVE
+                </Button>
+              </Col>
+            )}
           </Row>
         </ListGroup.Item>
       </ListGroup>
@@ -602,10 +673,13 @@ export const EventPanel2 = (props: any) => {
         style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
         className='px-0 py-4'
       >
-        <div className="d-flex justify-content-between" style={{ color: '#7175B', padding: '0 2%' }}>
+        <div className='d-flex justify-content-between' style={{ color: '#7175B', padding: '0 2%' }}>
           <div style={{ width: '250px' }}>
             {isAdmin && (
-              <Col xs={8} style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}>
+              <Col
+                xs={8}
+                style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}
+              >
                 <Nav.Link
                   className=''
                   style={{ fontSize: '14px' }}
@@ -637,28 +711,30 @@ export const EventPanel2 = (props: any) => {
                     } else if (value === 'teamEvent') {
                       label = 'TEAM EVENT'
                     }
-                    return <div key={`default-${value}`}>
-                      <Form.Check
-                        id={`default-${value}`}
-                        label={label}
-                        onChange={() => {
-                          const newFilterOption = [...filterOption]
-                          if (newFilterOption.includes(value)) {
-                            newFilterOption.splice(newFilterOption.indexOf(value), 1)
-                          } else {
-                            if (value === 'ALL') {
-                              newFilterOption.length = 0
-                            } else if (filterOption.includes('ALL')) {
-                              newFilterOption.splice(newFilterOption.indexOf('ALL'), 1)
+                    return (
+                      <div key={`default-${value}`}>
+                        <Form.Check
+                          id={`default-${value}`}
+                          label={label}
+                          onChange={() => {
+                            const newFilterOption = [...filterOption]
+                            if (newFilterOption.includes(value)) {
+                              newFilterOption.splice(newFilterOption.indexOf(value), 1)
+                            } else {
+                              if (value === 'ALL') {
+                                newFilterOption.length = 0
+                              } else if (filterOption.includes('ALL')) {
+                                newFilterOption.splice(newFilterOption.indexOf('ALL'), 1)
+                              }
+                              newFilterOption.push(value)
                             }
-                            newFilterOption.push(value)
-                          }
-                          setFilterOption(newFilterOption)
-                          handleFilterOption(newFilterOption)
-                        }}
-                        checked={filterOption.includes(value)}
-                      />
-                    </div>
+                            setFilterOption(newFilterOption)
+                            handleFilterOption(newFilterOption)
+                          }}
+                          checked={filterOption.includes(value)}
+                        />
+                      </div>
+                    )
                   })}
                 </Form>
               </div>
@@ -696,17 +772,18 @@ export const EventPanel2 = (props: any) => {
               Refresh
             </Nav.Link>
             {isAdmin && (
-            <Nav.Link
-              className='mx-3'
-              style={{ fontSize: '14px' }}
-              onClick={handleFileUploadModalShow}
-            >
-              <img
-                style={{ height: '15px', width: '15px', marginRight: '10px' , filter: 'opacity(0.4)'}}
-                src={require('../../assets/images/upload.png')}
-              />
-              Upload
-            </Nav.Link>)}
+              <Nav.Link
+                className='mx-3'
+                style={{ fontSize: '14px' }}
+                onClick={handleFileUploadModalShow}
+              >
+                <img
+                  style={{ height: '15px', width: '15px', marginRight: '10px', filter: 'opacity(0.4)' }}
+                  src={require('../../assets/images/upload.png')}
+                />
+                Upload
+              </Nav.Link>
+            )}
           </div>
         </div>
         <Row style={TitleBar} className='px-5'>
@@ -759,49 +836,65 @@ export const EventPanel2 = (props: any) => {
           </div>
         )}
 
-        <div className="d-flex justify-content-center align-items-center">
-              <div style={paginationStyle}>
-                <Pagination>
-                  <Pagination.First onClick={() => handleRegPageChange(1)} disabled={currentRegPage === 1} />
-                  <Pagination.Prev onClick={() => handleRegPageChange(currentRegPage - 1)} disabled={currentRegPage === 1} />
-                  {[...Array(totalRegEventsPages)].map((_, index) => (
-                    <Pagination.Item key={index + 1} active={index + 1 === currentRegPage} onClick={() => handleRegPageChange(index + 1)}>
-                      {index + 1}
-                    </Pagination.Item>
-                  ))}
-                  <Pagination.Next onClick={() => handleRegPageChange(currentRegPage + 1)} disabled={currentRegPage === totalRegEventsPages} />
-                  <Pagination.Last onClick={() => handleRegPageChange(totalRegEventsPages)} disabled={currentRegPage === totalRegEventsPages} />
-                </Pagination>
-              </div>
+        <div className='d-flex justify-content-center align-items-center'>
+          <div style={paginationStyle}>
+            <Pagination>
+              <Pagination.First onClick={() => handleRegPageChange(1)} disabled={currentRegPage === 1} />
+              <Pagination.Prev
+                onClick={() => handleRegPageChange(currentRegPage - 1)}
+                disabled={currentRegPage === 1}
+              />
+              {[...Array(totalRegEventsPages)].map((_, index) => (
+                <Pagination.Item
+                  key={index + 1}
+                  active={index + 1 === currentRegPage}
+                  onClick={() => handleRegPageChange(index + 1)}
+                >
+                  {index + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Next
+                onClick={() => handleRegPageChange(currentRegPage + 1)}
+                disabled={currentRegPage === totalRegEventsPages}
+              />
+              <Pagination.Last
+                onClick={() => handleRegPageChange(totalRegEventsPages)}
+                disabled={currentRegPage === totalRegEventsPages}
+              />
+            </Pagination>
+          </div>
 
-              <div>
-                <Dropdown className="mx-2">
-                  <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
-                    {regEventsPerPage}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleRegEventsPerPageChange(5)}>5</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleRegEventsPerPageChange(10)}>10</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleRegEventsPerPageChange(20)}>20</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
+          <div>
+            <Dropdown className='mx-2'>
+              <Dropdown.Toggle variant='outline-primary' id='dropdown-basic'>
+                {regEventsPerPage}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleRegEventsPerPageChange(5)}>5</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleRegEventsPerPageChange(10)}>10</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleRegEventsPerPageChange(20)}>20</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
-              
-        {sortedEvents.filter((event: any) => event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed').length > 0 ? (
+
+        {sortedEvents.filter(
+          (event: any) =>
+            event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed'
+        ).length > 0 ? (
           <Row style={TitleBar} className='px-5'>
             {isAdmin && (
               <Col xs={1} style={{ fontSize: '14px' }}>
-              Event ID
-            </Col>
+                Event ID
+              </Col>
             )}
-            <Col xs={isAdmin? 3 : 4} style={{ fontSize: '14px' }}>
+            <Col xs={isAdmin ? 3 : 4} style={{ fontSize: '14px' }}>
               Title
             </Col>
-            <Col xs={isAdmin? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
               Date
             </Col>
-            <Col xs={isAdmin? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
               Category
             </Col>
             <Col xs={isAdmin ? 4 : 2} style={{ fontSize: '14px' }} className='text-center'>
@@ -838,7 +931,7 @@ export const EventPanel2 = (props: any) => {
             {'Error: ' + unregisteredEvents.error}
           </div>
         ) : null}
-        
+
         {renderedUnregisteredEvents}
         <EventModal
           show={modalShow}
@@ -857,36 +950,52 @@ export const EventPanel2 = (props: any) => {
             onChange={handleChangeInData}
             event={event}
             action={action}
-          />)}
+          />
+        )}
 
-      <div className="d-flex justify-content-center align-items-center">
-        <div style={paginationStyle}>
-          <Pagination>
-            <Pagination.First onClick={() => handleUnregPageChange(1)} disabled={currentUnregPage === 1} />
-            <Pagination.Prev onClick={() => handleUnregPageChange(currentUnregPage - 1)} disabled={currentUnregPage === 1} />
-            {[...Array(totalUnregEventsPages)].map((_, index) => (
-              <Pagination.Item key={index + 1} active={index + 1 === currentUnregPage} onClick={() => handleUnregPageChange(index + 1)}>
-                {index + 1}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next onClick={() => handleUnregPageChange(currentUnregPage + 1)} disabled={currentUnregPage === totalUnregEventsPages} />
-            <Pagination.Last onClick={() => handleUnregPageChange(totalUnregEventsPages)} disabled={currentUnregPage === totalUnregEventsPages} />
-          </Pagination>
-        </div>
+        <div className='d-flex justify-content-center align-items-center'>
+          <div style={paginationStyle}>
+            <Pagination>
+              <Pagination.First
+                onClick={() => handleUnregPageChange(1)}
+                disabled={currentUnregPage === 1}
+              />
+              <Pagination.Prev
+                onClick={() => handleUnregPageChange(currentUnregPage - 1)}
+                disabled={currentUnregPage === 1}
+              />
+              {[...Array(totalUnregEventsPages)].map((_, index) => (
+                <Pagination.Item
+                  key={index + 1}
+                  active={index + 1 === currentUnregPage}
+                  onClick={() => handleUnregPageChange(index + 1)}
+                >
+                  {index + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Next
+                onClick={() => handleUnregPageChange(currentUnregPage + 1)}
+                disabled={currentUnregPage === totalUnregEventsPages}
+              />
+              <Pagination.Last
+                onClick={() => handleUnregPageChange(totalUnregEventsPages)}
+                disabled={currentUnregPage === totalUnregEventsPages}
+              />
+            </Pagination>
+          </div>
 
-        <div>
-          <Dropdown className="mx-2">
-            <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
-              {unregEventsPerPage}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(20)}>20</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-
+          <div>
+            <Dropdown className='mx-2'>
+              <Dropdown.Toggle variant='outline-primary' id='dropdown-basic'>
+                {unregEventsPerPage}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(5)}>5</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(10)}>10</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(20)}>20</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
         <DeleteEventModal
           show={deleteEventModalShow}
@@ -894,10 +1003,7 @@ export const EventPanel2 = (props: any) => {
           onChange={handleDelete}
           modalData={modalData}
         />
-        <FileUploadModal
-          show={fileUploadModalShow}
-          onHide={handleFileUploadModalClose}
-        />
+        <FileUploadModal show={fileUploadModalShow} onHide={handleFileUploadModalClose} />
       </Container>
     </Container>
   )

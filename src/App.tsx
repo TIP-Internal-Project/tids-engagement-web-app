@@ -12,11 +12,9 @@ import GoogleLogin, { Redirect } from './GoogleLogin'
 import { EventPanel2 } from './components/EventsPanel2/EventPanel2'
 import Expense from './pages/Expense'
 
-
 function App() {
   setUserRole()
   const today = new Date().toLocaleDateString()
-  const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
   const isUserAuthenticated = window.localStorage.getItem('email') ? true : false
   const isNotExp = window.localStorage.getItem('sessDate') == today ? true : false
   return (
@@ -36,7 +34,7 @@ function App() {
             path='profile'
             element={<ProfileSettingsPage variable={localStorage.getItem('email')} />}
           />
-          <Route path='Reports' element={<Reports/>} />
+          <Route path='Reports' element={<Reports />} />
           <Route path='tasks' element={<Tasks email={localStorage.getItem('email') || ''} />} />
           <Route path='atten' element={<EventAttendance />} />
           <Route path='OrderProcessing' element={<OrderProcessing />} />
