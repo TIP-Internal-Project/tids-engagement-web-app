@@ -1,40 +1,40 @@
-import Nav from 'react-bootstrap/Nav'
-import ListGroup from 'react-bootstrap/ListGroup'
-import React, { useState, useEffect, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import EventModal from '../EventModal'
-import DeleteEventModal from '../DeleteEventModal'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { fetchUnregisteredEvents } from '../../redux/unregisteredEventsSlice'
-import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
-import { register } from '../../redux/eventRegistrationSlice'
-import { addStarPoints } from '../../redux/addStarPointsSlice'
-import Form from 'react-bootstrap/Form'
-import { fetchGeolocation } from '../../redux/geolocationSlice'
 import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { useEffect, useRef, useState } from 'react'
+import { Dropdown, Pagination } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import ListGroup from 'react-bootstrap/ListGroup'
+import Nav from 'react-bootstrap/Nav'
+import Row from 'react-bootstrap/Row'
 import { useLocation, useParams } from 'react-router-dom'
 import api from '../../api.json'
-import { Dropdown, Pagination } from 'react-bootstrap'
+import { addStarPoints } from '../../redux/addStarPointsSlice'
+import { register } from '../../redux/eventRegistrationSlice'
+import { fetchGeolocation } from '../../redux/geolocationSlice'
+import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { fetchUnregisteredEvents } from '../../redux/unregisteredEventsSlice'
+import DeleteEventModal from '../DeleteEventModal'
+import DetailsModal from '../DetailsModal/DetailsModal'
+import EventModal from '../EventModal'
+import FileUploadModal from '../FileUploadModal'
 import {
-  IndItemTitleDisplay,
-  tidsBadge,
-  teamBadge,
-  copBadge,
-  happyBadge,
-  TitleBar,
   IndItemDueDateDisplay,
   IndItemDueTimeDisplay,
+  IndItemTitleDisplay,
+  TitleBar,
   actionBadge,
+  copBadge,
+  happyBadge,
   paginationStyle,
+  teamBadge,
+  tidsBadge,
   viewDetailsButton,
 } from './style'
 import { setTimeFormat } from './utils'
-import FileUploadModal from '../FileUploadModal'
-import DetailsModal from '../DetailsModal/DetailsModal'
 
 export const EventPanel = (props: any) => {
   const STATUS_INACTIVE = 'Inactive'

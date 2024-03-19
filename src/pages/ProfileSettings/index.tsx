@@ -1,26 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { fetchEvents } from '../../redux/eventSlice'
-import { Event } from '../../interfaces/adminFeatureApi/Event'
-import '../../App.css'
-import { useSelector } from 'react-redux'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Sidebar } from '../../components/Sidebar'
-import {
-  StyledStarDiv,
-  StyledEventDiv,
-  StyledTaskDiv,
-  StyledCOPDiv,
-  TitleDiv,
-  IconDiv,
-  ValueDiv,
-} from '../../components/Div/Div.styles'
-import { MyProfilePanel } from '../../components/profileSettingsComponents/profile'
+import { useEffect } from 'react'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import '../../App.css'
 import { HeaderRight } from '../../components/HeaderRight'
-import { Subheader } from '../../components/Subheader'
+import { Sidebar } from '../../components/Sidebar'
+import { MyProfilePanel } from '../../components/profileSettingsComponents/profile'
+import { fetchEvents } from '../../redux/eventSlice'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 
 const HeaderLeft = () => {
   return (
