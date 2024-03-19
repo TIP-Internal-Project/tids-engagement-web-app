@@ -5,6 +5,7 @@ import ModalHeader from './ModalHeader'
 import ModalFooter from './ModalFooter'
 
 interface ModalProps {
+  isDialog?: boolean
   show: boolean
   onHide: () => void
   size: 'sm' | 'lg' | 'xl'
@@ -24,6 +25,7 @@ interface ModalProps {
 }
 
 const TidsModal: FC<ModalProps> = ({
+  isDialog = false,
   size,
   onHide,
   show,
@@ -39,12 +41,20 @@ const TidsModal: FC<ModalProps> = ({
   hasSeperator = true,
 }) => {
   return (
-    <Modal show={show} onHide={onHide} size={size} aria-labelledby={ariaLabelBy} centered={centered}>
+    <Modal
+      backdrop={isDialog ? 'static' : false}
+      show={show}
+      onHide={onHide}
+      size={size}
+      aria-labelledby={ariaLabelBy}
+      centered={centered}
+    >
       {headerContent && (
         <ModalHeader
           hasCloseBtn={hasCloseBtn}
           customHeaderStyle={customHeaderStyle}
           headerContent={headerContent}
+          onHide={onHide}
         />
       )}
       {hasSeperator && (

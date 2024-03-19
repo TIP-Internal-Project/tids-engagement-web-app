@@ -5,11 +5,17 @@ interface ModalHeaderProps {
   hasCloseBtn?: boolean
   customHeaderStyle?: object
   headerContent?: React.ReactNode
+  onHide: () => void
 }
 
-const ModalHeader: FC<ModalHeaderProps> = ({ hasCloseBtn, customHeaderStyle, headerContent }) => {
+const ModalHeader: FC<ModalHeaderProps> = ({
+  hasCloseBtn,
+  customHeaderStyle,
+  headerContent,
+  onHide,
+}) => {
   return (
-    <Modal.Header closeButton={hasCloseBtn} style={customHeaderStyle}>
+    <Modal.Header closeButton={hasCloseBtn} style={customHeaderStyle} onHide={onHide}>
       {headerContent}
     </Modal.Header>
   )

@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import ImageModal from '../ImageModal'
+import ConfirmDialog, { ConfirmDialogType, DialogType } from '../ConfirmDialog'
+import { Toast } from '../Toast'
 
 interface ExpenseModalProps {
   show: boolean
@@ -45,6 +47,11 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
   const [descriptionError, setDescriptionError] = useState('')
   const [receiptError, setReceiptError] = useState('')
   const [amountError, setAmountError] = useState('')
+  const [showConfirm, setShowConfirm] = useState<ConfirmDialogType>({
+    type: DialogType.save,
+    isOpen: false,
+    targetId: undefined,
+  })
 
   const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null
@@ -195,7 +202,13 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
     <div>
       <Modal
         show={show}
-        onHide={onHide}
+        onHide={() =>
+          setShowConfirm({
+            type: DialogType.exit,
+            isOpen: true,
+            targetId: undefined,
+          })
+        }
         size='xl'
         aria-labelledby='contained-modal-title-vcenter'
         centered
@@ -363,11 +376,17 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
                           <Button
                             variant='danger'
                             className='px-4'
-                            onClick={() => deleteExpense(expense.id)}
+                            onClick={() => {
+                              setShowConfirm({
+                                type: DialogType.delete,
+                                isOpen: true,
+                                targetId: expense.id,
+                              })
+                            }}
                           >
                             Delete
                           </Button>
-                        </td>{' '}
+                        </td>
                         {/* Delete button for each row */}
                       </tr>
                     ))}
@@ -429,11 +448,17 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
                           <Button
                             variant='danger'
                             className='px-4'
-                            onClick={() => deleteExpense(expense.id)}
+                            onClick={() => {
+                              setShowConfirm({
+                                type: DialogType.delete,
+                                isOpen: true,
+                                targetId: expense.id,
+                              })
+                            }}
                           >
                             Delete
                           </Button>
-                        </td>{' '}
+                        </td>
                         {/* Delete button for each row */}
                       </tr>
                     ))}
@@ -454,7 +479,13 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
                 <div></div>
               </Col>
             )}
-            <Col xs={4} className='submit-button'>
+            <Col
+              xs={4}
+              className='submit-button'
+              onClick={() => {
+                setShowConfirm({ type: DialogType.save, isOpen: true })
+              }}
+            >
               <Button variant='success' className='px-4'>
                 Submit
               </Button>
@@ -462,6 +493,29 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ show, onHide, event, action
           </Row>
         </Modal.Body>
       </Modal>
+
+      {showConfirm.isOpen && (
+        <>
+          <ConfirmDialog
+            type={showConfirm.type}
+            show={showConfirm.isOpen}
+            onHide={() => setShowConfirm({ type: DialogType.none, isOpen: false, targetId: undefined })}
+            onConfirm={() => {
+              const { targetId, type } = showConfirm
+              if (type === DialogType.delete && targetId) {
+                deleteExpense(targetId ?? '')
+                setShowConfirm({ type: DialogType.none, isOpen: false, targetId: undefined })
+              } else if (type === DialogType.save) {
+                Toast('Expense added', 'Successfully saved expenses!', 'success')
+                onHide()
+                setShowConfirm({ type: DialogType.none, isOpen: false, targetId: undefined })
+              } else if (type === DialogType.exit) {
+                onHide()
+              }
+            }}
+          />
+        </>
+      )}
       {showImageModal && (
         <ImageModal
           show={showImageModal}
