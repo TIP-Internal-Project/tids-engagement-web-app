@@ -1,6 +1,8 @@
 export interface Event {
   eventId: number
   title: string
+  status:string
+  estimatedBudget: number
   venueDetails: string
   eventDetails: string
   startDate: Date
