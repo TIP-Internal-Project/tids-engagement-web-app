@@ -7,7 +7,7 @@ import './styles.css'
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HeaderLeft from '../../components/HeaderLeft'
-import { ExpensePanel } from '../../components/ExpensePanel'
+import { ExpensePanel } from '../../components/Expense/ExpensePanel'
 
 
 const header = {
