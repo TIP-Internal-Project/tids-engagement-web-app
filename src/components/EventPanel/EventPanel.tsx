@@ -73,7 +73,7 @@ export const EventPanel = (props: any) => {
   const unregisteredEvents = useAppSelector((state) => state.unregisteredEvents)
   const registeredEvents = useAppSelector((state) => state.registeredEvents)
 
-  const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
+  const isAdmin = sessionStorage.getItem('userRole') == 'Admin'
   const API_ROOT = api.ROOT
   const IndItemDueDate: React.CSSProperties = {}
   const dropdownSortRef = useRef<HTMLDivElement>(null)
@@ -364,11 +364,15 @@ export const EventPanel = (props: any) => {
     setModalData([])
   }
 
-  const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {
-    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
+  const formatDate = (date: string) => {
+    return new (window.Date as any)(date).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
+  }
+
+  const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {
+    const formattedDate = formatDate(event.startDate)
 
     return (
       <ListGroup key={event.eventId}>
@@ -491,10 +495,7 @@ export const EventPanel = (props: any) => {
   })
 
   const renderedRegisteredEvents = currentRegEvents.map((event: any) => {
-    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
-      {},
-      { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
-    )
+    const formattedDate = formatDate(event.startDate)
 
     return (
       <ListGroup key={event.eventId}>
