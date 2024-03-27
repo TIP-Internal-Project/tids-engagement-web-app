@@ -1,50 +1,52 @@
-import Nav from 'react-bootstrap/Nav'
-import ListGroup from 'react-bootstrap/ListGroup'
-import React, { useState, useEffect, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import EventModal from '../EventModal'
-import DetailsModal from '../DetailsModal/DetailsModal'
-import DeleteEventModal from '../DeleteEventModal'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { fetchUnregisteredEvents } from '../../redux/unregisteredEventsSlice'
-import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
-import { register } from '../../redux/eventRegistrationSlice'
-import { addStarPoints } from '../../redux/addStarPointsSlice'
-import Form from 'react-bootstrap/Form'
-import { fetchGeolocation } from '../../redux/geolocationSlice'
 import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { useEffect, useRef, useState } from 'react'
+import { Dropdown, Pagination } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import ListGroup from 'react-bootstrap/ListGroup'
+import Nav from 'react-bootstrap/Nav'
+import Row from 'react-bootstrap/Row'
 import { useLocation, useParams } from 'react-router-dom'
 import api from '../../api.json'
-import { Dropdown, Pagination } from 'react-bootstrap'
+import { addStarPoints } from '../../redux/addStarPointsSlice'
+import { register } from '../../redux/eventRegistrationSlice'
+import { fetchGeolocation } from '../../redux/geolocationSlice'
+import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { fetchUnregisteredEvents } from '../../redux/unregisteredEventsSlice'
+import DeleteEventModal from '../DeleteEventModal'
+import DetailsModal from '../DetailsModal/DetailsModal'
+import EventModal from '../EventModal'
+import FileUploadModal from '../FileUploadModal'
 import {
-  IndItemTitleDisplay,
-  tidsBadge,
-  teamBadge,
-  copBadge,
-  happyBadge,
-  TitleBar,
   IndItemDueDateDisplay,
   IndItemDueTimeDisplay,
+  IndItemTitleDisplay,
+  TitleBar,
   actionBadge,
+  copBadge,
+  happyBadge,
   paginationStyle,
+  teamBadge,
+  tidsBadge,
   viewDetailsButton,
 } from './style'
 import { setTimeFormat } from './utils'
-import FileUploadModal from '../FileUploadModal'
 
-export const EventPanel2 = (props: any) => {
+export const EventPanel = (props: any) => {
+  const STATUS_INACTIVE = 'Inactive'
+  const STATUS_ACTIVE = 'Active'
+  const STATUS_COMPLETED = 'Completed'
+
   const dispatch = useAppDispatch()
   const { modalUrl } = useParams()
   const location = useLocation()
-
   const [action, setAction] = useState('')
   const [event, setEvent] = useState<any[]>([])
   const [detailsModalShow, setDetailsModalShow] = useState(false)
-
   const [modalUrlParam, setModalUrlParam] = useState<string | null>(null)
   const [deleteEventModalShow, setDeleteEventModalShow] = useState(false)
   const [fileUploadModalShow, setFileUploadModalShow] = useState(false)
@@ -54,7 +56,7 @@ export const EventPanel2 = (props: any) => {
   const [sortOption, setSortOption] = useState<string>('asc')
   const [filterOption, setFilterOption] = useState<string[]>(['ALL'])
   const [sortedEvents, setSortedEvents] = useState<Event[]>([])
-  const [sortedEvents1, setSortedEvents1] = useState<Event[]>([])
+  const [sortedRegisteredEvents, setSortedRegisteredEvents] = useState<Event[]>([])
   const [modalShow, setModalShow] = useState(false)
   const [disableRegistration, setDisableRegistration] = useState(false)
 
@@ -71,7 +73,7 @@ export const EventPanel2 = (props: any) => {
   const unregisteredEvents = useAppSelector((state) => state.unregisteredEvents)
   const registeredEvents = useAppSelector((state) => state.registeredEvents)
 
-  const isAdmin = sessionStorage.getItem('userRole') == 'Admin' ? true : false
+  const isAdmin = sessionStorage.getItem('userRole') == 'Admin'
   const API_ROOT = api.ROOT
   const IndItemDueDate: React.CSSProperties = {}
   const dropdownSortRef = useRef<HTMLDivElement>(null)
@@ -79,16 +81,20 @@ export const EventPanel2 = (props: any) => {
 
   const indexOfLastRegEvent = currentRegPage * regEventsPerPage
   const indexOfFirstRegEvent = indexOfLastRegEvent - regEventsPerPage
-  const currentRegEvents = Object.values(sortedEvents1)
+  const currentRegEvents = Object.values(sortedRegisteredEvents)
     .filter(
       (event: any) =>
-        event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed'
+        event.status === STATUS_INACTIVE ||
+        event.status === STATUS_ACTIVE ||
+        event.status === STATUS_COMPLETED
     )
     .slice(indexOfFirstRegEvent, indexOfLastRegEvent)
   const totalRegEventsPages = Math.ceil(
-    Object.values(sortedEvents1).filter(
+    Object.values(sortedRegisteredEvents).filter(
       (event: any) =>
-        event.status === 'Inactive' || event.status === 'Active' || event.status === 'Completed'
+        event.status === STATUS_INACTIVE ||
+        event.status === STATUS_ACTIVE ||
+        event.status === STATUS_COMPLETED
     ).length / regEventsPerPage
   )
 
@@ -97,13 +103,17 @@ export const EventPanel2 = (props: any) => {
   const currentUnRegEvents = Object.values(sortedEvents)
     .filter(
       (event: any) =>
-        event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed'
+        event.status === STATUS_ACTIVE ||
+        event.status === STATUS_INACTIVE ||
+        event.status === STATUS_COMPLETED
     )
     .slice(indexOfFirstUnregEvent, indexOfLastUnregEvent)
   const totalUnregEventsPages = Math.ceil(
     Object.values(sortedEvents).filter(
       (event: any) =>
-        event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed'
+        event.status === STATUS_ACTIVE ||
+        event.status === STATUS_INACTIVE ||
+        event.status === STATUS_COMPLETED
     ).length / unregEventsPerPage
   )
 
@@ -157,102 +167,47 @@ export const EventPanel2 = (props: any) => {
     })
   }, [])
 
+  // Refactored
   useEffect(() => {
     const email = props.variable
     dispatch(fetchRegisteredEvents(email)).then((data: any) => {
-      // Sort events based on date
-      // const sortedEvents = data.sort((a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate), data)
-      const registeredEventsArray = Object.values(data.payload)
-      // Sort events based on event date
-      const events = registeredEventsArray.sort(
-        (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
+      const events = Object.values(data.payload).sort(
+        (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
       )
-      setSortedEvents1(events as Event[])
+      setSortedRegisteredEvents(events as Event[])
     })
   }, [])
 
+  // Refactored
   useEffect(() => {
     const sort = async () => {
       setSortedEvents([])
-      setSortedEvents1([])
+      setSortedRegisteredEvents([])
       const email = props.variable
-      if (filterOption.includes('ALL')) {
-        if (sortOption === 'asc') {
-          const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-          const registeredEventsArray = Object.values(registeredEventsData.payload)
-          const sortedRegisteredEvents = registeredEventsArray.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-          )
-          setSortedEvents1(sortedRegisteredEvents as Event[])
-          const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-          const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-          const sortedUnregisteredEvents = unregisteredEventsArray.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-          )
-          setSortedEvents(sortedUnregisteredEvents as Event[])
-        } else if (sortOption === 'desc') {
-          const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-          const registeredEventsArray = Object.values(registeredEventsData.payload)
-          const sortedRegisteredEvents = registeredEventsArray.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(b.startDate) - new (window.Date as any)(a.startDate)
-          )
-          setSortedEvents1(sortedRegisteredEvents as Event[])
-          const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-          const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-          const sortedUnregisteredEvents = unregisteredEventsArray.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(b.startDate) - new (window.Date as any)(a.startDate)
-          )
-          setSortedEvents(sortedUnregisteredEvents as Event[])
-        }
-      } else {
-        if (sortOption === 'asc') {
-          const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-          const registeredEventsArray = Object.values(registeredEventsData.payload)
-          const filteredRegisteredEvents = registeredEventsArray.filter((event: any) =>
-            filterOption.includes(event.category)
-          )
-          const sortedRegisteredEvents = filteredRegisteredEvents.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-          )
-          setSortedEvents1(sortedRegisteredEvents as Event[])
-          const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-          const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-          const filteredUnregisteredEvents = unregisteredEventsArray.filter((event: any) =>
-            filterOption.includes(event.category)
-          )
-          const sortedUnregisteredEvents = filteredUnregisteredEvents.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-          )
-          setSortedEvents(sortedUnregisteredEvents as Event[])
-        } else if (sortOption === 'desc') {
-          const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-          const registeredEventsArray = Object.values(registeredEventsData.payload)
-          const filteredRegisteredEvents = registeredEventsArray.filter((event: any) =>
-            filterOption.includes(event.category)
-          )
-          const sortedRegisteredEvents = filteredRegisteredEvents.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(b.startDate) - new (window.Date as any)(a.startDate)
-          )
-          setSortedEvents1(sortedRegisteredEvents as Event[])
-          const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-          const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-          const filteredUnregisteredEvents = unregisteredEventsArray.filter((event: any) =>
-            filterOption.includes(event.category)
-          )
-          const sortedUnregisteredEvents = filteredUnregisteredEvents.sort(
-            (a: any, b: any) =>
-              new (window.Date as any)(b.startDate) - new (window.Date as any)(a.startDate)
-          )
-          setSortedEvents(sortedUnregisteredEvents as Event[])
-        }
-      }
+      const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
+      const registeredEventsArray = Object.values(registeredEventsData.payload)
+      const filteredRegisteredEvents = registeredEventsArray.filter(
+        (event: any) => filterOption.includes('ALL') || filterOption.includes(event.category)
+      )
+      const sortedRegisteredEvents = filteredRegisteredEvents.sort((a: any, b: any) => {
+        const dateA = new Date(a.startDate).getTime()
+        const dateB = new Date(b.startDate).getTime()
+        return sortOption === 'asc' ? dateA - dateB : dateB - dateA
+      })
+
+      setSortedRegisteredEvents(sortedRegisteredEvents as Event[])
+      const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
+      const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
+      const filteredUnregisteredEvents = unregisteredEventsArray.filter(
+        (event: any) => filterOption.includes('ALL') || filterOption.includes(event.category)
+      )
+      const sortedUnregisteredEvents = filteredUnregisteredEvents.sort((a: any, b: any) => {
+        const dateA = new Date(a.startDate).getTime()
+        const dateB = new Date(b.startDate).getTime()
+        return sortOption === 'asc' ? dateA - dateB : dateB - dateA
+      })
+
+      setSortedEvents(sortedUnregisteredEvents as Event[])
     }
     sort()
   }, [sortOption, filterOption])
@@ -300,10 +255,10 @@ export const EventPanel2 = (props: any) => {
   const handleFilterButtonClick = () => {
     setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
   }
-
+  // Refactored
   const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
     setSortedEvents([])
-    setSortedEvents1([])
+    setSortedRegisteredEvents([])
     setSortOption('asc')
     setFilterOption(['ALL'])
     const location = await dispatch(fetchGeolocation())
@@ -317,8 +272,8 @@ export const EventPanel2 = (props: any) => {
     const sortedRegisteredEvents = registeredEventsArray.sort(
       (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
     )
-    setSortedEvents1(sortedRegisteredEvents as Event[])
-    console.log(sortedEvents1)
+    setSortedRegisteredEvents(sortedRegisteredEvents as Event[])
+    console.log(sortedRegisteredEvents)
     const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
     const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
     const sortedUnregisteredEvents = unregisteredEventsArray.sort(
@@ -329,26 +284,26 @@ export const EventPanel2 = (props: any) => {
   }
 
   const handleRefresh = async (email: any) => {
-    setSortedEvents([])
-    setSortedEvents1([])
-    setSortOption('asc')
-    setFilterOption(['ALL'])
-    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-    const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray
-      .sort(
-        (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-      )
-      .filter((event: any) => event.status != 'Archived')
-    setSortedEvents1(sortedRegisteredEvents as Event[])
-    const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-    const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray
-      .sort(
-        (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-      )
-      .filter((event: any) => event.status != 'Archived')
-    setSortedEvents(sortedUnregisteredEvents as Event[])
+    try {
+      const [registeredEventsData, unregisteredEventsData] = await Promise.all([
+        dispatch(fetchRegisteredEvents(email)),
+        dispatch(fetchUnregisteredEvents(email)),
+      ])
+
+      const sortedRegisteredEvents = sortAndFilterEvents(registeredEventsData.payload)
+      const sortedUnregisteredEvents = sortAndFilterEvents(unregisteredEventsData.payload)
+
+      setSortedRegisteredEvents(sortedRegisteredEvents)
+      setSortedEvents(sortedUnregisteredEvents)
+    } catch (error) {
+      console.error('Error refreshing events:', error)
+    }
+  }
+
+  const sortAndFilterEvents = (events: any[]): any[] => {
+    return events
+      .sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+      .filter((event: any) => event.status !== 'Archived')
   }
 
   const handleSortOption = (option: string) => {
@@ -393,8 +348,8 @@ export const EventPanel2 = (props: any) => {
     setModalShow(false)
   }
 
-  const handleSortedEvents1 = (events: Event[]) => {
-    setSortedEvents1(events)
+  const handleSortedRegisteredEvents = (events: Event[]) => {
+    setSortedRegisteredEvents(events)
     setModalShow(false)
   }
 
@@ -409,11 +364,15 @@ export const EventPanel2 = (props: any) => {
     setModalData([])
   }
 
-  const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {
-    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
+  const formatDate = (date: string) => {
+    return new (window.Date as any)(date).toLocaleDateString(
       {},
       { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
     )
+  }
+
+  const renderedUnregisteredEvents = currentUnRegEvents.map((event: any) => {
+    const formattedDate = formatDate(event.startDate)
 
     return (
       <ListGroup key={event.eventId}>
@@ -494,10 +453,10 @@ export const EventPanel2 = (props: any) => {
               <Button
                 onClick={() => handleRegister(event.eventId, props.variable, event.starsNum)}
                 className={`bg-success border-success ${
-                  event.status === 'Inactive' || event.status === 'Completed' ? 'disabled' : ''
+                  event.status === STATUS_INACTIVE || event.status === STATUS_COMPLETED ? 'disabled' : ''
                 }`}
                 style={actionBadge}
-                disabled={event.status === 'Inactive'}
+                disabled={event.status === STATUS_INACTIVE}
               >
                 {' '}
                 REGISTER
@@ -506,7 +465,7 @@ export const EventPanel2 = (props: any) => {
                 <Button
                   onClick={() => handleOpenDetailsModal('edit', event)}
                   className={`bg-success border-success' ${
-                    event.status === 'Completed' ? 'disabled' : ''
+                    event.status === STATUS_COMPLETED ? 'disabled' : ''
                   }`}
                   style={actionBadge}
                 >
@@ -536,10 +495,7 @@ export const EventPanel2 = (props: any) => {
   })
 
   const renderedRegisteredEvents = currentRegEvents.map((event: any) => {
-    const formattedDate = new (window.Date as any)(event.startDate).toLocaleDateString(
-      {},
-      { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
-    )
+    const formattedDate = formatDate(event.startDate)
 
     return (
       <ListGroup key={event.eventId}>
@@ -632,7 +588,7 @@ export const EventPanel2 = (props: any) => {
                 <Button
                   onClick={() => handleOpenDetailsModal('edit', event)}
                   className={`bg-success border-success' ${
-                    event.status === 'Completed' ? 'disabled' : ''
+                    event.status === STATUS_COMPLETED ? 'disabled' : ''
                   }`}
                   style={actionBadge}
                 >
@@ -819,7 +775,7 @@ export const EventPanel2 = (props: any) => {
           </div>
         ) : null}
 
-        {sortedEvents1.filter((event: any) => event.status != 'Archived').length > 0 ? (
+        {sortedRegisteredEvents.filter((event: any) => event.status != 'Archived').length > 0 ? (
           <div style={{ paddingBottom: '3%' }}>{renderedRegisteredEvents}</div>
         ) : (
           <div
@@ -880,7 +836,9 @@ export const EventPanel2 = (props: any) => {
 
         {sortedEvents.filter(
           (event: any) =>
-            event.status === 'Active' || event.status === 'Inactive' || event.status === 'Completed'
+            event.status === STATUS_ACTIVE ||
+            event.status === STATUS_INACTIVE ||
+            event.status === STATUS_COMPLETED
         ).length > 0 ? (
           <Row style={TitleBar} className='px-5'>
             {isAdmin && (
@@ -941,7 +899,7 @@ export const EventPanel2 = (props: any) => {
           email={props.variable}
           showButtons={true}
           onSortedEvents={handleSortedEvents}
-          onSortedEvents1={handleSortedEvents1}
+          onSortedRegisteredEvents={handleSortedRegisteredEvents}
         />
         {detailsModalShow && (
           <DetailsModal

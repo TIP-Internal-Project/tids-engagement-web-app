@@ -6,7 +6,7 @@ import '../../App.css'
 import './styles.css'
 import React, { useState } from 'react'
 import HeaderLeft from '../../components/HeaderLeft'
-import { EventPanel2 } from '../../components/EventsPanel2/EventPanel2'
+import { EventPanel } from '../../components/EventPanel/EventPanel'
 
 const header = {
   height: '81px',
@@ -47,7 +47,7 @@ const Events = (props: any) => {
           </Col>
         </Row>
 
-        <EventPanel2 variable={variable} />
+        <EventPanel variable={variable} />
       </div>
       <button className='back-to-top-button'>
         <img
