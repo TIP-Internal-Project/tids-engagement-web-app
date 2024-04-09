@@ -99,19 +99,6 @@ const EventModal: React.FC<EventModalProps> = ({
     display: 'inline-flex',
   }
 
-  const ModalStatus = {
-    marginTop: '6px',
-    paddingLeft: '11px',
-  }
-
-  const qrCodeTitle = {
-    backgroundColor: '#5a8d37',
-    width: '160px',
-    padding: '11px',
-    borderStyle: 'ridge',
-    marginBottom: '1px',
-  }
-
   const handleDownloadClick = () => {
     fetch(data.qrCodeUrl)
       .then((response) => response.blob())
@@ -166,13 +153,6 @@ const EventModal: React.FC<EventModalProps> = ({
     border: 'none',
   }
 
-  const setTimeFormat = (aDateString: string): string => {
-    const aDate = new Date(aDateString)
-    const timeString = aDate.toLocaleTimeString().slice(0, -6)
-    const newFormat = aDate.getHours() >= 12 ? 'PM' : 'AM'
-    return `${timeString} ${newFormat}`
-  }
-
   return (
     <Modal
       show={show}
@@ -184,7 +164,6 @@ const EventModal: React.FC<EventModalProps> = ({
       <Modal.Header closeButton style={modalStyle}>
         <Modal.Title id='contained-modal-title-vcenter' style={ModalTitleDiv}>
           {data.title}
-          {/* <h5 style={ModalStatus}><span className='ModalBadge'>Event Ongoing</span></h5> */}
         </Modal.Title>
       </Modal.Header>
 
@@ -199,7 +178,6 @@ const EventModal: React.FC<EventModalProps> = ({
           <div className='ModalBodyRightSubDiv1'>
             <p style={{ fontSize: '14px' }}>{data.eventDetails}</p>
             <p style={{ fontSize: '14px', marginTop: '10px' }}>
-              {' '}
               {data.eventType === 'na' ? '' : data.eventType}{' '}
               <FontAwesomeIcon icon={faStar} size='1x' style={{ color: '#f4ef6c' }} />
               {data.starsNum + ' '}
@@ -218,7 +196,7 @@ const EventModal: React.FC<EventModalProps> = ({
               </Button>{' '}
               {data.postEventSurveyURL && (
                 <Button style={ModalButton} href={data.postEventSurveyURL}>
-                  EVENT SURVEY{' '}
+                  EVENT SURVEY
                 </Button>
               )}
               {data.gmeetLink && (
