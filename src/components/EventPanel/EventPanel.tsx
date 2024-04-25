@@ -674,6 +674,9 @@ export const EventPanel = (props: any) => {
                           label={label}
                           onChange={() => {
                             const newFilterOption = [...filterOption]
+                            console.log('newFilterOption: ', newFilterOption)
+                            console.log('value: ', value)
+                            console.log('filterOption: ', filterOption)
                             if (newFilterOption.includes(value)) {
                               newFilterOption.splice(newFilterOption.indexOf(value), 1)
                             } else {

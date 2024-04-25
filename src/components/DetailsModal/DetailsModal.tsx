@@ -36,6 +36,10 @@ const categorySelectOptions: { [index: string]: category } = {
     label: 'TIDS Wide Event',
     eventTypeSelectOptions: [],
   },
+  happyhere: {
+    label: 'Happy Here Event',
+    eventTypeSelectOptions: [],
+  },
   teamEvent: {
     label: 'Team Level Event',
     eventTypeSelectOptions: [
