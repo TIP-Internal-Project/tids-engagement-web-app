@@ -13,8 +13,12 @@ const header = {
   height: '81px',
 }
 
-const Events = (props: any) => {
-  const { variable } = props
+interface PageLayoutProps {
+  pageTitle: string
+  ContentComponent: React.ReactNode
+}
+
+const PageLayout: React.FC<PageLayoutProps> = ({ pageTitle, ContentComponent }) => {
   const [visible, setVisible] = useState(false)
   const [showFeatureUnavailable, setShowFeatureUnavailable] = useState(false)
 
@@ -50,14 +54,14 @@ const Events = (props: any) => {
       <div className='div1'>
         <Row>
           <Col style={header}>
-            <HeaderLeft pageTitle='Events' />
+            <HeaderLeft pageTitle={pageTitle} />
           </Col>
           <Col style={header}>
             <HeaderRight />
           </Col>
         </Row>
 
-        <EventPanel variable={variable} />
+        {ContentComponent}
       </div>
       <button className='back-to-top-button'>
         <img
@@ -79,4 +83,4 @@ const Events = (props: any) => {
   )
 }
 
-export default Events
+export default PageLayout

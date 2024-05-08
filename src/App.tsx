@@ -11,6 +11,8 @@ import { setUserRole } from './components/Roles/Roles'
 import GoogleLogin, { Redirect } from './GoogleLogin'
 import { EventPanel } from './components/EventPanel/EventPanel'
 import Expense from './pages/Expense'
+import PageLayout from './pages/Pages'
+import FeatureUnavailablePanel from './components/FeatureUnavailable/FeatureUnavailablePanel'
 
 function App() {
   setUserRole()
@@ -28,16 +30,28 @@ function App() {
           <Route path='overview' element={<Overview />} />
           <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />
           <Route path='/events/:modalUrl' element={<EventPanel />} />
-          <Route path='reports' element={<Reports variable={localStorage.getItem('email')} />} />
-          <Route path='expense' element={<Expense variable={localStorage.getItem('email')} />} />
+          <Route
+            path='reports'
+            element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
+          />
+          <Route
+            path='expense'
+            element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
+          />
           <Route
             path='profile'
             element={<ProfileSettingsPage variable={localStorage.getItem('email')} />}
           />
-          <Route path='Reports' element={<Reports />} />
+          <Route
+            path='Reports'
+            element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
+          />
           <Route path='tasks' element={<Tasks email={localStorage.getItem('email') || ''} />} />
           <Route path='atten' element={<EventAttendance />} />
-          <Route path='OrderProcessing' element={<OrderProcessing />} />
+          <Route
+            path='OrderProcessing'
+            element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
+          />
         </Route>
         <Route path='/login' element={<GoogleLogin />} />
         <Route path='/redirect' element={<Redirect />} />
