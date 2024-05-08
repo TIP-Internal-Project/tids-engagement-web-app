@@ -15,15 +15,15 @@ const FeatureUnavailablePanel = () => {
         style={{ backgroundColor: 'white', height: 'auto', width: 'auto', borderRadius: '20px' }}
         className='px-0'
       >
-        <Row className='justify-content-md-center align-items-center'>
-          <Col xs lg='2'>
+        <Row className='align-items-center'>
+          <Col className='text-center'>
             <img
-              src={require('../../assets/images/sadnessFeatureNotAvailable.png')}
+              src={require('../../assets/images/sadEmoji.png')}
               alt=''
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: '70%', height: 'auto' }}
             />
           </Col>
-          <Col md='5' className='justify-content-md-center' style={{ paddingLeft: '99px' }}>
+          <Col className='justify-content-md-center' style={{ paddingLeft: '0px' }}>
             <div>
               <h1>404</h1>
               <h2>UH OH! You&apos;re lost.</h2>
