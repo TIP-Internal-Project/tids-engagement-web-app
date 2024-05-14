@@ -231,8 +231,18 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       hasError = true
     }
 
+    if (Number(formData.estimatedBudget) < 0) {
+      setEstimatedBudgetError('Estimated Budget must not be less than 0.')
+      hasError = true
+    }
+
     if (isNaN(Number(formData.numberOfInviteSent))) {
       setNumberOfInviteSentError('Number of Invite Sent must be a number.')
+      hasError = true
+    }
+
+    if (Number(formData.numberOfInviteSent) < 0) {
+      setNumberOfInviteSentError('Number of Invite Sent must not be less than 0.')
       hasError = true
     }
 
@@ -853,17 +863,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 )}
               </Button>
             ) : (
-              <Button
-                variant='success'
-                className='px-3'
-                onClick={handleEventUpdate}
-                style={{
-                  width: '-webkit-fill-available',
-                  borderColor: '#2B8000',
-                  backgroundColor: '#2B8000',
-                  fontSize: '11px',
-                }}
-              >
+              <Button variant='success' className='px-4' onClick={handleEventUpdate}>
                 Update Event
               </Button>
             )}
