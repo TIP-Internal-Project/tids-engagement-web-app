@@ -26,7 +26,7 @@ const FeatureUnavailablePanel = () => {
           <Col className='justify-content-md-center' style={{ paddingLeft: '0px' }}>
             <div>
               <h1>404</h1>
-              <h2>UH OH! You&apos;re lost.</h2>
+              <h2>UH OH! This feature is currently not available.</h2>
               <p>
                 The page you are looking for does not exist. How you got here is a mystery. But you can
                 click the button below to go back to the homepage.
