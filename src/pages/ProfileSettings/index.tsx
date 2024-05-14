@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import '../../App.css'
@@ -8,6 +8,7 @@ import { Sidebar } from '../../components/Sidebar'
 import { MyProfilePanel } from '../../components/profileSettingsComponents/profile'
 import { fetchEvents } from '../../redux/eventSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
+import FeatureUnavailable from '../../components/FeatureUnavailable/FeatureUnavailable'
 
 const HeaderLeft = () => {
   return (
@@ -21,6 +22,7 @@ export default function ProfileSettingsPage(props: any) {
   const dispatch = useAppDispatch()
   const { events } = useAppSelector((state) => state.events)
   const userSession = useAppSelector((state) => state.userSession)
+  const [showFeatureUnavailable, setShowFeatureUnavailable] = useState(false)
   const { variable } = props
 
   const header = {
@@ -42,9 +44,18 @@ export default function ProfileSettingsPage(props: any) {
     dispatch(fetchEvents())
   }, [dispatch])
 
+  const handleUnavailableLinkClick = () => {
+    setShowFeatureUnavailable(true)
+  }
+
+  // Function to handle closing the FeatureUnavailable modal
+  const handleCloseFeatureUnavailable = () => {
+    setShowFeatureUnavailable(false)
+  }
+
   return (
     <div>
-      <Sidebar />
+      <Sidebar onUnavailableLinkClick={handleUnavailableLinkClick} />
       <div className='overviewDiv1'>
         <Row>
           <Col style={header}>
@@ -59,6 +70,7 @@ export default function ProfileSettingsPage(props: any) {
           <Col style={footerComponent}></Col>
         </Row>
       </div>
+      <FeatureUnavailable show={showFeatureUnavailable} onHide={handleCloseFeatureUnavailable} />{' '}
     </div>
   )
 }

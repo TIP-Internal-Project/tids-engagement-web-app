@@ -57,9 +57,6 @@ const TidsModal: FC<ModalProps> = ({
           onHide={onHide}
         />
       )}
-      {hasSeperator && (
-        <hr style={{ width: '90%', margin: '1rem auto', borderWidth: '2px', marginTop: '5px' }} />
-      )}
       {bodyContent && <ModalBody customBodyStyle={customBodyStyle} bodyContent={bodyContent} />}
       {footerContent && (
         <ModalFooter customFooterStyle={customFooterStyle} footerContent={footerContent} />
