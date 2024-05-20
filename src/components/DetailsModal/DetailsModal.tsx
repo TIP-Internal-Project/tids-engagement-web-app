@@ -77,6 +77,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   const [targetComplianceError, setTargetComplianceError] = useState('')
   const [creatingEvent, setCreatingEvent] = useState(false)
   const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
+  const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null)
 
   const [formData, setFormData] = useState({
     eventId: '',
@@ -168,6 +169,41 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       ...prevFormData,
       [name]: value,
     }))
+  }
+
+  const handleStartDateChange = (e: { target: { value: string | number | Date } }) => {
+    const selectedStartDateTime = new Date(e.target.value)
+    const currentDateTime = new Date()
+
+    if (selectedStartDateTime < currentDateTime) {
+      setStartDateTimeError(
+        'Invalid start date and time. Please select a date and time that occur after the current date and time.'
+      )
+    } else {
+      setStartDateTimeError('')
+      setSelectedStartDate(selectedStartDateTime)
+      // Handle other form changes or actions here
+    }
+  }
+
+  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedEndDateTime = new Date(e.target.value)
+    console.log('selectedEndDateTime = ')
+    console.log(selectedEndDateTime)
+
+    if (!selectedStartDate) {
+      setEndDateTimeError('Please set a start date first.')
+      return
+    }
+
+    if (selectedEndDateTime <= selectedStartDate) {
+      setEndDateTimeError(
+        'Invalid end date and time. Please select an end date and time that occur after the start date and time.'
+      )
+    } else {
+      setEndDateTimeError('')
+      // Handle other form changes or actions here
+    }
   }
 
   const handleAddEvent = async () => {
@@ -476,6 +512,16 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     setQrCodeUrl(url)
   }
 
+  const getCurrentDateTime = () => {
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = (now.getMonth() + 1).toString().padStart(2, '0')
+    const day = now.getDate().toString().padStart(2, '0')
+    const hours = now.getHours().toString().padStart(2, '0')
+    const minutes = now.getMinutes().toString().padStart(2, '0')
+    return `${year}-${month}-${day}T${hours}:${minutes}`
+  }
+
   const headerContent = (
     <>
       <Modal.Title id='contained-modal-title-vcenter' className='mx-3' style={modalTitleDiv}>
@@ -609,12 +655,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   <Form.Control
                     required
                     type='datetime-local'
-                    defaultValue={action === 'edit' ? event.startDate.slice(0, -1) : ''}
-                    max={action === 'edit' ? formatDate(event.endDate) : formData.endDate}
-                    min={currentDateTime}
+                    max='9999-12-31T23:59' // Set a maximum date if needed
+                    min={getCurrentDateTime()}
                     name='startDate'
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    onChange={handleFormChange}
+                    onChange={handleStartDateChange}
                   />
                 </div>
                 {startDateTimeError && <div className='text-danger'>{startDateTimeError}</div>}
@@ -632,13 +677,9 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                     defaultValue={action === 'edit' ? event.endDate.slice(0, -1) : ''}
                     name='endDate'
                     max='9999-12-31T23:59'
-                    min={
-                      action === 'edit'
-                        ? event.startDate.slice(0, -1)
-                        : new Date().toISOString().slice(0, 16)
-                    }
+                    min={formData.startDate || getCurrentDateTime()} // Ensure the minimum is either the start date or the current date
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    onChange={handleFormChange}
+                    onChange={handleEndDateChange}
                   />
                 </div>
                 {endDateTimeError && <div className='text-danger'>{endDateTimeError}</div>}
