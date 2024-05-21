@@ -719,7 +719,7 @@ export const EventPanel = (props: any) => {
                 </p>
               </div>
             )}
-            <Nav.Link
+            {/* <Nav.Link
               className='mx-3'
               style={{ fontSize: '14px' }}
               onClick={() => handleRefresh(props.variable)}
@@ -729,7 +729,7 @@ export const EventPanel = (props: any) => {
                 src={require('../../assets/images/refresh.png')}
               />
               Refresh
-            </Nav.Link>
+            </Nav.Link> */}
             {isAdmin && (
               <Nav.Link
                 className='mx-3'
@@ -747,6 +747,9 @@ export const EventPanel = (props: any) => {
         </div>
         <Row style={TitleBar} className='px-5'>
           <Col style={{ fontSize: '14px' }}>Currently Registered</Col>
+          <Col style={{ fontSize: '14px', color: 'red' }}>
+            Note: Kindly refresh the page after adding a new event
+          </Col>
         </Row>
 
         {registeredEvents.loading && (
