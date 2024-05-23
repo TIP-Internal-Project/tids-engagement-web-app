@@ -746,9 +746,28 @@ export const EventPanel = (props: any) => {
           </div>
         </div>
         <Row style={TitleBar} className='px-5'>
-          <Col style={{ fontSize: '14px' }}>Currently Registered</Col>
+          <Col style={{ fontSize: '14px' }}>Registered Events</Col>
           <Col style={{ fontSize: '14px', color: 'red' }}>
             Note: Kindly refresh the page after adding a new event
+          </Col>
+        </Row>
+        <Row style={TitleBar} className='px-5'>
+          {isAdmin && (
+            <Col xs={1} style={{ fontSize: '14px' }}>
+              Event ID
+            </Col>
+          )}
+          <Col xs={isAdmin ? 3 : 4} style={{ fontSize: '14px' }}>
+            Title
+          </Col>
+          <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+            Date
+          </Col>
+          <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+            Category
+          </Col>
+          <Col xs={isAdmin ? 4 : 2} style={{ fontSize: '14px' }} className='text-center'>
+            Action
           </Col>
         </Row>
 
@@ -840,6 +859,9 @@ export const EventPanel = (props: any) => {
           </div>
         </div>
 
+        <Row style={TitleBar} className='px-5'>
+          <Col style={{ fontSize: '14px' }}>Available Events</Col>
+        </Row>
         {sortedEvents.filter(
           (event: any) =>
             event.status === STATUS_ACTIVE ||
