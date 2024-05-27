@@ -748,7 +748,7 @@ export const EventPanel = (props: any) => {
         <Row style={TitleBar} className='px-5'>
           <Col style={{ fontSize: '14px' }}>Currently Registered</Col>
           <Col style={{ fontSize: '14px', color: 'red' }}>
-            Note: Kindly refresh the page after adding a new event
+            Note: Kindly refresh the page after adding a new event.
           </Col>
         </Row>
 
