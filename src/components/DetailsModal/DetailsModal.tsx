@@ -76,8 +76,11 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   const [numberOfInviteSentError, setNumberOfInviteSentError] = useState('')
   const [targetComplianceError, setTargetComplianceError] = useState('')
   const [creatingEvent, setCreatingEvent] = useState(false)
-  const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
-  const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null)
+  // const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
+  const currentDateTime = new Date()
+    .toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai', hour12: false })
+    .replace(' ', 'T')
+    .slice(0, 16)
 
   const [formData, setFormData] = useState({
     eventId: '',
@@ -171,51 +174,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }))
   }
 
-  const handleStartDateChange = (e: { target: { value: string | number | Date } }) => {
-    const selectedStartDateTime = new Date(e.target.value)
-    const currentDateTime = new Date()
-
-    if (selectedStartDateTime < currentDateTime) {
-      setStartDateTimeError(
-        'Invalid start date and time. Please select a date and time that occur after the current date and time.'
-      )
-    } else {
-      setStartDateTimeError('')
-      setSelectedStartDate(selectedStartDateTime)
-      // Handle other form changes or actions here
-    }
-  }
-
-  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedEndDateTime = new Date(e.target.value)
-    console.log('selectedEndDateTime = ')
-    console.log(selectedEndDateTime)
-
-    if (!selectedStartDate) {
-      setEndDateTimeError('Please set a start date first.')
-      return
-    }
-
-    if (selectedEndDateTime <= selectedStartDate) {
-      setEndDateTimeError(
-        'Invalid end date and time. Please select an end date and time that occur after the start date and time.'
-      )
-    } else {
-      setEndDateTimeError('')
-      // Handle other form changes or actions here
-    }
-  }
-
-  const handleStartDateFormChange = (event: ChangeEvent<HTMLInputElement>) => {
-    handleStartDateChange(event)
-    handleFormChange(event)
-  }
-
-  const handleEndDateFormChange = (event: ChangeEvent<HTMLInputElement>) => {
-    handleEndDateChange(event)
-    handleFormChange(event)
-  }
-
   const handleAddEvent = async () => {
     const { title } = formData
     setTitleError('')
@@ -250,10 +208,20 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     if (formData.startDate === null || formData.startDate.trim() === '') {
       setStartDateTimeError('Start date and time is required.')
       hasError = true
+    } else if (formData.startDate < currentDateTime) {
+      setStartDateTimeError(
+        'Invalid start date and time. Please select a date and time that occur after the current date and time.'
+      )
+      hasError = true
     }
 
     if (formData.endDate === null || formData.endDate.trim() === '') {
       setEndDateTimeError('End date and time is required.')
+      hasError = true
+    } else if (formData.endDate < formData.startDate) {
+      setEndDateTimeError(
+        'Invalid end date and time. Please select an end date and time that occur after the start date and time.'
+      )
       hasError = true
     }
 
@@ -522,16 +490,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     setQrCodeUrl(url)
   }
 
-  const getCurrentDateTime = () => {
-    const now = new Date()
-    const year = now.getFullYear()
-    const month = (now.getMonth() + 1).toString().padStart(2, '0')
-    const day = now.getDate().toString().padStart(2, '0')
-    const hours = now.getHours().toString().padStart(2, '0')
-    const minutes = now.getMinutes().toString().padStart(2, '0')
-    return `${year}-${month}-${day}T${hours}:${minutes}`
-  }
-
   const headerContent = (
     <>
       <Modal.Title id='contained-modal-title-vcenter' className='mx-3' style={modalTitleDiv}>
@@ -561,7 +519,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 defaultValue={action == 'edit' ? event.title : ''}
                 name='title'
                 style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                onChange={handleStartDateFormChange}
+                onChange={(e) => {
+                  handleFormChange(e as React.ChangeEvent<HTMLInputElement>)
+                  setTitleError('')
+                }}
               />
               {titleError && <div className='text-danger'>{titleError}</div>}
             </Form.Group>
@@ -591,7 +552,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                       borderRadius: '25px',
                       resize: 'none',
                     }}
-                    onChange={handleEndDateFormChange}
+                    onChange={(e) => {
+                      handleFormChange(e as React.ChangeEvent<HTMLInputElement>)
+                      setDetailsError('')
+                    }}
                   />
                   {detailsError && <div className='text-danger'>{detailsError}</div>}
                 </Form.Group>
@@ -651,7 +615,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   defaultValue={action == 'edit' ? event.venueDetails : ''}
                   name='venueDetails'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  onChange={handleFormChange}
+                  onChange={(e) => {
+                    handleFormChange(e as React.ChangeEvent<HTMLInputElement>)
+                    setVenueError('')
+                  }}
                 />
                 {venueError && <div className='text-danger'>{venueError}</div>}
               </Form.Group>
@@ -665,11 +632,15 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   <Form.Control
                     required
                     type='datetime-local'
-                    max='9999-12-31T23:59' // Set a maximum date if needed
-                    min={getCurrentDateTime()}
+                    defaultValue={action === 'edit' ? event.startDate.slice(0, -1) : ''}
+                    max={action === 'edit' ? formatDate(event.endDate) : formData.endDate}
+                    min={currentDateTime}
                     name='startDate'
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    onChange={handleStartDateFormChange}
+                    onChange={(e) => {
+                      handleFormChange(e as React.ChangeEvent<HTMLInputElement>)
+                      setStartDateTimeError('')
+                    }}
                   />
                 </div>
                 {startDateTimeError && <div className='text-danger'>{startDateTimeError}</div>}
@@ -687,9 +658,16 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                     defaultValue={action === 'edit' ? event.endDate.slice(0, -1) : ''}
                     name='endDate'
                     max='9999-12-31T23:59'
-                    min={formData.startDate || getCurrentDateTime()} // Ensure the minimum is either the start date or the current date
+                    min={
+                      action === 'edit'
+                        ? event.startDate.slice(0, -1)
+                        : new Date().toISOString().slice(0, 16)
+                    }
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    onChange={handleEndDateFormChange}
+                    onChange={(e) => {
+                      handleFormChange(e as React.ChangeEvent<HTMLInputElement>)
+                      setEndDateTimeError('')
+                    }}
                   />
                 </div>
                 {endDateTimeError && <div className='text-danger'>{endDateTimeError}</div>}
@@ -751,7 +729,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                     type='text'
                     defaultValue={action == 'edit' ? event.numberOfInviteSent : ''}
                     name='numberOfInviteSent'
-                    onChange={handleFormChange}
+                    onChange={(e) => {
+                      handleFormChange(e as React.ChangeEvent<HTMLInputElement>)
+                      setNumberOfInviteSentError('')
+                    }}
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   />
                   {numberOfInviteSentError && (
@@ -774,7 +755,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                   defaultValue={action === 'edit' ? event.targetCompliance : ''}
                   name='targetCompliance'
                   style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  onChange={handleFormChange}
+                  onChange={(e) => {
+                    handleFormChange(e as React.ChangeEvent<HTMLInputElement>)
+                    setTargetComplianceError('')
+                  }}
                 />
                 <span
                   style={{
@@ -798,7 +782,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                 defaultValue={action == 'edit' ? event.importance : ''}
                 name='importance'
-                onChange={handleSelectChange}
+                onChange={(e) => {
+                  handleSelectChange(e as React.ChangeEvent<HTMLSelectElement>)
+                  setImportanceError('')
+                }}
               >
                 <option value=''>Select importance</option>
                 <option value='required'>Required</option>
@@ -815,7 +802,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                 defaultValue={action == 'edit' ? event.category : ''}
                 name='category'
-                onChange={handleSelectChange}
+                onChange={(e) => {
+                  handleSelectChange(e as React.ChangeEvent<HTMLSelectElement>)
+                  setCategoryError('')
+                }}
               >
                 {Object.keys(categorySelectOptions).map((o, index) => (
                   <option key={index} value={o}>
@@ -840,7 +830,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                 defaultValue={action == 'edit' ? event.eventType : ''}
                 name='eventType'
-                onChange={handleSelectChange}
+                onChange={(e) => {
+                  handleSelectChange(e as React.ChangeEvent<HTMLSelectElement>)
+                  setEventTypeError('')
+                }}
                 disabled={categorySelectOptions[formData.category]?.eventTypeSelectOptions?.length === 0}
               >
                 {categorySelectOptions[formData.category]?.eventTypeSelectOptions.map((o, index) => (
