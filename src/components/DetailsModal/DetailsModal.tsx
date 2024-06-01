@@ -854,26 +854,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
           </Col>
         </Row>
 
-        <Row>
+        <Row className='justify-content-md-end mt-4'>
           <Col
-            xs={event?.status === 'Active' ? 4 : 6}
-            className='px-5'
-            style={{ color: '#9FA2B4' }}
-          ></Col>
-
-          <Col
-            xs={2}
-            className='text-center'
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#2B8000',
-            }}
-          ></Col>
-
-          <Col
-            xs={2}
+            xs
+            md='auto'
             className='text-center'
             style={{
               display: 'flex',
@@ -896,7 +880,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
             )}
           </Col>
 
-          <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Col xs md='auto'>
             {action == 'add' ? (
               <Button
                 variant='success'
@@ -921,16 +905,13 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
           </Col>
 
           {event?.status === 'Active' ? (
-            <Col xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Col xs md='auto'>
               <Button
                 variant='success'
-                className='px-3'
+                className='px-4'
                 onClick={handleEventComplete}
                 style={{
-                  width: '-webkit-fill-available',
-                  borderColor: '#2B8000',
                   backgroundColor: '#2B8000',
-                  fontSize: '11px',
                 }}
               >
                 Complete Event
