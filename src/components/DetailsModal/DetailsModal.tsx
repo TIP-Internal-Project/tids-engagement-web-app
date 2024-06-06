@@ -291,7 +291,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
     const randomWord = generateRandomString(6)
     generateQr()
-    const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(title + randomWord)}`
+    const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(modalUrl)}`
     const defaultStarsNum = 0
 
     try {
@@ -486,7 +486,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       return
     }
 
-    const url = `https://quickchart.io/qr?text=${encodeURIComponent(formData.title)}`
+    const url = `https://quickchart.io/qr?text=${encodeURIComponent(modalUrl)}`
     setQrCodeUrl(url)
   }
 
