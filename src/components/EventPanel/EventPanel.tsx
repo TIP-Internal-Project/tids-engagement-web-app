@@ -209,6 +209,12 @@ export const EventPanel = (props: any) => {
 
       setSortedEvents(sortedUnregisteredEvents as Event[])
     }
+
+    if (filterOption) {
+      setCurrentRegPage(1)
+      setCurrentUnregPage(1)
+    }
+
     sort()
   }, [sortOption, filterOption])
 
