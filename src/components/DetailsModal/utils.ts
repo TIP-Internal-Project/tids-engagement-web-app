@@ -34,11 +34,13 @@ export const generateModalUrl = (eventTitle: string) => {
   // Get the current year in YYYY format
   const year = new Date().getFullYear()
 
+  const currentUrl = window.location.href
+
   // Generate a unique identifier, e.g., a short random string or number
   const uniqueId = generateUniqueId()
 
   // Concatenate the initials, the year, and the unique identifier to form the modalUrl
-  const modalUrl = `http://localhost:3000/events/${initials}${year}${uniqueId}`
+  const modalUrl = `${currentUrl}/${initials}${year}${uniqueId}`
 
   return modalUrl
 }
