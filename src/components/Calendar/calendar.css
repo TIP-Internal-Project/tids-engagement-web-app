@@ -1,0 +1,214 @@
+ @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+
+ @media (min-width: 900px){
+   
+    .calendar {
+      
+       height: 412px;
+        border-radius: 1vw;
+        display: flex;
+    }
+
+    .calendar > Col {
+        padding: 20px;
+    
+    }
+
+    .CalendarCol {
+        flex: 1;
+        background-color: #FFFFFF;
+        height: 412px;
+        overflow: auto;
+        height: 377px;
+        border-radius: 20px;
+      }
+      
+      .EventsAttendanceCol {
+        flex: 1;
+        background-color: #FFFFFF;
+       height: 377px;
+       border-radius: 20px;
+       overflow: auto;
+      }
+
+
+    .calendar-head {
+        display: flex;
+        justify-content: space-between;
+        padding: 2% 3.8%;
+    }
+
+    .month-year {
+        width: 40%;
+        display: flex;
+        justify-content: space-evenly;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .head-icons {
+        width: .5vw;
+        cursor: pointer;
+    }
+
+    hr {
+        border-top: none;
+        border-bottom: 1px solid #D8D8D8;
+    }
+
+    .main-table-div {
+        padding: 1px 2px;
+    }
+
+    table {
+        
+        width: 100%;
+    }
+
+    .date-rows {
+        text-align: center;
+    }
+
+    .days {
+        text-align: center;
+    }
+
+    .date-cells div {
+        
+        padding: 1px 7px;
+        width: 35%;
+        left:5px;
+        justify-content: center;
+        border-radius: 50%;
+        border: .5px solid transparent;
+        margin: 0;
+        height: 28px;
+        width: 28px;
+        display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 28px;
+    }
+
+
+ .date-cells > td {
+    width: 24px;
+ }
+
+
+
+    .date-cells > p {
+
+        font-size: 14px;
+
+    }
+
+td.date-cells {
+  width: calc(100% / 7);
+}
+
+    .date-cells div:not(.current-date):focus {
+        border: .5px solid #4B286D;
+        cursor: pointer;
+        
+    }
+
+    .current-date {
+        background-color: #69785b;
+        color: #FFFFFF;
+    }
+    .current-date:focus {
+        background-color: #69785b;
+        box-shadow: inset;
+    }
+    
+
+
+
+    .date-with-events div{
+        background-color: #66CC00;
+        color: #FFFFFF;
+        border-radius: 50%;
+        border: solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+     }
+
+     .selected-date div{
+        background-color: #FFFFFF;
+        color: #4b286d;
+        border-radius: 50%;
+        border: 1px solid #4b286d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+     }
+
+     .selected-date-with-events div{
+        background-color: #66CC00;
+        color: #FFFFFF;
+        border-radius: 50%;
+        border: 1px solid #4b286d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+     }
+
+     .selected-current-date div{
+        background-color: #69785b;
+        color: #FFFFFF;
+        border-radius: 50%;
+        border: 1px solid #4b286d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+     .eventsReportHeader {
+
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+        
+     }
+
+
+
+     .horizontal-line {
+        border-bottom: 1px solid rgb(189, 183, 183);
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 31px;
+        padding-top:31px;
+      }
+
+     
+
+
+      .EventItemRightDivTotalInvites {
+        float:none;
+        display: inline-block;
+      }
+
+      .EventItemRightDivIcons {
+        display: inline-block;
+        float: right;
+        padding-right: 20px;
+        padding-bottom: 5px;
+      }
+
+      .custom-progress-bar .progress-bar {
+        border-radius: 10px;
+      }
+      .custom-progress-bar .progress-bar-success {
+        background-color: #28a745;
+      }
+
+ }
+
+
+ 

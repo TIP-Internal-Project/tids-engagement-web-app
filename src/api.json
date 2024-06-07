@@ -1,0 +1,4 @@
+{
+  "ROOT": "http://localhost:3001",
+  "REDIRECT_LINK": "http://localhost:3000/overview"
+}

@@ -1,0 +1,84 @@
+
+.sort {
+    position: absolute;
+    left: 89%;
+}
+
+.filter {
+    position: absolute;
+    left: 95%;
+}
+
+.refresh-icon {
+    height: 22px;
+    width: 22px;
+    margin: 0;
+    position: absolute;
+    right: 110%;
+}
+.sort-icon {
+    height: 15px;
+    width: 20px;
+    margin: 0;
+    position: absolute;
+    right: 119%;
+    top: 20%;
+}
+.filter-icon {
+    height: 13px;
+    width: 13px;
+    margin: 0;
+    position: absolute;
+    right: 120%;
+    top: 20%;
+}
+
+table > tr {
+    border-bottom: solid 1.5px #DFE0EB;
+}
+td {
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+}
+
+.AttendeesCol {
+    flex: 1;
+    background-color: #FFFFFF;
+    height: 412px;
+    overflow: auto;
+    height: 377px;
+    border-radius: 20px;
+}
+
+.invites-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0% 19.8%;
+    margin: 0% 1%;
+    margin-top: 50px;
+}
+
+.attendees-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0% 19.8%;
+    margin: 0% 1%;
+    margin-top: 40px;
+}
+
+.invitessent-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0% 19.8%;
+}
+
+.overallattendees-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0% 16.8%;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
