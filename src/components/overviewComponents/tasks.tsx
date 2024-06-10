@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { fetchTasks } from '../../redux/overviewTasksSlice'
+import { Link } from 'react-router-dom'
 import { Task, Divider, Border, Priority, Rectangle20, 
 	
 	Rectangle202, 
@@ -88,7 +89,11 @@ const TaskPanel = () => {
 	return <Task>
 		<EventsHeading style={{ width: '-webkit-fill-available' }}>
 			<Task1>{'Tasks'}</Task1>
-			<ViewAll><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
+			<a href='url'>
+					<Link to='/tasks'>
+						<ViewAll><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
+					</Link>
+			</a>
 		</EventsHeading>
 			{overviewTasks.loading && <Headings><Title>{'Loading...'}</Title></Headings>}
       		{!overviewTasks.loading && overviewTasks.error ? <Headings><Title>{'Error: ' + overviewTasks.error}</Title></Headings> : null}
