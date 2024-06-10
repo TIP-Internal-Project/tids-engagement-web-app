@@ -387,7 +387,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
             </Col>
             <Col
               xs={2}
-              style={{ width: '116px', display: 'flex', alignItems: 'center', justifyContent: 'end' }}
+              style={{ width: '130px', display: 'flex', alignItems: 'center', justifyContent: 'end' }}
             >
               <Button
                 variant='success'
@@ -396,10 +396,10 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                   width: '-webkit-fill-available',
                   borderColor: '#2B8000',
                   backgroundColor: '#2B8000',
-                  fontSize: '11px',
+                  fontSize: '14px',
                 }}
               >
-                ADD TASK
+                Create Task
               </Button>
             </Col>
           </Row>
