@@ -6,46 +6,51 @@ import api from '../api.json'
 const API_ROOT = api.ROOT
 
 export interface AddTaskState {
-	loading: boolean;
-	title: string;
-	dueDate: Date | null;
-	time: string;
-	details: string;
-	link: string;
-	importance: string;
-	createdDate: Date | null;
-	createdBy: string;
-	error: string;
+  loading: boolean
+  title: string
+  dueDate: Date | null
+  details: string
+  link: string
+  importance: string
+  createdDate: Date | null
+  createdBy: string
+  error: string
 }
 
 const initialState: AddTaskState = {
-	loading: false,
-	title: '',
-	dueDate: null,
-	time: '',
-	details: '',
-	link: '',
-	importance: '',
-	createdDate: null,
-	createdBy: '',
-	error: '',
+  loading: false,
+  title: '',
+  dueDate: null,
+  details: '',
+  link: '',
+  importance: '',
+  createdDate: null,
+  createdBy: '',
+  error: '',
 }
 
 interface AddTaskPayload {
-	title: string;
-	dueDate: Date;
-	time: string;
-	details: string;
-	link: string;
-	importance: string;
-	createdDate: Date;
-	createdBy: string;
+  title: string
+  dueDate: Date
+  details: string
+  link: string
+  importance: string
+  createdDate: Date
+  createdBy: string
 }
 
 export const addTask = createAsyncThunk('addTask', async (payload: AddTaskPayload) => {
-	const { title, dueDate, time, details, link, importance, createdDate, createdBy } = payload
-	const response = await axios.post(API_ROOT + '/task/addTask', { title, dueDate, time, details, link, importance, createdDate, createdBy })
-	return response.data
+  const { title, dueDate, details, link, importance, createdDate, createdBy } = payload
+  const response = await axios.post(API_ROOT + '/task/addTask', {
+    title,
+    dueDate,
+    details,
+    link,
+    importance,
+    createdDate,
+    createdBy,
+  })
+  return response.data
 })
 
 export const addTaskSlice = createSlice({
@@ -53,15 +58,14 @@ export const addTaskSlice = createSlice({
   initialState,
   reducers: {
     createTask: (state, action: PayloadAction<AddTaskState>) => {
-		state.loading = false
-		state.title = action.payload.title
-		state.dueDate = action.payload.dueDate
-		state.time = action.payload.time
-		state.details = action.payload.details
-		state.link = action.payload.link
-		state.importance = action.payload.importance
-		state.createdDate = action.payload.createdDate
-		state.createdBy = action.payload.createdBy
+      state.loading = false
+      state.title = action.payload.title
+      state.dueDate = action.payload.dueDate
+      state.details = action.payload.details
+      state.link = action.payload.link
+      state.importance = action.payload.importance
+      state.createdDate = action.payload.createdDate
+      state.createdBy = action.payload.createdBy
     },
   },
   extraReducers: (builder) => {
@@ -72,14 +76,13 @@ export const addTaskSlice = createSlice({
       })
       .addCase(addTask.fulfilled, (state, action) => {
         state.loading = false
-		state.title = action.payload.title
-		state.dueDate = action.payload.dueDate
-		state.time = action.payload.time
-		state.details = action.payload.details
-		state.link = action.payload.link
-		state.importance = action.payload.importance
-		state.createdDate = action.payload.createdDate
-		state.createdBy = action.payload.createdBy
+        state.title = action.payload.title
+        state.dueDate = action.payload.dueDate
+        state.details = action.payload.details
+        state.link = action.payload.link
+        state.importance = action.payload.importance
+        state.createdDate = action.payload.createdDate
+        state.createdBy = action.payload.createdBy
       })
       .addCase(addTask.rejected, (state, action) => {
         state.loading = false
