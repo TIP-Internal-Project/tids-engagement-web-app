@@ -107,7 +107,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
     id: number
     title: string
     dueDate: string
-    dueTime: string
+    // dueTime: string
     content: string
     importance: 'Required' | 'Optional'
   }
@@ -132,6 +132,22 @@ export const TaskPanel = (props: TaskPanelProps) => {
     if (dropdownFilterRef.current && !dropdownFilterRef.current.contains(event.target as Node)) {
       setShowFilterDropdown(false)
     }
+  }
+
+  const formatTime = (dateString: string | number | Date) => {
+    const date = new Date(dateString)
+
+    let hours = date.getUTCHours()
+    const minutes = date.getUTCMinutes()
+    const ampm = hours >= 12 ? 'PM' : 'AM'
+
+    hours = hours % 12
+    hours = hours ? hours : 12 // The hour '0' should be '12'
+
+    const strMinutes = minutes < 10 ? `0${minutes}` : minutes
+    const formattedTime = `${hours}:${strMinutes} ${ampm}`
+
+    return formattedTime
   }
 
   useEffect(() => {
@@ -333,12 +349,13 @@ export const TaskPanel = (props: TaskPanelProps) => {
   const renderedCompletedTasks = Object.values(completedTasks)
     .filter((tasks: any) => tasks.status != 'Archived')
     .map((tasks: any, index) => {
-      let ts = tasks.time
-      const H = +ts.substr(0, 2)
-      let h = H % 12 || 12
-      h = h < 10 ? Number('0' + h) : h // leading 0 at the left for 1 digit hours
-      const ampm = H < 12 ? ' AM' : ' PM'
-      ts = h + ts.substr(2, 3) + ampm
+      const ts = formatTime(tasks.dueDate)
+      // let ts = tasks.time
+      // const H = +ts.substr(0, 2)
+      // let h = H % 12 || 12
+      // h = h < 10 ? Number('0' + h) : h // leading 0 at the left for 1 digit hours
+      // const ampm = H < 12 ? ' AM' : ' PM'
+      // ts = h + ts.substr(2, 3) + ampm
 
       function generateLink(url: any) {
         if (url && (typeof url === 'string' || url instanceof String)) {
@@ -389,12 +406,12 @@ export const TaskPanel = (props: TaskPanelProps) => {
             <Col xs={2} style={IndItemDueDate} className='text-center'>
               <div style={{ display: 'inline-block', textAlign: 'left' }}>
                 <p style={IndItemDueDateDisplay} className='mb-0'>
-                  {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString(
+                  {`${new (window.Date as any)(ts).toLocaleDateString(
                     {},
                     { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
                   )}`}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
+                <p style={IndItemDueTimeDisplay}>{ts}</p>
               </div>
             </Col>
 
@@ -492,12 +509,15 @@ export const TaskPanel = (props: TaskPanelProps) => {
   const renderedIncompleteTasks = Object.values(incompleteTasks)
     .filter((tasks: any) => tasks.status != 'Archived')
     .map((tasks: any, index) => {
-      let ts = tasks.time
-      const H = +ts.substr(0, 2)
-      let h = H % 12 || 12
-      h = h < 10 ? Number('0' + h) : h // leading 0 at the left for 1 digit hours
-      const ampm = H < 12 ? ' AM' : ' PM'
-      ts = h + ts.substr(2, 3) + ampm
+      const ts = formatTime(tasks.dueDate)
+
+      // const ts = formatTime(tasks.dueDate)
+      // let ts = tasks.time
+      // const H = +ts.substr(0, 2)
+      // let h = H % 12 || 12
+      // h = h < 10 ? Number('0' + h) : h // leading 0 at the left for 1 digit hours
+      // const ampm = H < 12 ? ' AM' : ' PM'
+      // ts = h + ts.substr(2, 3) + ampm
 
       function generateLink(url: any) {
         if (url && (typeof url === 'string' || url instanceof String)) {
@@ -554,7 +574,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
                     { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
                   )}`}
                 </p>
-                <p style={IndItemDueTimeDisplay}>{tasks.time}</p>
+                <p style={IndItemDueTimeDisplay}>{ts}</p>
               </div>
             </Col>
 

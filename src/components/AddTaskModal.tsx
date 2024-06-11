@@ -53,7 +53,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   }
 
   const [titleError, setTitleError] = useState('')
-  const [timeError, setTimeError] = useState('')
+  const [dueDateError, setDueDateError] = useState('')
   const [detailsError, setDetailsError] = useState('')
 
   const dispatch = useAppDispatch()
@@ -65,7 +65,6 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   const [formValues, setFormValues] = useState({
     title: '',
     dueDate: new Date(),
-    time: '',
     details: '',
     link: '',
     importance: 'Required',
@@ -86,10 +85,16 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
       value = convertTo12HourFormat(newTime)
     }
     if (name === 'dueDate') {
-      const dateValue = new Date(value)
+      // Create a Date object from the provided value
+      const localDate = new Date(value)
+
+      // Convert the local date (GMT+8) to UTC
+      const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000)
+      // const dateValue = new Date(value)
+
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
-        [name]: dateValue,
+        [name]: utcDate,
       }))
     } else {
       setFormValues((prevFormValues) => ({
@@ -101,7 +106,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
 
   const handleAddTask = () => {
     setTitleError('')
-    setTimeError('')
+    setDueDateError('')
     setDetailsError('')
 
     let hasError = false
@@ -111,8 +116,15 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
       hasError = true
     }
 
-    if (formValues.time === null || formValues.time.trim() === '') {
-      setTimeError('Time is required.')
+    if (formValues.dueDate == null) {
+      setDueDateError('Due Date is required.')
+      hasError = true
+    }
+
+    const currentDate = new Date()
+
+    if (formValues.dueDate < currentDate) {
+      setDueDateError('Due Date is required.')
       hasError = true
     }
 
@@ -130,6 +142,9 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
 
   const handleModalHide = () => {
     handleClearFields()
+    setTitleError('')
+    setDueDateError('')
+    setDetailsError('')
     onHide()
   }
 
@@ -137,7 +152,6 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
     setFormValues({
       title: '',
       dueDate: new Date(),
-      time: '',
       details: '',
       link: '',
       importance: 'Required',
@@ -158,7 +172,6 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
             setFormValues({
               title: '',
               dueDate: new Date(),
-              time: '',
               details: '',
               link: '',
               importance: 'Required',
@@ -238,7 +251,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
       <Modal.Body>
         <Container fluid className='px-5 pb-4'>
           <Row className='mb-3'>
-            <Col xs={4}>
+            <Col>
               <Form.Group>
                 <Form.Label>
                   Title<span style={{ color: 'red' }}>*</span>
@@ -256,42 +269,46 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                 {titleError && <div className='text-danger'>{titleError}</div>}
               </Form.Group>
             </Col>
-            <Col>
+            {
+              <Col xs={4}>
+                <Form.Group>
+                  <Form.Label>
+                    Due On<span style={{ color: 'red' }}>*</span>
+                  </Form.Label>
+                  <Form.Control
+                    required
+                    type='datetime-local'
+                    placeholder=''
+                    name='dueDate'
+                    // value={
+                    //   formValues.dueDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })
+                    //    .split('T')[0]
+                    // }
+                    onChange={handleInputChange}
+                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                    min={
+                      new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]
+                    }
+                    // onKeyDown={(e) => e.preventDefault()}
+                    autoComplete='off'
+                  />
+                  {dueDateError && <div className='text-danger'>{dueDateError}</div>}
+                </Form.Group>
+              </Col>
+            }
+            {/* <Col>
               <Form.Group>
                 <Form.Label>
                   Due Date<span style={{ color: 'red' }}>*</span>
                 </Form.Label>
-                <Form.Control
-                  required
-                  type='date'
-                  placeholder=''
-                  name='dueDate'
-                  value={
-                    formValues.dueDate
-                      .toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })
-                      .split('T')[0]
-                  }
-                  onChange={handleInputChange}
-                  style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                  min={new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]}
-                  onKeyDown={(e) => e.preventDefault()}
-                  autoComplete='off'
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Label>
-                  Time<span style={{ color: 'red' }}>*</span>
-                </Form.Label>
-                <div style={{ width: '-webkit-fill-available' }}>
+                <div style={{ width: '100%' }}>
                   <DatePicker
                     required
-                    name='time'
-                    value={formValues.time}
-                    onChange={handleInputChange}
+                    name='dueDate'
+                    selected={formValues.dueDate}
+                    onChange={(date) => handleInputChange({ target: { name: 'time', value: date } })}
                     showTimeSelect
-                    showTimeSelectOnly
+                    dateFormat='MM/dd/yyyy h:mm aa'
                     timeFormat='h:mm aa'
                     minTime={getCurrentTime()}
                     maxTime={getMaxTime()}
@@ -302,7 +319,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                 </div>
                 {timeError && <div className='text-danger'>{timeError}</div>}
               </Form.Group>
-            </Col>
+            </Col> */}
           </Row>
           <Row className='my-4'>
             <Col xs={4}>
