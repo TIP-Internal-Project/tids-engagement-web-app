@@ -148,14 +148,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }
   }, [data, action])
 
-  useEffect(() => {
-    if (formData.endDate) {
-      const startDateInput = document.querySelector('input[name="startDate"]')
-      if (startDateInput) {
-        startDateInput.setAttribute('max', formatDate(formData.endDate))
-      }
-    }
-  }, [formData.endDate])
+  
 
   useEffect(() => {
     if (formData.startDate) {
@@ -386,10 +379,20 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     if (formData.startDate === null || formData.startDate.trim() === '') {
       setStartDateTimeError('Start date and time is required.')
       hasError = true
+    } else if (formData.startDate < currentDateTime) {
+      setStartDateTimeError(
+        'Invalid start date and time. Please select a date and time that occur after the current date and time.'
+      )
+      hasError = true
     }
 
     if (formData.endDate === null || formData.endDate.trim() === '') {
       setEndDateTimeError('End date and time is required.')
+      hasError = true
+    } else if (formData.endDate < formData.startDate) {
+      setEndDateTimeError(
+        'Invalid end date and time. Please select an end date and time that occur after the start date and time.'
+      )
       hasError = true
     }
 
@@ -633,7 +636,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                     required
                     type='datetime-local'
                     defaultValue={action === 'edit' ? event.startDate.slice(0, -1) : ''}
-                    max={action === 'edit' ? formatDate(event.endDate) : formData.endDate}
+                    max='9999-12-31T23:59'
                     min={currentDateTime}
                     name='startDate'
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
