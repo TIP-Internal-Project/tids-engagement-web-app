@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { fetchEvents } from '../../redux/overviewEventsSlice'
 import TaskPanel from './tasks'
@@ -68,7 +69,12 @@ const EventsPanel = () => {
 		<Events>
 			<EventsHeading1 style={{ width: '-webkit-fill-available' }}>
 				<Events1>{'Events'}</Events1>
-				<ViewAll><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
+				
+				<a href='url'>
+					<Link to='/events'>
+						<ViewAll><ViewAll1>{'View all'}</ViewAll1><Arrow><img src={require('../../assets/images/Arrow.png')} alt="" /></Arrow></ViewAll>
+					</Link>
+			  	</a>
 			</EventsHeading1>
 			{overviewEvents.loading && <Headings><Title>{'Loading...'}</Title></Headings>}
       		{!overviewEvents.loading && overviewEvents.error ? <Headings><Title>{'Error: ' + overviewEvents.error}</Title></Headings> : null}
