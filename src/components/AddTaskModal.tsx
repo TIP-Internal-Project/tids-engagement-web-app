@@ -67,7 +67,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
     dueDate: new Date(),
     details: '',
     link: '',
-    importance: 'Required',
+    importance: '',
     createdDate: new Date(),
     createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName'),
   })
@@ -154,7 +154,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
       dueDate: new Date(),
       details: '',
       link: '',
-      importance: 'Required',
+      importance: '',
       createdDate: new Date(),
       createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName'),
     })
@@ -174,7 +174,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
               dueDate: new Date(),
               details: '',
               link: '',
-              importance: 'Required',
+              importance: '',
               createdDate: new Date(),
               createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName'),
             })
