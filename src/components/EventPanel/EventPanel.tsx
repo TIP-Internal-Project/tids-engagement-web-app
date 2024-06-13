@@ -634,6 +634,7 @@ export const EventPanel = (props: any) => {
       style={{ backgroundColor: '#f5f5f5', height: '100vh', width: '100%', padding: '32px' }}
       className='mx-auto'
     >
+      <div>
       <Container
         fluid
         style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
@@ -755,9 +756,9 @@ export const EventPanel = (props: any) => {
             )}
           </div>
         </div>
-      <div>
+      
         <Row style={TitleBar} className='px-5'>
-          <Col style={{ fontSize: '14px' }}>Registered Events</Col>
+          <Col style={{ fontSize: '14px', fontWeight: 'bold'}}>Registered Events</Col>
           {isAdmin && (
             <Col style={{ fontSize: '14px', color: 'red' }}>
               Note: Kindly refresh the page after adding a new event.
@@ -877,11 +878,19 @@ export const EventPanel = (props: any) => {
             </Dropdown>
           </div>
         </div>
+      
+      </Container>
       </div>
-
-        <div>
+      <br />
+      <div>
+      <Container
+        fluid
+        style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
+        className='px-0 py-4'
+      >
+        
         <Row style={TitleBar}>
-          <Col style={{ fontSize: '14px' }}>Available Events</Col>
+          <Col xs={2}style={{ fontSize: '14px' , fontWeight: 'bold'}}  className='text-center'>Available Events</Col>
         </Row>
         {sortedEvents.filter(
           (event: any) =>
@@ -1013,9 +1022,10 @@ export const EventPanel = (props: any) => {
           onChange={handleDelete}
           modalData={modalData}
         />
-        </div>
+       
         <FileUploadModal show={fileUploadModalShow} onHide={handleFileUploadModalClose} />
       </Container>
+      </div>
     </Container>
   )
 }
