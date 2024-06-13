@@ -387,13 +387,12 @@ export const EventPanel = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            {isAdmin && (
-              <Col xs={1} style={IndItemTitleDisplay}>
+              <Col xs={1} style={IndItemTitleDisplay} className='text-center'>
                 <p className='mb-0'>{event.eventId}</p>
               </Col>
-            )}
+            
 
-            <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
+            <Col xs={isAdmin ? 3 : 3} style={IndItemTitleDisplay} className='text-center'>
               <p
                 onClick={() => handleOpenModal(event, false)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -413,7 +412,7 @@ export const EventPanel = (props: any) => {
               </Button>
             </Col>
 
-            <Col xs={isAdmin ? 2 : 3} style={IndItemDueDate} className='text-center'>
+            <Col xs={isAdmin ? 2 : 2} style={IndItemDueDate} className='text-center'>
               <div style={{ display: 'inline-block', textAlign: 'left' }}>
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
@@ -423,7 +422,7 @@ export const EventPanel = (props: any) => {
             </Col>
 
             <Col
-              xs={isAdmin ? 2 : 3}
+              xs={isAdmin ? 2 : 2}
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <Button
@@ -447,8 +446,11 @@ export const EventPanel = (props: any) => {
                   : '#HAPPYHERE'}
               </Button>
             </Col>
+            <Col xs={1}>
+                {event.status}
+            </Col>
             <Col
-              xs={isAdmin ? 4 : 2}
+              xs={isAdmin ? 3 : 3}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -510,13 +512,13 @@ export const EventPanel = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            {isAdmin && (
-              <Col xs={1} style={IndItemTitleDisplay}>
+            
+              <Col xs={1} style={IndItemTitleDisplay} className='text-center'>
                 <p className='mb-0'>{event.eventId}</p>
               </Col>
-            )}
+           
 
-            <Col xs={isAdmin ? 3 : 4} style={IndItemTitleDisplay}>
+            <Col xs={isAdmin ? 3 : 3} style={IndItemTitleDisplay} className='text-center'>
               <p
                 onClick={() => handleOpenModal(event, true)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -535,7 +537,7 @@ export const EventPanel = (props: any) => {
               </Button>
             </Col>
 
-            <Col xs={isAdmin ? 2 : 3} style={IndItemDueDate} className='text-center'>
+            <Col xs={isAdmin ? 2 : 2} style={IndItemDueDate} className='text-center'>
               <div style={{ display: 'inline-block', textAlign: 'left' }}>
                 <p style={IndItemDueDateDisplay} className='mb-0'>
                   {formattedDate}
@@ -545,7 +547,7 @@ export const EventPanel = (props: any) => {
             </Col>
 
             <Col
-              xs={isAdmin ? 2 : 3}
+              xs={isAdmin ? 2 : 2}
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <Button
@@ -570,7 +572,7 @@ export const EventPanel = (props: any) => {
               </Button>
             </Col>
             <Col
-              xs={isAdmin ? 1 : 2}
+              xs={isAdmin ? 1 : 1} 
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -579,7 +581,9 @@ export const EventPanel = (props: any) => {
                 fontWeight: 'bold',
               }}
             >
-              <div style={{ paddingRight: '5%' }}>Registered</div>
+              {event.status == STATUS_ACTIVE ? 
+                  'Registered' : event.status    
+              }
             </Col>
             {isAdmin && (
               <Col
@@ -630,6 +634,7 @@ export const EventPanel = (props: any) => {
       style={{ backgroundColor: '#f5f5f5', height: '100vh', width: '100%', padding: '32px' }}
       className='mx-auto'
     >
+      <div>
       <Container
         fluid
         style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
@@ -751,8 +756,9 @@ export const EventPanel = (props: any) => {
             )}
           </div>
         </div>
+      
         <Row style={TitleBar} className='px-5'>
-          <Col style={{ fontSize: '14px' }}>Registered Events</Col>
+          <Col style={{ fontSize: '14px', fontWeight: 'bold'}}>Registered Events</Col>
           {isAdmin && (
             <Col style={{ fontSize: '14px', color: 'red' }}>
               Note: Kindly refresh the page after adding a new event.
@@ -760,23 +766,29 @@ export const EventPanel = (props: any) => {
           )}
         </Row>
         <Row style={TitleBar} className='px-5'>
-          {isAdmin && (
-            <Col xs={1} style={{ fontSize: '14px' }}>
+          
+            <Col xs={1} style={{ fontSize: '14px', fontWeight: 'bold'}} className='text-center'>
               Event ID
             </Col>
-          )}
-          <Col xs={isAdmin ? 3 : 4} style={{ fontSize: '14px' }}>
+          
+          <Col xs={isAdmin ? 3 : 3} style={{ fontSize: '14px', fontWeight: 'bold'}} className='text-center'>
             Title
           </Col>
-          <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+          <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px', fontWeight: 'bold' }} className='text-center'>
             Date
           </Col>
-          <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+          <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
             Category
           </Col>
-          <Col xs={isAdmin ? 4 : 2} style={{ fontSize: '14px' }} className='text-center'>
+          <Col xs={isAdmin ? 1 : 1} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
+            Status
+          </Col>
+          {isAdmin && (
+            <Col xs={3} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
             Action
           </Col>
+          ) }
+          
         </Row>
 
         {registeredEvents.loading && (
@@ -866,9 +878,19 @@ export const EventPanel = (props: any) => {
             </Dropdown>
           </div>
         </div>
-
-        <Row style={TitleBar} className='px-5'>
-          <Col style={{ fontSize: '14px' }}>Available Events</Col>
+      
+      </Container>
+      </div>
+      <br />
+      <div>
+      <Container
+        fluid
+        style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
+        className='px-0 py-4'
+      >
+        
+        <Row style={TitleBar}>
+          <Col xs={2}style={{ fontSize: '14px' , fontWeight: 'bold'}}  className='text-center'>Available Events</Col>
         </Row>
         {sortedEvents.filter(
           (event: any) =>
@@ -877,21 +899,24 @@ export const EventPanel = (props: any) => {
             event.status === STATUS_COMPLETED
         ).length > 0 ? (
           <Row style={TitleBar} className='px-5'>
-            {isAdmin && (
-              <Col xs={1} style={{ fontSize: '14px' }}>
+           
+              <Col xs={1} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
                 Event ID
               </Col>
-            )}
-            <Col xs={isAdmin ? 3 : 4} style={{ fontSize: '14px' }}>
+           
+            <Col xs={isAdmin ? 3 : 3} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
               Title
             </Col>
-            <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
               Date
             </Col>
-            <Col xs={isAdmin ? 2 : 3} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
               Category
             </Col>
-            <Col xs={isAdmin ? 4 : 2} style={{ fontSize: '14px' }} className='text-center'>
+            <Col xs={isAdmin ? 1 : 1} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
+              Status
+            </Col>
+            <Col xs={isAdmin ? 3 : 3} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
               Action
             </Col>
           </Row>
@@ -997,8 +1022,10 @@ export const EventPanel = (props: any) => {
           onChange={handleDelete}
           modalData={modalData}
         />
+       
         <FileUploadModal show={fileUploadModalShow} onHide={handleFileUploadModalClose} />
       </Container>
+      </div>
     </Container>
   )
 }
