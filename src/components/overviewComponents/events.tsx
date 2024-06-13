@@ -107,7 +107,7 @@ const EventsPanel = () => {
           <a href='url'>
             <Link to='/events'>
               <ViewAll>
-                <ViewAll1>{'View allX'}</ViewAll1>
+                <ViewAll1>{'View all'}</ViewAll1>
                 <Arrow>
                   <img src={require('../../assets/images/Arrow.png')} alt='' />
                 </Arrow>
