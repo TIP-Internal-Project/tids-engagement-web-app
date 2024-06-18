@@ -13,6 +13,7 @@ import { EventPanel } from './components/EventPanel/EventPanel'
 import Expense from './pages/Expense'
 import PageLayout from './pages/Pages'
 import FeatureUnavailablePanel from './components/FeatureUnavailable/FeatureUnavailablePanel'
+import EventRegistrationView from './components/EventPanel/EventRegistrationView'
 
 function App() {
   setUserRole()
@@ -29,7 +30,7 @@ function App() {
           <Route path='/' element={<Overview />} />
           <Route path='overview' element={<Overview />} />
           <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />
-          <Route path='/events/:modalUrl' element={<EventPanel />} />
+          <Route path='/events/:modalUrl' element={<EventRegistrationView />} />
           <Route
             path='reports'
             element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
