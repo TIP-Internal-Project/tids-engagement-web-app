@@ -148,8 +148,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }
   }, [data, action])
 
-  
-
   useEffect(() => {
     if (formData.startDate) {
       const endDateInput = document.querySelector('input[name="endDate"]')
@@ -806,8 +804,14 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                 defaultValue={action == 'edit' ? event.category : ''}
                 name='category'
                 onChange={(e) => {
+                  const selectedCategory = e.target.value
                   handleSelectChange(e as React.ChangeEvent<HTMLSelectElement>)
                   setCategoryError('')
+
+                  // Clear event type error if the selected category is "TIDS Wide Event" or "Happy Here Event"
+                  if (selectedCategory === 'TIDS' || selectedCategory === 'happyhere') {
+                    setEventTypeError('')
+                  }
                 }}
               >
                 {Object.keys(categorySelectOptions).map((o, index) => (
