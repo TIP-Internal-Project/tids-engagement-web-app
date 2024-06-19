@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import Button from 'react-bootstrap/Button'
@@ -8,11 +7,8 @@ import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
 import Nav from 'react-bootstrap/Nav'
 import { addTask, AddTaskState } from '../redux/addTaskSlice'
-import { fetchTasks } from '../redux/taskSlice'
-import { fetchCompletedTasks } from '../redux/completedTasksSlice'
 import { fetchIncompleteTasks } from '../redux/incompleteTasksSlice'
 
 interface EventModalProps {
@@ -55,6 +51,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   const [titleError, setTitleError] = useState('')
   const [dueDateError, setDueDateError] = useState('')
   const [detailsError, setDetailsError] = useState('')
+  const [importanceError, setImportanceError] = useState('')
 
   const dispatch = useAppDispatch()
   const [buttonClicked, setButtonClicked] = useState(false)
@@ -64,7 +61,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
 
   const [formValues, setFormValues] = useState({
     title: '',
-    dueDate: new Date(),
+    dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Adjust to UTC+8 for Manila
     details: '',
     link: '',
     importance: '',
@@ -102,12 +99,24 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
         [name]: value,
       }))
     }
+
+    if (name === 'title') {
+      setTitleError('')
+    }
+
+    if (name === 'details') {
+      setDetailsError('')
+    }
+
+    if (name === 'importance') {
+      setImportanceError('')
+    }
   }
 
   const handleAddTask = () => {
     setTitleError('')
-    setDueDateError('')
     setDetailsError('')
+    setImportanceError('')
 
     let hasError = false
 
@@ -116,20 +125,13 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
       hasError = true
     }
 
-    if (formValues.dueDate == null) {
-      setDueDateError('Due Date is required.')
-      hasError = true
-    }
-
-    const currentDate = new Date()
-
-    if (formValues.dueDate < currentDate) {
-      setDueDateError('Due Date is required.')
-      hasError = true
-    }
-
     if (formValues.details.trim() === '') {
       setDetailsError('Details are required.')
+      hasError = true
+    }
+
+    if (formValues.importance === '') {
+      setImportanceError('Importance is required.')
       hasError = true
     }
 
@@ -143,7 +145,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   const handleModalHide = () => {
     handleClearFields()
     setTitleError('')
-    setDueDateError('')
+    setImportanceError('')
     setDetailsError('')
     onHide()
   }
@@ -151,13 +153,17 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   const handleClearFields = () => {
     setFormValues({
       title: '',
-      dueDate: new Date(),
+      dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Adjust to UTC+8 for Manila
       details: '',
       link: '',
       importance: '',
       createdDate: new Date(),
       createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName'),
     })
+  }
+
+  const formatDate = (date: Date) => {
+    return date.toISOString().slice(0, 16) // Format to 'yyyy-MM-ddTHH:mm'
   }
 
   useEffect(() => {
@@ -280,6 +286,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                     type='datetime-local'
                     placeholder=''
                     name='dueDate'
+                    value={formatDate(formValues.dueDate)}
                     // value={
                     //   formValues.dueDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })
                     //    .split('T')[0]
@@ -372,11 +379,12 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                     onChange={handleInputChange}
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   >
-                    <option value=''>Please Select Importance</option>
+                    <option value=''>Select importance</option>
                     <option value='Required'>Required</option>
                     <option value='Optional'>Optional</option>
                   </Form.Select>
                 </div>
+                {importanceError && <div className='text-danger'>{importanceError}</div>}
               </Form.Group>
             </Col>
           </Row>
