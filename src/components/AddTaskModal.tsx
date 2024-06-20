@@ -93,6 +93,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
         ...prevFormValues,
         [name]: utcDate,
       }))
+      setDueDateError('')
     } else {
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
@@ -115,6 +116,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
 
   const handleAddTask = () => {
     setTitleError('')
+    setDueDateError('')
     setDetailsError('')
     setImportanceError('')
 
@@ -135,9 +137,20 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
       hasError = true
     }
 
-    if (hasError) {
-      return
+    if (isNaN(formValues.dueDate.getTime())) {
+      setDueDateError('Due date and time required.')
+      hasError = true
     }
+
+    // if (dueDate < currentDateTime) {
+    //   setDueDateError('Due date and time must be in the future.')
+    //   hasError = true
+    // }
+
+    if (formValues.dueDate)
+      if (hasError) {
+        return
+      }
 
     setButtonClicked(true)
   }
@@ -145,6 +158,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   const handleModalHide = () => {
     handleClearFields()
     setTitleError('')
+    setDueDateError('')
     setImportanceError('')
     setDetailsError('')
     onHide()
@@ -153,7 +167,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   const handleClearFields = () => {
     setFormValues({
       title: '',
-      dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Adjust to UTC+8 for Manila
+      dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Placeholder date (January 1, 0000 at 00:00 UTC)
       details: '',
       link: '',
       importance: '',
@@ -163,6 +177,9 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   }
 
   const formatDate = (date: Date) => {
+    if (isNaN(date.getTime())) {
+      date = new Date('0000-01-01T00:00:00Z') // Use current date and time as fallback
+    }
     return date.toISOString().slice(0, 16) // Format to 'yyyy-MM-ddTHH:mm'
   }
 
@@ -239,6 +256,8 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   }
 
   const formattedTime = convertTo12HourFormat(time)
+  // console.log('THIS')
+  // console.log(formValues.dueDate.toISOString().slice(0, 16))
 
   return (
     <Modal
