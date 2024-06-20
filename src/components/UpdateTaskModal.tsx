@@ -31,8 +31,8 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
   }
 
   const [titleError, setTitleError] = useState('')
-  const [timeError, setTimeError] = useState('')
   const [detailsError, setDetailsError] = useState('')
+  const [importanceError, setImportanceError] = useState('')
 
   const dispatch = useAppDispatch()
   const [buttonClicked, setButtonClicked] = useState(false)
@@ -65,10 +65,15 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
       value = convertTo12HourFormat(newTime)
     }
     if (name === 'dueDate') {
-      const dateValue = new Date(value)
+      // Create a Date object from the provided value
+      const localDate = new Date(value)
+
+      // Convert the local date (GMT+8) to UTC
+      const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000)
+      // const dateValue = new Date(value)
       setFormValues((prevFormValues: any) => ({
         ...prevFormValues,
-        [name]: dateValue,
+        [name]: utcDate,
       }))
     } else {
       setFormValues((prevFormValues: any) => ({
@@ -76,12 +81,24 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
         [name]: value,
       }))
     }
+
+    if (name === 'title') {
+      setTitleError('')
+    }
+
+    if (name === 'details') {
+      setDetailsError('')
+    }
+
+    if (name === 'importance') {
+      setImportanceError('')
+    }
   }
 
   const handleEditTask = () => {
     setTitleError('')
-    setTimeError('')
     setDetailsError('')
+    setImportanceError
 
     let hasError = false
 
@@ -90,10 +107,15 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
       hasError = true
     }
 
-    if (formValues.time === null || formValues.time.trim() === '') {
-      setTimeError('Time is required.')
+    if (formValues.importance === '') {
+      setImportanceError('Importance is required.')
       hasError = true
     }
+
+    // if (formValues.time === null || formValues.time.trim() === '') {
+    //   setTimeError('Time is required.')
+    //   hasError = true
+    // }
 
     if (formValues.details.trim() === '') {
       setDetailsError('Details are required.')
@@ -176,6 +198,18 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
     return formattedTime
   }
 
+  const handleClearFields = () => {
+    setFormValues({
+      title: '',
+      dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Adjust to UTC+8 for Manila
+      details: '',
+      link: '',
+      importance: '',
+      createdDate: new Date(),
+      createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName'),
+    })
+  }
+
   return (
     <Modal
       show={show}
@@ -194,7 +228,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
         <Modal.Body>
           <Container fluid className='px-5 pb-4'>
             <Row className='mb-3'>
-              <Col xs={4}>
+              <Col>
                 <Form.Group>
                   <Form.Label>
                     Title<span style={{ color: 'red' }}>*</span>
@@ -212,7 +246,29 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                   {titleError && <div className='text-danger'>{titleError}</div>}
                 </Form.Group>
               </Col>
-              <Col>
+              <Col xs={4}>
+                <Form.Group>
+                  <Form.Label>
+                    Due On<span style={{ color: 'red' }}>*</span>
+                  </Form.Label>
+                  <Form.Control
+                    required
+                    type='datetime-local'
+                    placeholder=''
+                    name='dueDate'
+                    value={new Date(formValues.dueDate).toISOString().slice(0, 16)}
+                    onChange={handleInputChange}
+                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
+                    min={new Date()
+                      .toLocaleString('sv-SE', { timeZone: 'Asia/Manila' })
+                      .replace(' ', 'T')
+                      .slice(0, 16)}
+                    autoComplete='off'
+                  />
+                  {/* {dueDateError && <div className='text-danger'>{dueDateError}</div>} */}
+                </Form.Group>
+              </Col>
+              {/* <Col>
                 <Form.Group>
                   <Form.Label>
                     Due Date<span style={{ color: 'red' }}>*</span>
@@ -232,8 +288,8 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                     onKeyDown={(e) => e.preventDefault()}
                   />
                 </Form.Group>
-              </Col>
-              <Col>
+              </Col> */}
+              {/* <Col>
                 <Form.Group>
                   <Form.Label>
                     Time<span style={{ color: 'red' }}>*</span>
@@ -256,7 +312,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                   </div>
                   {timeError && <div className='text-danger'>{timeError}</div>}
                 </Form.Group>
-              </Col>
+              </Col> */}
             </Row>
             <Row className='my-4'>
               <Col xs={4}>
@@ -309,10 +365,12 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                       onChange={handleInputChange}
                       style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                     >
+                      <option value=''>Select importance</option>
                       <option value='Required'>Required</option>
                       <option value='Optional'>Optional</option>
                     </Form.Select>
                   </div>
+                  {importanceError && <div className='text-danger'>{importanceError}</div>}
                 </Form.Group>
               </Col>
             </Row>
@@ -334,6 +392,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                   href=''
                   className=''
                   style={{ width: '-webkit-fill-available', fontSize: '14px' }}
+                  onClick={handleClearFields}
                 >
                   Clear Fields
                 </Nav.Link>
@@ -349,10 +408,10 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                     width: '-webkit-fill-available',
                     borderColor: '#2B8000',
                     backgroundColor: '#2B8000',
-                    fontSize: '11px',
+                    fontSize: '14px',
                   }}
                 >
-                  EDIT TASK
+                  Edit Task
                 </Button>
               </Col>
             </Row>
