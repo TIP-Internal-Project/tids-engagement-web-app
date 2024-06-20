@@ -379,7 +379,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                     onChange={handleInputChange}
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                   >
-                    <option value=''>Select importance</option>
+                    <option value=''>Select Importance</option>
                     <option value='Required'>Required</option>
                     <option value='Optional'>Optional</option>
                   </Form.Select>
