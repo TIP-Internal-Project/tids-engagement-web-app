@@ -425,7 +425,7 @@ export const EventPanel = (props: any) => {
               xs={isAdmin ? 2 : 2}
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <Button
+              <div
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
@@ -444,9 +444,17 @@ export const EventPanel = (props: any) => {
                   : event.category === 'COP'
                   ? 'COP'
                   : '#HAPPYHERE'}
-              </Button>
+              </div>
             </Col>
-            <Col xs={1}>
+            <Col xs={1}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              fontWeight: 'bold',
+            }}>
+            
                 {event.status}
             </Col>
             <Col
@@ -518,7 +526,7 @@ export const EventPanel = (props: any) => {
               </Col>
            
 
-            <Col xs={isAdmin ? 3 : 3} style={IndItemTitleDisplay} className='text-center'>
+            <Col xs={isAdmin ? 3 : 5} style={IndItemTitleDisplay} className='text-center'>
               <p
                 onClick={() => handleOpenModal(event, true)}
                 aria-controls={`example-collapse-text-${event.eventId}`}
@@ -550,7 +558,7 @@ export const EventPanel = (props: any) => {
               xs={isAdmin ? 2 : 2}
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <Button
+              <div
                 style={
                   event.category === 'TIDS'
                     ? tidsBadge
@@ -569,7 +577,7 @@ export const EventPanel = (props: any) => {
                   : event.category === 'COP'
                   ? 'COP'
                   : '#HAPPYHERE'}
-              </Button>
+              </div>
             </Col>
             <Col
               xs={isAdmin ? 1 : 1} 
@@ -771,7 +779,7 @@ export const EventPanel = (props: any) => {
               Event ID
             </Col>
           
-          <Col xs={isAdmin ? 3 : 3} style={{ fontSize: '14px', fontWeight: 'bold'}} className='text-center'>
+          <Col xs={isAdmin ? 3 : 5} style={{ fontSize: '14px', fontWeight: 'bold'}} className='text-center'>
             Title
           </Col>
           <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px', fontWeight: 'bold' }} className='text-center'>
@@ -950,8 +958,22 @@ export const EventPanel = (props: any) => {
             {'Error: ' + unregisteredEvents.error}
           </div>
         ) : null}
+        
+        {renderedUnregisteredEvents.length > 0 ? renderedUnregisteredEvents :  (
+          <div
+            style={{
+              borderTop: '0.5px solid #9FA2B4',
+              textAlign: 'center',
+              color: '#9FA2B4',
+              paddingTop: '3%',
+              paddingBottom: '4%',
+              fontSize: '14px',
+            }}
+          >
+            No Events
+          </div>
+        )}
 
-        {renderedUnregisteredEvents}
         <EventModal
           show={modalShow}
           onHide={handleCloseModal}
