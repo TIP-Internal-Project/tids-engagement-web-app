@@ -8,6 +8,8 @@ export const tidsBadge = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  fontWeight: 'bold',
+  color: '#fff',
 }
 
 export const happyBadge = {
@@ -20,6 +22,8 @@ export const happyBadge = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  fontWeight: 'bold',
+  color: '#fff',
 }
 
 export const copBadge = {
@@ -32,6 +36,8 @@ export const copBadge = {
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: '12px',
+  fontWeight: 'bold',
+  color: '#fff',
 }
 
 export const teamBadge = {
@@ -44,6 +50,8 @@ export const teamBadge = {
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: '12px',
+  fontWeight: 'bold',
+  color: '#fff',
 }
 
 export const TitleBar = {

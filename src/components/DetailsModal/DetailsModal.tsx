@@ -589,7 +589,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                       <img
                         id='imagePreview'
                         src={formData.imageUrl}
-                        style={{ width: '100%', height: '100%' }}
+                        style={{ width: '100%', height: '100%' , borderRadius: '25px',}}
                       />
                     ) : (
                       <img
