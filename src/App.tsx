@@ -30,7 +30,10 @@ function App() {
           <Route path='/' element={<Overview />} />
           <Route path='overview' element={<Overview />} />
           <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />
-          <Route path='/events/:modalUrl' element={<EventRegistrationView />} />
+          <Route
+            path='/events/:modalUrl'
+            element={<EventRegistrationView email={localStorage.getItem('email')} />}
+          />
           <Route
             path='reports'
             element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
