@@ -1,4 +1,4 @@
 {
-  "ROOT": "http://localhost:3001",
-  "REDIRECT_LINK": "http://localhost:3000/overview"
+  "ROOT": "http://prod-engagement-app.com:3001",
+  "REDIRECT_LINK": "http://prod-engagement-app.com:3000/overview"
 }

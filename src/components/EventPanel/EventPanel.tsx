@@ -769,7 +769,7 @@ export const EventPanel = (props: any) => {
           <Col style={{ fontSize: '14px', fontWeight: 'bold'}}>Registered Events</Col>
           {isAdmin && (
             <Col style={{ fontSize: '14px', color: 'red' }}>
-              Note: Kindly refresh the page after adding a new event.
+              Note: Kindly refresh the page after for any changes made.
             </Col>
           )}
         </Row>

@@ -243,7 +243,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
 
 
     if (isNaN(Number(formData.numberOfInviteSent)) || !Number.isInteger(Number(formData.numberOfInviteSent))) {
-      setNumberOfInviteSentError('Number of Invite Sent must be a number..')
+      setNumberOfInviteSentError('Number of Invite Sent must be a number.')
       hasError = true
     }
     

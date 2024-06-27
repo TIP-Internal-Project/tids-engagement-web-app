@@ -592,10 +592,10 @@ const Calendar = () => {
 											{ <p className='mb-0' style={{width:'max-content', fontSize:'16px', display:'inline-block'}}>No Response <span style={{color:'lightgrey'}}>___________</span>{Math.round(eventsday.reduce((total, e) => total + (e.title === selectedEvent ? ((e.numberOfInviteSent - e.registered)/e.numberOfInviteSent)*100 : 0), 0))}% </p> }
 										</Row>
 
-										<Row className='mt-5' style={{alignItems:'center', paddingLeft:'10%'}}>
+										{/* <Row className='mt-5' style={{alignItems:'center', paddingLeft:'10%'}}>
 											<img  style={{height: '25px', width: '50px'}} src={require('../../assets/images/Date.png')}/>
 											<p className='text-center mb-0 p-0' style={{fontSize:'14px',width:'max-content', display:'inline-block'}}>Date Period June - July 2023</p>
-										</Row>
+										</Row> */}
 									</Container>
                     
                     
