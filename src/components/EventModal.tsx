@@ -194,10 +194,14 @@ const EventModal: React.FC<EventModalProps> = ({
               >
                 REGISTER
               </Button>{' '}
+              
               {data.postEventSurveyURL && (
-                <Button style={ModalButton} href={data.postEventSurveyURL}>
+                // Ucommnent below if the feature is needed
+                /** <Button style={ModalButton} href={data.postEventSurveyURL}>
                   EVENT SURVEY
-                </Button>
+                </Button> */
+                
+                ''
               )}
               {data.gmeetLink && (
                 <a href={data.gmeetLink}>

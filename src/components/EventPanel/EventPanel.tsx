@@ -900,13 +900,7 @@ export const EventPanel = (props: any) => {
         <Row style={TitleBar}>
           <Col xs={2}style={{ fontSize: '14px' , fontWeight: 'bold'}}  className='text-center'>Available Events</Col>
         </Row>
-        {sortedEvents.filter(
-          (event: any) =>
-            event.status === STATUS_ACTIVE ||
-            event.status === STATUS_INACTIVE ||
-            event.status === STATUS_COMPLETED
-        ).length > 0 ? (
-          <Row style={TitleBar} className='px-5'>
+        <Row style={TitleBar} className='px-5'>
            
               <Col xs={1} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
                 Event ID
@@ -928,7 +922,14 @@ export const EventPanel = (props: any) => {
               Action
             </Col>
           </Row>
-        ) : null}
+        
+        {sortedEvents.filter(
+          (event: any) =>
+            event.status === STATUS_ACTIVE ||
+            event.status === STATUS_INACTIVE ||
+            event.status === STATUS_COMPLETED
+        ).length > 0 ? (''
+          ) : null}
 
         {unregisteredEvents.loading && (
           <div

@@ -40,7 +40,7 @@ const FeatureUnavailable: FC<FeatureUnavailableProps> = ({ show, onHide }) => {
           </Card>
         </Container>
       }
-      footerContent={<Button onClick={onHide}>OKAY</Button>}
+      footerContent={<Button onClick={onHide}> CLOSE </Button>}
     />
   )
 }
