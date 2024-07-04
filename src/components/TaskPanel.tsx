@@ -457,30 +457,24 @@ export const TaskPanel = (props: TaskPanelProps) => {
               <Button
                 onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())}
                 variant='success'
-                style={{ backgroundColor: '#9fa5aa', borderColor: '#9fa5aa', fontSize: '11px' }}
+                style={{ backgroundColor: '#9fa5aa', borderColor: '#9fa5aa', fontSize: '11px' , justifyContent: 'center', margin: '3px'}}
                 disabled
               >
                 COMPLETE
               </Button>
-            </Col>
+          
             {isAdmin && (
-              <Col
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'left',
-                  fontSize: '12px',
-                }}
-              >
+             
                 <Button
                   onClick={() => handleDeleteModalShow(tasks)}
                   variant='success'
-                  style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' }}
+                  style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' ,justifyContent: 'center', margin: '3px'}}
                 >
                   ARCHIVE
                 </Button>
-              </Col>
+             
             )}
+             </Col>
             <Collapse in={eventStates[tasks.taskId]}>
               <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
                 <h3>{tasks.title}</h3>
@@ -599,11 +593,11 @@ export const TaskPanel = (props: TaskPanelProps) => {
               <p
                 className='mb-0'
                 style={{
-                  fontFamily: 'Mulish',
-                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   fontSize: '14px',
-                  lineHeight: '28px',
-                  color: 'rgb(37, 39, 51)',
+                  fontWeight: 'bold',
                 }}
               >
                 Not Started
@@ -620,29 +614,24 @@ export const TaskPanel = (props: TaskPanelProps) => {
               <Button
                 onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())}
                 variant='success'
-                style={{ backgroundColor: '#2B8000', fontSize: '11px' }}
+                style={{ backgroundColor: '#2B8000', fontSize: '11px' , justifyContent: 'center', margin: '3px'}}
               >
+                
                 COMPLETE
               </Button>
-            </Col>
+            
             {isAdmin && (
-              <Col
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'left',
-                  fontSize: '12px',
-                }}
-              >
+              
                 <Button
                   onClick={() => handleDeleteModalShow(tasks)}
                   variant='success'
-                  style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' }}
+                  style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' , justifyContent: 'center', margin: '3px'}}
                 >
                   ARCHIVE
                 </Button>
-              </Col>
+              
             )}
+            </Col>
             <Collapse in={eventStates[tasks.taskId]}>
               <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
                 <h3>{tasks.title}</h3>
@@ -690,7 +679,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
                   <span className='mx-2' style={{ fontSize: '20px' }}>
                     +
                   </span>{' '}
-                  Add new task, type here
+                  Add new task here
                 </Nav.Link>
               </Col>
             )}
@@ -785,7 +774,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
             Title
           </Col>
           <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>
-            Due Date
+            Due On
           </Col>
           <Col xs={isAdmin ? 1 : 2} style={{ fontSize: '14px' }} className='text-center'>
             Importance

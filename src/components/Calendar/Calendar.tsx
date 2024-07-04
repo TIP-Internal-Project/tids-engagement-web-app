@@ -13,6 +13,7 @@ import { Pie } from 'react-chartjs-2'
 import Button from 'react-bootstrap/Button'
 import { useAppDispatch } from '../../redux/store'
 import { fetchEvents, getEventDetailsByDate } from '../../redux/eventSlice'
+import FeatureUnavailable from '../../components/FeatureUnavailable/FeatureUnavailable'
 
 
 
@@ -185,7 +186,9 @@ const viewDetailsButton = {
 	color: 'green',
 	float:'right',
 	marginBottom:'10px'
-	, fontWeight: '700', fontFamily:'Mulish',fontStyle:'normal'
+	, fontWeight: '700', fontFamily:'Mulish',fontStyle:'normal',
+	paddingTop: '12px',
+	lineHeight: '0'
 } as React.CSSProperties
 
 const legendCircle1 = {
@@ -257,6 +260,7 @@ const nonResponse = dummyData.datasets[0].data[2] / total * 100
 const Calendar = () => {
 	const dispatch = useAppDispatch()
 	const [currentDate, setCurrentDate] = useState(new Date())
+	const [showFeatureUnavailable, setShowFeatureUnavailable] = useState(false)
 	const currentYear = currentDate.getFullYear()
 	const currentMonth = currentDate.getMonth()
 
@@ -408,6 +412,15 @@ const Calendar = () => {
       eventDate.getFullYear() === currentDate.getFullYear()
 		)
 	})
+
+	const handleUnavailableLinkClick = () => {
+		setShowFeatureUnavailable(true)
+	}
+	
+	  // Function to handle closing the FeatureUnavailable modal
+	const handleCloseFeatureUnavailable = () => {
+	setShowFeatureUnavailable(false)
+	}
 
 	return (
 
@@ -629,11 +642,14 @@ const Calendar = () => {
 											
 					
 							<Col>
-								<div style={{ display: 'inline-block',float: 'right' , paddingLeft: '20px' }}><Button style={viewDetailsButton}> 
-                        Generate Report <img  style={{height: '12px', width: '13px', marginLeft:'5px', marginBottom:'3px'}} src={require('../../assets/images/Arrow.png')} alt="" />
-								</Button> </div>
+								<div style={{ display: 'inline-block',float: 'right' , paddingLeft: '20px' }}><Button style={viewDetailsButton} onClick={handleUnavailableLinkClick}> 
+                       				Generate Report
+									<img  style={{height: '12px', width: '13px', marginLeft:'5px', marginBottom:'3px'}} src={require('../../assets/images/Arrow.png')} alt="" />
+								</Button>
+								<FeatureUnavailable show={showFeatureUnavailable} onHide={handleCloseFeatureUnavailable} />{' '} 
+								</div>
 								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><p> <img className='EventReportCircle' src ={require('../../assets/images/greyIcon.png')} /> Didn't Attend </p></div> 
-								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><p> <img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} />Attendees </p> </div>
+								<div style={{ display: 'inline-block',float: 'right', paddingLeft: '20px', paddingTop:'3px' }}><p> <img className='EventReportCircle' src ={require('../../assets/images/greenIcon.png')} /> Attendees </p> </div>
 								
 							</Col>
 					
