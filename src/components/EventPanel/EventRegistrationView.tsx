@@ -2,20 +2,8 @@ import axios from 'axios'
 import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../../api.json'
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Chip,
-  colors,
-  Grid,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import { setTimeFormat } from './utils'
+import { Card, CardContent, CardMedia, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
+
 import Modal from 'react-bootstrap/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLink, faStar } from '@fortawesome/free-solid-svg-icons'
@@ -48,18 +36,19 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
 
   const [registeredEvents, setRegisteredEvents] = useState<any[]>([])
 
+  const fetchRegisteredEventsForUser = async () => {
+    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
+    const registeredEventsArray = Object.values(registeredEventsData.payload)
+    setRegisteredEvents(registeredEventsArray)
+  }
+
   useEffect(() => {
-    // Fetch registered events when the component mounts
-    const fetchRegisteredEventsForUser = async () => {
-      const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-      const registeredEventsArray = Object.values(registeredEventsData.payload)
-      setRegisteredEvents(registeredEventsArray)
-    }
     fetchRegisteredEventsForUser()
   }, [email, dispatch])
 
   const isEventRegistered = (eventId: string) => {
-    return registeredEvents.includes(eventId)
+    const eventIdNumber = Number(eventId)
+    return registeredEvents.some((event) => event.eventId === eventIdNumber)
   }
 
   useEffect(() => {
@@ -201,6 +190,8 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     console.log(registeredEventsArray)
+
+    fetchRegisteredEventsForUser()
   }
 
   const EventContent = () => (
@@ -223,7 +214,9 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
         </Typography>
         <Button
           style={ModalButton}
-          disabled={data.status === 'Inactive' || data.status === 'Completed'}
+          disabled={
+            data.status === 'Inactive' || data.status === 'Completed' || isEventRegistered(data.eventId)
+          }
           onClick={() => handleRegister(data.eventId, email, data.starsNum)}
         >
           REGISTER
