@@ -221,11 +221,11 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
         >
           REGISTER
         </Button>{' '}
-        {data.postEventSurveyURL && (
+        {/* {data.postEventSurveyURL && (
           <Button style={ModalButton} href={data.postEventSurveyURL}>
             EVENT SURVEY
           </Button>
-        )}
+        )} */}
         {data.gmeetLink && (
           <a href={data.gmeetLink}>
             <img
@@ -347,11 +347,11 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
                   >
                     REGISTER
                   </Button>{' '}
-                  {data.postEventSurveyURL && (
+                  {/* {data.postEventSurveyURL && (
                     <Button style={ModalButton} href={data.postEventSurveyURL}>
                       EVENT SURVEY
                     </Button>
-                  )}
+                  )} */}
                   {data.gmeetLink && (
                     <a href={data.gmeetLink}>
                       <img
