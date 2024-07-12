@@ -387,10 +387,9 @@ export const EventPanel = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-              <Col xs={1} style={IndItemTitleDisplay} className='text-center'>
-                <p className='mb-0'>{event.eventId}</p>
-              </Col>
-            
+            <Col xs={1} style={IndItemTitleDisplay} className='text-center'>
+              <p className='mb-0'>{event.eventId}</p>
+            </Col>
 
             <Col xs={isAdmin ? 3 : 3} style={IndItemTitleDisplay} className='text-center'>
               <p
@@ -446,16 +445,17 @@ export const EventPanel = (props: any) => {
                   : '#HAPPYHERE'}
               </div>
             </Col>
-            <Col xs={1}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '14px',
-              fontWeight: 'bold',
-            }}>
-            
-                {event.status}
+            <Col
+              xs={1}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '14px',
+                fontWeight: 'bold',
+              }}
+            >
+              {event.status}
             </Col>
             <Col
               xs={isAdmin ? 3 : 3}
@@ -520,11 +520,9 @@ export const EventPanel = (props: any) => {
           className='px-5'
         >
           <Row className='py-2'>
-            
-              <Col xs={1} style={IndItemTitleDisplay} className='text-center'>
-                <p className='mb-0'>{event.eventId}</p>
-              </Col>
-           
+            <Col xs={1} style={IndItemTitleDisplay} className='text-center'>
+              <p className='mb-0'>{event.eventId}</p>
+            </Col>
 
             <Col xs={isAdmin ? 3 : 5} style={IndItemTitleDisplay} className='text-center'>
               <p
@@ -580,7 +578,7 @@ export const EventPanel = (props: any) => {
               </div>
             </Col>
             <Col
-              xs={isAdmin ? 1 : 1} 
+              xs={isAdmin ? 1 : 1}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -589,9 +587,7 @@ export const EventPanel = (props: any) => {
                 fontWeight: 'bold',
               }}
             >
-              {event.status == STATUS_ACTIVE ? 
-                  'Registered' : event.status    
-              }
+              {event.status == STATUS_ACTIVE ? 'Registered' : event.status}
             </Col>
             {isAdmin && (
               <Col
@@ -643,102 +639,102 @@ export const EventPanel = (props: any) => {
       className='mx-auto'
     >
       <div>
-      <Container
-        fluid
-        style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
-        className='px-0 py-4'
-      >
-        <div className='d-flex justify-content-between' style={{ color: '#7175B', padding: '0 2%' }}>
-          <div style={{ width: '250px' }}>
-            {isAdmin && (
-              <Col
-                xs={8}
-                style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}
-              >
-                <Nav.Link
-                  className=''
-                  style={{ fontSize: '14px' }}
-                  onClick={() => handleOpenDetailsModal('add', null)}
+        <Container
+          fluid
+          style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
+          className='px-0 py-4'
+        >
+          <div className='d-flex justify-content-between' style={{ color: '#7175B', padding: '0 2%' }}>
+            <div style={{ width: '250px' }}>
+              {isAdmin && (
+                <Col
+                  xs={8}
+                  style={{ color: '#7175B', paddingLeft: '2%', width: '-webkit-fill-available' }}
                 >
-                  <span className='mx-2' style={{ fontSize: '20px' }}>
-                    +
-                  </span>{' '}
-                  Add new event here
-                </Nav.Link>
-              </Col>
-            )}
-          </div>
-          <div className='d-flex flex-row-reverse px-5'>
-            <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleFilterButtonClick}>
-              <img
-                style={{ height: '15px', width: '14px', marginRight: '10px' }}
-                src={require('../../assets/images/filter.png')}
-              />
-              Filter
-            </Nav.Link>
-            {showFilterDropdown && (
-              <div ref={dropdownFilterRef} className='floating-div2'>
-                <Form style={{ fontSize: '14px' }}>
-                  {['ALL', 'happyhere', 'COP', 'teamEvent', 'TIDS'].map((value) => {
-                    let label = value
-                    if (value === 'happyhere') {
-                      label = '#HAPPYHERE'
-                    } else if (value === 'teamEvent') {
-                      label = 'TEAM EVENT'
-                    }
-                    return (
-                      <div key={`default-${value}`}>
-                        <Form.Check
-                          id={`default-${value}`}
-                          label={label}
-                          onChange={() => {
-                            const newFilterOption = [...filterOption]
-                            console.log('newFilterOption: ', newFilterOption)
-                            console.log('value: ', value)
-                            console.log('filterOption: ', filterOption)
-                            if (newFilterOption.includes(value)) {
-                              newFilterOption.splice(newFilterOption.indexOf(value), 1)
-                            } else {
-                              if (value === 'ALL') {
-                                newFilterOption.length = 0
-                              } else if (filterOption.includes('ALL')) {
-                                newFilterOption.splice(newFilterOption.indexOf('ALL'), 1)
+                  <Nav.Link
+                    className=''
+                    style={{ fontSize: '14px' }}
+                    onClick={() => handleOpenDetailsModal('add', null)}
+                  >
+                    <span className='mx-2' style={{ fontSize: '20px' }}>
+                      +
+                    </span>{' '}
+                    Add new event here
+                  </Nav.Link>
+                </Col>
+              )}
+            </div>
+            <div className='d-flex flex-row-reverse px-5'>
+              <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleFilterButtonClick}>
+                <img
+                  style={{ height: '15px', width: '14px', marginRight: '10px' }}
+                  src={require('../../assets/images/filter.png')}
+                />
+                Filter
+              </Nav.Link>
+              {showFilterDropdown && (
+                <div ref={dropdownFilterRef} className='floating-div2'>
+                  <Form style={{ fontSize: '14px' }}>
+                    {['ALL', 'happyhere', 'COP', 'teamEvent', 'TIDS'].map((value) => {
+                      let label = value
+                      if (value === 'happyhere') {
+                        label = '#HAPPYHERE'
+                      } else if (value === 'teamEvent') {
+                        label = 'TEAM EVENT'
+                      }
+                      return (
+                        <div key={`default-${value}`}>
+                          <Form.Check
+                            id={`default-${value}`}
+                            label={label}
+                            onChange={() => {
+                              const newFilterOption = [...filterOption]
+                              console.log('newFilterOption: ', newFilterOption)
+                              console.log('value: ', value)
+                              console.log('filterOption: ', filterOption)
+                              if (newFilterOption.includes(value)) {
+                                newFilterOption.splice(newFilterOption.indexOf(value), 1)
+                              } else {
+                                if (value === 'ALL') {
+                                  newFilterOption.length = 0
+                                } else if (filterOption.includes('ALL')) {
+                                  newFilterOption.splice(newFilterOption.indexOf('ALL'), 1)
+                                }
+                                newFilterOption.push(value)
                               }
-                              newFilterOption.push(value)
-                            }
-                            setFilterOption(newFilterOption)
-                            handleFilterOption(newFilterOption)
-                          }}
-                          checked={filterOption.includes(value)}
-                        />
-                      </div>
-                    )
-                  })}
-                </Form>
-              </div>
-            )}
-            <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleSortButtonClick}>
-              <img
-                style={{ height: '15px', width: '15px', marginRight: '10px' }}
-                src={require('../../assets/images/sort-up.png')}
-              />
-              Sort
-            </Nav.Link>
-            {showSortDropdown && (
-              <div ref={dropdownSortRef} className='floating-div'>
-                <p className='textStyle' onClick={() => handleSortOption('asc')}>
-                  <a>Sort by Date Ascending</a>
-                </p>
-                <p
-                  className='textStyle'
-                  style={{ marginBottom: '0' }}
-                  onClick={() => handleSortOption('desc')}
-                >
-                  <a>Sort by Date Descending</a>
-                </p>
-              </div>
-            )}
-            {/* <Nav.Link
+                              setFilterOption(newFilterOption)
+                              handleFilterOption(newFilterOption)
+                            }}
+                            checked={filterOption.includes(value)}
+                          />
+                        </div>
+                      )
+                    })}
+                  </Form>
+                </div>
+              )}
+              <Nav.Link className='mx-3 ' style={{ fontSize: '14px' }} onClick={handleSortButtonClick}>
+                <img
+                  style={{ height: '15px', width: '15px', marginRight: '10px' }}
+                  src={require('../../assets/images/sort-up.png')}
+                />
+                Sort
+              </Nav.Link>
+              {showSortDropdown && (
+                <div ref={dropdownSortRef} className='floating-div'>
+                  <p className='textStyle' onClick={() => handleSortOption('asc')}>
+                    <a>Sort by Date Ascending</a>
+                  </p>
+                  <p
+                    className='textStyle'
+                    style={{ marginBottom: '0' }}
+                    onClick={() => handleSortOption('desc')}
+                  >
+                    <a>Sort by Date Descending</a>
+                  </p>
+                </div>
+              )}
+              {/* <Nav.Link
               className='mx-3'
               style={{ fontSize: '14px' }}
               onClick={() => handleRefresh(props.variable)}
@@ -748,7 +744,7 @@ export const EventPanel = (props: any) => {
                 src={require('../../assets/images/refresh.png')}
               />
               Refresh
-            </Nav.Link> */}
+            </Nav.Link>
             {isAdmin && (
               <Nav.Link
                 className='mx-3'
@@ -761,293 +757,332 @@ export const EventPanel = (props: any) => {
                 />
                 Upload
               </Nav.Link>
-            )}
+            )} */}
+            </div>
           </div>
-        </div>
-      
-        <Row style={TitleBar} className='px-5'>
-          <Col style={{ fontSize: '14px', fontWeight: 'bold'}}>Registered Events</Col>
-          {isAdmin && (
-            <Col style={{ fontSize: '14px', color: 'red' }}>
-              Note: Kindly refresh the page after for any changes made.
-            </Col>
-          )}
-        </Row>
-        <Row style={TitleBar} className='px-5'>
-          
-            <Col xs={1} style={{ fontSize: '14px', fontWeight: 'bold'}} className='text-center'>
+
+          <Row style={TitleBar} className='px-5'>
+            <Col style={{ fontSize: '14px', fontWeight: 'bold' }}>Registered Events</Col>
+            {isAdmin && (
+              <Col style={{ fontSize: '14px', color: 'red' }}>
+                Note: Kindly refresh the page after for any changes made.
+              </Col>
+            )}
+          </Row>
+          <Row style={TitleBar} className='px-5'>
+            <Col xs={1} style={{ fontSize: '14px', fontWeight: 'bold' }} className='text-center'>
               Event ID
             </Col>
-          
-          <Col xs={isAdmin ? 3 : 5} style={{ fontSize: '14px', fontWeight: 'bold'}} className='text-center'>
-            Title
-          </Col>
-          <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px', fontWeight: 'bold' }} className='text-center'>
-            Date
-          </Col>
-          <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
-            Category
-          </Col>
-          <Col xs={isAdmin ? 1 : 1} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
-            Status
-          </Col>
-          {isAdmin && (
-            <Col xs={3} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
-            Action
-          </Col>
-          ) }
-          
-        </Row>
 
-        {registeredEvents.loading && (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
-          >
-            {'Loading...'}
-          </div>
-        )}
-        {!registeredEvents.loading && registeredEvents.error ? (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
-          >
-            {'Error: ' + unregisteredEvents.error}
-          </div>
-        ) : null}
+            <Col
+              xs={isAdmin ? 3 : 5}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
+              Title
+            </Col>
+            <Col
+              xs={isAdmin ? 2 : 2}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
+              Date
+            </Col>
+            <Col
+              xs={isAdmin ? 2 : 2}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
+              Category
+            </Col>
+            <Col
+              xs={isAdmin ? 1 : 1}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
+              Status
+            </Col>
+            {isAdmin && (
+              <Col xs={3} style={{ fontSize: '14px', fontWeight: 'bold' }} className='text-center'>
+                Action
+              </Col>
+            )}
+          </Row>
 
-        {sortedRegisteredEvents.filter((event: any) => event.status != 'Archived').length > 0 ? (
-          <div style={{ paddingBottom: '3%' }}>{renderedRegisteredEvents}</div>
-        ) : (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
-          >
-            No Events
-          </div>
-        )}
+          {registeredEvents.loading && (
+            <div
+              style={{
+                borderTop: '0.5px solid #9FA2B4',
+                textAlign: 'center',
+                color: '#9FA2B4',
+                paddingTop: '3%',
+                paddingBottom: '4%',
+                fontSize: '14px',
+              }}
+            >
+              {'Loading...'}
+            </div>
+          )}
+          {!registeredEvents.loading && registeredEvents.error ? (
+            <div
+              style={{
+                borderTop: '0.5px solid #9FA2B4',
+                textAlign: 'center',
+                color: '#9FA2B4',
+                paddingTop: '3%',
+                paddingBottom: '4%',
+                fontSize: '14px',
+              }}
+            >
+              {'Error: ' + unregisteredEvents.error}
+            </div>
+          ) : null}
 
-        <div className='d-flex justify-content-center align-items-center'>
-          <div style={paginationStyle}>
-            <Pagination>
-              <Pagination.First onClick={() => handleRegPageChange(1)} disabled={currentRegPage === 1} />
-              <Pagination.Prev
-                onClick={() => handleRegPageChange(currentRegPage - 1)}
-                disabled={currentRegPage === 1}
-              />
-              {[...Array(totalRegEventsPages)].map((_, index) => (
-                <Pagination.Item
-                  key={index + 1}
-                  active={index + 1 === currentRegPage}
-                  onClick={() => handleRegPageChange(index + 1)}
-                >
-                  {index + 1}
-                </Pagination.Item>
-              ))}
-              <Pagination.Next
-                onClick={() => handleRegPageChange(currentRegPage + 1)}
-                disabled={currentRegPage === totalRegEventsPages}
-              />
-              <Pagination.Last
-                onClick={() => handleRegPageChange(totalRegEventsPages)}
-                disabled={currentRegPage === totalRegEventsPages}
-              />
-            </Pagination>
-          </div>
+          {sortedRegisteredEvents.filter((event: any) => event.status != 'Archived').length > 0 ? (
+            <div style={{ paddingBottom: '3%' }}>{renderedRegisteredEvents}</div>
+          ) : (
+            <div
+              style={{
+                borderTop: '0.5px solid #9FA2B4',
+                textAlign: 'center',
+                color: '#9FA2B4',
+                paddingTop: '3%',
+                paddingBottom: '4%',
+                fontSize: '14px',
+              }}
+            >
+              No Events
+            </div>
+          )}
 
-          <div>
-            <Dropdown className='mx-2'>
-              <Dropdown.Toggle variant='outline-primary' id='dropdown-basic'>
-                {regEventsPerPage}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleRegEventsPerPageChange(5)}>5</Dropdown.Item>
-                <Dropdown.Item onClick={() => handleRegEventsPerPageChange(10)}>10</Dropdown.Item>
-                <Dropdown.Item onClick={() => handleRegEventsPerPageChange(20)}>20</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+          <div className='d-flex justify-content-center align-items-center'>
+            <div style={paginationStyle}>
+              <Pagination>
+                <Pagination.First
+                  onClick={() => handleRegPageChange(1)}
+                  disabled={currentRegPage === 1}
+                />
+                <Pagination.Prev
+                  onClick={() => handleRegPageChange(currentRegPage - 1)}
+                  disabled={currentRegPage === 1}
+                />
+                {[...Array(totalRegEventsPages)].map((_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentRegPage}
+                    onClick={() => handleRegPageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handleRegPageChange(currentRegPage + 1)}
+                  disabled={currentRegPage === totalRegEventsPages}
+                />
+                <Pagination.Last
+                  onClick={() => handleRegPageChange(totalRegEventsPages)}
+                  disabled={currentRegPage === totalRegEventsPages}
+                />
+              </Pagination>
+            </div>
+
+            <div>
+              <Dropdown className='mx-2'>
+                <Dropdown.Toggle variant='outline-primary' id='dropdown-basic'>
+                  {regEventsPerPage}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => handleRegEventsPerPageChange(5)}>5</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleRegEventsPerPageChange(10)}>10</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleRegEventsPerPageChange(20)}>20</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </div>
-        </div>
-      
-      </Container>
+        </Container>
       </div>
       <br />
       <div>
-      <Container
-        fluid
-        style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
-        className='px-0 py-4'
-      >
-        
-        <Row style={TitleBar}>
-          <Col xs={2}style={{ fontSize: '14px' , fontWeight: 'bold'}}  className='text-center'>Available Events</Col>
-        </Row>
-        <Row style={TitleBar} className='px-5'>
-           
-              <Col xs={1} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
-                Event ID
-              </Col>
-           
-            <Col xs={isAdmin ? 3 : 3} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
+        <Container
+          fluid
+          style={{ backgroundColor: 'white', height: '100%', width: '100%', borderRadius: '20px' }}
+          className='px-0 py-4'
+        >
+          <Row style={TitleBar}>
+            <Col xs={2} style={{ fontSize: '14px', fontWeight: 'bold' }} className='text-center'>
+              Available Events
+            </Col>
+          </Row>
+          <Row style={TitleBar} className='px-5'>
+            <Col xs={1} style={{ fontSize: '14px', fontWeight: 'bold' }} className='text-center'>
+              Event ID
+            </Col>
+
+            <Col
+              xs={isAdmin ? 3 : 3}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
               Title
             </Col>
-            <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
+            <Col
+              xs={isAdmin ? 2 : 2}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
               Date
             </Col>
-            <Col xs={isAdmin ? 2 : 2} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
+            <Col
+              xs={isAdmin ? 2 : 2}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
               Category
             </Col>
-            <Col xs={isAdmin ? 1 : 1} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
+            <Col
+              xs={isAdmin ? 1 : 1}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
               Status
             </Col>
-            <Col xs={isAdmin ? 3 : 3} style={{ fontSize: '14px' , fontWeight: 'bold'}} className='text-center'>
+            <Col
+              xs={isAdmin ? 3 : 3}
+              style={{ fontSize: '14px', fontWeight: 'bold' }}
+              className='text-center'
+            >
               Action
             </Col>
           </Row>
-        
-        {sortedEvents.filter(
-          (event: any) =>
-            event.status === STATUS_ACTIVE ||
-            event.status === STATUS_INACTIVE ||
-            event.status === STATUS_COMPLETED
-        ).length > 0 ? (''
+
+          {sortedEvents.filter(
+            (event: any) =>
+              event.status === STATUS_ACTIVE ||
+              event.status === STATUS_INACTIVE ||
+              event.status === STATUS_COMPLETED
+          ).length > 0
+            ? ''
+            : null}
+
+          {unregisteredEvents.loading && (
+            <div
+              style={{
+                borderTop: '0.5px solid #9FA2B4',
+                textAlign: 'center',
+                color: '#9FA2B4',
+                paddingTop: '3%',
+                paddingBottom: '4%',
+                fontSize: '14px',
+              }}
+            >
+              {'Loading...'}
+            </div>
+          )}
+          {!unregisteredEvents.loading && unregisteredEvents.error ? (
+            <div
+              style={{
+                borderTop: '0.5px solid #9FA2B4',
+                textAlign: 'center',
+                color: '#9FA2B4',
+                paddingTop: '3%',
+                paddingBottom: '4%',
+                fontSize: '14px',
+              }}
+            >
+              {'Error: ' + unregisteredEvents.error}
+            </div>
           ) : null}
 
-        {unregisteredEvents.loading && (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
-          >
-            {'Loading...'}
-          </div>
-        )}
-        {!unregisteredEvents.loading && unregisteredEvents.error ? (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
-          >
-            {'Error: ' + unregisteredEvents.error}
-          </div>
-        ) : null}
-        
-        {renderedUnregisteredEvents.length > 0 ? renderedUnregisteredEvents :  (
-          <div
-            style={{
-              borderTop: '0.5px solid #9FA2B4',
-              textAlign: 'center',
-              color: '#9FA2B4',
-              paddingTop: '3%',
-              paddingBottom: '4%',
-              fontSize: '14px',
-            }}
-          >
-            No Events
-          </div>
-        )}
+          {renderedUnregisteredEvents.length > 0 ? (
+            renderedUnregisteredEvents
+          ) : (
+            <div
+              style={{
+                borderTop: '0.5px solid #9FA2B4',
+                textAlign: 'center',
+                color: '#9FA2B4',
+                paddingTop: '3%',
+                paddingBottom: '4%',
+                fontSize: '14px',
+              }}
+            >
+              No Events
+            </div>
+          )}
 
-        <EventModal
-          show={modalShow}
-          onHide={handleCloseModal}
-          modalData={modalData}
-          disableRegistration={disableRegistration}
-          email={props.variable}
-          showButtons={true}
-          onSortedEvents={handleSortedEvents}
-          onSortedRegisteredEvents={handleSortedRegisteredEvents}
-        />
-        {detailsModalShow && (
-          <DetailsModal
-            show={detailsModalShow}
-            onHide={handleCloseDetailsModal}
-            onChange={handleChangeInData}
-            event={event}
-            action={action}
+          <EventModal
+            show={modalShow}
+            onHide={handleCloseModal}
+            modalData={modalData}
+            disableRegistration={disableRegistration}
+            email={props.variable}
+            showButtons={true}
+            onSortedEvents={handleSortedEvents}
+            onSortedRegisteredEvents={handleSortedRegisteredEvents}
           />
-        )}
+          {detailsModalShow && (
+            <DetailsModal
+              show={detailsModalShow}
+              onHide={handleCloseDetailsModal}
+              onChange={handleChangeInData}
+              event={event}
+              action={action}
+            />
+          )}
 
-        <div className='d-flex justify-content-center align-items-center'>
-          <div style={paginationStyle}>
-            <Pagination>
-              <Pagination.First
-                onClick={() => handleUnregPageChange(1)}
-                disabled={currentUnregPage === 1}
-              />
-              <Pagination.Prev
-                onClick={() => handleUnregPageChange(currentUnregPage - 1)}
-                disabled={currentUnregPage === 1}
-              />
-              {[...Array(totalUnregEventsPages)].map((_, index) => (
-                <Pagination.Item
-                  key={index + 1}
-                  active={index + 1 === currentUnregPage}
-                  onClick={() => handleUnregPageChange(index + 1)}
-                >
-                  {index + 1}
-                </Pagination.Item>
-              ))}
-              <Pagination.Next
-                onClick={() => handleUnregPageChange(currentUnregPage + 1)}
-                disabled={currentUnregPage === totalUnregEventsPages}
-              />
-              <Pagination.Last
-                onClick={() => handleUnregPageChange(totalUnregEventsPages)}
-                disabled={currentUnregPage === totalUnregEventsPages}
-              />
-            </Pagination>
-          </div>
+          <div className='d-flex justify-content-center align-items-center'>
+            <div style={paginationStyle}>
+              <Pagination>
+                <Pagination.First
+                  onClick={() => handleUnregPageChange(1)}
+                  disabled={currentUnregPage === 1}
+                />
+                <Pagination.Prev
+                  onClick={() => handleUnregPageChange(currentUnregPage - 1)}
+                  disabled={currentUnregPage === 1}
+                />
+                {[...Array(totalUnregEventsPages)].map((_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentUnregPage}
+                    onClick={() => handleUnregPageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handleUnregPageChange(currentUnregPage + 1)}
+                  disabled={currentUnregPage === totalUnregEventsPages}
+                />
+                <Pagination.Last
+                  onClick={() => handleUnregPageChange(totalUnregEventsPages)}
+                  disabled={currentUnregPage === totalUnregEventsPages}
+                />
+              </Pagination>
+            </div>
 
-          <div>
-            <Dropdown className='mx-2'>
-              <Dropdown.Toggle variant='outline-primary' id='dropdown-basic'>
-                {unregEventsPerPage}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(5)}>5</Dropdown.Item>
-                <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(10)}>10</Dropdown.Item>
-                <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(20)}>20</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <div>
+              <Dropdown className='mx-2'>
+                <Dropdown.Toggle variant='outline-primary' id='dropdown-basic'>
+                  {unregEventsPerPage}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(5)}>5</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(10)}>10</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleUnregEventsPerPageChange(20)}>20</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </div>
-        </div>
-        <DeleteEventModal
-          show={deleteEventModalShow}
-          onHide={handleDeleteModalClose}
-          onChange={handleDelete}
-          modalData={modalData}
-        />
-       
-        <FileUploadModal show={fileUploadModalShow} onHide={handleFileUploadModalClose} />
-      </Container>
+          <DeleteEventModal
+            show={deleteEventModalShow}
+            onHide={handleDeleteModalClose}
+            onChange={handleDelete}
+            modalData={modalData}
+          />
+
+          <FileUploadModal show={fileUploadModalShow} onHide={handleFileUploadModalClose} />
+        </Container>
       </div>
     </Container>
   )
