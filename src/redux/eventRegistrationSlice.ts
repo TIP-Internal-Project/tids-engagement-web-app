@@ -1,16 +1,15 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 export interface EventRegistrationState {
-  loading: boolean;
-  eventId: string;
-  email: string;
-  address: string;
-  error: string;
+  loading: boolean
+  eventId: string
+  email: string
+  address: string
+  error: string
 }
 
 const initialState: EventRegistrationState = {
@@ -22,15 +21,15 @@ const initialState: EventRegistrationState = {
 }
 
 interface RegisterPayload {
-	eventId: string;
-	email: string;
-  address: string;
+  eventId: string
+  email: string
+  address: string
 }
 
 export const register = createAsyncThunk('register', async (payload: RegisterPayload) => {
-	const { eventId, email, address } = payload
-	const response = await axios.post(API_ROOT + '/events/register', { eventId, email, address })
-	return response.data
+  const { eventId, email, address } = payload
+  const response = await axios.post(API_ROOT + '/events/register', { eventId, email, address })
+  return response.data
 })
 
 export const eventRegistrationSlice = createSlice({
@@ -38,10 +37,10 @@ export const eventRegistrationSlice = createSlice({
   initialState,
   reducers: {
     addRegistration: (state, action: PayloadAction<EventRegistrationState>) => {
-		state.loading = false
-     	state.eventId = action.payload.eventId
-      	state.email = action.payload.email
-        state.address = action.payload.address
+      state.loading = false
+      state.eventId = action.payload.eventId
+      state.email = action.payload.email
+      state.address = action.payload.address
     },
   },
   extraReducers: (builder) => {

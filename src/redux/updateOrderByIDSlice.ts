@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 export interface UpdateOrderState {
-  loading: boolean;
-  error: string;
+  loading: boolean
+  error: string
 }
 
 const initialState: UpdateOrderState = {
@@ -15,7 +14,7 @@ const initialState: UpdateOrderState = {
 }
 
 interface UpdateOrderPayload {
-  orderId: string;
+  orderId: string
   // Include other properties for updating order here
 }
 

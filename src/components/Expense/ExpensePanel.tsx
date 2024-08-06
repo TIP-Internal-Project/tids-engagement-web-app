@@ -29,7 +29,7 @@ export const ExpensePanel = (props: any) => {
   const [eventStates, setEventStates] = useState<{ [key: number]: boolean }>({})
   const dropdownSortRef = useRef<HTMLDivElement>(null)
   const dropdownFilterRef = useRef<HTMLDivElement>(null)
-  const API_ROOT = api.ROOT
+  const API_ROOT = process.env.REACT_APP_API_URL
   const events = useAppSelector((state) => state.events)
 
   useEffect(() => {

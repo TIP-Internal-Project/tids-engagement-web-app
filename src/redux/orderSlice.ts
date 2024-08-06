@@ -1,52 +1,49 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 export interface OrderState {
-    loading: boolean,
-	orders: [],
-	error: string
+  loading: boolean
+  orders: []
+  error: string
 }
 
 const initialState: OrderState = {
-	loading: false,
-	orders: [],
-	error: ''
+  loading: false,
+  orders: [],
+  error: '',
 }
 
 // Generates pending, fulfilled and rejected action types
 export const fetchOrders = createAsyncThunk('getAllOrders', () => {
-	return axios
-	  .get(API_ROOT + '/order/getAllOrders')
-	  .then(response => response.data)
+  return axios.get(API_ROOT + '/order/getAllOrders').then((response) => response.data)
 })
 
 export const orderSlice = createSlice({
-	name: 'order',
-	initialState,
-	reducers: {
-		storeOrders: (state, action: PayloadAction<[]>) => {
-			state.orders = action.payload
-		}
-	},
-	extraReducers: builder => {
-		builder.addCase(fetchOrders.pending, state => {
-			state.loading = true
-		})
-		builder.addCase(fetchOrders.fulfilled, (state, action) => {
-			state.loading = false
-			state.orders = action.payload
-			state.error = ''
-		})
-		builder.addCase(fetchOrders.rejected, (state, action) => {
-			state.loading = false
-			state.orders = []
-			state.error = action.error.message!
-		})
-	}
+  name: 'order',
+  initialState,
+  reducers: {
+    storeOrders: (state, action: PayloadAction<[]>) => {
+      state.orders = action.payload
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchOrders.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(fetchOrders.fulfilled, (state, action) => {
+      state.loading = false
+      state.orders = action.payload
+      state.error = ''
+    })
+    builder.addCase(fetchOrders.rejected, (state, action) => {
+      state.loading = false
+      state.orders = []
+      state.error = action.error.message!
+    })
+  },
 })
 
 export default orderSlice.reducer

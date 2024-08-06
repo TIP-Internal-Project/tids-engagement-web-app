@@ -1,44 +1,79 @@
-import { setUserRole } from './components/Roles/Roles'
 import axios from 'axios'
-import api from './api.json'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const API_ROOT = api.ROOT
-const REDIRECT_LINK = api.REDIRECT_LINK
+const API_ROOT = process.env.REACT_APP_API_URL
+const DEFAULT_REDIRECT_LINK = process.env.REACT_APP_REDIRECT_URL || '/overview'
 
 export default function GoogleLogin() {
-  axios.get(API_ROOT + '/google/auth').then((response) => (window.location.href = response.data))
+  useEffect(() => {
+    async function fetchAuthUrl() {
+      try {
+        const response = await axios.get(`${API_ROOT}/google/auth`)
+        window.location.href = response.data
+      } catch (error) {
+        console.error('Error fetching Google auth URL:', error)
+      }
+    }
+
+    fetchAuthUrl()
+  }, [])
+
   return null
 }
 
 export function Redirect() {
-  Login()
-  setTimeout(() => window.location.replace(REDIRECT_LINK), 2000)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    async function handleLogin() {
+      try {
+        await login()
+        const redirectPath = getRedirectUrl() || DEFAULT_REDIRECT_LINK
+        navigate(redirectPath, { replace: true })
+      } catch (error) {
+        console.error('Error during login and redirect:', error)
+      }
+    }
+
+    handleLogin()
+  }, [navigate])
+
   return null
 }
 
-async function Login() {
-  const authDetails = window.location.search.slice(1).split('&')
-  const code = authDetails[0].slice(5)
-  const scope = authDetails[1].slice(6)
-  const authUser = authDetails[2].slice(9)
-  const hd = authDetails[3].slice(3)
-  const prompt = authDetails[4].slice(7)
-  const tokens = await axios.get(API_ROOT + '/google/redirect', {
-    params: { code: code, scope: scope, authUser: authUser, hd: hd, prompt: prompt },
-  })
-  const userInfo = await axios.post(API_ROOT + '/google/getUserInfo', tokens.data).then((res) => {
-    return res.data
-  })
-  setLoginDetails(userInfo)
+async function login() {
+  const params = new URLSearchParams(window.location.search)
+  const code = params.get('code')
+  const scope = params.get('scope')
+  const authUser = params.get('authUser')
+  const hd = params.get('hd')
+  const prompt = params.get('prompt')
+
+  try {
+    const tokenResponse = await axios.get(`${API_ROOT}/google/redirect`, {
+      params: { code, scope, authUser, hd, prompt },
+    })
+
+    const userInfoResponse = await axios.post(`${API_ROOT}/google/getUserInfo`, tokenResponse.data)
+    setLoginDetails(userInfoResponse.data)
+  } catch (error) {
+    console.error('Error during authentication:', error)
+    throw error // Rethrow to be caught in useEffect
+  }
 }
 
 function setLoginDetails(userInfo: any) {
-  const loginDate = new Date().toLocaleDateString()
-  window.localStorage.setItem('sessDate', loginDate)
-  window.localStorage.setItem('email', userInfo.email)
-  window.localStorage.setItem('familyName', userInfo.family_name)
-  window.localStorage.setItem('givenName', userInfo.given_name)
+  const loginDate = new Date().toISOString()
+  localStorage.setItem('sessDate', loginDate)
+  localStorage.setItem('email', userInfo.email)
+  localStorage.setItem('familyName', userInfo.family_name)
+  localStorage.setItem('givenName', userInfo.given_name)
+  localStorage.setItem('picture', userInfo.picture)
 }
 
-// Uncomment for PROD build
-// window.addEventListener('storage', () => { setUserRole() })
+function getRedirectUrl() {
+  const params = new URLSearchParams(window.location.search)
+  const redirectUrl = params.get('redirect_url')
+  return redirectUrl
+}

@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 type Event = {
   eventId: number
@@ -11,7 +10,7 @@ type Event = {
   eventDetails: string
   startDate: Date
   endDate: Date
-  updatedAt: Date | null;
+  updatedAt: Date | null
   code: string
   category: string
   eventType: string
@@ -25,8 +24,8 @@ type Event = {
   imageFile: File
   imageUrl: string
   status: string
-  attendees:number
-  targetCompliance:number
+  attendees: number
+  targetCompliance: number
 }
 
 type InitialState = {
@@ -52,10 +51,13 @@ export const getAllEvents = createAsyncThunk('getAllEvents', async () => {
   return response.data
 })
 
-export const getEventDetailsByDate = createAsyncThunk('getEventDetailsByDate', async (startDate: string) => {
-	const response = await axios.post(API_ROOT + '/events/getEventDetailsByDate', { startDate })
-	return response.data
-})
+export const getEventDetailsByDate = createAsyncThunk(
+  'getEventDetailsByDate',
+  async (startDate: string) => {
+    const response = await axios.post(API_ROOT + '/events/getEventDetailsByDate', { startDate })
+    return response.data
+  }
+)
 
 export const updateEvent = createAsyncThunk('updateEvent', async (event: any) => {
   const {
@@ -79,27 +81,26 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
     regLink,
     imageFile,
     imageUrl,
-    status
+    status,
   } = event
 
- 
   function addZero(number: number) {
     return number < 10 ? '0' + number.toString() : number
   }
 
   const newEventDate = new Date()
   const utcOffset = -8 * 60
-  const localTime = new Date(newEventDate.getTime() + (utcOffset * 60000))
-  
+  const localTime = new Date(newEventDate.getTime() + utcOffset * 60000)
+
   const year = localTime.getFullYear()
   const month = addZero(localTime.getMonth() + 1)
   const date = addZero(localTime.getDate())
   const hour = addZero(localTime.getHours())
   const minute = addZero(localTime.getMinutes())
-  
+
   const updatedAt = `${year}-${month}-${date} ${hour}:${minute}`
   const formData = new FormData()
-  
+
   if (title) formData.append('title', title)
   if (venueDetails) formData.append('venueDetails', venueDetails)
   if (eventDetails) formData.append('eventDetails', eventDetails)
@@ -119,12 +120,10 @@ export const updateEvent = createAsyncThunk('updateEvent', async (event: any) =>
   if (status) formData.append('status', status)
   if (targetCompliance) formData.append('targetCompliance', targetCompliance)
 
-  
-   if (imageFile) {
+  if (imageFile) {
     formData.append('imageFile', imageFile)
   }
 
- 
   if (imageUrl) {
     formData.append('imageUrl', imageUrl)
   }

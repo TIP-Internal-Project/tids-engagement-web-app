@@ -10,16 +10,16 @@ import { faLink, faStar } from '@fortawesome/free-solid-svg-icons'
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { fetchGeolocation } from '../../redux/geolocationSlice'
 import { useAppDispatch } from '../../redux/store'
-import { addStarPoints } from '../../redux/addStarPointsSlice'
 import { register } from '../../redux/eventRegistrationSlice'
 import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
+import { addPoints } from '../../redux/teamMemberPoints/addPointsSlice'
 
 interface EventRegistrationViewProps {
   email: any
 }
 
 const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
-  const API_ROOT = api.ROOT
+  const API_ROOT = process.env.REACT_APP_API_URL
   const { modalUrl } = useParams()
   const [event, setEvent] = useState<any[]>([])
   const [data, setData] = useState<any>({})
@@ -181,12 +181,17 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
     border: 'none',
   }
 
-  const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
+  const handleRegister = async (eventId: any, email: any, pointsToAdd: any, category: any) => {
     const location = await dispatch(fetchGeolocation())
     const address = location.payload
     await dispatch(register({ eventId, email, address }))
-    const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
-    await dispatch(addStarPoints({ employeeName, pointsToAdd }))
+    await dispatch(
+      addPoints({
+        email: email,
+        pointsToAdd: pointsToAdd,
+        category: category,
+      })
+    )
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     console.log(registeredEventsArray)
@@ -217,7 +222,7 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
           disabled={
             data.status === 'Inactive' || data.status === 'Completed' || isEventRegistered(data.eventId)
           }
-          onClick={() => handleRegister(data.eventId, email, data.starsNum)}
+          onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
         >
           REGISTER
         </Button>{' '}
@@ -343,7 +348,7 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
                       data.status === 'Completed' ||
                       isEventRegistered(data.eventId)
                     }
-                    onClick={() => handleRegister(data.eventId, email, data.starsNum)}
+                    onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
                   >
                     REGISTER
                   </Button>{' '}

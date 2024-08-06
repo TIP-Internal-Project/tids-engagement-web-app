@@ -11,7 +11,7 @@ import { fetchEvents } from '../redux/eventSlice'
 import Form from 'react-bootstrap/Form'
 import axios from 'axios'
 import { useLocation } from 'react-router-dom'
-import api from '../api.json'
+
 import { Event } from '../interfaces/adminFeatureApi/Event'
 import ButtonBase from '@mui/material/ButtonBase'
 import Dialog from '@mui/material/Dialog'
@@ -36,7 +36,7 @@ export const ExpensePanel = (props: any) => {
   const [detailsModalShow, setDetailsModalShow] = useState(false)
   const location = useLocation()
 
-  const API_ROOT = api.ROOT
+  const API_ROOT = process.env.REACT_APP_API_URL
 
   const handleClickOpen = () => {
     setOpen(true)

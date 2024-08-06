@@ -1,51 +1,48 @@
-import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 export interface CompletedTasksState {
-    loading: boolean,
-	tasks: [],
-	error: string
+  loading: boolean
+  tasks: []
+  error: string
 }
 
 const initialState: CompletedTasksState = {
-	loading: false,
-	tasks: [],
-	error: ''
+  loading: false,
+  tasks: [],
+  error: '',
 }
 
 export const fetchCompletedTasks = createAsyncThunk('getCompletedTasks', async (email: string) => {
-	return axios
-	  .get(`${API_ROOT}/task/getCompletedTasks/${email}`)
-	  .then(response => response.data)
+  return axios.get(`${API_ROOT}/task/getCompletedTasks/${email}`).then((response) => response.data)
 })
 
 export const completedTasksSlice = createSlice({
-	name: 'completedTasks',
-	initialState,
-	reducers: {
-		storeCompletedTasks: (state, action: PayloadAction<[]>) => {
-			state.tasks = action.payload
-		}
-	},
-	extraReducers: builder => {
-		builder.addCase(fetchCompletedTasks.pending, state => {
-			state.loading = true
-		})
-		builder.addCase(fetchCompletedTasks.fulfilled, (state, action) => {
-			state.loading = false
-			state.tasks = action.payload
-			state.error = ''
-		})
-		builder.addCase(fetchCompletedTasks.rejected, (state, action) => {
-			state.loading = false
-			state.tasks = []
-			state.error = action.error.message!
-		})
-	}
+  name: 'completedTasks',
+  initialState,
+  reducers: {
+    storeCompletedTasks: (state, action: PayloadAction<[]>) => {
+      state.tasks = action.payload
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchCompletedTasks.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(fetchCompletedTasks.fulfilled, (state, action) => {
+      state.loading = false
+      state.tasks = action.payload
+      state.error = ''
+    })
+    builder.addCase(fetchCompletedTasks.rejected, (state, action) => {
+      state.loading = false
+      state.tasks = []
+      state.error = action.error.message!
+    })
+  },
 })
 
 export default completedTasksSlice.reducer

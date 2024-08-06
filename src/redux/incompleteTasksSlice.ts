@@ -1,51 +1,48 @@
-import { createSlice, PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 export interface IncompleteTasksState {
-    loading: boolean,
-	tasks: [],
-	error: string
+  loading: boolean
+  tasks: []
+  error: string
 }
 
 const initialState: IncompleteTasksState = {
-	loading: false,
-	tasks: [],
-	error: ''
+  loading: false,
+  tasks: [],
+  error: '',
 }
 
 export const fetchIncompleteTasks = createAsyncThunk('getIncompleteTasks', async (email: string) => {
-	return axios
-	  .get(`${API_ROOT}/task/getIncompleteTasks/${email}`)
-	  .then(response => response.data)
+  return axios.get(`${API_ROOT}/task/getIncompleteTasks/${email}`).then((response) => response.data)
 })
 
 export const incompleteTasksSlice = createSlice({
-	name: 'incompleteTasks',
-	initialState,
-	reducers: {
-		storeIncompleteTasks: (state, action: PayloadAction<[]>) => {
-			state.tasks = action.payload
-		}
-	},
-	extraReducers: builder => {
-		builder.addCase(fetchIncompleteTasks.pending, state => {
-			state.loading = true
-		})
-		builder.addCase(fetchIncompleteTasks.fulfilled, (state, action) => {
-			state.loading = false
-			state.tasks = action.payload
-			state.error = ''
-		})
-		builder.addCase(fetchIncompleteTasks.rejected, (state, action) => {
-			state.loading = false
-			state.tasks = []
-			state.error = action.error.message!
-		})
-	}
+  name: 'incompleteTasks',
+  initialState,
+  reducers: {
+    storeIncompleteTasks: (state, action: PayloadAction<[]>) => {
+      state.tasks = action.payload
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchIncompleteTasks.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(fetchIncompleteTasks.fulfilled, (state, action) => {
+      state.loading = false
+      state.tasks = action.payload
+      state.error = ''
+    })
+    builder.addCase(fetchIncompleteTasks.rejected, (state, action) => {
+      state.loading = false
+      state.tasks = []
+      state.error = action.error.message!
+    })
+  },
 })
 
 export default incompleteTasksSlice.reducer
