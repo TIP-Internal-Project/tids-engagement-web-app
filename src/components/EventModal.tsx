@@ -5,12 +5,12 @@ import { useAppDispatch, useAppSelector } from '../redux/store'
 import { register } from '../redux/eventRegistrationSlice'
 import { fetchUnregisteredEvents } from '../redux/unregisteredEventsSlice'
 import { fetchRegisteredEvents } from '../redux/registeredEventsSlice'
-import { addStarPoints } from '../redux/addStarPointsSlice'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faLink, faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchGeolocation } from '../redux/geolocationSlice'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { addPoints } from '../redux/teamMemberPoints/addPointsSlice'
 
 interface EventModalProps {
   show: boolean
@@ -54,12 +54,19 @@ const EventModal: React.FC<EventModalProps> = ({
     setQrCodeUrl(qrCodeUrlFromDatabase)
   }, [modalData, disableRegistration])
 
-  const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
+  const handleRegister = async (eventId: any, email: any, pointsToAdd: any, category: any) => {
     const location = await dispatch(fetchGeolocation())
     const address = location.payload
     await dispatch(register({ eventId, email, address }))
-    const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
-    await dispatch(addStarPoints({ employeeName, pointsToAdd }))
+
+    await dispatch(
+      addPoints({
+        email: email,
+        pointsToAdd: pointsToAdd,
+        category: category,
+      })
+    )
+
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray.sort(
@@ -211,7 +218,7 @@ const EventModal: React.FC<EventModalProps> = ({
               <Button
                 style={ModalButton}
                 disabled={disable || data.status === 'Inactive' || data.status === 'Completed'}
-                onClick={() => handleRegister(data.eventId, email, data.starsNum)}
+                onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
               >
                 REGISTER
               </Button>{' '}

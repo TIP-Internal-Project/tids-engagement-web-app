@@ -11,7 +11,6 @@ import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 import { useLocation, useParams } from 'react-router-dom'
 import api from '../../api.json'
-import { addStarPoints } from '../../redux/addStarPointsSlice'
 import { register } from '../../redux/eventRegistrationSlice'
 import { fetchGeolocation } from '../../redux/geolocationSlice'
 import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
@@ -35,6 +34,7 @@ import {
   viewDetailsButton,
 } from './style'
 import { setTimeFormat } from './utils'
+import { addPoints } from '../../redux/teamMemberPoints/addPointsSlice'
 
 export const EventPanel = (props: any) => {
   const STATUS_INACTIVE = 'Inactive'
@@ -74,7 +74,7 @@ export const EventPanel = (props: any) => {
   const registeredEvents = useAppSelector((state) => state.registeredEvents)
 
   const isAdmin = sessionStorage.getItem('userRole') == 'Admin'
-  const API_ROOT = api.ROOT
+  const API_ROOT = process.env.REACT_APP_API_URL
   const IndItemDueDate: React.CSSProperties = {}
   const dropdownSortRef = useRef<HTMLDivElement>(null)
   const dropdownFilterRef = useRef<HTMLDivElement>(null)
@@ -262,7 +262,7 @@ export const EventPanel = (props: any) => {
     setShowFilterDropdown((prevShowFilterDropdown) => !prevShowFilterDropdown)
   }
   // Refactored
-  const handleRegister = async (eventId: any, email: any, pointsToAdd: any) => {
+  const handleRegister = async (eventId: any, email: any, pointsToAdd: any, category: any) => {
     setSortedEvents([])
     setSortedRegisteredEvents([])
     setSortOption('asc')
@@ -271,8 +271,13 @@ export const EventPanel = (props: any) => {
     console.log(location.payload)
     const address = location.payload
     await dispatch(register({ eventId, email, address }))
-    const employeeName = localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName')
-    await dispatch(addStarPoints({ employeeName, pointsToAdd }))
+    await dispatch(
+      addPoints({
+        email: email,
+        pointsToAdd: pointsToAdd,
+        category: category,
+      })
+    )
     const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
     const registeredEventsArray = Object.values(registeredEventsData.payload)
     const sortedRegisteredEvents = registeredEventsArray.sort(
@@ -467,7 +472,9 @@ export const EventPanel = (props: any) => {
               }}
             >
               <Button
-                onClick={() => handleRegister(event.eventId, props.variable, event.starsNum)}
+                onClick={() =>
+                  handleRegister(event.eventId, props.variable, event.starsNum, event.category)
+                }
                 className={`bg-success border-success ${
                   event.status === STATUS_INACTIVE || event.status === STATUS_COMPLETED ? 'disabled' : ''
                 }`}
