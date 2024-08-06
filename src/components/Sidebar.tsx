@@ -20,7 +20,7 @@ export const Sidebar: FC<SidebarProps> = ({ onUnavailableLinkClick }) => {
         <p style={{ fontSize: '14px' }}>Dashboard</p>
 
         <ul>
-          <li  style={{background : currentPath === '/overview' ? '#deedfa':'', width: '100%'}}>
+          <li style={{ background: currentPath === '/overview' ? '#deedfa' : '', width: '100%' }}>
             <img
               src={require('../assets/images/home logo.png')}
               style={{ height: '17px', width: '20px' }}
@@ -29,7 +29,7 @@ export const Sidebar: FC<SidebarProps> = ({ onUnavailableLinkClick }) => {
               <Link to='/overview'>Overview</Link>
             </a>
           </li>
-          <li style={{background : currentPath === '/events' ? '#deedfa':'', width: '100%'}}>
+          <li style={{ background: currentPath === '/events' ? '#deedfa' : '', width: '100%' }}>
             <img
               src={require('../assets/images/events.png')}
               style={{ height: '20px', width: '18px' }}
@@ -38,7 +38,7 @@ export const Sidebar: FC<SidebarProps> = ({ onUnavailableLinkClick }) => {
               <Link to='/events'>Events</Link>
             </a>
           </li>
-          <li  style={{background : currentPath === '/tasks' ? '#deedfa':'', width: '100%'}}>
+          <li style={{ background: currentPath === '/tasks' ? '#deedfa' : '', width: '100%' }}>
             <img src={require('../assets/images/tasks.png')} style={{ height: '20px', width: '18px' }} />{' '}
             <a href='url'>
               <Link to='/tasks'>Tasks</Link>
