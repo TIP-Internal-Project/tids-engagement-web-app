@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import api from '../../api.json'
 import { Card, CardContent, CardMedia, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 import Modal from 'react-bootstrap/Modal'

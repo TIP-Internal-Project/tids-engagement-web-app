@@ -12,7 +12,6 @@ import { fetchEvents } from '../../redux/eventSlice'
 import Form from 'react-bootstrap/Form'
 import axios from 'axios'
 import { useLocation, useParams } from 'react-router-dom'
-import api from '../../api.json'
 import './styles.css'
 
 export const ExpensePanel = (props: any) => {
