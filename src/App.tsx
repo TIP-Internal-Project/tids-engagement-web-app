@@ -11,8 +11,8 @@ import PageLayout from './pages/Pages'
 import FeatureUnavailablePanel from './components/FeatureUnavailable/FeatureUnavailablePanel'
 import EventRegistrationView from './components/EventPanel/EventRegistrationView'
 import { useEffect, useState } from 'react'
-import { fetchTeamMemberInfo } from './redux/teamMemberInfoSlice'
 import { useAppDispatch } from './redux/store'
+import { fetchTeamMemberInfo } from './redux/teamRoster/teamRosterMemberInfo'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -35,8 +35,6 @@ function App() {
       sessionStorage.clear()
     }
   }, [dispatch])
-
-  console.log(isUserAuthenticated)
 
   return (
     <BrowserRouter>
