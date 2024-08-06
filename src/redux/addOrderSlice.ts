@@ -1,48 +1,55 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 export interface AddOrderState {
-	loading: boolean;
-	workdayId: string;
-	name: string;
-	orderName: string;
-	orderSize: string;
-	orderCost: number;
-	status: string;
-	createdBy: string;
-	error: string;
+  loading: boolean
+  workdayId: string
+  name: string
+  orderName: string
+  orderSize: string
+  orderCost: number
+  status: string
+  createdBy: string
+  error: string
 }
 
 const initialState: AddOrderState = {
-	loading: false,
-	workdayId: '',
-	name: '',
-	orderName: '',
-	orderSize: '',
-	orderCost: 0,
-	status: '',
-	createdBy: '',
-	error: '',
+  loading: false,
+  workdayId: '',
+  name: '',
+  orderName: '',
+  orderSize: '',
+  orderCost: 0,
+  status: '',
+  createdBy: '',
+  error: '',
 }
 
 interface AddOrderPayload {
-	workdayId: string;
-	name: string;
-	orderName: string;
-	orderSize: string;
-	orderCost: number;
-	status: string;
-	createdBy: string;
+  workdayId: string
+  name: string
+  orderName: string
+  orderSize: string
+  orderCost: number
+  status: string
+  createdBy: string
 }
 
 export const addOrder = createAsyncThunk('addOrder', async (payload: AddOrderPayload) => {
-	const { workdayId, name, orderName, orderSize, orderCost, status, createdBy } = payload
-	const response = await axios.post(API_ROOT + '/order/addOrder', { workdayId, name, orderName, orderSize, orderCost, status, createdBy })
-	return response.data
+  const { workdayId, name, orderName, orderSize, orderCost, status, createdBy } = payload
+  const response = await axios.post(API_ROOT + '/order/addOrder', {
+    workdayId,
+    name,
+    orderName,
+    orderSize,
+    orderCost,
+    status,
+    createdBy,
+  })
+  return response.data
 })
 
 export const addOrderSlice = createSlice({
@@ -50,14 +57,14 @@ export const addOrderSlice = createSlice({
   initialState,
   reducers: {
     createOrder: (state, action: PayloadAction<AddOrderState>) => {
-		state.loading = false
-		state.workdayId = action.payload.workdayId
-		state.name = action.payload.name
-		state.orderName = action.payload.orderName
-		state.orderSize = action.payload.orderSize
-		state.orderCost = action.payload.orderCost
-		state.status = action.payload.status
-		state.createdBy = action.payload.createdBy
+      state.loading = false
+      state.workdayId = action.payload.workdayId
+      state.name = action.payload.name
+      state.orderName = action.payload.orderName
+      state.orderSize = action.payload.orderSize
+      state.orderCost = action.payload.orderCost
+      state.status = action.payload.status
+      state.createdBy = action.payload.createdBy
     },
   },
   extraReducers: (builder) => {
@@ -68,13 +75,13 @@ export const addOrderSlice = createSlice({
       })
       .addCase(addOrder.fulfilled, (state, action) => {
         state.loading = false
-		state.workdayId = action.payload.workdayId
-		state.name = action.payload.name
-		state.orderName = action.payload.orderName
-		state.orderSize = action.payload.orderSize
-		state.orderCost = action.payload.orderCost
-		state.status = action.payload.status
-		state.createdBy = action.payload.createdBy
+        state.workdayId = action.payload.workdayId
+        state.name = action.payload.name
+        state.orderName = action.payload.orderName
+        state.orderSize = action.payload.orderSize
+        state.orderCost = action.payload.orderCost
+        state.status = action.payload.status
+        state.createdBy = action.payload.createdBy
       })
       .addCase(addOrder.rejected, (state, action) => {
         state.loading = false

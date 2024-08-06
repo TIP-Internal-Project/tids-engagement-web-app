@@ -1,54 +1,63 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from './store'
-import api from '../api.json'
 
-const API_ROOT = api.ROOT
+const API_ROOT = process.env.REACT_APP_API_URL
 
 export interface UpdateOrderState {
-	loading: boolean;
-	orderId: number;
-	workdayId: string;
-	name: string;
-	orderName: string;
-	orderSize: string;
-	orderCost: number;
-	status: string;
-	updatedBy: string;
-	updatedAt: Date | null;
-	error: string;
+  loading: boolean
+  orderId: number
+  workdayId: string
+  name: string
+  orderName: string
+  orderSize: string
+  orderCost: number
+  status: string
+  updatedBy: string
+  updatedAt: Date | null
+  error: string
 }
 
 const initialState: UpdateOrderState = {
-	loading: false,
-	orderId: 0,
-	workdayId: '',
-	name: '',
-	orderName: '',
-	orderSize: '',
-	orderCost: 0,
-	status: '',
-	updatedBy: '',
-	updatedAt: null,
-	error: '',
+  loading: false,
+  orderId: 0,
+  workdayId: '',
+  name: '',
+  orderName: '',
+  orderSize: '',
+  orderCost: 0,
+  status: '',
+  updatedBy: '',
+  updatedAt: null,
+  error: '',
 }
 
 interface UpdateOrderPayload {
-	orderId: number;
-	workdayId: string;
-	name: string;
-	orderName: string;
-	orderSize: string;
-	orderCost: number;
-	status: string;
-	updatedBy: string;
-	updatedAt: Date;
+  orderId: number
+  workdayId: string
+  name: string
+  orderName: string
+  orderSize: string
+  orderCost: number
+  status: string
+  updatedBy: string
+  updatedAt: Date
 }
 
 export const updateOrder = createAsyncThunk('updateOrder', async (payload: UpdateOrderPayload) => {
-	const { orderId, workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt } = payload
-	const response = await axios.put(`${API_ROOT}/order/updateOrderById/${orderId}`, { workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt })
-	return response.data
+  const { orderId, workdayId, name, orderName, orderSize, orderCost, status, updatedBy, updatedAt } =
+    payload
+  const response = await axios.put(`${API_ROOT}/order/updateOrderById/${orderId}`, {
+    workdayId,
+    name,
+    orderName,
+    orderSize,
+    orderCost,
+    status,
+    updatedBy,
+    updatedAt,
+  })
+  return response.data
 })
 
 export const updateOrderSlice = createSlice({
@@ -56,16 +65,16 @@ export const updateOrderSlice = createSlice({
   initialState,
   reducers: {
     editOrder: (state, action: PayloadAction<UpdateOrderState>) => {
-		state.loading = false
-		state.orderId = action.payload.orderId
-		state.workdayId = action.payload.workdayId
-		state.name = action.payload.name
-		state.orderName = action.payload.orderName
-		state.orderSize = action.payload.orderSize
-		state.orderCost = action.payload.orderCost
-		state.status = action.payload.status
-		state.updatedBy = action.payload.updatedBy
-		state.updatedAt = action.payload.updatedAt
+      state.loading = false
+      state.orderId = action.payload.orderId
+      state.workdayId = action.payload.workdayId
+      state.name = action.payload.name
+      state.orderName = action.payload.orderName
+      state.orderSize = action.payload.orderSize
+      state.orderCost = action.payload.orderCost
+      state.status = action.payload.status
+      state.updatedBy = action.payload.updatedBy
+      state.updatedAt = action.payload.updatedAt
     },
   },
   extraReducers: (builder) => {
@@ -76,15 +85,15 @@ export const updateOrderSlice = createSlice({
       })
       .addCase(updateOrder.fulfilled, (state, action) => {
         state.loading = false
-		state.orderId = action.payload.orderId
-		state.workdayId = action.payload.workdayId
-		state.name = action.payload.name
-		state.orderName = action.payload.orderName
-		state.orderSize = action.payload.orderSize
-		state.orderCost = action.payload.orderCost
-		state.status = action.payload.status
-		state.updatedBy = action.payload.updatedBy
-		state.updatedAt = action.payload.updatedAt
+        state.orderId = action.payload.orderId
+        state.workdayId = action.payload.workdayId
+        state.name = action.payload.name
+        state.orderName = action.payload.orderName
+        state.orderSize = action.payload.orderSize
+        state.orderCost = action.payload.orderCost
+        state.status = action.payload.status
+        state.updatedBy = action.payload.updatedBy
+        state.updatedAt = action.payload.updatedAt
       })
       .addCase(updateOrder.rejected, (state, action) => {
         state.loading = false

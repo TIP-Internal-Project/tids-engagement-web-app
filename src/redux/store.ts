@@ -19,15 +19,15 @@ import deleteEventReducer from './deleteEventSlice'
 import taskCompletionReducer from './taskCompletionSlice'
 import completedTasksReducer from './completedTasksSlice'
 import incompleteTasksReducer from './incompleteTasksSlice'
-import teamMemberInfoReducer from './teamMemberInfoSlice'
-import addStartPointsReducer from './addStarPointsSlice'
 import eventsCountReducer from './upcomingEventsCountSlice'
 import deleteTaskReducer from './deleteTaskSlice'
 import overviewTasksReducer from './overviewTasksSlice'
 import tasksCountReducer from './pendingTasksCountSlice'
 import geolocationReducer from './geolocationSlice'
 import checkDuplicatesReducer from './checkDuplicatesSlice'
-
+import getTeamMemberReducer from './teamRoster/teamRosterMemberInfo'
+import addPointsReducer from './teamMemberPoints/addPointsSlice'
+import getTeamMemberPoints from './teamMemberPoints/teamMemberPointsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -35,7 +35,7 @@ export const store = configureStore({
     userSession: userSessionReducer,
     events: eventsReducer,
     overviewEvents: overviewEventsReducer,
- 
+
     unregisteredEvents: unregisteredEventsReducer,
     registeredEvents: registeredEventsReducer,
     eventRegistration: eventRegistrationReducer,
@@ -50,14 +50,15 @@ export const store = configureStore({
     taskCompletion: taskCompletionReducer,
     completedTasks: completedTasksReducer,
     incompleteTasks: incompleteTasksReducer,
-    teamMemberInfo: teamMemberInfoReducer,
-    addStarPoints: addStartPointsReducer,
     eventsCount: eventsCountReducer,
     deleteTask: deleteTaskReducer,
     overviewTasks: overviewTasksReducer,
     checkDuplicates: checkDuplicatesReducer,
     tasksCount: tasksCountReducer,
     geolocation: geolocationReducer,
+    teamMemberInfo: getTeamMemberReducer,
+    addPoints: addPointsReducer,
+    teamMemberPoints: getTeamMemberPoints,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,32 +1,47 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Container from './Container'
 import Events from './pages/Events/index'
-import OrderProcessing from './pages/OrderProcessing/index'
 import Overview from './pages/Overview'
-import Reports from './pages/Reports'
 import ProfileSettingsPage from './pages/ProfileSettings'
 import Tasks from './pages/Tasks'
 import { EventAttendance } from './components/EventAttendance'
-import { setUserRole } from './components/Roles/Roles'
 import GoogleLogin, { Redirect } from './GoogleLogin'
-import { EventPanel } from './components/EventPanel/EventPanel'
-import Expense from './pages/Expense'
+
 import PageLayout from './pages/Pages'
 import FeatureUnavailablePanel from './components/FeatureUnavailable/FeatureUnavailablePanel'
 import EventRegistrationView from './components/EventPanel/EventRegistrationView'
+import { useEffect, useState } from 'react'
+import { fetchTeamMemberInfo } from './redux/teamMemberInfoSlice'
+import { useAppDispatch } from './redux/store'
 
 function App() {
-  setUserRole()
-  const today = new Date().toLocaleDateString()
-  const isUserAuthenticated = window.localStorage.getItem('email') ? true : false
-  const isNotExp = window.localStorage.getItem('sessDate') == today ? true : false
+  const dispatch = useAppDispatch()
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false)
+
+  useEffect(() => {
+    const email = window.localStorage.getItem('email')
+    if (email) {
+      dispatch(fetchTeamMemberInfo(email))
+    }
+
+    const today = new Date().toLocaleDateString()
+    const sessDate = window.localStorage.getItem('sessDate') || today
+    const formatedSessDate = new Date(sessDate).toLocaleDateString()
+
+    if (email && today === formatedSessDate) {
+      setIsUserAuthenticated(true)
+    } else {
+      localStorage.clear()
+      sessionStorage.clear()
+    }
+  }, [dispatch])
+
+  console.log(isUserAuthenticated)
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path='/'
-          element={isUserAuthenticated && isNotExp ? <Container /> : <Navigate to={'/login'} />}
-        >
+        <Route path='/' element={isUserAuthenticated ? <Container /> : <Navigate to={'/login'} />}>
           <Route path='/' element={<Overview />} />
           <Route path='overview' element={<Overview />} />
           <Route path='events' element={<Events variable={localStorage.getItem('email')} />} />

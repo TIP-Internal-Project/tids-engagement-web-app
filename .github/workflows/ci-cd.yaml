@@ -1,0 +1,134 @@
+name: Deploy to Cloud Run
+run-name: 'Deploy ${{ github.ref_name }} to [ ${{ inputs.environment }} ]'
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - testing
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SERVICE_NAME: engagement-app-v4
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      REGION: ${{ secrets.GCP_REGION }}
+      SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
+      CI: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Tag the release
+        id: tagging
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          export_default_credentials: true
+
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker
+
+      - name: Build Docker image
+        run: |
+          if [ "${{ github.event.inputs.environment }}" == "production" ]; then
+              export BUILD_ENV=prod
+            else
+              export BUILD_ENV=test
+            fi
+          IMAGE_TAG=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.environment }}-$SERVICE_NAME:${{ github.sha }}
+          docker build --build-arg REACT_APP_ENV=$BUILD_ENV -t $IMAGE_TAG .
+          docker push $IMAGE_TAG
+
+      - name: Deploy to Cloud Run
+        run: |
+          IMAGE_TAG=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.environment }}-$SERVICE_NAME:${{ github.sha }}
+          gcloud run deploy ${{ github.event.inputs.environment }}-$SERVICE_NAME \
+            --image $IMAGE_TAG \
+            --platform managed \
+            --region ${{ secrets.GCP_REGION }} \
+
+      - name: Notify team on Google Chat
+        if: success()
+        env:
+          GOOGLE_CHAT_WEBHOOK_URL: ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
+        run: |
+          # Define variables
+          APPLICATION_NAME="Engagement App V3 Web" # Replace with your application name
+          ENVIRONMENT="${{ github.event.inputs.environment }}"
+          BRANCH="${{ github.ref_name }}"
+          DEPLOYER="${{ github.actor }}"
+
+          # Create the JSON payload
+          PAYLOAD=$(cat <<EOF
+          {
+            "cards": [
+              {
+                "header": {
+                  "title": "Deployment Notification",
+                  "subtitle": "${ENVIRONMENT} Environment"
+                },
+                "sections": [
+                  {
+                    "widgets": [
+                      {
+                        "keyValue": {
+                          "topLabel": "Application",
+                          "content": "${APPLICATION_NAME}"
+                        }
+                      },
+                      {
+                        "keyValue": {
+                          "topLabel": "Environment",
+                          "content": "${ENVIRONMENT}"
+                        }
+                      },
+                      {
+                        "keyValue": {
+                          "topLabel": "Branch",
+                          "content": "${BRANCH}"
+                        }
+                      },
+                      {
+                        "keyValue": {
+                          "topLabel": "Deployed By",
+                          "content": "${DEPLOYER}"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+
+          # Send the notification to Google Chat
+          curl -X POST -H 'Content-Type: application/json' \
+               --data "${PAYLOAD}" $GOOGLE_CHAT_WEBHOOK_URL
