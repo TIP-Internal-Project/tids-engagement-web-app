@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SERVICE_NAME: engagement-app-v4
+      SERVICE_NAME: engagement-app-v3
       PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       REGION: ${{ secrets.GCP_REGION }}
       SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
