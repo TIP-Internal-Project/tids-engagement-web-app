@@ -70,8 +70,8 @@ jobs:
           IMAGE_TAG=gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ github.event.inputs.environment }}-$SERVICE_NAME:${{ github.sha }}
           gcloud run deploy ${{ github.event.inputs.environment }}-$SERVICE_NAME \
             --image $IMAGE_TAG \
-            --platform managed \
             --region asia-southeast1 \
+            --platform managed
 
       - name: Notify team on Google Chat
         if: success()
