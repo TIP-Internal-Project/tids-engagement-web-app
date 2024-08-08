@@ -71,7 +71,7 @@ jobs:
           gcloud run deploy ${{ github.event.inputs.environment }}-$SERVICE_NAME \
             --image $IMAGE_TAG \
             --platform managed \
-            --region ${{ secrets.GCP_REGION }} \
+            --region asia-southeast1 \
 
       - name: Notify team on Google Chat
         if: success()
