@@ -16,23 +16,16 @@ import { fetchTeamMemberInfo } from './redux/teamRoster/teamRosterMemberInfo'
 
 function App() {
   const dispatch = useAppDispatch()
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false)
+  const email = window.localStorage.getItem('email')
+  const today = new Date().toLocaleDateString()
+  const sessDate = window.localStorage.getItem('sessDate') || today
+  const formatedSessDate = new Date(sessDate).toLocaleDateString()
+
+  const isUserAuthenticated = email && today === formatedSessDate ? true : false
 
   useEffect(() => {
-    const email = window.localStorage.getItem('email')
     if (email) {
       dispatch(fetchTeamMemberInfo(email))
-    }
-
-    const today = new Date().toLocaleDateString()
-    const sessDate = window.localStorage.getItem('sessDate') || today
-    const formatedSessDate = new Date(sessDate).toLocaleDateString()
-
-    if (email && today === formatedSessDate) {
-      setIsUserAuthenticated(true)
-    } else {
-      localStorage.clear()
-      sessionStorage.clear()
     }
   }, [dispatch])
 
