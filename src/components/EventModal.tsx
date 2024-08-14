@@ -292,6 +292,7 @@ const EventModal: React.FC<EventModalProps> = ({
                   </div>
                 </a>
               )}
+              {data.status == 'Active' && (
               <div>
                 <OverlayTrigger
                   overlay={<Tooltip id='button-tooltip'>{tooltipMessage}</Tooltip>}
@@ -306,6 +307,7 @@ const EventModal: React.FC<EventModalProps> = ({
                   </Button>
                 </OverlayTrigger>
               </div>
+               )}
             </div>
           )}
           {!showButtons && (
