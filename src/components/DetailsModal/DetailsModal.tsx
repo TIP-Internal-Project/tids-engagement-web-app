@@ -246,8 +246,17 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       setNumberOfInviteSentError('Number of Invite Sent must be a number.')
       hasError = true
     }
-    
 
+    function isWholeNumber(value: number) {
+      const num = Number(value)
+      return Number.isInteger(num) && value.toString().trim() === num.toString()
+    }
+  
+    if (!isWholeNumber(formData.numberOfInviteSent)) {
+      setNumberOfInviteSentError('Number of Invite Sent must be a whole number.')
+      hasError = true
+    }
+    
     if (Number(formData.numberOfInviteSent) < 0) {
       setNumberOfInviteSentError('Number of Invite Sent must not be less than 0.')
       hasError = true
@@ -824,7 +833,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
               </Form.Select>
               {categoryError && <div className='text-danger'>{categoryError}</div>}
             </Form.Group>
-
             <Form.Group className='mb-3'>
               <Form.Label>
                 Event Type
