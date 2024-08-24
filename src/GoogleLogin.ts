@@ -73,7 +73,6 @@ function setLoginDetails(userInfo: any) {
 }
 
 function getRedirectUrl() {
-  const params = new URLSearchParams(window.location.search)
-  const redirectUrl = params.get('redirect_url')
+  const redirectUrl = sessionStorage.getItem('redirectPath')
   return redirectUrl
 }

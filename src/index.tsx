@@ -8,13 +8,16 @@ import reportWebVitals from './reportWebVitals'
 import { store } from './redux/store'
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
+import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-	<Provider store={store}>
-		<ReactNotifications />
-		<App />
-	</Provider>
+  <Provider store={store}>
+    <BrowserRouter>
+      <ReactNotifications />
+      <App />
+    </BrowserRouter>
+  </Provider>
 )
 
 // If you want to start measuring performance in your app, pass a function
