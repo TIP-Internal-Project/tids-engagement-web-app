@@ -226,7 +226,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       hasError = true
     }
 
-    if (formData.eventType === '') {
+    const category = categorySelectOptions[formData.category]
+    if (category && category.eventTypeSelectOptions.length > 0 && formData.eventType.trim() === '') {
       setEventTypeError('Event Type is required.')
       hasError = true
     }
@@ -241,8 +242,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       hasError = true
     }
 
-
-    if (isNaN(Number(formData.numberOfInviteSent)) || !Number.isInteger(Number(formData.numberOfInviteSent))) {
+    if (
+      isNaN(Number(formData.numberOfInviteSent)) ||
+      !Number.isInteger(Number(formData.numberOfInviteSent))
+    ) {
       setNumberOfInviteSentError('Number of Invite Sent must be a number.')
       hasError = true
     }
@@ -251,12 +254,12 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       const num = Number(value)
       return Number.isInteger(num) && value.toString().trim() === num.toString()
     }
-  
+
     if (!isWholeNumber(formData.numberOfInviteSent)) {
       setNumberOfInviteSentError('Number of Invite Sent must be a whole number.')
       hasError = true
     }
-    
+
     if (Number(formData.numberOfInviteSent) < 0) {
       setNumberOfInviteSentError('Number of Invite Sent must not be less than 0.')
       hasError = true
@@ -414,8 +417,8 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
       setCategoryError('Category is required.')
       hasError = true
     }
-
-    if (formData.eventType === '') {
+    const category = categorySelectOptions[formData.category]
+    if (category && category.eventTypeSelectOptions.length > 0 && formData.eventType.trim() === '') {
       setEventTypeError('Event Type is required.')
       hasError = true
     }
@@ -475,14 +478,6 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     const nextFormData = {
       [name]: value,
     }
-    if (name === 'category') {
-      if (value === 'TIDS' || value === 'happyhere') {
-        nextFormData['eventType'] = 'na'
-      } else {
-        nextFormData['eventType'] = ''
-      }
-    }
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       ...nextFormData,
@@ -600,7 +595,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                       <img
                         id='imagePreview'
                         src={formData.imageUrl}
-                        style={{ width: '100%', height: '100%' , borderRadius: '25px',}}
+                        style={{ width: '100%', height: '100%', borderRadius: '25px' }}
                       />
                     ) : (
                       <img
