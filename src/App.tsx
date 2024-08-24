@@ -30,7 +30,6 @@ function App() {
     return <Navigate to='/login' />
   }
 
-    console.log(window.location)
 
   const isUserAuthenticated = email && today === formatedSessDate ? true : false
 
