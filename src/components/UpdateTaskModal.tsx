@@ -33,6 +33,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
   const [titleError, setTitleError] = useState('')
   const [detailsError, setDetailsError] = useState('')
   const [importanceError, setImportanceError] = useState('')
+  const [dueDateError, setDueDateError] = useState('')
 
   const dispatch = useAppDispatch()
   const [buttonClicked, setButtonClicked] = useState(false)
@@ -51,6 +52,26 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
   useEffect(() => {
     setFormValues(data)
   }, [data])
+
+  const formatDate = (dateInput: Date | string): string => {
+    let date: Date
+
+    if (typeof dateInput === 'string') {
+      date = new Date(dateInput)
+    } else if (dateInput instanceof Date) {
+      date = dateInput
+    } else {
+      console.error('Invalid input type passed to formatDate:', dateInput)
+      date = new Date('0000-01-01T00:00:00Z')
+    }
+
+    if (isNaN(date.getTime())) {
+      console.error('Invalid date passed to formatDate:', dateInput)
+      date = new Date('0000-01-01T00:00:00Z')
+    }
+
+    return date.toISOString().slice(0, 16) // Format to 'yyyy-MM-ddTHH:mm'
+  }
 
   const handleInputChange = async (event: any) => {
     let name: any, value: any
@@ -71,10 +92,12 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
       // Convert the local date (GMT+8) to UTC
       const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000)
       // const dateValue = new Date(value)
+
       setFormValues((prevFormValues: any) => ({
         ...prevFormValues,
         [name]: utcDate,
       }))
+      setDueDateError('')
     } else {
       setFormValues((prevFormValues: any) => ({
         ...prevFormValues,
@@ -107,18 +130,18 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
       hasError = true
     }
 
+    if (formValues.details.trim() === '') {
+      setDetailsError('Details are required.')
+      hasError = true
+    }
+
     if (formValues.importance === '') {
       setImportanceError('Importance is required.')
       hasError = true
     }
 
-    // if (formValues.time === null || formValues.time.trim() === '') {
-    //   setTimeError('Time is required.')
-    //   hasError = true
-    // }
-
-    if (formValues.details.trim() === '') {
-      setDetailsError('Details are required.')
+    if (isNaN(formValues.dueDate.getTime())) {
+      setDueDateError('Due date and time required.')
       hasError = true
     }
 
@@ -200,6 +223,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
 
   const handleClearFields = () => {
     setFormValues({
+      taskId: data.taskId,
       title: '',
       dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Adjust to UTC+8 for Manila
       details: '',
@@ -256,16 +280,20 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                     type='datetime-local'
                     placeholder=''
                     name='dueDate'
-                    value={new Date(formValues.dueDate).toISOString().slice(0, 16)}
+                    value={formatDate(formValues.dueDate)}
+                    // value={
+                    //   formValues.dueDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })
+                    //    .split('T')[0]
+                    // }
                     onChange={handleInputChange}
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    min={new Date()
-                      .toLocaleString('sv-SE', { timeZone: 'Asia/Manila' })
-                      .replace(' ', 'T')
-                      .slice(0, 16)}
+                    min={
+                      new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]
+                    }
+                    // onKeyDown={(e) => e.preventDefault()}
                     autoComplete='off'
                   />
-                  {/* {dueDateError && <div className='text-danger'>{dueDateError}</div>} */}
+                  {dueDateError && <div className='text-danger'>{dueDateError}</div>}
                 </Form.Group>
               </Col>
               {/* <Col>
