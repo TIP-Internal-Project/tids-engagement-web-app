@@ -457,24 +457,34 @@ export const TaskPanel = (props: TaskPanelProps) => {
               <Button
                 onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())}
                 variant='success'
-                style={{ backgroundColor: '#9fa5aa', borderColor: '#9fa5aa', fontSize: '11px' , justifyContent: 'center', margin: '3px'}}
+                style={{
+                  backgroundColor: '#9fa5aa',
+                  borderColor: '#9fa5aa',
+                  fontSize: '11px',
+                  justifyContent: 'center',
+                  margin: '3px',
+                }}
                 disabled
               >
                 COMPLETE
               </Button>
-          
-            {isAdmin && (
-             
+
+              {isAdmin && (
                 <Button
                   onClick={() => handleDeleteModalShow(tasks)}
                   variant='success'
-                  style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' ,justifyContent: 'center', margin: '3px'}}
+                  style={{
+                    backgroundColor: '#DC3545',
+                    fontSize: '11px',
+                    borderColor: '#DC3545',
+                    justifyContent: 'center',
+                    margin: '3px',
+                  }}
                 >
                   ARCHIVE
                 </Button>
-             
-            )}
-             </Col>
+              )}
+            </Col>
             <Collapse in={eventStates[tasks.taskId]}>
               <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>
                 <h3>{tasks.title}</h3>
@@ -614,23 +624,47 @@ export const TaskPanel = (props: TaskPanelProps) => {
               <Button
                 onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())}
                 variant='success'
-                style={{ backgroundColor: '#2B8000', fontSize: '11px' , justifyContent: 'center', margin: '3px'}}
+                style={{
+                  backgroundColor: '#2B8000',
+                  fontSize: '11px',
+                  justifyContent: 'center',
+                  margin: '3px',
+                }}
               >
-                
                 COMPLETE
               </Button>
-            
-            {isAdmin && (
-              
+
+              {isAdmin && (
+                <Button
+                  onClick={() => handleOpenUpdateModal(tasks)}
+                  variant='success'
+                  style={{
+                    backgroundColor: '#7c53a5',
+                    fontSize: '11px',
+                    borderColor: '#7c53a5',
+                    justifyContent: 'center',
+                    margin: '3px',
+                  }}
+                >
+                  MODIFY
+                </Button>
+              )}
+
+              {isAdmin && (
                 <Button
                   onClick={() => handleDeleteModalShow(tasks)}
                   variant='success'
-                  style={{ backgroundColor: '#DC3545', fontSize: '11px', borderColor: '#DC3545' , justifyContent: 'center', margin: '3px'}}
+                  style={{
+                    backgroundColor: '#DC3545',
+                    fontSize: '11px',
+                    borderColor: '#DC3545',
+                    justifyContent: 'center',
+                    margin: '3px',
+                  }}
                 >
                   ARCHIVE
                 </Button>
-              
-            )}
+              )}
             </Col>
             <Collapse in={eventStates[tasks.taskId]}>
               <div style={eventContent} id={`example-collapse-text-${tasks.taskId}`}>

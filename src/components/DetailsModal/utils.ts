@@ -35,7 +35,6 @@ export const generateModalUrl = (eventTitle: string) => {
   const year = new Date().getFullYear()
 
   const currentUrl = window.location.href
-
   // Generate a unique identifier, e.g., a short random string or number
   const uniqueId = generateUniqueId()
 
