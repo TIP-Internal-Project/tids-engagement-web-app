@@ -50,26 +50,22 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
   const [formValues, setFormValues] = useState<any>({})
 
   useEffect(() => {
-    setFormValues(data)
+    setFormValues({
+      taskId: data.taskId,
+      title: data.title,
+      dueDate: new Date(data.dueDate),
+      details: data.details,
+      link: data.link,
+      importance: data.importance,
+      updatedDate: new Date(),
+      updatedBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName'),
+    })
   }, [data])
 
-  const formatDate = (dateInput: Date | string): string => {
-    let date: Date
-
-    if (typeof dateInput === 'string') {
-      date = new Date(dateInput)
-    } else if (dateInput instanceof Date) {
-      date = dateInput
-    } else {
-      console.error('Invalid input type passed to formatDate:', dateInput)
-      date = new Date('0000-01-01T00:00:00Z')
-    }
-
+  const formatDate = (date: Date) => {
     if (isNaN(date.getTime())) {
-      console.error('Invalid date passed to formatDate:', dateInput)
-      date = new Date('0000-01-01T00:00:00Z')
+      date = new Date('0000-01-01T00:00:00Z') // Use current date and time as fallback
     }
-
     return date.toISOString().slice(0, 16) // Format to 'yyyy-MM-ddTHH:mm'
   }
 
@@ -221,19 +217,6 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
     return formattedTime
   }
 
-  const handleClearFields = () => {
-    setFormValues({
-      taskId: data.taskId,
-      title: '',
-      dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Adjust to UTC+8 for Manila
-      details: '',
-      link: '',
-      importance: '',
-      createdDate: new Date(),
-      createdBy: localStorage.getItem('givenName') + ' ' + localStorage.getItem('familyName'),
-    })
-  }
-
   return (
     <Modal
       show={show}
@@ -281,10 +264,6 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                     placeholder=''
                     name='dueDate'
                     value={formatDate(formValues.dueDate)}
-                    // value={
-                    //   formValues.dueDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })
-                    //    .split('T')[0]
-                    // }
                     onChange={handleInputChange}
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
                     min={
@@ -296,51 +275,6 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                   {dueDateError && <div className='text-danger'>{dueDateError}</div>}
                 </Form.Group>
               </Col>
-              {/* <Col>
-                <Form.Group>
-                  <Form.Label>
-                    Due Date<span style={{ color: 'red' }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    required
-                    type='date'
-                    placeholder=''
-                    name='dueDate'
-                    value={new Date(formValues.dueDate).toISOString().split('T')[0]}
-                    onChange={handleInputChange}
-                    style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    min={
-                      new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]
-                    }
-                    autoComplete='off'
-                    onKeyDown={(e) => e.preventDefault()}
-                  />
-                </Form.Group>
-              </Col> */}
-              {/* <Col>
-                <Form.Group>
-                  <Form.Label>
-                    Time<span style={{ color: 'red' }}>*</span>
-                  </Form.Label>
-                  <div style={{ width: '-webkit-fill-available' }}>
-                    <DatePicker
-                      required
-                      name='time'
-                      value={formValues.time}
-                      onChange={handleInputChange}
-                      showTimeSelect
-                      showTimeSelectOnly
-                      timeFormat='h:mm aa'
-                      minTime={getCurrentTime()}
-                      maxTime={getMaxTime()}
-                      className='custom-timepicker form-control'
-                      autoComplete='off'
-                      onKeyDown={(e) => e.preventDefault()}
-                    />
-                  </div>
-                  {timeError && <div className='text-danger'>{timeError}</div>}
-                </Form.Group>
-              </Col> */}
             </Row>
             <Row className='my-4'>
               <Col xs={4}>
@@ -404,30 +338,9 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
             </Row>
 
             <Row className='justify-content-end' style={{ marginTop: '100px' }}>
-              <Col xs={8} className='px-5' style={{ color: '#9FA2B4' }}></Col>
               <Col
                 xs={2}
-                className='text-center'
-                style={{
-                  width: '100px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#2B8000',
-                }}
-              >
-                <Nav.Link
-                  href=''
-                  className=''
-                  style={{ width: '-webkit-fill-available', fontSize: '14px' }}
-                  onClick={handleClearFields}
-                >
-                  Clear Fields
-                </Nav.Link>
-              </Col>
-              <Col
-                xs={2}
-                style={{ width: '116px', display: 'flex', alignItems: 'center', justifyContent: 'end' }}
+                style={{ width: '150px', display: 'flex', alignItems: 'center', justifyContent: 'end' }}
               >
                 <Button
                   variant='success'
@@ -439,7 +352,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                     fontSize: '14px',
                   }}
                 >
-                  Edit Task
+                  Update Task
                 </Button>
               </Col>
             </Row>
