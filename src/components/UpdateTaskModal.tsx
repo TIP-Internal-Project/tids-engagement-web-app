@@ -338,11 +338,9 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
             </Row>
 
             <Row className='justify-content-end' style={{ marginTop: '100px' }}>
-              <Col xs={8} className='px-5' style={{ color: '#9FA2B4' }}></Col>
-
               <Col
                 xs={2}
-                style={{ width: '116px', display: 'flex', alignItems: 'center', justifyContent: 'end' }}
+                style={{ width: '150px', display: 'flex', alignItems: 'center', justifyContent: 'end' }}
               >
                 <Button
                   variant='success'
@@ -354,7 +352,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                     fontSize: '14px',
                   }}
                 >
-                  Edit Task
+                  Update Task
                 </Button>
               </Col>
             </Row>
