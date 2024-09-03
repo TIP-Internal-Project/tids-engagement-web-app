@@ -245,9 +245,13 @@ export const TaskPanel = (props: TaskPanelProps) => {
       }
     } else if (sortKey === 'title') {
       if (sortBy === 'asc') {
-        return [...taskArray].sort((t1: Task, t2: Task) => t1.title.localeCompare(t2.title))
+        return [...taskArray].sort((t1: Task, t2: Task) =>
+          t1.title.replace(/\s+/g, '').localeCompare(t2.title.replace(/\s+/g, ''))
+        )
       } else if (sortBy === 'desc') {
-        return [...taskArray].sort((t1: Task, t2: Task) => t2.title.localeCompare(t1.title))
+        return [...taskArray].sort((t1: Task, t2: Task) =>
+          t2.title.replace(/\s+/g, '').localeCompare(t1.title.replace(/\s+/g, ''))
+        )
       }
     } else if (sortKey === 'importance') {
       if (sortBy === 'asc') {
@@ -406,7 +410,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
             <Col xs={2} style={IndItemDueDate} className='text-center'>
               <div style={{ display: 'inline-block', textAlign: 'left' }}>
                 <p style={IndItemDueDateDisplay} className='mb-0'>
-                  {`${new (window.Date as any)(ts).toLocaleDateString(
+                  {`${new (window.Date as any)(tasks.dueDate).toLocaleDateString(
                     {},
                     { timeZone: 'UTC', month: 'short', day: '2-digit', year: 'numeric' }
                   )}`}
@@ -436,11 +440,11 @@ export const TaskPanel = (props: TaskPanelProps) => {
               <p
                 className='mb-0'
                 style={{
-                  fontFamily: 'Mulish',
-                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   fontSize: '14px',
-                  lineHeight: '28px',
-                  color: 'rgb(37, 39, 51)',
+                  fontWeight: 'bold',
                 }}
               >
                 Completed
