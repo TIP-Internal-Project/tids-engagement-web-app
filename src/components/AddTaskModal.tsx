@@ -312,9 +312,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                     // }
                     onChange={handleInputChange}
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    min={
-                      new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]
-                    }
+                    min={new Date().toISOString().slice(0, 16)}
                     // onKeyDown={(e) => e.preventDefault()}
                     autoComplete='off'
                   />
