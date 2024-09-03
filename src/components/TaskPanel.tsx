@@ -471,6 +471,23 @@ export const TaskPanel = (props: TaskPanelProps) => {
 
               {isAdmin && (
                 <Button
+                  onClick={() => handleOpenUpdateModal(tasks)}
+                  variant='success'
+                  style={{
+                    backgroundColor: '#7c53a5',
+                    fontSize: '11px',
+                    borderColor: '#7c53a5',
+                    justifyContent: 'center',
+                    margin: '3px',
+                  }}
+                  disabled
+                >
+                  MODIFY
+                </Button>
+              )}
+
+              {isAdmin && (
+                <Button
                   onClick={() => handleDeleteModalShow(tasks)}
                   variant='success'
                   style={{
