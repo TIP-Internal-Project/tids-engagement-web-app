@@ -268,6 +268,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
       const email = props.email
       const completedTasksData = await dispatch(fetchCompletedTasks(email))
       const incompleteTasksData = await dispatch(fetchIncompleteTasks(email))
+
       let completedTasksArray: Task[] = Object.values(completedTasksData.payload)
       let incompleteTasksArray: Task[] = Object.values(incompleteTasksData.payload)
 
@@ -281,41 +282,42 @@ export const TaskPanel = (props: TaskPanelProps) => {
         let filteredCompletedTasksArray = [...completedTasksArray]
         let filteredIncompleteTasksArray = [...incompleteTasksArray]
 
-        const dateToday = new Date()
+        const dateToday = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
+        dateToday.setHours(0, 0, 0, 0) // Normalize today's date to midnight
+
+        const applyDateFilter = (days: number) => {
+          const targetDate = new Date(dateToday)
+          targetDate.setDate(dateToday.getDate() + days)
+          targetDate.setHours(23, 59, 59, 999) // Include the entire day
+
+          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: Task) => {
+            const dueDate = new Date(task.dueDate).setHours(0, 0, 0, 0)
+            return dueDate >= +dateToday && dueDate <= +targetDate
+          })
+
+          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: Task) => {
+            const dueDate = new Date(task.dueDate).setHours(0, 0, 0, 0)
+            return dueDate >= +dateToday && dueDate <= +targetDate
+          })
+        }
+
         if (filterOption.includes('30 Days')) {
-          dateToday.setDate(dateToday.getDate() + 30)
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter(
-            (task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0)
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter(
-            (task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0)
-          )
+          applyDateFilter(30)
         } else if (filterOption.includes('7 Days')) {
-          dateToday.setDate(dateToday.getDate() + 7)
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter(
-            (task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0)
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter(
-            (task: Task) => +new Date(task.dueDate).setHours(0, 0, 0, 0) < dateToday.setHours(0, 0, 0, 0)
-          )
+          applyDateFilter(7)
         } else if (filterOption.includes('Due Today')) {
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter(
-            (task: Task) =>
-              +new Date(task.dueDate).setHours(0, 0, 0, 0) === dateToday.setHours(0, 0, 0, 0)
-          )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter(
-            (task: Task) =>
-              +new Date(task.dueDate).setHours(0, 0, 0, 0) === dateToday.setHours(0, 0, 0, 0)
-          )
+          applyDateFilter(0)
         }
+
         if (filterOption.includes('Required') || filterOption.includes('Optional')) {
-          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: any) =>
+          filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: Task) =>
             filterOption.includes(task?.importance)
           )
-          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: any) =>
+          filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: Task) =>
             filterOption.includes(task?.importance)
           )
         }
+
         setCompletedTasks(filteredCompletedTasksArray as Task[])
         setIncompleteTasks(filteredIncompleteTasksArray as Task[])
       } else {
@@ -323,6 +325,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
         setIncompleteTasks(incompleteTasksArray as Task[])
       }
     }
+
     refresh()
   }, [sortOption, filterOption])
 
@@ -462,10 +465,15 @@ export const TaskPanel = (props: TaskPanelProps) => {
                 onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())}
                 variant='success'
                 style={{
-                  backgroundColor: '#9fa5aa',
-                  borderColor: '#9fa5aa',
-                  fontSize: '11px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
+                  fontSize: '12px',
+                  backgroundColor: '#2B8000',
+                  borderColor: '#2B8000',
+                  width: '100px',
+                  height: '30px',
                   margin: '3px',
                 }}
                 disabled
@@ -478,10 +486,15 @@ export const TaskPanel = (props: TaskPanelProps) => {
                   onClick={() => handleOpenUpdateModal(tasks)}
                   variant='success'
                   style={{
-                    backgroundColor: '#7c53a5',
-                    fontSize: '11px',
-                    borderColor: '#7c53a5',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'center',
+                    fontSize: '12px',
+                    backgroundColor: '#7c53a5',
+                    borderColor: '#7c53a5',
+                    width: '100px',
+                    height: '30px',
                     margin: '3px',
                   }}
                   disabled
@@ -495,10 +508,15 @@ export const TaskPanel = (props: TaskPanelProps) => {
                   onClick={() => handleDeleteModalShow(tasks)}
                   variant='success'
                   style={{
-                    backgroundColor: '#DC3545',
-                    fontSize: '11px',
-                    borderColor: '#DC3545',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'center',
+                    fontSize: '12px',
+                    backgroundColor: '#DC3545',
+                    borderColor: '#DC3545',
+                    width: '100px',
+                    height: '30px',
                     margin: '3px',
                   }}
                 >
@@ -562,25 +580,13 @@ export const TaskPanel = (props: TaskPanelProps) => {
         <ListGroup.Item key={tasks.taskId} style={listGroupItem} className='px-5'>
           <Row className='py-2'>
             <Col xs={4} style={IndItemTitleDisplay}>
-              {isAdmin === true ? (
-                <p
-                  onClick={() => handleOpenUpdateModal(tasks)}
-                  aria-controls={`example-collapse-text-${tasks.taskId}`}
-                  aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
-                  className='mb-0'
-                  style={{ cursor: 'pointer' }}
-                >
-                  {tasks.title}
-                </p>
-              ) : (
-                <p
-                  aria-controls={`example-collapse-text-${tasks.taskId}`}
-                  aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
-                  className='mb-0'
-                >
-                  {tasks.title}
-                </p>
-              )}
+              <p
+                aria-controls={`example-collapse-text-${tasks.taskId}`}
+                aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
+                className='mb-0'
+              >
+                {tasks.title}
+              </p>
               <Button
                 style={viewDetailsButton}
                 onClick={() => handleToggle(tasks.taskId)}
@@ -646,9 +652,15 @@ export const TaskPanel = (props: TaskPanelProps) => {
                 onClick={() => handleCompleteTask(tasks.taskId, props.email, new Date())}
                 variant='success'
                 style={{
-                  backgroundColor: '#2B8000',
-                  fontSize: '11px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
+                  fontSize: '12px',
+                  backgroundColor: '#2B8000',
+                  borderColor: '#2B8000',
+                  width: '100px',
+                  height: '30px',
                   margin: '3px',
                 }}
               >
@@ -660,10 +672,15 @@ export const TaskPanel = (props: TaskPanelProps) => {
                   onClick={() => handleOpenUpdateModal(tasks)}
                   variant='success'
                   style={{
-                    backgroundColor: '#7c53a5',
-                    fontSize: '11px',
-                    borderColor: '#7c53a5',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'center',
+                    fontSize: '12px',
+                    backgroundColor: '#7c53a5',
+                    borderColor: '#7c53a5',
+                    width: '100px',
+                    height: '30px',
                     margin: '3px',
                   }}
                 >
@@ -676,10 +693,15 @@ export const TaskPanel = (props: TaskPanelProps) => {
                   onClick={() => handleDeleteModalShow(tasks)}
                   variant='success'
                   style={{
-                    backgroundColor: '#DC3545',
-                    fontSize: '11px',
-                    borderColor: '#DC3545',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'center',
+                    fontSize: '12px',
+                    backgroundColor: '#DC3545',
+                    borderColor: '#DC3545',
+                    width: '100px',
+                    height: '30px',
                     margin: '3px',
                   }}
                 >

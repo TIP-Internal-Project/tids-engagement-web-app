@@ -51,6 +51,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
   const [titleError, setTitleError] = useState('')
   const [dueDateError, setDueDateError] = useState('')
   const [detailsError, setDetailsError] = useState('')
+  const [linkError, setLinkError] = useState('')
   const [importanceError, setImportanceError] = useState('')
 
   const dispatch = useAppDispatch()
@@ -119,6 +120,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
     setDueDateError('')
     setDetailsError('')
     setImportanceError('')
+    setLinkError('')
 
     let hasError = false
 
@@ -140,6 +142,15 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
     if (isNaN(formValues.dueDate.getTime())) {
       setDueDateError('Due date and time required.')
       hasError = true
+    }
+
+    if (formValues.link.trim() !== '') {
+      try {
+        new URL(formValues.link)
+      } catch (_) {
+        setLinkError('Invalid URL. Please enter a valid URL.')
+        hasError = true
+      }
     }
 
     // if (dueDate < currentDateTime) {
@@ -194,7 +205,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
             setButtonClicked(false)
             setFormValues({
               title: '',
-              dueDate: new Date(),
+              dueDate: new Date(new Date().getTime() + 8 * 60 * 60 * 1000), // Adjust to UTC+8 for Manila
               details: '',
               link: '',
               importance: '',
@@ -380,6 +391,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
                       autoComplete='off'
                     />
                   </div>
+                  {linkError && <div className='text-danger'>{linkError}</div>}
                 </Form.Group>
               </Row>
             </Col>

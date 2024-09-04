@@ -486,10 +486,19 @@ export const EventPanel = (props: any) => {
               {isAdmin && (
                 <Button
                   onClick={() => handleOpenDetailsModal('edit', event)}
-                  className={`bg-success border-success' ${
-                    event.status === STATUS_COMPLETED ? 'disabled' : ''
-                  }`}
-                  style={actionBadge}
+                  className={` ${event.status === STATUS_COMPLETED ? 'disabled' : ''}`}
+                  style={{
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px',
+                    backgroundColor: '#7c53a5',
+                    borderColor: '#7c53a5',
+                    width: '100px',
+                    height: '30px',
+                    margin: '3px',
+                  }}
                 >
                   {' '}
                   MODIFY
@@ -607,10 +616,19 @@ export const EventPanel = (props: any) => {
               >
                 <Button
                   onClick={() => handleOpenDetailsModal('edit', event)}
-                  className={`bg-success border-success' ${
-                    event.status === STATUS_COMPLETED ? 'disabled' : ''
-                  }`}
-                  style={actionBadge}
+                  className={` ${event.status === STATUS_COMPLETED ? 'disabled' : ''}`}
+                  style={{
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px',
+                    backgroundColor: '#7c53a5',
+                    borderColor: '#7c53a5',
+                    width: '100px',
+                    height: '30px',
+                    margin: '3px',
+                  }}
                 >
                   {' '}
                   MODIFY
