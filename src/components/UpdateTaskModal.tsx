@@ -33,6 +33,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
   const [titleError, setTitleError] = useState('')
   const [detailsError, setDetailsError] = useState('')
   const [importanceError, setImportanceError] = useState('')
+  const [linkError, setLinkError] = useState('')
   const [dueDateError, setDueDateError] = useState('')
 
   const dispatch = useAppDispatch()
@@ -117,7 +118,8 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
   const handleEditTask = () => {
     setTitleError('')
     setDetailsError('')
-    setImportanceError
+    setImportanceError('')
+    setLinkError('')
 
     let hasError = false
 
@@ -139,6 +141,15 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
     if (isNaN(formValues.dueDate.getTime())) {
       setDueDateError('Due date and time required.')
       hasError = true
+    }
+
+    if (formValues.link.trim() !== '') {
+      try {
+        new URL(formValues.link)
+      } catch (_) {
+        setLinkError('Invalid URL. Please enter a valid URL.')
+        hasError = true
+      }
     }
 
     if (hasError) {
@@ -311,6 +322,7 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                         autoComplete='off'
                       />
                     </div>
+                    {linkError && <div className='text-danger'>{linkError}</div>}
                   </Form.Group>
                 </Row>
               </Col>
