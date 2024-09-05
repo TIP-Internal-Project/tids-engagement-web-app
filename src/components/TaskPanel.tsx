@@ -283,21 +283,36 @@ export const TaskPanel = (props: TaskPanelProps) => {
         let filteredIncompleteTasksArray = [...incompleteTasksArray]
 
         const dateToday = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
-        dateToday.setHours(0, 0, 0, 0) // Normalize today's date to midnight
+        dateToday.setHours(0, 0, 0, 0)
 
         const applyDateFilter = (days: number) => {
           const targetDate = new Date(dateToday)
           targetDate.setDate(dateToday.getDate() + days)
-          targetDate.setHours(23, 59, 59, 999) // Include the entire day
+          targetDate.setHours(0, 0, 0, 0) // Set to midnight
 
+          const dateTodayMidnight = new Date(dateToday)
+          dateTodayMidnight.setHours(0, 0, 0, 0) // Set to midnight
+
+          // Convert both to timestamps using .getTime() for comparison
+          const targetTimestamp = targetDate.getTime()
+          const todayTimestamp = dateTodayMidnight.getTime()
+
+          // Filter completed tasks by date
           filteredCompletedTasksArray = filteredCompletedTasksArray.filter((task: Task) => {
-            const dueDate = new Date(task.dueDate).setHours(0, 0, 0, 0)
-            return dueDate >= +dateToday && dueDate <= +targetDate
+            const dueDate = new Date(task.dueDate)
+            dueDate.setHours(0, 0, 0, 0) // Normalize dueDate to midnight
+
+            // Compare timestamps
+            return dueDate.getTime() >= todayTimestamp && dueDate.getTime() <= targetTimestamp
           })
 
+          // Filter incomplete tasks by date
           filteredIncompleteTasksArray = filteredIncompleteTasksArray.filter((task: Task) => {
-            const dueDate = new Date(task.dueDate).setHours(0, 0, 0, 0)
-            return dueDate >= +dateToday && dueDate <= +targetDate
+            const dueDate = new Date(task.dueDate)
+            dueDate.setHours(0, 0, 0, 0) // Normalize dueDate to midnight
+
+            // Compare timestamps
+            return dueDate.getTime() >= todayTimestamp && dueDate.getTime() <= targetTimestamp
           })
         }
 
