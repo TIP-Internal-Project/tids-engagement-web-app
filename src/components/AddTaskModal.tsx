@@ -122,6 +122,8 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
     setImportanceError('')
     setLinkError('')
 
+    const currentDateTime = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
+
     let hasError = false
 
     if (formValues.title.trim() === '') {
@@ -148,15 +150,15 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
       try {
         new URL(formValues.link)
       } catch (_) {
-        setLinkError('Invalid URL. Please enter a valid URL.')
+        setLinkError('Invalid URL. Please enter a valid URL in the format: http://www.example.com/')
         hasError = true
       }
     }
 
-    // if (dueDate < currentDateTime) {
-    //   setDueDateError('Due date and time must be in the future.')
-    //   hasError = true
-    // }
+    if (formValues.dueDate < currentDateTime) {
+      setDueDateError('Due date and time must be in the future.')
+      hasError = true
+    }
 
     if (formValues.dueDate)
       if (hasError) {
@@ -265,10 +267,6 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
     const formattedTime = `${twelveHourFormatHours}:${minutes.toString().padStart(2, '0')} ${amOrPm}`
     return formattedTime
   }
-
-  const formattedTime = convertTo12HourFormat(time)
-  // console.log('THIS')
-  // console.log(formValues.dueDate.toISOString().slice(0, 16))
 
   return (
     <Modal

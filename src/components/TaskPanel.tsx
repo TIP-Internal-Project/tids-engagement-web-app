@@ -395,7 +395,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
       return (
         <ListGroup.Item key={tasks.taskId} style={listGroupItem} className='px-5'>
           <Row className='py-2'>
-            <Col xs={4} style={IndItemTitleDisplay}>
+            <Col xs={3} style={IndItemTitleDisplay}>
               {isAdmin === true ? (
                 <p
                   onClick={() => handleOpenUpdateModal(tasks)}
@@ -484,12 +484,10 @@ export const TaskPanel = (props: TaskPanelProps) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '12px',
+                  fontSize: '11px',
                   backgroundColor: '#2B8000',
                   borderColor: '#2B8000',
-                  width: '100px',
-                  height: '30px',
-                  margin: '3px',
+                  margin: '1px',
                 }}
                 disabled
               >
@@ -505,12 +503,10 @@ export const TaskPanel = (props: TaskPanelProps) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '12px',
+                    fontSize: '11px',
                     backgroundColor: '#7c53a5',
                     borderColor: '#7c53a5',
-                    width: '100px',
-                    height: '30px',
-                    margin: '3px',
+                    margin: '1px',
                   }}
                   disabled
                 >
@@ -527,12 +523,10 @@ export const TaskPanel = (props: TaskPanelProps) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '12px',
+                    fontSize: '11px',
                     backgroundColor: '#DC3545',
                     borderColor: '#DC3545',
-                    width: '100px',
-                    height: '30px',
-                    margin: '3px',
+                    margin: '1px',
                   }}
                 >
                   ARCHIVE
@@ -594,7 +588,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
       return (
         <ListGroup.Item key={tasks.taskId} style={listGroupItem} className='px-5'>
           <Row className='py-2'>
-            <Col xs={4} style={IndItemTitleDisplay}>
+            <Col xs={3} style={IndItemTitleDisplay}>
               <p
                 aria-controls={`example-collapse-text-${tasks.taskId}`}
                 aria-expanded={eventStates[tasks.taskId] ? 'true' : 'false'}
@@ -671,12 +665,10 @@ export const TaskPanel = (props: TaskPanelProps) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '12px',
+                  fontSize: '11px',
                   backgroundColor: '#2B8000',
                   borderColor: '#2B8000',
-                  width: '100px',
-                  height: '30px',
-                  margin: '3px',
+                  margin: '1px',
                 }}
               >
                 COMPLETE
@@ -691,12 +683,10 @@ export const TaskPanel = (props: TaskPanelProps) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '12px',
+                    fontSize: '11px',
                     backgroundColor: '#7c53a5',
                     borderColor: '#7c53a5',
-                    width: '100px',
-                    height: '30px',
-                    margin: '3px',
+                    margin: '1px',
                   }}
                 >
                   MODIFY
@@ -712,12 +702,10 @@ export const TaskPanel = (props: TaskPanelProps) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '12px',
+                    fontSize: '11px',
                     backgroundColor: '#DC3545',
                     borderColor: '#DC3545',
-                    width: '100px',
-                    height: '30px',
-                    margin: '3px',
+                    margin: '1px',
                   }}
                 >
                   ARCHIVE
@@ -862,7 +850,7 @@ export const TaskPanel = (props: TaskPanelProps) => {
           </div>
         </div>
         <Row style={TitleBar} className='px-5'>
-          <Col xs={4} style={{ fontSize: '14px' }}>
+          <Col xs={3} style={{ fontSize: '14px' }}>
             Title
           </Col>
           <Col xs={2} style={{ fontSize: '14px' }} className='text-center'>

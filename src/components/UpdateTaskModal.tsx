@@ -121,6 +121,8 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
     setImportanceError('')
     setLinkError('')
 
+    const currentDateTime = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
+
     let hasError = false
 
     if (formValues.title.trim() === '') {
@@ -147,9 +149,14 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
       try {
         new URL(formValues.link)
       } catch (_) {
-        setLinkError('Invalid URL. Please enter a valid URL.')
+        setLinkError('Invalid URL. Please enter a valid URL in the format: http://www.example.com/')
         hasError = true
       }
+    }
+
+    if (formValues.dueDate < currentDateTime) {
+      setDueDateError('Due date and time must be in the future.')
+      hasError = true
     }
 
     if (hasError) {
@@ -275,11 +282,13 @@ const UpdateTaskModal: React.FC<EventModalProps> = ({ show, onHide, modalData, u
                     placeholder=''
                     name='dueDate'
                     value={formatDate(formValues.dueDate)}
+                    // value={
+                    //   formValues.dueDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })
+                    //    .split('T')[0]
+                    // }
                     onChange={handleInputChange}
                     style={{ backgroundColor: '#DEDEDE', borderRadius: '25px' }}
-                    min={
-                      new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).split('T')[0]
-                    }
+                    min={new Date().toISOString().slice(0, 16)}
                     // onKeyDown={(e) => e.preventDefault()}
                     autoComplete='off'
                   />
