@@ -174,6 +174,7 @@ const AddTaskModal: React.FC<EventModalProps> = ({ show, onHide, addedTasks, ema
     setDueDateError('')
     setImportanceError('')
     setDetailsError('')
+    setLinkError('')
     onHide()
   }
 
