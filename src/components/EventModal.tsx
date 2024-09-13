@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchGeolocation } from '../redux/geolocationSlice'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { addPoints } from '../redux/teamMemberPoints/addPointsSlice'
+import axios from 'axios'
 
 interface EventModalProps {
   show: boolean
@@ -33,11 +34,14 @@ const EventModal: React.FC<EventModalProps> = ({
   onSortedEvents,
   onSortedRegisteredEvents: onSortedEvents1,
 }) => {
+  const API_ROOT = process.env.REACT_APP_API_URL
+
   const [data, setData] = useState<any>({})
   const [disable, setDisable] = useState<any>()
   const dispatch = useAppDispatch()
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('')
   const [isQrCodeExpanded, setIsQrCodeExpanded] = useState(false)
+  const [signedImageUrl, setSignedImageUrl] = useState('')
 
   const [tooltipMessage, setTooltipMessage] = useState('Click to copy link')
   const [isButtonPressed, setIsButtonPressed] = useState(false)
@@ -181,6 +185,27 @@ const EventModal: React.FC<EventModalProps> = ({
     border: 'none',
   }
 
+  const getSignedUrl = async (imageFilename: string) => {
+    try {
+      const response = await axios.get(`${API_ROOT}/image/getSignedUrl`, {
+        params: { fileName: imageFilename },
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error fetching signed URL:', error)
+      return null // Handle error case appropriately
+    }
+  }
+
+  useEffect(() => {
+    const fetchSignedUrl = async () => {
+      const url = await getSignedUrl(data.imageUrl)
+      setSignedImageUrl(url)
+    }
+
+    fetchSignedUrl()
+  }, [data.imageUrl]) // Re-run if imageUrl changes
+
   return (
     <Modal
       show={show}
@@ -199,7 +224,7 @@ const EventModal: React.FC<EventModalProps> = ({
 
       <Modal.Body className='ModalBody'>
         <div className='ModalBodyLeft' style={{ width: 'auto' }}>
-          <img src={data.imageUrl} />
+          <img src={`${signedImageUrl}`} />
         </div>
 
         <div className='ModalBodyRight' style={{ width: '45%' }}>
@@ -293,21 +318,21 @@ const EventModal: React.FC<EventModalProps> = ({
                 </a>
               )}
               {data.status == 'Active' && (
-              <div>
-                <OverlayTrigger
-                  overlay={<Tooltip id='button-tooltip'>{tooltipMessage}</Tooltip>}
-                  placement='top'
-                >
-                  <Button
-                    style={smallButtonStyle}
-                    onClick={() => copyToClipboard(data.modalUrl)}
-                    onMouseLeave={handleMouseLeave}
+                <div>
+                  <OverlayTrigger
+                    overlay={<Tooltip id='button-tooltip'>{tooltipMessage}</Tooltip>}
+                    placement='top'
                   >
-                    <FontAwesomeIcon icon={faLink} />
-                  </Button>
-                </OverlayTrigger>
-              </div>
-               )}
+                    <Button
+                      style={smallButtonStyle}
+                      onClick={() => copyToClipboard(data.modalUrl)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <FontAwesomeIcon icon={faLink} />
+                    </Button>
+                  </OverlayTrigger>
+                </div>
+              )}
             </div>
           )}
           {!showButtons && (
