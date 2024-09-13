@@ -1,6 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Container from './Container'
 import Events from './pages/Events/index'
+import Expense from './pages/Expense/index'
+import Reports from './pages/Reports/index'
 import Overview from './pages/Overview'
 import ProfileSettingsPage from './pages/ProfileSettings'
 import Tasks from './pages/Tasks'
@@ -30,7 +32,6 @@ function App() {
     return <Navigate to='/login' />
   }
 
-
   const isUserAuthenticated = email && today === formatedSessDate ? true : false
 
   useEffect(() => {
@@ -49,21 +50,15 @@ function App() {
           path='/events/:modalUrl'
           element={<EventRegistrationView email={localStorage.getItem('email')} />}
         />
-        <Route
-          path='reports'
-          element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
-        />
-        <Route
+        <Route path='reports' element={<Reports />} />
+        {/* <Route
           path='expense'
           element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
-        />
+        /> */}
+        <Route path='expense' element={<Expense />} />
         <Route
           path='profile'
           element={<ProfileSettingsPage variable={localStorage.getItem('email')} />}
-        />
-        <Route
-          path='Reports'
-          element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
         />
         <Route path='tasks' element={<Tasks email={localStorage.getItem('email') || ''} />} />
         <Route path='atten' element={<EventAttendance />} />

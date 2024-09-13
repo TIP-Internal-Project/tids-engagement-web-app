@@ -25,6 +25,7 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
   const [modalUrlParam, setModalUrlParam] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
   const [isQrCodeExpanded, setIsQrCodeExpanded] = useState(false)
+  const [signedImageUrl, setSignedImageUrl] = useState('')
 
   const [tooltipMessage, setTooltipMessage] = useState('Click to copy link')
   const [isButtonPressed, setIsButtonPressed] = useState(false)
@@ -83,6 +84,27 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
       }
     }
   }, [modalUrl, event])
+
+  const getSignedUrl = async (imageFilename: string) => {
+    try {
+      const response = await axios.get(`${API_ROOT}/image/getSignedUrl`, {
+        params: { fileName: imageFilename },
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error fetching signed URL:', error)
+      return null // Handle error case appropriately
+    }
+  }
+
+  useEffect(() => {
+    const fetchSignedUrl = async () => {
+      const url = await getSignedUrl(data.imageUrl)
+      setSignedImageUrl(url)
+    }
+
+    fetchSignedUrl()
+  }, [data.imageUrl])
 
   const modalStyle = {
     border: 'none', // Add a new border style
@@ -200,7 +222,7 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
 
   const EventContent = () => (
     <Card key={data.eventId} sx={{ width: '100%', height: '100%' }} raised>
-      <CardMedia component='img' height='140' src={`${data.imageUrl}`} alt={data.eventId} />
+      <CardMedia component='img' height='140' src={signedImageUrl} alt={data.eventId} />
       <CardContent>
         <Typography gutterBottom variant='body1' component='div' noWrap fontWeight={'bold'}>
           {data.title}
@@ -324,7 +346,7 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
 
           <Modal.Body className='ModalBody'>
             <div className='ModalBodyLeft' style={{ width: 'auto' }}>
-              <img src={data.imageUrl} />
+              <img src={signedImageUrl} />
             </div>
 
             <div className='ModalBodyRight' style={{ width: '45%' }}>

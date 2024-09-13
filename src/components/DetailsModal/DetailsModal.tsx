@@ -13,6 +13,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import TidsModal from '../Modal'
 import { modalTitleDiv, modalStyle } from './style'
 import { formatDate, generateModalUrl } from './utils'
+import axios from 'axios'
 
 interface EventModalProps {
   show: boolean
@@ -60,6 +61,8 @@ const categorySelectOptions: { [index: string]: category } = {
 const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, action }) => {
   const dispatch = useDispatch<AppDispatch>()
 
+  const API_ROOT = process.env.REACT_APP_API_URL
+
   const [data, setData] = useState<any>({})
   const [toggleStatus, setToggleStatus] = useState(event?.status === 'Active' || false)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -76,6 +79,7 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
   const [numberOfInviteSentError, setNumberOfInviteSentError] = useState('')
   const [targetComplianceError, setTargetComplianceError] = useState('')
   const [creatingEvent, setCreatingEvent] = useState(false)
+  const [signedImageUrl, setSignedImageUrl] = useState('')
   // const [currentDateTime, setCurrentDateTime] = useState(new Date().toISOString().slice(0, 16))
   const currentDateTime = new Date()
     .toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai', hour12: false })
@@ -484,6 +488,27 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
     }))
   }
 
+  const getSignedUrl = async (imageFilename: string) => {
+    try {
+      const response = await axios.get(`${API_ROOT}/image/getSignedUrl`, {
+        params: { fileName: imageFilename },
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error fetching signed URL:', error)
+      return null // Handle error case appropriately
+    }
+  }
+
+  useEffect(() => {
+    const fetchSignedUrl = async () => {
+      const url = await getSignedUrl(formData.imageUrl)
+      setSignedImageUrl(url)
+    }
+
+    fetchSignedUrl()
+  }, [formData.imageUrl, action === 'edit'])
+
   const percentageRegex = /^(100|\d{1,2})$/
   const modalUrl = formData.title ? generateModalUrl(formData.title) : ''
 
@@ -591,10 +616,10 @@ const EventModal: React.FC<EventModalProps> = ({ show, onHide, onChange, event, 
                     }}
                     htmlFor='imageInput'
                   >
-                    {formData.imageUrl ? (
+                    {formData.imageUrl || signedImageUrl ? (
                       <img
                         id='imagePreview'
-                        src={formData.imageUrl}
+                        src={signedImageUrl || formData.modalUrl}
                         style={{ width: '100%', height: '100%', borderRadius: '25px' }}
                       />
                     ) : (
