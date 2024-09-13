@@ -67,7 +67,7 @@ function App() {
           element={<PageLayout pageTitle='' ContentComponent={<FeatureUnavailablePanel />} />}
         />
       </Route>
-      <Route path='/login' element={<GoogleLogin />} />
+      <Route path='/login' element={isUserAuthenticated ? <Navigate to='/' /> : <GoogleLogin />} />{' '}
       <Route path='/redirect' element={<Redirect />} />
       <Route
         path='*'
