@@ -20,26 +20,23 @@ export const generateUniqueId = () => {
 }
 
 export const generateModalUrl = (eventTitle: string) => {
-  if (!eventTitle) {
-    return ''
-  }
+  if (!eventTitle) return ''
 
-  // Split the title into words and take the first letter of each word
-  const words = eventTitle.split(' ')
-  const initials = words
-    .map((word) => word.charAt(0))
+  // Split the title into words, filter out non-alphanumeric characters, and get the first letter of each word
+  const initials = eventTitle
+    .split(' ')
+    .map((word) => (word.charAt(0).match(/[a-zA-Z]/) ? word.charAt(0) : '')) // Ignore non-letters
     .join('')
     .toUpperCase()
 
-  // Get the current year in YYYY format
+  // Get the current year
   const year = new Date().getFullYear()
 
-  const currentUrl = window.location.href
-  // Generate a unique identifier, e.g., a short random string or number
+  // Assume you have a function to generate a unique identifier
   const uniqueId = generateUniqueId()
 
-  // Concatenate the initials, the year, and the unique identifier to form the modalUrl
-  const modalUrl = `${currentUrl}/${initials}${year}${uniqueId}`
+  // Build the URL by combining the current URL, initials, year, and unique identifier
+  const modalUrl = `${window.location.href}/${initials}${year}${uniqueId}`
 
   return modalUrl
 }
