@@ -12,6 +12,7 @@ import { fetchGeolocation } from '../redux/geolocationSlice'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { addPoints } from '../redux/teamMemberPoints/addPointsSlice'
 import axios from 'axios'
+import { Toast } from './Toast'
 
 interface EventModalProps {
   show: boolean
@@ -59,30 +60,42 @@ const EventModal: React.FC<EventModalProps> = ({
   }, [modalData, disableRegistration])
 
   const handleRegister = async (eventId: any, email: any, pointsToAdd: any, category: any) => {
-    const location = await dispatch(fetchGeolocation())
-    const address = location.payload
-    await dispatch(register({ eventId, email, address }))
+    try {
+      // Fetch geolocation and address
+      const location = await dispatch(fetchGeolocation())
+      const address = location.payload
 
-    await dispatch(
-      addPoints({
-        email: email,
-        pointsToAdd: pointsToAdd,
-        category: category,
-      })
-    )
+      // Register the event
+      const registerResponse = await dispatch(register({ eventId, email, address }))
+      if (registerResponse.meta.requestStatus === 'fulfilled') {
+        Toast('Registered', 'Successfully registered to the event!', 'success')
+        await dispatch(
+          addPoints({
+            email: email,
+            pointsToAdd: pointsToAdd,
+            category: category,
+          })
+        )
 
-    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-    const registeredEventsArray = Object.values(registeredEventsData.payload)
-    const sortedRegisteredEvents = registeredEventsArray.sort(
-      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-    )
-    onSortedEvents1(sortedRegisteredEvents as Event[])
-    const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
-    const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
-    const sortedUnregisteredEvents = unregisteredEventsArray.sort(
-      (a: any, b: any) => new (window.Date as any)(a.startDate) - new (window.Date as any)(b.startDate)
-    )
-    onSortedEvents(sortedUnregisteredEvents as Event[])
+        // Fetch and sort registered events
+        const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
+        const registeredEventsArray = Object.values(registeredEventsData.payload)
+        const sortedRegisteredEvents = registeredEventsArray.sort(
+          (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        )
+        onSortedEvents1(sortedRegisteredEvents as Event[])
+
+        // Fetch and sort unregistered events
+        const unregisteredEventsData = await dispatch(fetchUnregisteredEvents(email))
+        const unregisteredEventsArray = Object.values(unregisteredEventsData.payload)
+        const sortedUnregisteredEvents = unregisteredEventsArray.sort(
+          (a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        )
+        onSortedEvents(sortedUnregisteredEvents as Event[])
+      }
+    } catch (error) {
+      console.error('Error during registration or event fetching:', error)
+    }
   }
 
   const handleCloseModal = () => {
@@ -242,11 +255,13 @@ const EventModal: React.FC<EventModalProps> = ({
             <div className='ModalBodyRightSubDiv'>
               <Button
                 style={ModalButton}
-                disabled={disable || data.status === 'Inactive' || data.status === 'Completed'}
+                disabled={
+                  disable || data.status === 'Inactive' || data.status === 'Completed' || isButtonPressed // Disable while the register action is processing
+                }
                 onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
               >
-                REGISTER
-              </Button>{' '}
+                {isButtonPressed ? 'Processing...' : 'REGISTER'}
+              </Button>
               {data.postEventSurveyURL &&
                 // Ucommnent below if the feature is needed
                 /** <Button style={ModalButton} href={data.postEventSurveyURL}>
