@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../redux/store'
 import { register } from '../../redux/eventRegistrationSlice'
 import { fetchRegisteredEvents } from '../../redux/registeredEventsSlice'
 import { addPoints } from '../../redux/teamMemberPoints/addPointsSlice'
+import { Toast } from '../Toast'
 
 interface EventRegistrationViewProps {
   email: any
@@ -203,21 +204,36 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
   }
 
   const handleRegister = async (eventId: any, email: any, pointsToAdd: any, category: any) => {
-    const location = await dispatch(fetchGeolocation())
-    const address = location.payload
-    await dispatch(register({ eventId, email, address }))
-    await dispatch(
-      addPoints({
-        email: email,
-        pointsToAdd: pointsToAdd,
-        category: category,
-      })
-    )
-    const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
-    const registeredEventsArray = Object.values(registeredEventsData.payload)
-    console.log(registeredEventsArray)
+    setIsButtonPressed(true) // Set to true when button is pressed
 
-    fetchRegisteredEventsForUser()
+    try {
+      const location = await dispatch(fetchGeolocation())
+      const address = location.payload
+
+      // Only proceed with addPoints if the register action is successful
+      const registerResponse = await dispatch(register({ eventId, email, address }))
+      if (registerResponse.meta.requestStatus === 'fulfilled') {
+        Toast('Registered', 'Successfully registered to the event!', 'success')
+
+        await dispatch(
+          addPoints({
+            email: email,
+            pointsToAdd: pointsToAdd,
+            category: category,
+          })
+        )
+      }
+
+      const registeredEventsData = await dispatch(fetchRegisteredEvents(email))
+      const registeredEventsArray = Object.values(registeredEventsData.payload)
+      console.log(registeredEventsArray)
+
+      fetchRegisteredEventsForUser()
+    } catch (error) {
+      console.error('An error occurred:', error)
+    } finally {
+      setIsButtonPressed(false)
+    }
   }
 
   const EventContent = () => (
@@ -241,12 +257,16 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
         <Button
           style={ModalButton}
           disabled={
-            data.status === 'Inactive' || data.status === 'Completed' || isEventRegistered(data.eventId)
+            data.status === 'Inactive' || // Disable if event is inactive
+            data.status === 'Completed' || // Disable if event is completed
+            isEventRegistered(data.eventId) || // Disable if the user is already registered
+            isButtonPressed // Disable while the register action is processing
           }
           onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
         >
-          REGISTER
-        </Button>{' '}
+          {isButtonPressed ? 'Processing...' : 'REGISTER'}
+        </Button>
+
         {/* {data.postEventSurveyURL && (
           <Button style={ModalButton} href={data.postEventSurveyURL}>
             EVENT SURVEY
@@ -365,14 +385,16 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
                   <Button
                     style={ModalButton}
                     disabled={
-                      data.status === 'Inactive' ||
-                      data.status === 'Completed' ||
-                      isEventRegistered(data.eventId)
+                      data.status === 'Inactive' || // Disable if event is inactive
+                      data.status === 'Completed' || // Disable if event is completed
+                      isEventRegistered(data.eventId) || // Disable if the user is already registered
+                      isButtonPressed // Disable while the register action is processing
                     }
                     onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
                   >
-                    REGISTER
-                  </Button>{' '}
+                    {isButtonPressed ? 'Processing...' : 'REGISTER'}
+                  </Button>
+
                   {/* {data.postEventSurveyURL && (
                     <Button style={ModalButton} href={data.postEventSurveyURL}>
                       EVENT SURVEY
