@@ -264,7 +264,11 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
           }
           onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
         >
-          {isButtonPressed ? 'Processing...' : 'REGISTER'}
+          {isButtonPressed
+            ? 'Processing...'
+            : isEventRegistered(data.eventId)
+            ? 'Registered'
+            : 'REGISTER'}
         </Button>
 
         {/* {data.postEventSurveyURL && (
@@ -392,7 +396,11 @@ const EventRegistrationView: FC<EventRegistrationViewProps> = ({ email }) => {
                     }
                     onClick={() => handleRegister(data.eventId, email, data.starsNum, data.category)}
                   >
-                    {isButtonPressed ? 'Processing...' : 'REGISTER'}
+                    {isButtonPressed
+                      ? 'Processing...'
+                      : isEventRegistered(data.eventId)
+                      ? 'Registered'
+                      : 'REGISTER'}
                   </Button>
 
                   {/* {data.postEventSurveyURL && (
