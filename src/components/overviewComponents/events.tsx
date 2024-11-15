@@ -6,6 +6,7 @@ import TaskPanel from './tasks'
 import {
   Components,
   Events,
+  EventContainer,
   EventsHeading1,
   Events1,
   ViewAll,
@@ -19,7 +20,9 @@ import {
   Rectangle4,
   EventCategory,
   Headings,
+  TitleRow,
   Title,
+  DateRow,
   DateAndTime,
   Date,
   DateIcon,
@@ -53,43 +56,46 @@ const EventsPanel = () => {
 
     return (
       <RowDiv key={event.eventId}>
-        <Category>
-          <Rectangle1
-            style={{ display: event.category === 'teamEvent' ? 'block' : 'none' }}
-          ></Rectangle1>
-          <Rectangle2 style={{ display: event.category === 'TIDS' ? 'block' : 'none' }}></Rectangle2>
-          <Rectangle3
-            style={{ display: event.category === 'happyhere' ? 'block' : 'none' }}
-          ></Rectangle3>
-          <Rectangle4 style={{ display: event.category === 'COP' ? 'block' : 'none' }}></Rectangle4>
-          <EventCategory style={{ width: 'max-content' }}>
-            
-            {event.category == 'TIDS'
-              ? 'TIDS'
-              : event.category === 'teamEvent'
-              ? 'TEAM EVENT'
-              : event.category === 'COP'
-              ? 'COP'
-              : ' #HAPPYHERE'}
-          </EventCategory>
-        </Category>
-        <Headings>
-          <Title>{event.title}</Title>
-        </Headings>
-        <DateAndTime>
-          <Date>
-            <DateIcon>
-              <img src={require('../../assets/images/Date.png')} alt='' />
-            </DateIcon>
-            <DateTime>{formattedDate}</DateTime>
-          </Date>
-          <Time>
-            <TimeIcon>
-              <img src={require('../../assets/images/Time.png')} alt='' />
-            </TimeIcon>
-            <DateTime>{setTimeFormat(event.startDate.slice(0, -1)) + ' Manila Time'}</DateTime>
-          </Time>
-        </DateAndTime>
+        <EventContainer>
+          <Category>
+            <Rectangle1
+              style={{ display: event.category === 'teamEvent' ? 'block' : 'none' }}
+            ></Rectangle1>
+            <Rectangle2 style={{ display: event.category === 'TIDS' ? 'block' : 'none' }}></Rectangle2>
+            <Rectangle3
+              style={{ display: event.category === 'happyhere' ? 'block' : 'none' }}
+            ></Rectangle3>
+            <Rectangle4 style={{ display: event.category === 'COP' ? 'block' : 'none' }}></Rectangle4>
+            <EventCategory style={{ width: 'max-content' }}>
+              {event.category == 'TIDS'
+                ? 'TIDS'
+                : event.category === 'teamEvent'
+                ? 'TEAM EVENT'
+                : event.category === 'COP'
+                ? 'COP'
+                : ' #HAPPYHERE'}
+            </EventCategory>
+          </Category>
+          <Headings>
+            <Title>{event.title}</Title>
+          </Headings>
+        </EventContainer>
+        <DateRow>
+          <DateAndTime>
+            <Date>
+              <DateIcon>
+                <img src={require('../../assets/images/Date.png')} alt='' />
+              </DateIcon>
+              <DateTime>{formattedDate}</DateTime>
+            </Date>
+            <Time>
+              <TimeIcon>
+                <img src={require('../../assets/images/Time.png')} alt='' />
+              </TimeIcon>
+              <DateTime>{setTimeFormat(event.startDate.slice(0, -1)) + ' Manila Time'}</DateTime>
+            </Time>
+          </DateAndTime>
+        </DateRow>
         <Divider>
           <Border style={{ display: index === overviewEvents.events.length - 1 ? 'none' : 'block' }}>
             <Line></Line>
